@@ -154,6 +154,8 @@ class MediaAttachment < ApplicationRecord
         [:img_converter, :thumbnail]
       elsif VIDEO_MIME_TYPES.include? f.file_content_type
         [:video_transcoder]
+      elsif f.file_content_type == 'image/jpeg'
+        [:jpeg_processor]
       else
         [:thumbnail]
       end
