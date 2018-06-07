@@ -596,9 +596,13 @@ const startWorker = (workerId) => {
   process.on('uncaughtException', onError);
 };
 
-throng({
-  workers: numWorkers,
-  lifetime: Infinity,
-  start: startWorker,
-  master: startMaster,
-});
+if (numWorkers > 1) {
+  throng({
+    workers: numWorkers,
+    lifetime: Infinity,
+    start: startWorker,
+    master: startMaster,
+  });
+} else {
+  startWorker(0);
+}
