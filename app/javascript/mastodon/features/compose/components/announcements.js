@@ -10,18 +10,6 @@ const announcements = Immutable.fromJS([
     links: [
       { href: 'https://crowi.precure.fun', body: 'Ｗｉｋｉ' }
     ]
-  },
-  {
-    body: 'キーワードタイムライン',
-    links: [
-      { href: '/timelines/tag/curesta', body: '全般', link: true }
-    ]
-  },
-  {
-    body: 'おすすめタイムライン',
-    links: [
-      { href: '/timelines/tag/theboss_tech', body: 'theboss.tech(雑談)', link: true }
-    ]
   }
 ]);
 
