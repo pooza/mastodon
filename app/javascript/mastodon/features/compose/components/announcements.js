@@ -8,7 +8,7 @@ const announcements = Immutable.fromJS([
   {
     body: '当インスタンスの使い方などはこちら',
     links: [
-      { href: 'https://crowi.precure.fun', body: 'Ｗｉｋｉ' }
+      { href: 'https://crowi.precure.fun/mstdn.precure', body: 'Ｗｉｋｉ' }
     ]
   }
 ]);
