@@ -14,7 +14,7 @@ class SearchService < BaseService
         results.merge!(url_resource_results) unless url_resource.nil?
       elsif query.present?
         results[:accounts] = perform_accounts_search! if account_searchable?
-        results[:statuses] = perform_statuses_search! if full_text_searchable?
+        results[:statuses] = perform_statuses_search!
         results[:hashtags] = perform_hashtags_search! if hashtag_searchable?
       end
     end
@@ -27,12 +27,10 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    statuses = StatusesIndex.filter(term: { searchable_by: account.id })
-                            .query(multi_match: { type: 'most_fields', query: query, operator: 'and', fields: %w(text text.stemmed) })
-                            .limit(limit)
-                            .objects
-                            .compact
-
+    statuses = Status.joins(:account)
+      .where('accounts.domain IS NULL')
+      .where("accounts.locked='f'")
+      .where('statuses.text ~ ?', query)
     statuses.reject { |status| StatusFilter.new(status, account).filtered? }
   end
 
