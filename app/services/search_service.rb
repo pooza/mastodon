@@ -29,7 +29,7 @@ class SearchService < BaseService
   def perform_statuses_search!
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
-      .where("accounts.locked='f'")
+      .where('accounts.locked = ?', 'f')
       .where('statuses.text ~ ?', query)
     statuses.reject { |status| StatusFilter.new(status, account).filtered? }
   end
