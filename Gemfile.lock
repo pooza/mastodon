@@ -133,7 +133,7 @@ GEM
       xpath (>= 2.0, < 4.0)
     case_transform (0.2)
       activesupport
-    charlock_holmes (0.7.6)
+    charlock_holmes (0.7.5)
     chewy (5.0.0)
       activesupport (>= 4.0)
       elasticsearch (>= 2.0.0)
@@ -662,7 +662,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.1)
   capistrano-yarn (~> 2.0)
   capybara (~> 2.18)
-  charlock_holmes (~> 0.7.6)
+  charlock_holmes (= 0.7.5)
   chewy (~> 5.0)
   cld3 (~> 3.2.0)
   climate_control (~> 0.2)
@@ -764,4 +764,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.2
+   1.16.3
