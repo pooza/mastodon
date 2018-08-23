@@ -29,9 +29,16 @@ class SearchService < BaseService
   def perform_statuses_search!
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
-      .where('statuses.text ~ ?', query)
       .order('updated_at DESC')
-      .limit(@limit)
+      .limit(limit)
+    query.split(/[\s　]+/).each do |keyword|
+      if (matches = keyword.match(/^-(.*)/))
+        keyword = matches[1]
+        statuses = statuses.where('statuses.text !~ ?', keyword)
+      else
+        statuses = statuses.where('statuses.text ~ ?', keyword)
+      end
+    end
     statuses.reject { |status| StatusFilter.new(status, account).filtered? }
   end
 
