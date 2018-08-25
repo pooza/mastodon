@@ -10,6 +10,18 @@ const announcements = Immutable.fromJS([
     links: [
       { href: 'https://crowi.precure.fun/mstdn.precure', body: 'Ｗｉｋｉ' }
     ]
+  },
+  {
+    body: '投稿についてのお願い',
+    links: [
+      { href: 'https://crowi.precure.fun/mstdn.precure/%E6%8A%95%E7%A8%BF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6', body: '投稿について' }
+    ]
+  },
+  {
+    body: '重要なお知らせはインフォメーションアカウントを確認してください',
+    links: [
+      { href: 'https://precure.ml/@infomation', body: 'キュアスタ！お知らせアカウント'}
+    ]
   }
 ]);
 
