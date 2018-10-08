@@ -352,7 +352,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (5.0.2)
     nio4r (2.3.1)
-    nokogiri (1.8.4)
+    nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     nokogumbo (1.5.0)
       nokogiri
@@ -728,7 +728,7 @@ DEPENDENCIES
   private_address_check (~> 0.4.1)
   pry-byebug (~> 3.6)
   pry-rails (~> 0.3)
-  puma (~> 3.11)
+  puma (~> 3.12)
   pundit (~> 1.1)
   rack-attack (~> 5.2)
   rack-cors (~> 1.0)
@@ -772,4 +772,4 @@ RUBY VERSION
    ruby 2.4.4p296
 
 BUNDLED WITH
-   1.16.4
+   1.16.5
