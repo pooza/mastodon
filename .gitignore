@@ -58,6 +58,7 @@ yarn-debug.log
 # local
 /.config/
 /.npm/
+/.gem/
 /.vim/
 /.viminfo
 /.vimrc
