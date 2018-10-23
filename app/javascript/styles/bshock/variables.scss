@@ -12,6 +12,7 @@ $classic-primary-color: #aaaa77;
 $classic-secondary-color: #d9e1e8;
 $classic-highlight-color: #aa77aa;
 
+
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
 $base-overlay-background: $black !default;
@@ -48,3 +49,7 @@ $media-modal-media-max-width: 100%;
 $media-modal-media-max-height: 80%;
 
 $no-gap-breakpoint: 415px;
+
+$font-sans-serif: 'mastodon-font-sans-serif' !default;
+$font-display: 'mastodon-font-display' !default;
+$font-monospace: 'mastodon-font-monospace' !default;
