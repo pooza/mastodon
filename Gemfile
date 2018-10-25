@@ -15,10 +15,10 @@ gem 'makara', '~> 0.4'
 gem 'pghero', '~> 2.2'
 gem 'dotenv-rails', '~> 2.5'
 
-gem 'aws-sdk-s3', '~> 1.21', require: false
+gem 'aws-sdk-s3', '~> 1.23', require: false
 gem 'fog-core', '<= 2.1.0'
 gem 'fog-openstack', '~> 0.3', require: false
-gem 'paperclip', '~> 6.0.0'
+gem 'paperclip', '~> 6.0'
 gem 'paperclip-av-transcoder', '~> 0.6'
 gem 'streamio-ffmpeg', '~> 3.0'
 
@@ -26,7 +26,7 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'addressable', '~> 2.5'
 gem 'bootsnap', '~> 1.3', require: false
 gem 'browser'
-gem 'charlock_holmes', '0.7.5'
+gem 'charlock_holmes', '~> 0.7.6'
 gem 'iso-639'
 gem 'chewy', '~> 5.0'
 gem 'cld3', '~> 3.2.0'
@@ -93,7 +93,6 @@ gem 'json-ld', '~> 2.2'
 gem 'rdf-normalize', '~> 0.3'
 
 gem 'httparty'
-gem 'colorize'
 
 group :development, :test do
   gem 'fabrication', '~> 2.20'
@@ -117,7 +116,7 @@ group :test do
   gem 'rspec-sidekiq', '~> 3.0'
   gem 'simplecov', '~> 0.16', require: false
   gem 'webmock', '~> 3.4'
-  gem 'parallel_tests', '~> 2.24'
+  gem 'parallel_tests', '~> 2.25'
 end
 
 group :development do
