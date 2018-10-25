@@ -16,8 +16,8 @@ gem 'pghero', '~> 2.2'
 gem 'dotenv-rails', '~> 2.5'
 
 gem 'aws-sdk-s3', '~> 1.21', require: false
-gem 'fog-core', '~> 2.1'
-gem 'fog-openstack', '~> 1.0', require: false
+gem 'fog-core', '<= 2.1.0'
+gem 'fog-openstack', '~> 0.3', require: false
 gem 'paperclip', '~> 6.0.0'
 gem 'paperclip-av-transcoder', '~> 0.6'
 gem 'streamio-ffmpeg', '~> 3.0'
@@ -98,7 +98,7 @@ gem 'colorize'
 group :development, :test do
   gem 'fabrication', '~> 2.20'
   gem 'fuubar', '~> 2.3'
-  gem 'i18n-tasks', '~> 0.9', require: false
+  gem 'i18n-tasks', '~> 0.9', require: false, git: 'https://github.com/Gargron/i18n-tasks.git'
   gem 'pry-byebug', '~> 3.6'
   gem 'pry-rails', '~> 0.3'
   gem 'rspec-rails', '~> 3.8'
@@ -109,7 +109,7 @@ group :production, :test do
 end
 
 group :test do
-  gem 'capybara', '~> 3.9'
+  gem 'capybara', '~> 3.10'
   gem 'climate_control', '~> 0.2'
   gem 'faker', '~> 1.9'
   gem 'microformats', '~> 4.0'
@@ -117,7 +117,7 @@ group :test do
   gem 'rspec-sidekiq', '~> 3.0'
   gem 'simplecov', '~> 0.16', require: false
   gem 'webmock', '~> 3.4'
-  gem 'parallel_tests', '~> 2.23'
+  gem 'parallel_tests', '~> 2.24'
 end
 
 group :development do

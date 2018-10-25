@@ -1,4 +1,18 @@
 GIT
+  remote: https://github.com/Gargron/i18n-tasks.git
+  revision: 9a4f7a1282a82322d7f97d1f6f1e91b1c2f9c3a3
+  specs:
+    i18n-tasks (0.9.27)
+      activesupport (>= 4.0.2)
+      ast (>= 2.1.0)
+      erubi
+      highline (>= 2.0.0)
+      i18n
+      parser (>= 2.2.3.0)
+      rainbow (>= 2.2.2, < 4.0)
+      terminal-table (>= 1.5.1)
+
+GIT
   remote: https://github.com/rtomayko/posix-spawn
   revision: 58465d2e213991f8afb13b984854a49fcdcc980c
   ref: 58465d2e213991f8afb13b984854a49fcdcc980c
@@ -76,16 +90,16 @@ GEM
     av (0.9.0)
       cocaine (~> 0.5.3)
     aws-eventstream (1.0.1)
-    aws-partitions (1.105.0)
-    aws-sdk-core (3.32.0)
+    aws-partitions (1.106.0)
+    aws-sdk-core (3.35.0)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.9.0)
+    aws-sdk-kms (1.11.0)
       aws-sdk-core (~> 3, >= 3.26.0)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.21.0)
+    aws-sdk-s3 (1.23.0)
       aws-sdk-core (~> 3, >= 3.26.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
@@ -126,13 +140,14 @@ GEM
       sshkit (~> 1.3)
     capistrano-yarn (2.0.2)
       capistrano (~> 3.0)
-    capybara (3.9.0)
+    capybara (3.10.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      xpath (~> 3.1)
+      regexp_parser (~> 1.2)
+      xpath (~> 3.2)
     case_transform (0.2)
       activesupport
     charlock_holmes (0.7.5)
@@ -183,7 +198,7 @@ GEM
     docile (1.3.1)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
-    doorkeeper (5.0.1)
+    doorkeeper (5.0.2)
       railties (>= 4.2)
     dotenv (2.5.0)
     dotenv-rails (2.5.0)
@@ -212,7 +227,7 @@ GEM
     fast_blank (1.0.0)
     fastimage (2.1.4)
     ffi (1.9.25)
-    fog-core (2.1.2)
+    fog-core (2.1.0)
       builder
       excon (~> 0.58)
       formatador (~> 0.2)
@@ -220,8 +235,8 @@ GEM
     fog-json (1.2.0)
       fog-core
       multi_json (~> 1.10)
-    fog-openstack (1.0.4)
-      fog-core (~> 2.1)
+    fog-openstack (0.3.7)
+      fog-core (>= 1.45, <= 2.1.0)
       fog-json (>= 1.0)
       ipaddress (>= 0.8)
     formatador (0.2.5)
@@ -274,15 +289,6 @@ GEM
       rainbow (>= 2.0.0)
     i18n (1.1.1)
       concurrent-ruby (~> 1.0)
-    i18n-tasks (0.9.25)
-      activesupport (>= 4.0.2)
-      ast (>= 2.1.0)
-      erubi
-      highline (>= 2.0.0)
-      i18n
-      parser (>= 2.2.3.0)
-      rainbow (>= 2.2.2, < 4.0)
-      terminal-table (>= 1.5.1)
     idn-ruby (0.1.0)
     ipaddress (0.8.3)
     iso-639 (0.2.8)
@@ -389,7 +395,7 @@ GEM
       av (~> 0.9.0)
       paperclip (>= 2.5.2)
     parallel (1.12.1)
-    parallel_tests (2.23.0)
+    parallel_tests (2.25.0)
       parallel
     parser (2.5.1.2)
       ast (~> 2.4.0)
@@ -494,6 +500,7 @@ GEM
       redis-store (>= 1.2, < 2)
     redis-store (1.6.0)
       redis (>= 2.2, < 5)
+    regexp_parser (1.2.0)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.0)
@@ -511,7 +518,7 @@ GEM
     rspec-mocks (3.8.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
-    rspec-rails (3.8.0)
+    rspec-rails (3.8.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -667,7 +674,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.4)
   capistrano-rbenv (~> 2.1)
   capistrano-yarn (~> 2.0)
-  capybara (~> 3.9)
+  capybara (~> 3.10)
   charlock_holmes (= 0.7.5)
   chewy (~> 5.0)
   cld3 (~> 3.2.0)
@@ -683,8 +690,8 @@ DEPENDENCIES
   faker (~> 1.9)
   fast_blank (~> 1.0)
   fastimage
-  fog-core (~> 2.1)
-  fog-openstack (~> 1.0)
+  fog-core (<= 2.1.0)
+  fog-openstack (~> 0.3)
   fuubar (~> 2.3)
   goldfinger (~> 2.1)
   hamlit-rails (~> 0.2)
@@ -695,7 +702,7 @@ DEPENDENCIES
   http_parser.rb (~> 0.6)!
   httparty
   httplog (~> 1.1)
-  i18n-tasks (~> 0.9)
+  i18n-tasks (~> 0.9)!
   idn-ruby
   iso-639
   json-ld (~> 2.2)
@@ -720,7 +727,7 @@ DEPENDENCIES
   ox (~> 2.10)
   paperclip (~> 6.0.0)
   paperclip-av-transcoder (~> 0.6)
-  parallel_tests (~> 2.23)
+  parallel_tests (~> 2.24)
   pg (~> 1.1)
   pghero (~> 2.2)
   pkg-config (~> 1.3)
