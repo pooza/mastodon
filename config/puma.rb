@@ -8,12 +8,9 @@ else
 end
 
 environment ENV.fetch('RAILS_ENV') { 'development' }
-worker_num = ENV.fetch('WEB_CONCURRENCY') { 2 }.to_i
+workers     ENV.fetch('WEB_CONCURRENCY') { 2 }
 
-if worker_num > 1 then
-  workers worker_num
-
-  preload_app!
+preload_app!
 
 on_worker_boot do
   ActiveSupport.on_load(:active_record) do
