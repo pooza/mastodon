@@ -1,6 +1,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.6.4] - 2018-11-30
+### Fixed
+
+- Fix yarn dependencies not installing due to yanked event-stream package (#9401)
+
 ## [2.6.3] - 2018-11-30
 ### Added
 
