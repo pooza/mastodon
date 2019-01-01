@@ -9607,10 +9607,10 @@ uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
-uws@8.14.0:
-  version "8.14.0"
-  resolved "https://registry.yarnpkg.com/uws/-/uws-8.14.0.tgz#acc1488d13ecb23fe2f942a7eafb06681fa91431"
-  integrity sha1-rMFIjRPssj/i+UKn6vsGaB+pFDE=
+uws@10.148.0:
+  version "10.148.0"
+  resolved "https://registry.yarnpkg.com/uws/-/uws-10.148.0.tgz#3fcd35f083ca515e091cd33b2d78f0f51a666215"
+  integrity sha512-aJpFgMMyxubiE/ll4nj9nWoQbv0HzZZDWXfwyu78nuFObX0Zoyv3TWjkqKPQ1vb2sMPZoz67tri7QNE6dybNmQ==
 
 v8-compile-cache@^2.0.2:
   version "2.0.2"
