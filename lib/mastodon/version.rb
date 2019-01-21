@@ -9,11 +9,11 @@ module Mastodon
     end
 
     def minor
-      6
+      7
     end
 
     def patch
-      5
+      0
     end
 
     def pre
@@ -33,7 +33,7 @@ module Mastodon
     end
 
     def repository
-      'karasugawasu/curesta'
+      'tootsuite/mastodon'
     end
 
     def source_base_url
