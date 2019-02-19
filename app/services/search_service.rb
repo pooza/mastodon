@@ -31,6 +31,8 @@ class SearchService < BaseService
   def perform_statuses_search!
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
+      .where('statuses.local=true')
+      .limit(limit)
     query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
@@ -50,6 +52,7 @@ class SearchService < BaseService
       .joins(:media_attachments)
       .where('accounts.domain IS NULL')
       .where('statuses.local=true')
+      .limit(limit)
     query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
