@@ -15,6 +15,8 @@ class SearchService < BaseService
       elsif query.present?
         results[:accounts] = perform_accounts_search! if account_searchable?
         results[:statuses] = perform_statuses_search!
+        results[:statuses].concat(perform_mediadescription_search!)
+        results[:statuses] = results[:statuses].uniq.sort_by{|v| v['updated_at']}.reverse.first(limit)
         results[:hashtags] = perform_hashtags_search! if hashtag_searchable?
       end
     end
@@ -29,8 +31,6 @@ class SearchService < BaseService
   def perform_statuses_search!
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
-      .order('updated_at DESC')
-      .limit(limit)
     query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
@@ -40,6 +40,25 @@ class SearchService < BaseService
       end
     end
     statuses.reject { |status| StatusFilter.new(status, account).filtered? }
+  rescue Faraday::ConnectionFailed
+    []
+  end
+
+  def perform_mediadescription_search!
+    medias = Status
+      .joins(:account)
+      .joins(:media_attachments)
+      .where('accounts.domain IS NULL')
+      .where('statuses.local=true')
+    query.split(/[\s　]+/).each do |keyword|
+      if (matches = keyword.match(/^-(.*)/))
+        keyword = matches[1]
+        medias = medias.where('media_attachments.description !~ ?', keyword)
+      else
+        medias = medias.where('media_attachments.description ~ ?', keyword)
+      end
+    end
+    medias.reject { |status| StatusFilter.new(status, account).filtered? }
   rescue Faraday::ConnectionFailed
     []
   end
