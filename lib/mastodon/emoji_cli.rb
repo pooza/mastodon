@@ -36,7 +36,7 @@ module Mastodon
 
       Gem::Package::TarReader.new(Zlib::GzipReader.open(path)) do |tar|
         tar.each do |entry|
-          next unless entry.file? && entry.full_name.to_s.end_with?('.png')
+          next unless entry.file? && entry.full_name.end_with?('.png')
 
           shortcode    = [options[:prefix], File.basename(entry.full_name, '.*'), options[:suffix]].compact.join
           custom_emoji = CustomEmoji.local.find_by(shortcode: shortcode)
