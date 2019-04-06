@@ -73,7 +73,7 @@
   "compose_form.lock_disclaimer": "Via konta ne estas {locked}. Iu ajn povas sekvi vin por vidi viajn mesaĝojn, kiuj estas nur por sekvantoj.",
   "compose_form.lock_disclaimer.lock": "ŝlosita",
   "compose_form.placeholder": "Pri kio vi pensas?",
-  "compose_form.publish": "Hup",
+  "compose_form.publish": "Cure",
   "compose_form.publish_loud": "{publish}!",
   "compose_form.sensitive.marked": "Aŭdovidaĵo markita tikla",
   "compose_form.sensitive.unmarked": "Aŭdovidaĵo ne markita tikla",
