@@ -12,11 +12,11 @@ class SearchService < BaseService
     default_results.tap do |results|
       if url_query?
         results.merge!(url_resource_results) unless url_resource.nil?
-      elsif query.present?
+      elsif @query.present?
         results[:accounts] = perform_accounts_search! if account_searchable?
         results[:statuses] = perform_statuses_search!
         results[:statuses].concat(perform_mediadescription_search!)
-        results[:statuses] = results[:statuses].uniq.sort_by{|v| v['updated_at']}.reverse.first(limit)
+        results[:statuses] = results[:statuses].uniq.sort_by{|v| v['updated_at']}.reverse.first(@limit)
         results[:hashtags] = perform_hashtags_search! if hashtag_searchable?
       end
     end
@@ -38,8 +38,8 @@ class SearchService < BaseService
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
       .where('statuses.local=true')
-      .limit(limit)
-    query.split(/[\s　]+/).each do |keyword|
+      .limit(@limit)
+    @query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
         statuses = statuses.where('statuses.text !~ ?', keyword)
@@ -47,7 +47,7 @@ class SearchService < BaseService
         statuses = statuses.where('statuses.text ~ ?', keyword)
       end
     end
-    statuses.reject { |status| StatusFilter.new(status, account).filtered? }
+    statuses.reject { |status| StatusFilter.new(status, @account).filtered? }
   rescue Faraday::ConnectionFailed
     []
   end
@@ -58,8 +58,8 @@ class SearchService < BaseService
       .joins(:media_attachments)
       .where('accounts.domain IS NULL')
       .where('statuses.local=true')
-      .limit(limit)
-    query.split(/[\s　]+/).each do |keyword|
+      .limit(@limit)
+    @query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
         medias = medias.where('media_attachments.description !~ ?', keyword)
@@ -67,7 +67,7 @@ class SearchService < BaseService
         medias = medias.where('media_attachments.description ~ ?', keyword)
       end
     end
-    medias.reject { |status| StatusFilter.new(status, account).filtered? }
+    medias.reject { |status| StatusFilter.new(status, @account).filtered? }
   rescue Faraday::ConnectionFailed
     []
   end
