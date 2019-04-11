@@ -30,6 +30,8 @@ import filters from './filters';
 import conversations from './conversations';
 import suggestions from './suggestions';
 import announcements from './announcements';
+import polls from './polls';
+import identity_proofs from './identity_proofs';
 
 const reducers = {
   dropdown_menu,
@@ -56,6 +58,7 @@ const reducers = {
   notifications,
   height_cache,
   custom_emojis,
+  identity_proofs,
   lists,
   listEditor,
   listAdder,
@@ -64,6 +67,7 @@ const reducers = {
   conversations,
   suggestions,
   announcements,
+  polls,
 };
 
 export default combineReducers(reducers);
