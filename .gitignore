@@ -55,26 +55,6 @@ npm-debug.log
 yarn-error.log
 yarn-debug.log
 
-# local
-/.config/
-/.npm/
-/.gem/
-/.vim/
-/.viminfo
-/.vimrc
-/.zhistory
-/.zlogout
-/.zshenv
-/.zshrc
-/.gitconfig
-/.babel.json
-/.yarnrc
-/.cache/
-/.node-gyp/
-/.pm2/
-/.ssh/
-/.zfs/
-
 # Ignore Docker option files
 docker-compose.override.yml
 
