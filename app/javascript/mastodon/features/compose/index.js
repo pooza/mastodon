@@ -13,6 +13,7 @@ import spring from 'react-motion/lib/spring';
 import SearchResultsContainer from './containers/search_results_container';
 import { changeComposing } from '../../actions/compose';
 import elephantUIPlane from '../../../images/elephant_ui_plane.svg';
+import AnnouncementsContainer from './containers/announcements_container';
 import { mascot } from '../../initial_state';
 import Icon from 'mastodon/components/icon';
 
@@ -107,6 +108,7 @@ class Compose extends React.PureComponent {
           {!isSearchPage && <div className='drawer__inner' onFocus={this.onFocus}>
             <NavigationContainer onClose={this.onBlur} />
             <ComposeFormContainer />
+            <AnnouncementsContainer />
             {multiColumn && (
               <div className='drawer__inner__mastodon'>
                 <img alt='' draggable='false' src={mascot || elephantUIPlane} />

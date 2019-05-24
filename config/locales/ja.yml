@@ -896,7 +896,7 @@ ja:
     open_in_web: Webで開く
     over_character_limit: 上限は %{max}文字までです
     pin_errors:
-      limit: 固定できるキュア！数の上限に達しました
+      limit: 固定されているキュア！の上限に達しました
       ownership: 他人のキュア！を固定することはできません
       private: 非公開のキュア！を固定することはできません
       reblog: ブーストを固定することはできません
@@ -1003,9 +1003,12 @@ ja:
       <p>オリジナルの出典: <a href="https://github.com/discourse/discourse">Discourse privacy policy</a></p>
     title: "%{instance} 利用規約・プライバシーポリシー"
   themes:
+    cure-orange: キュアオレンジ
+    cure-lime: キュアライム
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
+    juliamo-mastodon-light: ユリアーモ (ライト)
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M"

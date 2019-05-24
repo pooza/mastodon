@@ -75,7 +75,7 @@
   "compose_form.poll.duration": "Balotenketo daŭro",
   "compose_form.poll.option_placeholder": "elekto {number}",
   "compose_form.poll.remove_option": "Forigi ĉi tiu elekton",
-  "compose_form.publish": "Hup",
+  "compose_form.publish": "Cure!",
   "compose_form.publish_loud": "{publish}!",
   "compose_form.sensitive.marked": "Aŭdovidaĵo markita tikla",
   "compose_form.sensitive.unmarked": "Aŭdovidaĵo ne markita tikla",

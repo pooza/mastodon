@@ -7,7 +7,7 @@ import Permalink from './permalink';
 import classnames from 'classnames';
 import Icon from 'mastodon/components/icon';
 
-const MAX_HEIGHT = 642; // 20px * 32 (+ 2px padding at the top)
+const MAX_HEIGHT = 202; // 20px * 10 (+ 2px padding at the top)
 
 export default class StatusContent extends React.PureComponent {
 
