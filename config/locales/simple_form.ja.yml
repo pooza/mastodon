@@ -20,20 +20,20 @@ ja:
         fields: プロフィールに表として10個までの項目を表示することができます
         header: "%{size}までのPNG、GIF、JPGが利用可能です。 %{dimensions}pxまで縮小されます"
         inbox_url: 使用したいリレーサーバーのトップページからURLをコピーします
-        irreversible: フィルターが後で削除されても、除外されたトゥートは元に戻せなくなります
+        irreversible: フィルターが後で削除されても、除外されたキュア！は元に戻せなくなります
         locale: ユーザーインターフェース、メールやプッシュ通知の言語
         locked: フォロワーを手動で承認する必要があります
         password: 少なくとも8文字は入力してください
-        phrase: トゥートの大文字小文字や閲覧注意に関係なく一致
+        phrase: キュア！の大文字小文字や閲覧注意に関係なく一致
         scopes: アプリの API に許可するアクセス権を選択してください。最上位のスコープを選択する場合、個々のスコープを選択する必要はありません。
-        setting_aggregate_reblogs: 最近ブーストされたトゥートが新たにブーストされても表示しません (設定後受信したものにのみ影響)
-        setting_default_language: トゥートの言語は自動的に検出されますが、必ずしも正確とは限りません
+        setting_aggregate_reblogs: 最近ブーストされたキュア！が新たにブーストされても表示しません (設定後受信したものにのみ影響)
+        setting_default_language: キュア！の言語は自動的に検出されますが、必ずしも正確とは限りません
         setting_display_media_default: 閲覧注意としてマークされたメディアは隠す
         setting_display_media_hide_all: 全てのメディアを常に隠す
         setting_display_media_show_all: 閲覧注意としてマークされたメディアも常に表示する
         setting_hide_network: フォローとフォロワーの情報がプロフィールページで見られないようにします
         setting_noindex: 公開プロフィールおよび各投稿ページに影響します
-        setting_show_application: トゥートするのに使用したアプリがトゥートの詳細ビューに表示されるようになります
+        setting_show_application: キュア！するのに使用したアプリがキュア！の詳細ビューに表示されるようになります
         setting_theme: ログインしている全てのデバイスで適用されるデザインです。
         username: あなたのユーザー名は %{domain} の中で重複していない必要があります
         whole_word: キーワードまたはフレーズが英数字のみの場合、単語全体と一致する場合のみ適用されるようになります
@@ -46,7 +46,7 @@ ja:
       sessions:
         otp: '携帯電話のアプリで生成された二段階認証コードを入力するか、リカバリーコードを使用してください:'
       user:
-        chosen_languages: 選択すると、選択した言語のトゥートのみが公開タイムラインに表示されるようになります
+        chosen_languages: 選択すると、選択した言語のキュア！のみが公開タイムラインに表示されるようになります
     labels:
       account:
         fields:
@@ -96,16 +96,16 @@ ja:
         setting_default_language: 投稿する言語
         setting_default_privacy: 投稿の公開範囲
         setting_default_sensitive: メディアを常に閲覧注意としてマークする
-        setting_delete_modal: トゥートを削除する前に確認ダイアログを表示する
+        setting_delete_modal: キュア！を削除する前に確認ダイアログを表示する
         setting_display_media: メディアの表示
         setting_display_media_default: 標準
         setting_display_media_hide_all: 非表示
         setting_display_media_show_all: 表示
-        setting_expand_spoilers: 閲覧注意としてマークされたトゥートを常に展開する
+        setting_expand_spoilers: 閲覧注意としてマークされたキュア！を常に展開する
         setting_hide_network: 繋がりを隠す
         setting_noindex: 検索エンジンによるインデックスを拒否する
         setting_reduce_motion: アニメーションの動きを減らす
-        setting_show_application: トゥートの送信に使用したアプリを開示する
+        setting_show_application: キュア！の送信に使用したアプリを開示する
         setting_system_font_ui: システムのデフォルトフォントを使う
         setting_theme: サイトテーマ
         setting_unfollow_modal: フォローを解除する前に確認ダイアログを表示する
@@ -129,7 +129,7 @@ ja:
         follow_request: フォローリクエストを受けた時にメールで通知する
         mention: 返信が来た時にメールで通知する
         pending_account: 新しいアカウントの承認が必要な時にメールで通知する
-        reblog: トゥートがブーストされた時にメールで通知する
+        reblog: キュア！がブーストされた時にメールで通知する
         report: 通報を受けた時にメールで通知する
     'no': いいえ
     required:
