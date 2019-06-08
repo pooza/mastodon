@@ -6,21 +6,27 @@ import { Link } from 'react-router-dom';
 
 const announcements = Immutable.fromJS([
   {
-    body: '当インスタンスの使い方など',
+    body: '過去のお知らせ',
     links: [
-      { href: 'https://growi.b-shock.org/curesta', body: 'Ｗｉｋｉ' }
+      { href: 'https://growi.b-shock.org/curesta/news', body: 'お知らせ' }
     ]
   },
   {
-    body: '重要なお知らせは「キュアスタ！お知らせアカウント」を確認してください！',
+    body: '「キュアスタ！」の使い方',
     links: [
-      { href: 'https://precure.ml/@infomation', body: 'キュアスタ！お知らせアカウント'}
+      { href: 'https://growi.b-shock.org/curesta', body: 'オンラインマニュアル' },
+      { href: 'https://growi.b-shock.org/curesta/beginner', body: '新規さん向け' }
+    ]
+  },
+  {
+    body: '「お知らせアカウント」をフォローしてください！',
+    links: [
+      { href: 'https://precure.ml/@infomation', body: 'お知らせアカウント'}
     ]
   }
 ]);
 
 export default class Announcements extends React.PureComponent {
-
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
@@ -33,7 +39,7 @@ export default class Announcements extends React.PureComponent {
       <div className='announcements'>
         <div className='compose__extra__header'>
           <i className='fa fa-link' />
-          おしらせ＆関連リンク
+          お知らせ＆関連リンク
           <button className='compose__extra__header__icon' onClick={onToggle} >
             <i className={caretClass} />
           </button>
@@ -66,5 +72,4 @@ export default class Announcements extends React.PureComponent {
       </div>
     );
   }
-
 }
