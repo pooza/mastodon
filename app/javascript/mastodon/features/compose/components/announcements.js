@@ -6,22 +6,17 @@ import { Link } from 'react-router-dom';
 
 const announcements = Immutable.fromJS([
   {
-    body: '過去のお知らせ',
-    links: [
-      { href: 'https://growi.b-shock.org/curesta/news', body: 'お知らせ' }
-    ]
-  },
-  {
     body: '「キュアスタ！」の使い方',
     links: [
-      { href: 'https://growi.b-shock.org/curesta', body: 'オンラインマニュアル' },
-      { href: 'https://growi.b-shock.org/curesta/beginner', body: '新規さん向け' }
+      {href: 'https://growi.b-shock.org/curesta', body: 'オンラインマニュアル' },
+      {href: 'https://growi.b-shock.org/curesta/新規さん向け', body: '新規さん向け'}
     ]
   },
   {
-    body: '「お知らせアカウント」をフォローしてください！',
+    body: '「お知らせアカウント」を必ずフォローしてください！',
     links: [
-      { href: 'https://precure.ml/@infomation', body: 'お知らせアカウント'}
+      {href: 'https://precure.ml/@infomation', body: 'お知らせアカウント'},
+      {href: 'https://growi.b-shock.org/curesta/過去のお知らせ', body: '過去のお知らせ'}
     ]
   }
 ]);
