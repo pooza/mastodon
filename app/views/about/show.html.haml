@@ -31,7 +31,7 @@
 
         - if Setting.timeline_preview
           .directory__tag
-            = optional_link_to Setting.timeline_preview, public_timeline_path do
+            = link_to '/tags/precure_fun', rel: 'noopener' do
               %h4
                 = fa_icon 'globe fw'
                 = t('about.see_whats_happening')

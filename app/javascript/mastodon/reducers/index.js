@@ -29,6 +29,7 @@ import listAdder from './list_adder';
 import filters from './filters';
 import conversations from './conversations';
 import suggestions from './suggestions';
+import announcements from './announcements';
 import polls from './polls';
 import identity_proofs from './identity_proofs';
 
@@ -61,9 +62,11 @@ const reducers = {
   lists,
   listEditor,
   listAdder,
+  announcements,
   filters,
   conversations,
   suggestions,
+  announcements,
   polls,
 };
 

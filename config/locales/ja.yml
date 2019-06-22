@@ -1,7 +1,7 @@
 ---
 ja:
   about:
-    about_hashtag_html: ハッシュタグ <strong>#%{hashtag}</strong> の付いた公開トゥートです。どこでもいいので、連合に参加しているSNS上にアカウントを作れば会話に参加することができます。
+    about_hashtag_html: ハッシュタグ <strong>#%{hashtag}</strong> の付いた公開キュア！です。どこでもいいので、連合に参加しているSNS上にアカウントを作れば会話に参加することができます。
     about_mastodon_html: Mastodon は、オープンなウェブプロトコルを採用した、自由でオープンソースなソーシャルネットワークです。電子メールのような分散型の仕組みを採っています。
     about_this: 詳細情報
     active_count_after: 人アクティブ
@@ -30,8 +30,9 @@ ja:
     server_stats: 'サーバー統計:'
     source_code: ソースコード
     status_count_after:
-      other: トゥート
-    status_count_before: トゥート数
+      one: キュア！
+      other: キュア！
+    status_count_before: キュア！数
     tagline: Follow friends and discover new ones
     terms: 利用規約
     user_count_after:
@@ -56,9 +57,10 @@ ja:
     pin_errors:
       following: おすすめしたい人はあなたが既にフォローしている必要があります
     posts:
-      other: トゥート
-    posts_tab_heading: トゥート
-    posts_with_replies: トゥートと返信
+      one: キュア！
+      other: キュア！
+    posts_tab_heading: キュア！
+    posts_with_replies: キュア！と返信
     reserved_username: このユーザー名は予約されています
     roles:
       admin: Admin
@@ -167,7 +169,7 @@ ja:
         targeted_reports: このアカウントについての通報
       silence: サイレンス
       silenced: サイレンス済み
-      statuses: トゥート数
+      statuses: キュア！数
       subscribe: 購読する
       suspended: 停止済み
       time_in_queue: "%{time} 待ち"
@@ -271,7 +273,7 @@ ja:
         create: ブロックを作成
         hint: ドメインブロックはデータベース中のアカウント項目の作成を妨げませんが、遡って自動的に指定されたモデレーションをそれらのアカウントに適用します。
         severity:
-          desc_html: "<strong>サイレンス</strong>はアカウントのトゥートをフォローしていない人から隠します。<strong>停止</strong>はそのアカウントのコンテンツ、メディア、プロフィールデータをすべて削除します。メディアファイルを拒否したいだけの場合は<strong>なし</strong>を使います。"
+          desc_html: "<strong>サイレンス</strong>はアカウントのキュア！をフォローしていない人から隠します。<strong>停止</strong>はそのアカウントのコンテンツ、メディア、プロフィールデータをすべて削除します。メディアファイルを拒否したいだけの場合は<strong>なし</strong>を使います。"
           noop: なし
           silence: サイレンス
           suspend: 停止
@@ -335,11 +337,11 @@ ja:
     relays:
       add_new: リレーを追加
       delete: 削除
-      description_html: "<strong>連合リレー</strong>とは、登録しているサーバー間の公開トゥートを仲介するサーバーです。<strong>中小規模のサーバーが連合のコンテンツを見つけるのを助けます。</strong>これを使用しない場合、ローカルユーザーがリモートユーザーを手動でフォローする必要があります。"
+      description_html: "<strong>連合リレー</strong>とは、登録しているサーバー間の公開キュア！を仲介するサーバーです。<strong>中小規模のサーバーが連合のコンテンツを見つけるのを助けます。</strong>これを使用しない場合、ローカルユーザーがリモートユーザーを手動でフォローする必要があります。"
       disable: 無効化
       disabled: 無効
       enable: 有効化
-      enable_hint: 有効にすると、リレーから全ての公開トゥートを受信するようになり、またこのサーバーの全ての公開トゥートをリレーに送信するようになります。
+      enable_hint: 有効にすると、リレーから全ての公開キュア！を受信するようになり、またこのサーバーの全ての公開キュア！をリレーに送信するようになります。
       enabled: 有効
       inbox_url: リレーURL
       pending: リレーサーバーの承認待ちです
@@ -382,7 +384,7 @@ ja:
       updated_at: 更新日時
     settings:
       activity_api_enabled:
-        desc_html: 週ごとのローカルに投稿されたトゥート数、アクティブなユーザー数、新規登録者数
+        desc_html: 週ごとのローカルに投稿されたキュア！数、アクティブなユーザー数、新規登録者数
         title: ユーザーアクティビティに関する統計を公開する
       bootstrap_timeline_accounts:
         desc_html: 複数のユーザー名はコンマで区切ります。ローカルの公開アカウントのみ有効です。指定しない場合は管理者がデフォルトで指定されます。
@@ -425,7 +427,7 @@ ja:
           open: 誰でも登録可
         title: 新規登録
       show_known_fediverse_at_about_page:
-        desc_html: チェックを入れるとプレビュー欄に既知の連合先全てのトゥートを表示します。外すとローカルのトゥートだけ表示します。
+        desc_html: チェックを入れるとプレビュー欄に既知の連合先全てのキュア！を表示します。外すとローカルのキュア！だけ表示します。
         title: タイムラインプレビューに連合タイムラインを表示する
       show_staff_badge:
         desc_html: ユーザーページにスタッフのバッジを表示します
@@ -461,7 +463,7 @@ ja:
         title: メディア
       no_media: メディアなし
       no_status_selected: 何も選択されていないため、変更されていません
-      title: トゥート一覧
+      title: キュア！一覧
       with_media: メディアあり
     subscriptions:
       callback_url: コールバックURL
@@ -505,7 +507,7 @@ ja:
     settings: 'メール設定の変更: %{link}'
     view: 'リンク:'
     view_profile: プロフィールを表示
-    view_status: トゥートを表示
+    view_status: キュア！を表示
   applications:
     created: アプリが作成されました
     destroyed: アプリが削除されました
@@ -600,7 +602,7 @@ ja:
     archive_takeout:
       date: 日時
       download: ダウンロード
-      hint_html: "<strong>トゥートとメディア</strong>のアーカイブをリクエストできます。 データはActivityPub形式で、対応しているソフトウェアで読み込むことができます。7日毎にアーカイブをリクエストできます。"
+      hint_html: "<strong>キュア！とメディア</strong>のアーカイブをリクエストできます。 データはActivityPub形式で、対応しているソフトウェアで読み込むことができます。7日毎にアーカイブをリクエストできます。"
       in_progress: 準備中...
       request: アーカイブをリクエスト
       size: 容量
@@ -659,7 +661,7 @@ ja:
     i_am_html: I am %{username} on %{service}.
     identity: Identity
     inactive: 非アクティブ
-    publicize_checkbox: 'そしてこれをトゥートします:'
+    publicize_checkbox: 'そしてこれをキュア！します:'
     publicize_toot: 'It is proven! I am %{username} on %{service}: %{url}'
     status: 認証状態
     view_proof: 証明を表示
@@ -724,7 +726,7 @@ ja:
         other: "新しい%{count}件の通知 \U0001F418"
       title: 不在の間に…
     favourite:
-      body: "%{name} さんにお気に入り登録された、あなたのトゥートがあります:"
+      body: "%{name} さんにお気に入り登録された、あなたのキュア！があります:"
       subject: "%{name} さんにお気に入りに登録されました"
       title: 新たなお気に入り登録
     follow:
@@ -742,7 +744,7 @@ ja:
       subject: "%{name} さんに返信されました"
       title: 新たな返信
     reblog:
-      body: "%{name} さんにブーストされた、あなたのトゥートがあります:"
+      body: "%{name} さんにブーストされた、あなたのキュア！があります:"
       subject: "%{name} さんにブーストされました"
       title: 新たなブースト
   number:
@@ -756,9 +758,9 @@ ja:
           thousand: K
           trillion: T
   pagination:
-    newer: 新しいトゥート
+    newer: 新しいキュア！
     next: 次
-    older: 以前のトゥート
+    older: 以前のキュア！
     prev: 前
     truncate: "&hellip;"
   polls:
@@ -889,9 +891,9 @@ ja:
     open_in_web: Webで開く
     over_character_limit: 上限は %{max}文字までです
     pin_errors:
-      limit: 固定できるトゥート数の上限に達しました
-      ownership: 他人のトゥートを固定することはできません
-      private: 非公開のトゥートを固定することはできません
+      limit: 固定されているキュア！の上限に達しました
+      ownership: 他人のキュア！を固定することはできません
+      private: 非公開のキュア！を固定することはできません
       reblog: ブーストを固定することはできません
     poll:
       total_votes:
@@ -908,7 +910,7 @@ ja:
       unlisted: 未収載
       unlisted_long: 誰でも見ることができますが、公開タイムラインには表示されません
   stream_entries:
-    pinned: 固定されたトゥート
+    pinned: 固定されたキュア！
     reblogged: さんがブースト
     sensitive_content: 閲覧注意
   terms:
@@ -995,9 +997,12 @@ ja:
       <p>オリジナルの出典: <a href="https://github.com/discourse/discourse">Discourse privacy policy</a></p>
     title: "%{instance} 利用規約・プライバシーポリシー"
   themes:
+    cure-orange: キュアオレンジ
+    cure-lime: キュアライム
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
+    juliamo-mastodon-light: ユリアーモ (ライト)
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M"

@@ -700,7 +700,6 @@ onPortAvailable(err => {
     log.error('Could not start server, the port or socket is in use');
     return;
   }
-
   throng({
     workers: numWorkers,
     lifetime: Infinity,

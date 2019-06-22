@@ -42,7 +42,7 @@ class MediaAttachment < ApplicationRecord
 
   IMAGE_STYLES = {
     original: {
-      pixels: 1_638_400, # 1280x1280px
+      pixels: 6_502_500, # 2550x2550px
       file_geometry_parser: FastGeometryParser,
     },
 
@@ -173,7 +173,8 @@ class MediaAttachment < ApplicationRecord
   after_commit :reset_parent_cache, on: :update
   before_create :prepare_description, unless: :local?
   before_create :set_shortcode
-  before_post_process :set_type_and_extension
+  before_post_process :set_type, :set_extension
+  after_post_process :set_extension
   before_save :set_meta
 
   class << self
@@ -202,10 +203,10 @@ class MediaAttachment < ApplicationRecord
     def file_processors(f)
       if f.file_content_type == 'image/gif'
         [:gif_transcoder, :blurhash_transcoder]
-      elsif VIDEO_MIME_TYPES.include?(f.file_content_type)
-        [:video_transcoder, :blurhash_transcoder, :type_corrector]
-      elsif AUDIO_MIME_TYPES.include?(f.file_content_type)
-        [:transcoder, :type_corrector]
+      elsif f.file_content_type == 'image/png'
+        [:img_converter, :thumbnail, :blurhash_transcoder]
+      elsif VIDEO_MIME_TYPES.include? f.file_content_type
+        [:video_transcoder, :blurhash_transcoder]
       else
         [:lazy_thumbnail, :blurhash_transcoder, :type_corrector]
       end
@@ -239,6 +240,12 @@ class MediaAttachment < ApplicationRecord
         :image
       end
     end
+  end
+
+  def set_extension
+    extension = appropriate_extension(file)
+    basename  = Paperclip::Interpolations.basename(file, :original)
+    file.instance_write :file_name, [basename, extension].delete_if(&:blank?).join('.')
   end
 
   def set_meta
