@@ -67,11 +67,7 @@ const processImage = (img, { width, height, orientation, type = 'image/png' }) =
 
   context.drawImage(img, 0, 0, width, height);
 
-  if (type === 'image/png') {
-    canvas.toBlob(resolve, 'image/jpeg',1);
-  }else{
-    canvas.toBlob(resolve, type);
-  }
+  canvas.toBlob(resolve, type);
 });
 
 const resizeImage = (img, type = 'image/png') => new Promise((resolve, reject) => {
