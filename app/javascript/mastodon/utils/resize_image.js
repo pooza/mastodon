@@ -1,6 +1,6 @@
 import EXIF from 'exif-js';
 
-const MAX_IMAGE_PIXELS = 1638400; // 1280x1280px
+const MAX_IMAGE_PIXELS = 6502500; // 2550x2550px
 
 const getImageUrl = inputFile => new Promise((resolve, reject) => {
   if (window.URL && URL.createObjectURL) {
@@ -67,7 +67,11 @@ const processImage = (img, { width, height, orientation, type = 'image/png' }) =
 
   context.drawImage(img, 0, 0, width, height);
 
-  canvas.toBlob(resolve, type);
+  if (type === 'image/png') {
+    canvas.toBlob(resolve, 'image/jpeg',1);
+  }else{
+    canvas.toBlob(resolve, type);
+  }
 });
 
 const resizeImage = (img, type = 'image/png') => new Promise((resolve, reject) => {
