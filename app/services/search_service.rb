@@ -42,9 +42,9 @@ class SearchService < BaseService
     @query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
-        statuses = statuses.where('statuses.text !~ ?', keyword)
+        statuses = statuses.where('statuses.text NOT LIKE ?', "%#{keyword}%")
       else
-        statuses = statuses.where('statuses.text ~ ?', keyword)
+        statuses = statuses.where('statuses.text &@ ?', keyword)
       end
     end
     statuses.reject { |status| StatusFilter.new(status, @account).filtered? }
@@ -62,9 +62,9 @@ class SearchService < BaseService
     @query.split(/[\s　]+/).each do |keyword|
       if (matches = keyword.match(/^-(.*)/))
         keyword = matches[1]
-        medias = medias.where('media_attachments.description !~ ?', keyword)
+        medias = medias.where('media_attachments.description NOT LIKE ?', "%#{keyword}%")
       else
-        medias = medias.where('media_attachments.description ~ ?', keyword)
+        medias = medias.where('media_attachments.description &@ ?', keyword)
       end
     end
     medias.reject { |status| StatusFilter.new(status, @account).filtered? }
