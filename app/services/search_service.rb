@@ -33,25 +33,22 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    definition = parsed_query.apply(StatusesIndex.filter(term: { searchable_by: @account.id }))
-
-    if @options[:account_id].present?
-      definition = definition.filter(term: { account_id: @options[:account_id] })
+    statuses = Status.joins(:account)
+      .where('accounts.domain IS NULL')
+      .where('statuses.local=true')
+    @query.split(/[\s　]+/).each do |keyword|
+      if matches = keyword.match(/^-(.*)/)
+        keyword = matches[1]
+        statuses = statuses.where('statuses.text NOT LIKE ?', "%#{keyword}%")
+      else
+        statuses = statuses.where('statuses.text &@ ?', keyword)
+      end
     end
-
-    if @options[:min_id].present? || @options[:max_id].present?
-      range      = {}
-      range[:gt] = @options[:min_id].to_i if @options[:min_id].present?
-      range[:lt] = @options[:max_id].to_i if @options[:max_id].present?
-      definition = definition.filter(range: { id: range })
-    end
-
-    results             = definition.limit(@limit).offset(@offset).objects.compact
-    account_ids         = results.map(&:account_id)
-    account_domains     = results.map(&:account_domain)
-    preloaded_relations = relations_map_for_account(@account, account_ids, account_domains)
-
-    results.reject { |status| StatusFilter.new(status, @account, preloaded_relations).filtered? }
+    statuses
+      .limit(@limit)
+      .offset(@offset)
+      .reject{|status| StatusFilter.new(status, @account).filtered?}
+      .compact
   rescue Faraday::ConnectionFailed, Parslet::ParseFailed
     []
   end
@@ -86,8 +83,6 @@ class SearchService < BaseService
   end
 
   def full_text_searchable?
-    return false unless Chewy.enabled?
-
     statuses_search? && !@account.nil? && !((@query.start_with?('#') || @query.include?('@')) && !@query.include?(' '))
   end
 

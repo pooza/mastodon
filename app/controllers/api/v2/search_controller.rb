@@ -21,12 +21,12 @@ class Api::V2::SearchController < Api::BaseController
     SearchService.new.call(
       params[:q],
       current_account,
-      limit_param(RESULTS_LIMIT),
+      limit_param(params[:limit].to_i),
       search_params.merge(resolve: truthy_param?(:resolve), exclude_unreviewed: truthy_param?(:exclude_unreviewed))
     )
   end
 
   def search_params
-    params.permit(:type, :offset, :min_id, :max_id, :account_id)
+    params.permit(:type, :offset, :min_id, :max_id, :account_id, :limit)
   end
 end
