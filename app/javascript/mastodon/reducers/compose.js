@@ -281,9 +281,20 @@ export default function compose(state = initialState, action) {
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
   case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
-    return state.withMutations(map => {
-      map.set('livecure', action.value);
-    });
+    if (state.get('livecure') != action.value) {
+      switch (action.value) {
+        case 'show':
+          return state.withMutations(map => {
+            map.set('text', "command: filter\ntag: 実況\naction: unregister");
+            map.set('livecure', action.value);
+          });
+        case 'hide':
+          return state.withMutations(map => {
+            map.set('text', "command: filter\ntag: 実況");
+            map.set('livecure', action.value);
+          });
+      }
+    }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
