@@ -23,6 +23,7 @@ import {
   COMPOSE_SPOILERNESS_CHANGE,
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
+  COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
   COMPOSE_UPLOAD_CHANGE_REQUEST,
@@ -279,6 +280,10 @@ export default function compose(state = initialState, action) {
     return state
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
+  case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
+    return state.withMutations(map => {
+      map.set('livecure', action.value);
+    });
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
