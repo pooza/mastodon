@@ -293,6 +293,16 @@ export default function compose(state = initialState, action) {
             map.set('text', "command: filter\ntag: 実況");
             map.set('livecure', action.value);
           });
+        case 'empty_tagset':
+          return state.withMutations(map => {
+            map.set('text', "command: user_config\ntags: null");
+            map.set('livecure', action.value);
+          });
+        case 'common_tagset':
+          return state.withMutations(map => {
+            map.set('text', "command: user_config\ntags:\n- 実況");
+            map.set('livecure', action.value);
+          });
       }
     }
   case COMPOSE_CHANGE:

@@ -14,6 +14,10 @@ const messages = defineMessages({
   show_long: { id: 'livecure.show.long', defaultMessage: 'Show live cures' },
   hide_short: { id: 'livecure.hide.short', defaultMessage: 'Hide' },
   hide_long: { id: 'livecure.hide.long', defaultMessage: 'Hide live cures' },
+  empty_tagset_short: { id: 'livecure.empty_tagset.short', defaultMessage: 'Empty tagset' },
+  empty_tagset_long: { id: 'livecure.empty_tagset.long', defaultMessage: 'Clear tagset' },
+  common_tagset_short: { id: 'livecure.common_tagset.short', defaultMessage: 'Common tagset' },
+  common_tagset_long: { id: 'livecure.common_tagset.long', defaultMessage: 'Common livecure tagset' },
   toggle_livecure: { id: 'livecure.change', defaultMessage: 'Toggle live cures visibility' },
 });
 
@@ -246,6 +250,8 @@ class LiveCureDropdown extends React.PureComponent {
     this.options = [
       { icon: 'microphone', value: 'show', text: formatMessage(messages.show_short), meta: formatMessage(messages.show_long) },
       { icon: 'microphone-slash', value: 'hide', text: formatMessage(messages.hide_short), meta: formatMessage(messages.hide_long) },
+      { icon: 'hashtag', value: 'empty_tagset', text: formatMessage(messages.empty_tagset_short), meta: formatMessage(messages.empty_tagset_long) },
+      { icon: 'hashtag', value: 'common_tagset', text: formatMessage(messages.common_tagset_short), meta: formatMessage(messages.common_tagset_long) },
     ];
   }
 
