@@ -247,6 +247,20 @@ class TagsetDropdown extends React.PureComponent {
       { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
       { icon: 'hashtag', value: 'common', text: formatMessage(messages.common_short), meta: formatMessage(messages.common_long) },
     ];
+
+    const dropdown = this;
+    fetch('/programs.json').then(response => {
+      return response.json();
+    }).then(json => {
+      Object.keys(json).forEach(k => {
+        const v = json[k];
+        if (v.air) {
+          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: 'エア番組実況の為のタグセット'})
+        } else {
+          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: '実況の為のタグセット'})
+        }
+      });
+    });
   }
 
   render () {
