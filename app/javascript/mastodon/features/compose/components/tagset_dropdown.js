@@ -255,9 +255,9 @@ class TagsetDropdown extends React.PureComponent {
       Object.keys(json).forEach(k => {
         const v = json[k];
         if (v.air) {
-          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: 'エア番組実況の為のタグセット'})
+          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: 'エア番組実況向けのタグセット'})
         } else {
-          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: '実況の為のタグセット'})
+          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: '実況向けのタグセット'})
         }
       });
     });

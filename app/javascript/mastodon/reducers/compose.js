@@ -315,6 +315,38 @@ export default function compose(state = initialState, action) {
           });
       }
     }
+    fetch('/programs.json').then(response => {
+      return response.json();
+    }).then(json => {
+      return new Promise(resolve => {
+        Object.keys(json).forEach(k => {
+          const v = json[k];
+          if (k == action.value) {
+            resolve({title: k, values: v});
+          }
+        });
+      });
+    }).then(entry => {
+      return new Promise(resolve => {
+        const tags = ['実況', entry.values.series].concat(entry.values.tags);
+        if (entry.values.air) {
+          tags.push('エア番組');
+        }
+        resolve(tags);
+      });
+    }).then(tags => {
+      return new Promise(resolve => {
+        const toot = ['command: user_config', 'tags:'];
+        tags.map(tag => {toot.push('- ' + tag)})
+        resolve(toot);
+      });
+    }).then(toot => {
+      document.querySelector('.autosuggest-textarea__textarea').value = toot.join("\n");
+      state.withMutations(map => {
+        map.set('text', toot.join("\n"));
+        map.set('tagset', action.value);
+      });
+    });
     return state
   case COMPOSE_CHANGE:
     return state
