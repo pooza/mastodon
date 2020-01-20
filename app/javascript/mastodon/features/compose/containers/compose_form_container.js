@@ -17,6 +17,7 @@ const mapStateToProps = state => ({
   spoiler: state.getIn(['compose', 'spoiler']),
   spoilerText: state.getIn(['compose', 'spoiler_text']),
   privacy: state.getIn(['compose', 'privacy']),
+  tagset: state.getIn(['compose', 'tagset']),
   livecure: state.getIn(['compose', 'livecure']),
   focusDate: state.getIn(['compose', 'focusDate']),
   caretPosition: state.getIn(['compose', 'caretPosition']),

@@ -24,6 +24,7 @@ import {
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
   COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
+  COMPOSE_TAGSET_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
   COMPOSE_UPLOAD_CHANGE_REQUEST,
@@ -51,6 +52,7 @@ const initialState = ImmutableMap({
   spoiler: false,
   spoiler_text: '',
   privacy: null,
+  tagset: null,
   livecure: null,
   text: '',
   focusDate: null,
@@ -67,6 +69,7 @@ const initialState = ImmutableMap({
   suggestion_token: null,
   suggestions: ImmutableList(),
   default_privacy: 'public',
+  default_tagset: 'empty',
   default_livecure: 'show',
   default_sensitive: false,
   resetFileKey: Math.floor((Math.random() * 0x10000)),
@@ -99,6 +102,7 @@ function clearAll(state) {
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
     map.set('privacy', state.get('default_privacy'));
+    map.set('tagset', state.get('default_tagset'));
     map.set('livecure', state.get('default_livecure'));
     map.set('sensitive', false);
     map.update('media_attachments', list => list.clear());
@@ -293,18 +297,25 @@ export default function compose(state = initialState, action) {
             map.set('text', "command: filter\ntag: 実況");
             map.set('livecure', action.value);
           });
-        case 'empty_tagset':
+      }
+    }
+    return state
+  case COMPOSE_TAGSET_CHANGE:
+    if (state.get('tagset') != action.value) {
+      switch (action.value) {
+        case 'empty':
           return state.withMutations(map => {
             map.set('text', "command: user_config\ntags: null");
-            map.set('livecure', action.value);
+            map.set('tagset', action.value);
           });
-        case 'common_tagset':
+        case 'common':
           return state.withMutations(map => {
             map.set('text', "command: user_config\ntags:\n- 実況");
-            map.set('livecure', action.value);
+            map.set('tagset', action.value);
           });
       }
     }
+    return state
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -337,6 +348,7 @@ export default function compose(state = initialState, action) {
       map.set('spoiler', false);
       map.set('spoiler_text', '');
       map.set('privacy', state.get('default_privacy'));
+      map.set('tagset', state.get('default_tagset'));
       map.set('livecure', state.get('default_livecure'));
       map.set('poll', null);
       map.set('idempotencyKey', uuid());

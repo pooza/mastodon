@@ -10,16 +10,16 @@ import classNames from 'classnames';
 import Icon from 'mastodon/components/icon';
 
 const messages = defineMessages({
-  show_short: { id: 'livecure.show.short', defaultMessage: 'Show' },
-  show_long: { id: 'livecure.show.long', defaultMessage: 'Show live cures' },
-  hide_short: { id: 'livecure.hide.short', defaultMessage: 'Hide' },
-  hide_long: { id: 'livecure.hide.long', defaultMessage: 'Hide live cures' },
-  change: { id: 'livecure.change', defaultMessage: 'Toggle live cures visibility' },
+  empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty tagset' },
+  empty_long: { id: 'tagset.empty.long', defaultMessage: 'Clear tagset' },
+  common_short: { id: 'tagset.common.short', defaultMessage: 'Common tagset' },
+  common_long: { id: 'tagset.common.long', defaultMessage: 'Common livecure tagset' },
+  change: { id: 'tagset.change', defaultMessage: 'Toggle live cures visibility' },
 });
 
 const listenerOptions = detectPassiveEvents.hasSupport ? { passive: true } : false;
 
-class LiveCureDropdownMenu extends React.PureComponent {
+class TagsetDropdownMenu extends React.PureComponent {
 
   static propTypes = {
     style: PropTypes.object,
@@ -160,7 +160,7 @@ class LiveCureDropdownMenu extends React.PureComponent {
 }
 
 export default @injectIntl
-class LiveCureDropdown extends React.PureComponent {
+class TagsetDropdown extends React.PureComponent {
 
   static propTypes = {
     isUserTouching: PropTypes.func,
@@ -244,8 +244,8 @@ class LiveCureDropdown extends React.PureComponent {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
-      { icon: 'microphone', value: 'show', text: formatMessage(messages.show_short), meta: formatMessage(messages.show_long) },
-      { icon: 'microphone-slash', value: 'hide', text: formatMessage(messages.hide_short), meta: formatMessage(messages.hide_long) },
+      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
+      { icon: 'hashtag', value: 'common', text: formatMessage(messages.common_short), meta: formatMessage(messages.common_long) },
     ];
   }
 
@@ -274,7 +274,7 @@ class LiveCureDropdown extends React.PureComponent {
         </div>
 
         <Overlay show={open} placement={placement} target={this}>
-          <LiveCureDropdownMenu
+          <TagsetDropdownMenu
             items={this.options}
             value={value}
             onClose={this.handleClose}
