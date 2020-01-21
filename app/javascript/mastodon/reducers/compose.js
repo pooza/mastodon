@@ -23,6 +23,8 @@ import {
   COMPOSE_SPOILERNESS_CHANGE,
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
+  COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
+  COMPOSE_TAGSET_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
   COMPOSE_UPLOAD_CHANGE_REQUEST,
@@ -50,6 +52,8 @@ const initialState = ImmutableMap({
   spoiler: false,
   spoiler_text: '',
   privacy: null,
+  tagset: null,
+  livecure: null,
   text: '',
   focusDate: null,
   caretPosition: null,
@@ -96,6 +100,8 @@ function clearAll(state) {
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
     map.set('privacy', state.get('default_privacy'));
+    map.set('tagset', '');
+    map.set('livecure', '');
     map.set('sensitive', false);
     map.update('media_attachments', list => list.clear());
     map.set('poll', null);
@@ -276,6 +282,57 @@ export default function compose(state = initialState, action) {
     return state
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
+  case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
+    switch (action.value) {
+      case 'show':
+        return state.set('text', "command: filter\ntag: 実況\naction: unregister");
+      case 'hide':
+        return state.set('text', "command: filter\ntag: 実況");
+    }
+  case COMPOSE_TAGSET_CHANGE:
+    switch (action.value) {
+      case 'empty':
+        return state.set('text', "command: user_config\ntags: null");
+      case 'common':
+        return state.set('text', "command: user_config\ntags:\n- 実況");
+      default:
+        fetch('/mulukhiya/programs').then(response => {
+          return response.json();
+        }).then(json => {
+          return new Promise(resolve => {
+            Object.keys(json).forEach(k => {
+              const v = json[k];
+              if (k == action.value) {
+                resolve(v);
+              }
+            });
+          });
+        }).then(entry => {
+          return new Promise(resolve => {
+            const tags = ['実況', entry.series];
+            if (entry.air) {
+              tags.push('エア番組');
+            }
+            if (entry.episode) {
+              tags.push('' + entry.episode + '話');
+            }
+            resolve(tags);
+          });
+        }).then(tags => {
+          return new Promise(resolve => {
+            const toot = ['command: user_config', 'tags:'];
+            tags.map(tag => {toot.push('- ' + tag)})
+            resolve(toot);
+          });
+        }).then(toot => {
+          const textarea = document.querySelector('.autosuggest-textarea__textarea');
+          textarea.value = toot.join("\n");
+          //state.set('text', toot.join("\n"));
+        }).catch(e => {
+          console.error('%j', e);
+        });
+        return state;
+      }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -308,6 +365,8 @@ export default function compose(state = initialState, action) {
       map.set('spoiler', false);
       map.set('spoiler_text', '');
       map.set('privacy', state.get('default_privacy'));
+      map.set('tagset', '');
+      map.set('livecure', '');
       map.set('poll', null);
       map.set('idempotencyKey', uuid());
     });
