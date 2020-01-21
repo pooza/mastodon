@@ -244,6 +244,7 @@ class LiveCureDropdown extends React.PureComponent {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
+      { icon: 'microphone', value: '', text: '', meta: '' },
       { icon: 'microphone', value: 'show', text: formatMessage(messages.show_short), meta: formatMessage(messages.show_long) },
       { icon: 'microphone-slash', value: 'hide', text: formatMessage(messages.hide_short), meta: formatMessage(messages.hide_long) },
     ];

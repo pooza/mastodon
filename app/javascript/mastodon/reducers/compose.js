@@ -69,8 +69,6 @@ const initialState = ImmutableMap({
   suggestion_token: null,
   suggestions: ImmutableList(),
   default_privacy: 'public',
-  default_tagset: 'empty',
-  default_livecure: 'show',
   default_sensitive: false,
   resetFileKey: Math.floor((Math.random() * 0x10000)),
   idempotencyKey: null,
@@ -102,8 +100,8 @@ function clearAll(state) {
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
     map.set('privacy', state.get('default_privacy'));
-    map.set('tagset', state.get('default_tagset'));
-    map.set('livecure', state.get('default_livecure'));
+    map.set('tagset', '');
+    map.set('livecure', '');
     map.set('sensitive', false);
     map.update('media_attachments', list => list.clear());
     map.set('poll', null);
@@ -285,69 +283,58 @@ export default function compose(state = initialState, action) {
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
   case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
-    if (state.get('livecure') != action.value) {
-      switch (action.value) {
-        case 'show':
-          return state.withMutations(map => {
-            map.set('text', "command: filter\ntag: 実況\naction: unregister");
-            map.set('livecure', action.value);
-          });
-        case 'hide':
-          return state.withMutations(map => {
-            map.set('text', "command: filter\ntag: 実況");
-            map.set('livecure', action.value);
-          });
-      }
-    }
-    return state
-  case COMPOSE_TAGSET_CHANGE:
-    if (state.get('tagset') != action.value) {
-      switch (action.value) {
-        case 'empty':
-          return state.withMutations(map => {
-            map.set('text', "command: user_config\ntags: null");
-            map.set('tagset', action.value);
-          });
-        case 'common':
-          return state.withMutations(map => {
-            map.set('text', "command: user_config\ntags:\n- 実況");
-            map.set('tagset', action.value);
-          });
-      }
-    }
-    fetch('/programs.json').then(response => {
-      return response.json();
-    }).then(json => {
-      return new Promise(resolve => {
-        Object.keys(json).forEach(k => {
-          const v = json[k];
-          if (k == action.value) {
-            resolve({title: k, values: v});
-          }
+    switch (action.value) {
+      case 'show':
+        return state.withMutations(map => {
+          map.set('text', "command: filter\ntag: 実況\naction: unregister");
         });
-      });
-    }).then(entry => {
-      return new Promise(resolve => {
-        const tags = ['実況', entry.values.series].concat(entry.values.tags);
-        if (entry.values.air) {
-          tags.push('エア番組');
-        }
-        resolve(tags);
-      });
-    }).then(tags => {
-      return new Promise(resolve => {
-        const toot = ['command: user_config', 'tags:'];
-        tags.map(tag => {toot.push('- ' + tag)})
-        resolve(toot);
-      });
-    }).then(toot => {
-      document.querySelector('.autosuggest-textarea__textarea').value = toot.join("\n");
-      state.withMutations(map => {
-        map.set('text', toot.join("\n"));
-        map.set('tagset', action.value);
-      });
-    });
-    return state
+      case 'hide':
+        return state.withMutations(map => {
+          map.set('text', "command: filter\ntag: 実況");
+        });
+    }
+  case COMPOSE_TAGSET_CHANGE:
+    const textarea = document.querySelector('.autosuggest-textarea__textarea');
+    switch (action.value) {
+      case 'empty':
+        return state.withMutations(map => {
+          map.set('text', "command: user_config\ntags: null");
+        });
+      case 'common':
+        return state.withMutations(map => {
+          map.set('text', "command: user_config\ntags:\n- 実況");
+        });
+      default:
+        fetch('/programs.json').then(response => {
+          return response.json();
+        }).then(json => {
+          return new Promise(resolve => {
+            Object.keys(json).forEach(k => {
+              const v = json[k];
+              if (k == action.value) {
+                resolve({title: k, values: v});
+              }
+            });
+          });
+        }).then(entry => {
+          return new Promise(resolve => {
+            const tags = ['実況', entry.values.series].concat(entry.values.tags);
+            if (entry.values.air) {
+              tags.push('エア番組');
+            }
+            resolve(tags);
+          });
+        }).then(tags => {
+          return new Promise(resolve => {
+            const toot = ['command: user_config', 'tags:'];
+            tags.map(tag => {toot.push('- ' + tag)})
+            resolve(toot);
+          });
+        }).then(toot => {
+          textarea.value = toot.join("\n");
+        });
+        return state;
+      }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -380,8 +367,8 @@ export default function compose(state = initialState, action) {
       map.set('spoiler', false);
       map.set('spoiler_text', '');
       map.set('privacy', state.get('default_privacy'));
-      map.set('tagset', state.get('default_tagset'));
-      map.set('livecure', state.get('default_livecure'));
+      map.set('tagset', '');
+      map.set('livecure', '');
       map.set('poll', null);
       map.set('idempotencyKey', uuid());
     });

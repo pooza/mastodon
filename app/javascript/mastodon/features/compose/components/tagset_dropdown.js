@@ -244,6 +244,7 @@ class TagsetDropdown extends React.PureComponent {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
+      { icon: 'hashtag', value: '', text: '', meta: '' },
       { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
       { icon: 'hashtag', value: 'common', text: formatMessage(messages.common_short), meta: formatMessage(messages.common_long) },
     ];
@@ -255,9 +256,9 @@ class TagsetDropdown extends React.PureComponent {
       Object.keys(json).forEach(k => {
         const v = json[k];
         if (v.air) {
-          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: 'エア番組実況向けのタグセット'})
+          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
         } else {
-          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: '実況向けのタグセット'})
+          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
         }
       });
     });
