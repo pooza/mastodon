@@ -285,25 +285,16 @@ export default function compose(state = initialState, action) {
   case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
     switch (action.value) {
       case 'show':
-        return state.withMutations(map => {
-          map.set('text', "command: filter\ntag: 実況\naction: unregister");
-        });
+        return state.set('text', "command: filter\ntag: 実況\naction: unregister");
       case 'hide':
-        return state.withMutations(map => {
-          map.set('text', "command: filter\ntag: 実況");
-        });
+        return state.set('text', "command: filter\ntag: 実況");
     }
   case COMPOSE_TAGSET_CHANGE:
-    const textarea = document.querySelector('.autosuggest-textarea__textarea');
     switch (action.value) {
       case 'empty':
-        return state.withMutations(map => {
-          map.set('text', "command: user_config\ntags: null");
-        });
+        return state.set('text', "command: user_config\ntags: null");
       case 'common':
-        return state.withMutations(map => {
-          map.set('text', "command: user_config\ntags:\n- 実況");
-        });
+        return state.set('text', "command: user_config\ntags:\n- 実況");
       default:
         fetch('/mulukhiya/programs').then(response => {
           return response.json();
@@ -334,7 +325,9 @@ export default function compose(state = initialState, action) {
             resolve(toot);
           });
         }).then(toot => {
+          const textarea = document.querySelector('.autosuggest-textarea__textarea');
           textarea.value = toot.join("\n");
+          //state.set('text', toot.join("\n"));
         }).catch(e => {
           console.error('%j', e);
         });
