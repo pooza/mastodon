@@ -250,7 +250,7 @@ class TagsetDropdown extends React.PureComponent {
     ];
 
     const dropdown = this;
-    fetch('/programs.json').then(response => {
+    fetch('/mulukhiya/programs').then(response => {
       return response.json();
     }).then(json => {
       Object.keys(json).forEach(k => {
@@ -261,6 +261,8 @@ class TagsetDropdown extends React.PureComponent {
           dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
         }
       });
+    }).catch(e => {
+      console.error('%j', e);
     });
   }
 

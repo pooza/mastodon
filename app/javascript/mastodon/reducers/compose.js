@@ -305,22 +305,25 @@ export default function compose(state = initialState, action) {
           map.set('text', "command: user_config\ntags:\n- 実況");
         });
       default:
-        fetch('/programs.json').then(response => {
+        fetch('/mulukhiya/programs').then(response => {
           return response.json();
         }).then(json => {
           return new Promise(resolve => {
             Object.keys(json).forEach(k => {
               const v = json[k];
               if (k == action.value) {
-                resolve({title: k, values: v});
+                resolve(v);
               }
             });
           });
         }).then(entry => {
           return new Promise(resolve => {
-            const tags = ['実況', entry.values.series].concat(entry.values.tags);
-            if (entry.values.air) {
+            const tags = ['実況', entry.series];
+            if (entry.air) {
               tags.push('エア番組');
+            }
+            if (entry.episode) {
+              tags.push('' + entry.episode + '話');
             }
             resolve(tags);
           });
@@ -332,6 +335,8 @@ export default function compose(state = initialState, action) {
           });
         }).then(toot => {
           textarea.value = toot.join("\n");
+        }).catch(e => {
+          console.error('%j', e);
         });
         return state;
       }
