@@ -249,21 +249,22 @@ class TagsetDropdown extends React.PureComponent {
       { icon: 'hashtag', value: 'common', text: formatMessage(messages.common_short), meta: formatMessage(messages.common_long) },
     ];
 
-    const dropdown = this;
-    fetch('/mulukhiya/programs').then(response => {
-      return response.json();
-    }).then(json => {
-      Object.keys(json).forEach(k => {
-        const v = json[k];
-        if (v.air) {
-          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
-        } else {
-          dropdown.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
-        }
-      });
-    }).catch(e => {
-      console.error('%j', e);
-    });
+    const request = new XMLHttpRequest();
+    request.open('GET', '/mulukhiya/programs', false);
+    request.send(null);
+    if (request.status != 200) {
+      console.error('%j', request);
+      return '';
+    }
+    const result = JSON.parse(request.responseText);
+    for (const k of Object.keys(result)) {
+      const v = result[k];
+      if (v.air) {
+        this.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
+      } else {
+        this.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
+      }
+    }
   }
 
   render () {
