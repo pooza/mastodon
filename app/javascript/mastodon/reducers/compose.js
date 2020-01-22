@@ -23,6 +23,8 @@ import {
   COMPOSE_SPOILERNESS_CHANGE,
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
+  COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
+  COMPOSE_TAGSET_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
   COMPOSE_UPLOAD_CHANGE_REQUEST,
@@ -50,6 +52,8 @@ const initialState = ImmutableMap({
   spoiler: false,
   spoiler_text: '',
   privacy: null,
+  tagset: null,
+  livecure: null,
   text: '',
   focusDate: null,
   caretPosition: null,
@@ -96,6 +100,8 @@ function clearAll(state) {
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
     map.set('privacy', state.get('default_privacy'));
+    map.set('tagset', '');
+    map.set('livecure', '');
     map.set('sensitive', false);
     map.update('media_attachments', list => list.clear());
     map.set('poll', null);
@@ -276,6 +282,48 @@ export default function compose(state = initialState, action) {
     return state
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
+  case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
+    switch (action.value) {
+      case 'show':
+        return state.set('text', "command: filter\ntag: 実況\naction: unregister");
+      case 'hide':
+        return state.set('text', "command: filter\ntag: 実況");
+    }
+  case COMPOSE_TAGSET_CHANGE:
+    switch (action.value) {
+      case 'empty':
+        return state.set('text', "command: user_config\ntags: null");
+      case 'common':
+        return state.set('text', "command: user_config\ntags:\n- 実況");
+      default:
+        const createToot = name => {
+          const request = new XMLHttpRequest();
+          request.open('GET', '/mulukhiya/programs', false);
+          request.send(null);
+          if (request.status != 200) {
+            console.error('%j', request);
+            return '';
+          }
+          const result = JSON.parse(request.responseText);
+          for (const k of Object.keys(result)) {
+            if (k == name) {
+              const entry = result[k];
+              const tags = ['実況', entry.series];
+              if (entry.air) {
+                tags.push('エア番組');
+              }
+              if (entry.episode) {
+                tags.push('' + entry.episode + '話');
+              }
+              const toot = ['command: user_config', 'tags:'];
+              tags.map(tag => {toot.push('- ' + tag)})
+              return toot.join("\n");
+            }
+          }
+          return '';
+        }
+        return state.set('text', createToot(action.value));
+      }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -308,6 +356,8 @@ export default function compose(state = initialState, action) {
       map.set('spoiler', false);
       map.set('spoiler_text', '');
       map.set('privacy', state.get('default_privacy'));
+      map.set('tagset', '');
+      map.set('livecure', '');
       map.set('poll', null);
       map.set('idempotencyKey', uuid());
     });
