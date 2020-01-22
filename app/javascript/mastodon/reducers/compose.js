@@ -296,42 +296,33 @@ export default function compose(state = initialState, action) {
       case 'common':
         return state.set('text', "command: user_config\ntags:\n- 実況");
       default:
-        fetch('/mulukhiya/programs').then(response => {
-          return response.json();
-        }).then(json => {
-          return new Promise(resolve => {
-            Object.keys(json).forEach(k => {
-              const v = json[k];
-              if (k == action.value) {
-                resolve(v);
+        const createToot = name => {
+          const request = new XMLHttpRequest();
+          request.open('GET', '/mulukhiya/programs', false);
+          request.send(null);
+          if (request.status != 200) {
+            console.error('%j', request);
+            return '';
+          }
+          const result = JSON.parse(request.responseText);
+          for (const k of Object.keys(result)) {
+            if (k == name) {
+              const entry = result[k];
+              const tags = ['実況', entry.series];
+              if (entry.air) {
+                tags.push('エア番組');
               }
-            });
-          });
-        }).then(entry => {
-          return new Promise(resolve => {
-            const tags = ['実況', entry.series];
-            if (entry.air) {
-              tags.push('エア番組');
+              if (entry.episode) {
+                tags.push('' + entry.episode + '話');
+              }
+              const toot = ['command: user_config', 'tags:'];
+              tags.map(tag => {toot.push('- ' + tag)})
+              return toot.join("\n");
             }
-            if (entry.episode) {
-              tags.push('' + entry.episode + '話');
-            }
-            resolve(tags);
-          });
-        }).then(tags => {
-          return new Promise(resolve => {
-            const toot = ['command: user_config', 'tags:'];
-            tags.map(tag => {toot.push('- ' + tag)})
-            resolve(toot);
-          });
-        }).then(toot => {
-          const textarea = document.querySelector('.autosuggest-textarea__textarea');
-          textarea.value = toot.join("\n");
-          //state.set('text', toot.join("\n"));
-        }).catch(e => {
-          console.error('%j', e);
-        });
-        return state;
+          }
+          return '';
+        }
+        return state.set('text', createToot(action.value));
       }
   case COMPOSE_CHANGE:
     return state
