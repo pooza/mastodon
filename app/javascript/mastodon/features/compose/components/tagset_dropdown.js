@@ -254,16 +254,20 @@ class TagsetDropdown extends React.PureComponent {
     request.send(null);
     if (request.status != 200) {
       console.error('%j', request);
-      return '';
+      return;
     }
     const result = JSON.parse(request.responseText);
     for (const k of Object.keys(result)) {
       const v = result[k];
-      if (v.air) {
-        this.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
-      } else {
-        this.options.push({icon: 'hashtag', value: k, text: v.series, meta: ''})
+      const text = '「' + v.series + '」用タグ';
+      const meta = ['実況向けタグセット'];
+      if (v.episode) {
+        meta.push('' + v.episode + '話');
       }
+      if (v.air) {
+        meta.push('エア番組');
+      }
+      this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
   }
 
