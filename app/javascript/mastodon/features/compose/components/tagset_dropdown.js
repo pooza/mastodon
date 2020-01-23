@@ -259,6 +259,9 @@ class TagsetDropdown extends React.PureComponent {
     const result = JSON.parse(request.responseText);
     for (const k of Object.keys(result)) {
       const v = result[k];
+      if (!v.enable) {
+        continue;
+      }
       const text = '「' + v.series + '」用タグ';
       const meta = ['実況向けタグセット'];
       if (v.episode) {
