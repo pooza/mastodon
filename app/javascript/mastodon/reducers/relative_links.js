@@ -5,7 +5,7 @@ const initialState = Immutable.Map({
   visible: true,
 });
 
-export default function announcements(state = initialState, action) {
+export default function relative_links(state = initialState, action) {
   switch(action.type) {
   case TOGGLE_RELATIVE_LINKS:
     return state.set('visible', !state.get('visible'));

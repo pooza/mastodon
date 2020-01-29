@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router-dom';
 
-const relative_links = Immutable.fromJS([
+const links = Immutable.fromJS([
   {
     body: 'キュアスタ！Wiki',
     links: [
@@ -35,22 +35,22 @@ export default class RelativeLinks extends React.PureComponent {
       <div className='relative_links'>
         <div className='compose__extra__header'>
           <i className='fa fa-link' />
-          お知らせ＆関連リンク
+          関連リンク
           <button className='compose__extra__header__icon' onClick={onToggle} >
             <i className={caretClass} />
           </button>
         </div>
         { visible && (
           <ul>
-            {relative_links.map((announcement, idx) => (
+            {links.map((entry, idx) => (
               <li key={idx}>
                 <div className='relative_links__icon'>
                   <i className='fa fa-bookmark' />
                 </div>
                 <div className='relative_links__body'>
-                  <p>{announcement.get('body')}</p>
+                  <p>{entry.get('body')}</p>
                   <div className='links'>
-                    {announcement.get('links').map((link, i) => (
+                    {entry.get('links').map((link, i) => (
                       link.get('link') === true
                       ? <Link to={link.get('href')}>
                           {link.get('body')}
