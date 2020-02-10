@@ -286,7 +286,7 @@ GEM
     httparty (0.17.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    httplog (1.4.1)
+    httplog (1.4.2)
       rack (>= 1.0)
       rainbow (>= 2.0.0)
     i18n (1.8.2)
@@ -716,7 +716,7 @@ DEPENDENCIES
   http_accept_language (~> 2.1)
   http_parser.rb (~> 0.6)!
   httparty
-  httplog (~> 1.4.1)
+  httplog (~> 1.4.2)
   i18n-tasks (~> 0.9)
   idn-ruby
   iso-639
