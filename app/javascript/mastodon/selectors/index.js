@@ -104,12 +104,12 @@ export const makeGetStatus = () => {
         statusReblog = null;
       }
 
-      const dropRegex = (accountReblog || accountBase).get('id') !== me && filtersRegex[0];
+      const dropRegex = filtersRegex[0];
       if (dropRegex && dropRegex.test(statusBase.get('reblog') ? statusReblog.get('search_index') : statusBase.get('search_index'))) {
         return null;
       }
 
-      const regex     = (accountReblog || accountBase).get('id') !== me && filtersRegex[1];
+      const regex     = filtersRegex[1];
       const filtered  = regex && regex.test(statusBase.get('reblog') ? statusReblog.get('search_index') : statusBase.get('search_index'));
 
       return statusBase.withMutations(map => {
