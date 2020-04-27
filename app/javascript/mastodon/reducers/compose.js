@@ -316,6 +316,9 @@ export default function compose(state = initialState, action) {
               if (entry.episode) {
                 tags.push('' + entry.episode + '話');
               }
+              entry.extra_tags.map(tag => {
+                tags.push(tag)
+              });
               const toot = ['command: user_config', 'tags:'];
               tags.map(tag => {toot.push('- ' + tag)})
               return toot.join("\n");
