@@ -270,6 +270,9 @@ class TagsetDropdown extends React.PureComponent {
       if (v.air) {
         meta.push('エア番組');
       }
+      v.extra_tags.map(tag => {
+        meta.push(tag)
+      });
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
   }
