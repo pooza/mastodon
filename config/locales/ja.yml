@@ -209,7 +209,7 @@ ja:
         destroy_domain_allow: ドメインホワイトリストから削除
         destroy_domain_block: ドメインブロックを削除
         destroy_email_domain_block: メールドメインブロックを削除
-        destroy_status: トゥートを削除
+        destroy_status: キュア！を削除
         disable_2fa_user: 二段階認証を無効にする
         disable_custom_emoji: カスタム絵文字を無効化
         disable_user: ユーザーを無効化
@@ -1104,7 +1104,7 @@ ja:
     disallowed_hashtags:
       other: '許可されていないハッシュタグが含まれています: %{tags}'
     errors:
-      in_reply_not_found: あなたが返信しようとしているトゥートは存在しないようです。
+      in_reply_not_found: あなたが返信しようとしているキュア！は存在しないようです。
     language_detection: 自動検出
     open_in_web: Webで開く
     over_character_limit: 上限は %{max}文字までです
