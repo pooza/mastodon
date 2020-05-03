@@ -16,7 +16,7 @@
     = t 'admin.announcements.empty'
 - else
   .announcements-list
-    = render partial: 'announcement', collection: @announcements
+    = render partial: 'announcement', collection: @announcements.reverse
 
 = paginate @announcements
 
