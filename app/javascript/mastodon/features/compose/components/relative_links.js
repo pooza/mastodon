@@ -16,7 +16,7 @@ const links = Immutable.fromJS([
   {
     body: 'お知らせ',
     links: [
-      {href: 'https://precure.ml/@infomation', body: 'お知らせアカウント'},
+      {href: 'https://precure.ml/@infomation', body: 'お知らせボット'},
       {href: 'https://growi.b-shock.org/curesta/過去のお知らせ', body: '過去のお知らせ'}
     ]
   }
