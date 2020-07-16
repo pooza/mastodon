@@ -173,7 +173,7 @@ GEM
     crass (1.0.6)
     css_parser (1.7.1)
       addressable
-    csv (3.1.1)
+    csv (3.1.5)
     debug_inspector (0.0.3)
     devise (4.7.2)
       bcrypt (~> 3.0)
