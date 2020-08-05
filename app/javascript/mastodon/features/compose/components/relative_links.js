@@ -8,16 +8,16 @@ const links = Immutable.fromJS([
   {
     body: 'キュアスタ！Wiki',
     links: [
-      {href: 'https://growi.b-shock.org/curesta', body: 'Wikiトップ' },
-      {href: 'https://growi.b-shock.org/curesta/新規さん向け', body: '新規さん向け'},
-      {href: 'https://growi.b-shock.org/curesta/イベント/実況', body: '実況'}
+      {href: 'https://blog.precure.ml/', body: 'Wikiトップ' },
+      {href: 'https://blog.precure.ml/categories/新規さん向け', body: '新規さん向け'},
+      {href: 'https://blog.precure.ml/articles/実況', body: '実況'}
     ]
   },
   {
     body: 'お知らせ',
     links: [
       {href: 'https://precure.ml/@infomation', body: 'お知らせボット'},
-      {href: 'https://growi.b-shock.org/curesta/過去のお知らせ', body: '過去のお知らせ'}
+      {href: 'https://blog.precure.ml/categories/お知らせ', body: '過去のお知らせ'}
     ]
   }
 ]);
