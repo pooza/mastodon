@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 
 const links = Immutable.fromJS([
   {
-    body: 'キュアスタ！Wiki',
+    body: 'キュアスタ！Blog',
     links: [
-      {href: 'https://blog.precure.ml/', body: 'Wikiトップ' },
+      {href: 'https://blog.precure.ml/', body: 'Blog Home'},
       {href: 'https://blog.precure.ml/categories/新規さん向け', body: '新規さん向け'},
       {href: 'https://blog.precure.ml/articles/実況', body: '実況'}
     ]
