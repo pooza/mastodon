@@ -19,6 +19,7 @@ dotenv.config({
 });
 
 log.level = process.env.LOG_LEVEL || 'verbose';
+log.stream = process.stdout
 
 const dbUrlToConfig = (dbUrl) => {
   if (!dbUrl) {
