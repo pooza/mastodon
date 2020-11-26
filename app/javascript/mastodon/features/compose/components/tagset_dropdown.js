@@ -250,7 +250,7 @@ class TagsetDropdown extends React.PureComponent {
     ];
 
     const request = new XMLHttpRequest();
-    request.open('GET', '/mulukhiya/programs', false);
+    request.open('GET', '/mulukhiya/api/program', false);
     request.send(null);
     if (request.status != 200) {
       console.error('%j', request);
