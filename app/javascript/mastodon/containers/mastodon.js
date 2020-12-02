@@ -45,7 +45,7 @@ class MastodonMount extends React.PureComponent {
     const { showIntroduction } = this.props;
 
     if (showIntroduction) {
-      //return <Introduction />;
+      return <Introduction />;
     }
 
     return (
