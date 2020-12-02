@@ -1,3 +1,3 @@
-export default inputFile => new Promise((resolve, reject) => {
+export default inputFile => new Promise((resolve) => {
   resolve(inputFile);
 });
