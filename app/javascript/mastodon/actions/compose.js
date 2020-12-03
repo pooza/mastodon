@@ -47,6 +47,8 @@ export const COMPOSE_SENSITIVITY_CHANGE = 'COMPOSE_SENSITIVITY_CHANGE';
 export const COMPOSE_SPOILERNESS_CHANGE = 'COMPOSE_SPOILERNESS_CHANGE';
 export const COMPOSE_SPOILER_TEXT_CHANGE = 'COMPOSE_SPOILER_TEXT_CHANGE';
 export const COMPOSE_VISIBILITY_CHANGE  = 'COMPOSE_VISIBILITY_CHANGE';
+export const COMPOSE_TAGSET_CHANGE  = 'COMPOSE_TAGSET_CHANGE';
+export const COMPOSE_LIVECURES_VISIBILITY_TOGGLE  = 'COMPOSE_LIVECURES_VISIBILITY_TOGGLE';
 export const COMPOSE_LISTABILITY_CHANGE = 'COMPOSE_LISTABILITY_CHANGE';
 export const COMPOSE_COMPOSING_CHANGE = 'COMPOSE_COMPOSING_CHANGE';
 
@@ -592,7 +594,22 @@ export function changeComposeVisibility(value) {
   };
 };
 
+export function toggleLivecuresVisibility(value) {
+  return {
+    type: COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
+    value,
+  };
+};
+
+export function changeTagset(value) {
+  return {
+    type: COMPOSE_TAGSET_CHANGE,
+    value,
+  };
+};
+
 export function insertEmojiCompose(position, emoji, needsSpace) {
+
   return {
     type: COMPOSE_EMOJI_INSERT,
     position,

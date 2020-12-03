@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import LivecureDropdown from '../components/livecure_dropdown';
-import { changeLivecureVisibility } from '../../../actions/compose';
+import { toggleLivecuresVisibility } from '../../../actions/compose';
 import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
 
@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
   onChange (value) {
-    dispatch(changeLivecureVisibility(value));
+    dispatch(toggleLivecuresVisibility(value));
   },
 
   isUserTouching,
