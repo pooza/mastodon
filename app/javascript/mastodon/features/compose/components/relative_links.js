@@ -6,20 +6,28 @@ import { Link } from 'react-router-dom';
 
 const links = Immutable.fromJS([
   {
+    body: 'モロヘイヤ',
+    links: [
+      {href: '/mulukhiya', body: 'Home'},
+      {href: '/mulukhiya/app/config', body: '設定'},
+      {href: '/mulukhiya/app/api', body: 'API'},
+    ],
+  },
+  {
     body: 'キュアスタ！Blog',
     links: [
-      {href: 'https://blog.precure.ml/', body: 'Blog Home'},
+      {href: 'https://blog.precure.ml/', body: 'Home'},
       {href: 'https://blog.precure.ml/categories/新規さん向け', body: '新規さん向け'},
-      {href: 'https://blog.precure.ml/articles/実況', body: '実況'}
-    ]
+      {href: 'https://blog.precure.ml/articles/実況', body: '実況'},
+    ],
   },
   {
     body: 'お知らせ',
     links: [
       {href: 'https://precure.ml/@infomation', body: 'お知らせボット'},
-      {href: 'https://blog.precure.ml/categories/お知らせ', body: '過去のお知らせ'}
-    ]
-  }
+      {href: 'https://blog.precure.ml/categories/お知らせ', body: '過去のお知らせ'},
+    ],
+  },
 ]);
 
 export default class RelativeLinks extends React.PureComponent {
