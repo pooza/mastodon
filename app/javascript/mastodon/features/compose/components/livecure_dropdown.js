@@ -19,7 +19,7 @@ const messages = defineMessages({
 
 const listenerOptions = supportsPassiveEvents ? { passive: true } : false;
 
-class LiveCureDropdownMenu extends React.PureComponent {
+class LivecureDropdownMenu extends React.PureComponent {
 
   static propTypes = {
     style: PropTypes.object,
@@ -145,7 +145,7 @@ class LiveCureDropdownMenu extends React.PureComponent {
 }
 
 export default @injectIntl
-class LiveCureDropdown extends React.PureComponent {
+class LivecureDropdown extends React.PureComponent {
 
   static propTypes = {
     isUserTouching: PropTypes.func,
@@ -260,7 +260,7 @@ class LiveCureDropdown extends React.PureComponent {
         </div>
 
         <Overlay show={open} placement={placement} target={this}>
-          <LiveCureDropdownMenu
+          <LivecureDropdownMenu
             items={this.options}
             value={value}
             onClose={this.handleClose}

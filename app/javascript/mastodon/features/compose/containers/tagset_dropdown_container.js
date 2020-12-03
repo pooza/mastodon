@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import TagSetDropdown from '../components/tagset_dropdown';
-import { changeTagSet } from '../../../actions/compose';
+import TagsetDropdown from '../components/tagset_dropdown';
+import { changeTagset } from '../../../actions/compose';
 import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
 
@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
   onChange (value) {
-    dispatch(changeTagSet(value));
+    dispatch(changeTagset(value));
   },
 
   isUserTouching,
@@ -21,4 +21,4 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagSetDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(TagsetDropdown);

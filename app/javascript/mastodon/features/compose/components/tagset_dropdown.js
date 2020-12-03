@@ -19,7 +19,7 @@ const messages = defineMessages({
 
 const listenerOptions = supportsPassiveEvents ? { passive: true } : false;
 
-class TagSetDropdownMenu extends React.PureComponent {
+class TagsetDropdownMenu extends React.PureComponent {
 
   static propTypes = {
     style: PropTypes.object,
@@ -145,7 +145,7 @@ class TagSetDropdownMenu extends React.PureComponent {
 }
 
 export default @injectIntl
-class TagSetDropdown extends React.PureComponent {
+class TagsetDropdown extends React.PureComponent {
 
   static propTypes = {
     isUserTouching: PropTypes.func,
@@ -287,7 +287,7 @@ class TagSetDropdown extends React.PureComponent {
         </div>
 
         <Overlay show={open} placement={placement} target={this}>
-          <TagSetDropdownMenu
+          <TagsetDropdownMenu
             items={this.options}
             value={value}
             onClose={this.handleClose}
