@@ -12,8 +12,6 @@ import Icon from 'mastodon/components/icon';
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
   empty_long: { id: 'tagset.empty.long', defaultMessage: 'Empty tagset' },
-  common_short: { id: 'tagset.common.short', defaultMessage: 'Common' },
-  common_long: { id: 'tagset.common.long', defaultMessage: 'Common tagset' },
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
 });
 
@@ -231,7 +229,6 @@ class TagsetDropdown extends React.PureComponent {
     this.options = [
       { icon: 'hashtag', value: '', text: '', meta: '' },
       { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
-      { icon: 'hashtag', value: 'common', text: formatMessage(messages.common_short), meta: formatMessage(messages.common_long) },
     ];
 
     const request = new XMLHttpRequest();
@@ -244,20 +241,12 @@ class TagsetDropdown extends React.PureComponent {
     const result = JSON.parse(request.responseText);
     for (const k of Object.keys(result)) {
       const v = result[k];
-      if (!v.enable) {
-        continue;
-      }
-      const text = '「' + v.series + '」用タグ';
+      if (!v.enable) {continue}
+      const text = `「${v.series}」用タグ`
       const meta = ['実況向けタグセット'];
-      if (v.episode) {
-        meta.push('' + v.episode + '話');
-      }
-      if (v.air) {
-        meta.push('エア番組');
-      }
-      v.extra_tags.map(tag => {
-        meta.push(tag);
-      });
+      if (v.episode) {meta.push(`${v.episode}話`)}
+      if (v.air) {meta.push('エア番組')}
+      v.extra_tags.map(tag => {meta.push(tag)});
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
   }

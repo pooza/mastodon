@@ -446,8 +446,6 @@
   "tabs_bar.notifications": "通知",
   "tabs_bar.search": "検索",
   "tagset.change": "タグセット",
-  "tagset.common.long": "実況向けの汎用的なタグセット",
-  "tagset.common.short": "実況汎用タグ",
   "tagset.empty.long": "タグセットのクリア",
   "tagset.empty.short": "タグなし",
   "time_remaining.days": "残り{number}日",
