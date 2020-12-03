@@ -20,7 +20,7 @@ const messages = defineMessages({
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
   public_timeline: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
   settings_subheading: { id: 'column_subheading.settings', defaultMessage: 'Settings' },
-  precure_timeline: { id: 'navigation_bar.precure_timeline', defaultMessage: 'precure_fun' },
+  precure_timeline: { id: 'navigation_bar.precure_timeline', defaultMessage: 'precure_fun timeline' },
   community_timeline: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Direct messages' },
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
@@ -104,7 +104,7 @@ class GettingStarted extends ImmutablePureComponent {
         <ColumnLink key='public_timeline' icon='globe' text={intl.formatMessage(messages.public_timeline)} to='/timelines/public' />,
       );
 
-      height += 34 + 48*2;
+      height += 34 + 48*3;
 
       if (profile_directory) {
         navItems.push(
