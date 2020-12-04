@@ -11,3 +11,5 @@ https://precure.ml
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - WebUIの画像リサイズ処理をキャンセル
 - 実況メニュー
+- 関連リンク表示
+- 「トゥート」→「キュア！」
