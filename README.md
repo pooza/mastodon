@@ -1,6 +1,6 @@
-# 美食丼
+# キュアスタ！
 
-https://mstdn.b-shock.org
+https://precure.ml
 
 フォーク元 https://github.com/tootsuite/mastodon
 
@@ -9,3 +9,4 @@ https://mstdn.b-shock.org
 - FreeBSD向けの調整
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - WebUIの画像リサイズ処理をキャンセル
+- 実況メニュー
