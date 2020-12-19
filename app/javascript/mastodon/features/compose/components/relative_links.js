@@ -6,12 +6,10 @@ import { Link } from 'react-router-dom';
 
 const links = Immutable.fromJS([
   {
-    body: 'モロヘイヤ',
+    body: 'お知らせ',
     links: [
-      {href: '/mulukhiya', body: 'Home'},
-      {href: '/mulukhiya/app/config', body: '設定'},
-      {href: '/mulukhiya/app/media', body: 'メディア'},
-      {href: '/mulukhiya/app/api', body: 'API'},
+      {href: 'https://precure.ml/@infomation', body: 'お知らせボット'},
+      {href: 'https://blog.precure.ml/categories/お知らせ', body: '過去のお知らせ'},
     ],
   },
   {
@@ -23,10 +21,12 @@ const links = Immutable.fromJS([
     ],
   },
   {
-    body: 'お知らせ',
+    body: 'モロヘイヤ',
     links: [
-      {href: 'https://precure.ml/@infomation', body: 'お知らせボット'},
-      {href: 'https://blog.precure.ml/categories/お知らせ', body: '過去のお知らせ'},
+      {href: '/mulukhiya', body: 'Home'},
+      {href: '/mulukhiya/app/config', body: '設定'},
+      {href: '/mulukhiya/app/media', body: 'メディア'},
+      {href: '/mulukhiya/app/api', body: 'API'},
     ],
   },
 ]);
@@ -44,7 +44,7 @@ export default class RelativeLinks extends React.PureComponent {
       <div className='relative_links'>
         <div className='compose__extra__header'>
           <i className='fa fa-link' />
-          関連リンク
+          キュアスタ！関連リンク
           <button className='compose__extra__header__icon' onClick={onToggle} >
             <i className={caretClass} />
           </button>
