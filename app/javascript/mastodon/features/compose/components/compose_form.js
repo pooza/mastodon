@@ -250,8 +250,8 @@ class ComposeForm extends ImmutablePureComponent {
             <PollButtonContainer />
             <PrivacyDropdownContainer />
             <SpoilerButtonContainer />
-            <LivecureDropdownContainer />
             <TagsetDropdownContainer />
+            <LivecureDropdownContainer />
           </div>
           <div className='character-counter__wrapper'><CharacterCounter max={500} text={this.getFulltextForCharacterCounting()} /></div>
         </div>

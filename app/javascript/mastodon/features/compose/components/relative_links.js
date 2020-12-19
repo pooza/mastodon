@@ -10,6 +10,7 @@ const links = Immutable.fromJS([
     links: [
       {href: '/mulukhiya', body: 'Home'},
       {href: '/mulukhiya/app/config', body: '設定'},
+      {href: '/mulukhiya/app/media', body: 'メディア'},
       {href: '/mulukhiya/app/api', body: 'API'},
     ],
   },
