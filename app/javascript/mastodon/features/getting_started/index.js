@@ -21,7 +21,7 @@ const messages = defineMessages({
   public_timeline: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
   settings_subheading: { id: 'column_subheading.settings', defaultMessage: 'Settings' },
   precure_timeline: { id: 'navigation_bar.precure_timeline', defaultMessage: 'precure_fun timeline' },
-  livecure_timeline: { id: 'navigation_bar.livecure_timeline', defaultMessage: 'livecure timeline' },
+  livecure_timeline: { id: 'navigation_bar.livecure_timeline', defaultMessage: '実況 timeline' },
   community_timeline: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Direct messages' },
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
