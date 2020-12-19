@@ -11,6 +11,7 @@ import TrendsContainer from 'mastodon/features/getting_started/containers/trends
 const NavigationPanel = () => (
   <div className='navigation-panel'>
     <NavLink className='column-link column-link--transparent' to='/timelines/tag/precure_fun' data-preview-title-id='column.precure' data-preview-icon='hashtag'><Icon className='column-link__icon' id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.precure_timeline' defaultMessage='precure_fun' /></NavLink>
+    <NavLink className='column-link column-link--transparent' to='/timelines/tag/実況' data-preview-title-id='column.livecure' data-preview-icon='hashtag'><Icon className='column-link__icon' id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.livecure_timeline' defaultMessage='livecure' /></NavLink>
     <NavLink className='column-link column-link--transparent' to='/timelines/home' data-preview-title-id='column.home' data-preview-icon='home' ><Icon className='column-link__icon' id='home' fixedWidth /><FormattedMessage id='tabs_bar.home' defaultMessage='Home' /></NavLink>
     <NavLink className='column-link column-link--transparent' to='/notifications' data-preview-title-id='column.notifications' data-preview-icon='bell' ><NotificationsCounterIcon className='column-link__icon' /><FormattedMessage id='tabs_bar.notifications' defaultMessage='Notifications' /></NavLink>
     <FollowRequestsNavLink />

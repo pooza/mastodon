@@ -9,6 +9,7 @@ import NotificationsCounterIcon from './notifications_counter_icon';
 
 export const links = [
   <NavLink className='tabs-bar__link' to='/timelines/tag/precure_fun' data-preview-title-id='column.precure' data-preview-icon='hashtag' ><Icon id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.precure_timeline' defaultMessage='precure_fun' /></NavLink>,
+  <NavLink className='tabs-bar__link' to='/timelines/tag/実況' data-preview-title-id='column.livecure' data-preview-icon='hashtag' ><Icon id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.livecure_timeline' defaultMessage='livecure' /></NavLink>,
   <NavLink className='tabs-bar__link' to='/timelines/home' data-preview-title-id='column.home' data-preview-icon='home' ><Icon id='home' fixedWidth /><FormattedMessage id='tabs_bar.home' defaultMessage='Home' /></NavLink>,
   <NavLink className='tabs-bar__link' to='/notifications' data-preview-title-id='column.notifications' data-preview-icon='bell' ><NotificationsCounterIcon /><FormattedMessage id='tabs_bar.notifications' defaultMessage='Notifications' /></NavLink>,
   <NavLink className='tabs-bar__link' exact to='/timelines/public' data-preview-title-id='column.public' data-preview-icon='globe' ><Icon id='globe' fixedWidth /><FormattedMessage id='tabs_bar.federated_timeline' defaultMessage='Federated' /></NavLink>,
