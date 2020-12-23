@@ -21,10 +21,10 @@ import { logOut } from 'mastodon/utils/log_out';
 
 const messages = defineMessages({
   start: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
+  precure_timeline: { id: 'tabs_bar.precure_timeline', defaultMessage: 'precure_fun' },
   home_timeline: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
   public: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
-  precure: { id: 'navigation_bar.precure_timeline', defaultMessage: 'precure_fun' },
   livecure: { id: 'navigation_bar.livecure_timeline', defaultMessage: 'livecure' },
   community: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   preferences: { id: 'navigation_bar.preferences', defaultMessage: 'Preferences' },
@@ -107,9 +107,7 @@ class Compose extends React.PureComponent {
           {!columns.some(column => column.get('id') === 'NOTIFICATIONS') && (
             <Link to='/notifications' className='drawer__tab' title={intl.formatMessage(messages.notifications)} aria-label={intl.formatMessage(messages.notifications)}><Icon id='bell' fixedWidth /></Link>
           )}
-          {!columns.some(column => column.get('id') === 'COMMUNITY') && (
-            <Link to='/timelines/public/local' className='drawer__tab' title={intl.formatMessage(messages.community)} aria-label={intl.formatMessage(messages.community)}><Icon id='users' fixedWidth /></Link>
-          )}
+          <Link to='/timelines/tag/precure_fun' className='drawer__tab' title={intl.formatMessage(messages.precure_timeline)} aria-label={intl.formatMessage(messages.precure_timeline)}><Icon id='hashtag' fixedWidth /></Link>
           {!columns.some(column => column.get('id') === 'PUBLIC') && (
             <Link to='/timelines/public' className='drawer__tab' title={intl.formatMessage(messages.public)} aria-label={intl.formatMessage(messages.public)}><Icon id='globe' fixedWidth /></Link>
           )}
