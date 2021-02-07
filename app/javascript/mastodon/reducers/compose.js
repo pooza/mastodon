@@ -313,8 +313,9 @@ export default function compose(state = initialState, action) {
             if (entry.air) {tags.push('エア番組')}
             if (entry.episode) {tags.push(`${entry.episode}話`)}
             entry.extra_tags.map(tag => {tags.push(tag)});
-            const toot = ['command: user_config', 'tags:'];
-            tags.map(tag => {toot.push(`- ${tag}`)});
+            const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+            tags.map(tag => {toot.push(`  - ${tag}`)});
+            if (entry.minutes) {toot.push(`  minutes: ${entry.minutes}`)}
             return toot.join("\n");
           }
           return '';
