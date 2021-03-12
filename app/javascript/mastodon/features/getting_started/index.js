@@ -20,7 +20,7 @@ const messages = defineMessages({
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
   public_timeline: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
   settings_subheading: { id: 'column_subheading.settings', defaultMessage: 'Settings' },
-  precure_timeline: { id: 'navigation_bar.precure_timeline', defaultMessage: 'precure_fun timeline' },
+  delmulin_timeline: { id: 'navigation_bar.delmulin_timeline', defaultMessage: 'delmulin timeline' },
   livecure_timeline: { id: 'navigation_bar.livecure_timeline', defaultMessage: '実況 timeline' },
   community_timeline: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Direct messages' },
@@ -100,7 +100,7 @@ class GettingStarted extends ImmutablePureComponent {
     if (multiColumn) {
       navItems.push(
         <ColumnSubheading key='header-discover' text={intl.formatMessage(messages.discover)} />,
-        <ColumnLink key='precure_timeline' icon='hashtag' text={intl.formatMessage(messages.precure_timeline)} to='/timelines/tag/precure_fun' />,
+        <ColumnLink key='delmulin_timeline' icon='hashtag' text={intl.formatMessage(messages.delmulin_timeline)} to='/timelines/tag/delmulin' />,
         <ColumnLink key='livecure_timeline' icon='hashtag' text={intl.formatMessage(messages.livecure_timeline)} to='/timelines/tag/実況' />,
         <ColumnLink key='community_timeline' icon='users' text={intl.formatMessage(messages.community_timeline)} to='/timelines/public/local' />,
         <ColumnLink key='public_timeline' icon='globe' text={intl.formatMessage(messages.public_timeline)} to='/timelines/public' />,

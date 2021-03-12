@@ -8,16 +8,16 @@ const links = Immutable.fromJS([
   {
     body: 'お知らせ',
     links: [
-      {href: 'https://precure.ml/@infomation', body: 'お知らせボット'},
-      {href: 'https://blog.precure.ml/categories/お知らせ', body: '過去のお知らせ'},
+      {href: 'https://mstdn.delmulin.com/@info', body: 'お知らせボット'},
+      {href: 'https://blog.delmulin.com/categories/お知らせ', body: '過去のお知らせ'},
     ],
   },
   {
-    body: 'キュアスタ！Blog',
+    body: 'デルムリン丼Blog',
     links: [
-      {href: 'https://blog.precure.ml/', body: 'Home'},
-      {href: 'https://blog.precure.ml/categories/新規さん向け', body: '新規さん向け'},
-      {href: 'https://blog.precure.ml/articles/実況', body: '実況'},
+      {href: 'https://blog.delmulin.com/', body: 'Home'},
+      {href: 'https://blog.delmulin.com/categories/新規さん向け', body: '新規さん向け'},
+      {href: 'https://blog.delmulin.com/articles/実況', body: '実況'},
     ],
   },
   {
@@ -44,7 +44,7 @@ export default class RelativeLinks extends React.PureComponent {
       <div className='relative_links'>
         <div className='compose__extra__header'>
           <i className='fa fa-link' />
-          キュアスタ！関連リンク
+          デルムリン丼関連リンク
           <button className='compose__extra__header__icon' onClick={onToggle} >
             <i className={caretClass} />
           </button>

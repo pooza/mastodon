@@ -135,12 +135,12 @@ ja:
       read:notifications: 通知の読み取り
       read:reports: 通報の読み取り
       read:search: あなたの代わりに検索
-      read:statuses: すべてのキュア！の読み取り
+      read:statuses: すべてのトゥートの読み取り
       write: アカウントのすべてのデータの変更
       write:accounts: プロフィールの変更
       write:blocks: ユーザーのブロックやドメインの非表示
-      write:bookmarks: キュア！のブックマーク登録
-      write:favourites: キュア！のお気に入り登録
+      write:bookmarks: トゥートのブックマーク登録
+      write:favourites: トゥートのお気に入り登録
       write:filters: フィルターの変更
       write:follows: あなたの代わりにフォロー、アンフォロー
       write:lists: リストの変更
@@ -148,4 +148,4 @@ ja:
       write:mutes: アカウントや会話のミュート
       write:notifications: 通知の消去
       write:reports: 通報の作成
-      write:statuses: キュア！の投稿
+      write:statuses: トゥートの投稿

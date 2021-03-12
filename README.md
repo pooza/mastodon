@@ -1,6 +1,6 @@
-# キュアスタ！
+# デルムリン丼(仮)
 
-https://precure.ml
+https://mstdn.delmulin.com
 
 フォーク元 https://github.com/tootsuite/mastodon
 
@@ -12,4 +12,3 @@ https://precure.ml
   - WebUIの画像リサイズ処理をキャンセル
 - 実況メニュー
 - 関連リンク表示
-- 「トゥート」→「キュア！」
