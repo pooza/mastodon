@@ -41,7 +41,7 @@ ja:
       reason: 制限理由
       rejecting_media: 'これらのサーバーからのメディアファイルは処理されず、保存や変換もされません。サムネイルも表示されません。表示するにはクリックしてそのサーバーに直接アクセスする必要があります:'
       rejecting_media_title: メディアを拒否しているサーバー
-      silenced: 'これらのサーバーからの投稿は公開タイムラインと会話から隠されます。また該当するユーザーからの通知は相手をフォローしている場合を除き表示されません:'
+      silenced: 'これらのサーバーからのキュア！は公開タイムラインと会話から隠されます。また該当するユーザーからの通知は相手をフォローしている場合を除き表示されません:'
       silenced_title: サイレンス済みのサーバー
       suspended: 'これらのサーバーからのデータは処理されず、保存や変換もされません。該当するユーザーとの交流もできません:'
       suspended_title: 停止済みのサーバー
@@ -225,7 +225,7 @@ ja:
         create_domain_block: ドメインブロックを作成
         create_email_domain_block: メールドメインブロックを作成
         create_ip_block: IPルールを作成
-        create_unavailable_domain: 利用できないドメインを作成
+        create_unavailable_domain: 配送できないドメインを作成
         demote_user: ユーザーを降格
         destroy_announcement: お知らせを削除
         destroy_custom_emoji: カスタム絵文字を削除
@@ -276,7 +276,7 @@ ja:
         destroy_domain_block_html: "%{name} さんがドメイン %{target} のブロックを外しました"
         destroy_email_domain_block_html: "%{name} さんが %{target} をメールドメインブロックから外しました"
         destroy_ip_block_html: "%{name} さんが IP %{target} のルールを削除しました"
-        destroy_status_html: "%{name} さんが %{target} さんの投稿を削除しました"
+        destroy_status_html: "%{name} さんが %{target} さんのキュア！を削除しました"
         destroy_unavailable_domain_html: "%{name} がドメイン %{target} への配送を再開しました"
         disable_2fa_user_html: "%{name} さんが %{target} さんの二段階認証を無効化しました"
         disable_custom_emoji_html: "%{name} さんがカスタム絵文字 %{target} を無効化しました"
@@ -299,7 +299,7 @@ ja:
         update_announcement_html: "%{name} さんがお知らせ %{target} を更新しました"
         update_custom_emoji_html: "%{name} さんがカスタム絵文字 %{target} を更新しました"
         update_domain_block_html: "%{name} が %{target} のドメインブロックを更新しました"
-        update_status_html: "%{name} さんが %{target} さんの投稿を更新しました"
+        update_status_html: "%{name} さんが %{target} さんのキュア！を更新しました"
       deleted_status: "(削除済)"
       empty: ログが見つかりませんでした
       filter_by_action: アクションでフィルター
@@ -459,13 +459,13 @@ ja:
         restart: 配送を再開
         stop: 配送を停止
         title: 配送
-        unavailable: 使用不可
+        unavailable: 配送不可
         unavailable_message: 配送不可
         warning: 警告あり
         warning_message:
           other: "%{count} 日配送失敗"
       delivery_available: 配送可能
-      delivery_error_days: 配送エラー日数
+      delivery_error_days: 配送エラー発生日
       delivery_error_hint: "%{count} 日間配送ができない場合は、自動的に配送不可としてマークされます。"
       empty: ドメインが見つかりませんでした。
       known_accounts:
@@ -566,7 +566,7 @@ ja:
     rules:
       add_new: ルールを追加
       delete: 削除
-      description_html: ほとんどの人が利用規約を読んで同意したと主張しますが、通常は問題が発生するまで読みません。<strong>箇条書きにして、サーバーのルールが一目で分かるようにしましょう</strong>。個々のルールは短くシンプルなものにし、多くの項目に分割しないようにしましょう。
+      description_html: たいていの人が利用規約を読んで同意したと言いますが、普通は問題が発生するまで読みません。<strong>箇条書きにして、サーバーのルールが一目で分かるようにしましょう</strong>。個々のルールは短くシンプルなものにし、多くの項目に分割しないようにしましょう。
       edit: ルールを編集
       empty: サーバーのルールが定義されていません。
       title: サーバーのルール
@@ -575,8 +575,8 @@ ja:
         desc_html: 週ごとのローカルに投稿されたキュア！数、アクティブなユーザー数、新規登録者数
         title: ユーザーアクティビティに関する統計を公開する
       bootstrap_timeline_accounts:
-        desc_html: 複数のユーザー名はコンマで区切ります。ローカルの公開アカウントのみ有効です。指定しない場合は管理者がデフォルトで指定されます。
-        title: 新規ユーザーが自動フォローするアカウント
+        desc_html: 複数のユーザー名を指定する場合コンマで区切ります。おすすめに表示されます。
+        title: 新規ユーザーにおすすめするアカウント
       contact_information:
         email: ビジネスメールアドレス
         username: 連絡先ユーザー名
@@ -843,7 +843,7 @@ ja:
     warning:
       before: '続行する前に、次の点を再度確認してください:'
       caches: 他のサーバーにコンテンツのキャッシュがずっと残る場合があります
-      data_removal: あなたの投稿やその他のデータはこのサーバーから完全に削除されます
+      data_removal: あなたのキュア！やその他のデータはこのサーバーから完全に削除されます
       email_change_html: アカウントを削除しなくても<a href="%{path}">メールアドレスを変更</a>できます
       email_contact_html: それでも届かない場合、<a href="mailto:%{email}">%{email}</a> までメールで問い合わせてください
       email_reconfirmation_html: 確認のメールが届かない場合、<a href="%{path}">もう一度申請</a>できます。
@@ -894,7 +894,7 @@ ja:
     add_new: 追加
     errors:
       limit: 注目のハッシュタグの上限に達しました
-    hint_html: "<strong>注目のハッシュタグとは？</strong>プロフィールページに目立つ形で表示され、そのハッシュタグのついたあなたの公開投稿だけを抽出して閲覧できるようにします。クリエイティブな仕事や長期的なプロジェクトを追うのに優れた機能です。"
+    hint_html: "<strong>注目のハッシュタグとは？</strong>プロフィールページに目立つ形で表示され、そのハッシュタグのついたあなたの公開キュア！だけを抽出して閲覧できるようにします。クリエイティブな仕事や長期的なプロジェクトを追うのに優れた機能です。"
   filters:
     contexts:
       account: プロフィール
@@ -1069,7 +1069,7 @@ ja:
       subject: "%{name} さんにブーストされました"
       title: 新たなブースト
     status:
-      subject: "%{name} さんが投稿しました"
+      subject: "%{name} さんがキュア！しました"
   notifications:
     email_events: メールによる通知
     email_events_hint: '受信する通知を選択:'
@@ -1111,7 +1111,7 @@ ja:
       too_many_options: は%{max}個までです
   preferences:
     other: その他
-    posting_defaults: デフォルトの投稿設定
+    posting_defaults: デフォルトのキュア！設定
     public_timelines: 公開タイムライン
   reactions:
     errors:
@@ -1152,8 +1152,8 @@ ja:
       proceed: 返信する
       prompt: '返信しようとしています:'
   scheduled_statuses:
-    over_daily_limit: その日予約できる投稿数 %{limit} を超えています
-    over_total_limit: 予約できる投稿数 %{limit} を超えています
+    over_daily_limit: その日予約できるキュア！数 %{limit} を超えています
+    over_total_limit: 予約できるキュア！数 %{limit} を超えています
     too_soon: より先の時間を指定してください
   sessions:
     activity: 最後のアクティビティ
