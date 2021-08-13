@@ -1,4 +1,7 @@
 default: styles/application.scss
 contrast: styles/contrast.scss
-bshock: styles/bshock.scss
 mastodon-light: styles/mastodon-light.scss
+
+#Added theme
+bshock: styles/bshock.scss
+mastodon-material: styles/mastodon-material.scss
