@@ -1,8 +1,8 @@
-# デルムリン丼(仮)
+# デルムリン丼
 
 https://mstdn.delmulin.com
 
-フォーク元 https://github.com/tootsuite/mastodon
+フォーク元 https://github.com/mastodon/mastodon
 
 ## 変更点
 
