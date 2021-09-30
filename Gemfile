@@ -6,7 +6,7 @@ ruby '>= 2.5.0', '< 3.1.0'
 gem 'pkg-config', '~> 1.4'
 
 gem 'puma', '~> 5.3'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 6.1.3', '>= 6.1.4.1' # CVE-2021-22942
 gem 'sprockets', '~> 3.7.2'
 gem 'thor', '~> 1.1'
 gem 'rack', '~> 2.2.3'
@@ -60,7 +60,7 @@ gem 'idn-ruby', require: 'idn'
 gem 'kaminari', '~> 1.2'
 gem 'link_header', '~> 0.0'
 gem 'mime-types', '~> 3.3.1', require: 'mime/types/columnar'
-gem 'nokogiri', '~> 1.11'
+gem 'nokogiri', '>= 1.12.5' # CVE-2021-41098
 gem 'nsa', '~> 0.2'
 gem 'oj', '~> 3.11'
 gem 'ox', '~> 2.14'
