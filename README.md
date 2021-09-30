@@ -2,7 +2,7 @@
 
 https://precure.ml
 
-フォーク元 https://github.com/tootsuite/mastodon
+フォーク元 https://github.com/mastodon/mastodon
 
 ## 変更点
 
