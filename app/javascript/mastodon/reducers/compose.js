@@ -295,14 +295,13 @@ export default function compose(state = initialState, action) {
   case COMPOSE_TAGSET_CHANGE:
     switch (action.value) {
       case 'empty':
-        return state.set('text', "command: user_config\ntags: null");
+        return state.set('text',['command: user_config', 'tagging:', '  user_tags: null'].join("\n"));
       default:
         const createToot = name => {
           const request = new XMLHttpRequest();
           request.open('GET', '/mulukhiya/api/program', false);
           request.send(null);
           if (request.status != 200) {
-            console.error('%j', request);
             return '';
           }
           const result = JSON.parse(request.responseText);
