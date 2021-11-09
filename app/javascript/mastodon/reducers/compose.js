@@ -310,7 +310,7 @@ export default function compose(state = initialState, action) {
             const entry = result[k];
             const tags = ['実況', entry.series];
             if (entry.air) {tags.push('エア番組')}
-            if (entry.episode) {tags.push(`${entry.episode}話`)}
+            if (entry.episode) {tags.push(`${entry.episode}${entry.episode_suffix || '話'}`)}
             entry.extra_tags.map(tag => {tags.push(tag)});
             const toot = ['command: user_config', 'tagging:', '  user_tags:'];
             tags.map(tag => {toot.push(`  - ${tag}`)});
