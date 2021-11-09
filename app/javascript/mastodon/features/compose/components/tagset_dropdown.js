@@ -244,7 +244,7 @@ class TagsetDropdown extends React.PureComponent {
       if (!v.enable) {continue}
       const text = `「${v.series}」用タグセット`;
       const meta = ['実況の開始'];
-      if (v.episode) {meta.push(`${v.episode}話`)}
+      if (v.episode) {meta.push(`${v.episode}${v.episode_suffix || '話'}`)}
       if (v.air) {meta.push('エア番組')}
       if (v.minutes) {meta.push(`(${v.minutes}分)`)}
       v.extra_tags.map(tag => {meta.push(tag)});
