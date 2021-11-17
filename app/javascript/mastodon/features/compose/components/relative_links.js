@@ -18,6 +18,7 @@ const links = Immutable.fromJS([
       {href: 'https://blog.delmulin.com/', body: 'Home'},
       {href: 'https://blog.delmulin.com/categories/新規さん向け', body: '新規さん向け'},
       {href: 'https://blog.delmulin.com/articles/実況', body: '実況'},
+      {href: 'https://blog.delmulin.com/articles/魂の絆', body: '「魂の絆」画像等の著作権'},
     ],
   },
   {
