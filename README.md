@@ -12,3 +12,4 @@ https://mstdn.delmulin.com
   - WebUIの画像リサイズ処理をキャンセル
 - 実況メニュー
 - 関連リンク表示
+- CWでの投稿をデフォルトに
