@@ -5,8 +5,8 @@ ruby '>= 2.5.0', '< 3.1.0'
 
 gem 'pkg-config', '~> 1.4'
 
-gem 'puma', '>= 5.6.2' # CVE-2022-23634
-gem 'rails', '>= 6.1.4.6' # CVE-2022-23633
+gem 'puma', '>= 5.5.1' # CVE-2021-41136
+gem 'rails', '~> 6.1.3', '>= 6.1.4.1' # CVE-2021-22942
 gem 'sprockets', '~> 3.7.2'
 gem 'thor', '~> 1.1'
 gem 'rack', '~> 2.2.3'
