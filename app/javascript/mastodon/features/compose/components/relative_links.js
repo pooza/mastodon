@@ -24,8 +24,9 @@ const links = Immutable.fromJS([
     body: 'モロヘイヤ',
     links: [
       {href: '/mulukhiya', body: 'Home'},
-      {href: '/mulukhiya/app/config', body: '設定'},
+      {href: '/mulukhiya/app/status', body: 'キュア！'},
       {href: '/mulukhiya/app/media', body: 'メディア'},
+      {href: '/mulukhiya/app/config', body: '設定'},
       {href: '/mulukhiya/app/api', body: 'API'},
     ],
   },
