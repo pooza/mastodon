@@ -403,6 +403,8 @@ GEM
     nokogiri (1.13.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
+    nokogiri (1.13.3-x86_64-linux)
+      racc (~> 1.4)
     nsa (0.2.8)
       activesupport (>= 4.2, < 7)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -510,9 +512,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
-    rails-i18n (6.0.0)
+    rails-i18n (7.0.3)
       i18n (>= 0.7, < 2)
-      railties (>= 6.0.0, < 7)
+      railties (>= 6.0.0, < 8)
     rails-settings-cached (0.7.2)
       rails (>= 4.2.0)
     railties (6.1.5)
@@ -724,6 +726,7 @@ GEM
 
 PLATFORMS
   x86_64-freebsd-13
+  x86_64-linux
 
 DEPENDENCIES
   active_model_serializers (~> 0.10)
@@ -812,7 +815,7 @@ DEPENDENCIES
   rack-cors (~> 1.1)
   rails (~> 6.1.5)
   rails-controller-testing (~> 1.0)
-  rails-i18n (~> 6.0)
+  rails-i18n (~> 7.0)
   rails-settings-cached (~> 0.6)
   rdf-normalize (~> 0.5)
   redis (~> 4.5)
