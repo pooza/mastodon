@@ -1161,10 +1161,10 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@github/webauthn-json@^0.5.7":
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/@github/webauthn-json/-/webauthn-json-0.5.7.tgz#143bc67f6e0f75f8d188e565741507bb08c31214"
-  integrity sha512-SUYsttDxFSvWvvJssJpwzjmRCqYfdfqC9VCmAHQYfdKCVelyJteCHo9/lK1CB72mx/jrl6cFNY08aua4J2jIyg==
+"@github/webauthn-json@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@github/webauthn-json/-/webauthn-json-1.0.2.tgz#0c76ca18ed17499644a4b90def2e9a3f513ccecc"
+  integrity sha512-McraEthBy9ZTmTSMTxda94sNSQ8VBGudaZ9Ci++JgAhg/A2fXxlsZbJYp0ZtlVWpwJX0uel9QcxtjkkdyomzzQ==
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
