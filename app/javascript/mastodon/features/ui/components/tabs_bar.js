@@ -9,11 +9,10 @@ import NotificationsCounterIcon from './notifications_counter_icon';
 
 export const links = [
   <NavLink className='tabs-bar__link' to='/timelines/tag/delmulin' data-preview-title-id='column.delmulin' data-preview-icon='hashtag' ><Icon id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.delmulin_timeline' defaultMessage='delmulin' /></NavLink>,
-  <NavLink className='tabs-bar__link' to='/timelines/tag/実況' data-preview-title-id='column.livecure' data-preview-icon='hashtag' ><Icon id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.livecure_timeline' defaultMessage='livecure' /></NavLink>,
-  <NavLink className='tabs-bar__link' to='/timelines/home' data-preview-title-id='column.home' data-preview-icon='home' ><Icon id='home' fixedWidth /><FormattedMessage id='tabs_bar.home' defaultMessage='Home' /></NavLink>,
+  <NavLink className='tabs-bar__link' to='/home' data-preview-title-id='column.home' data-preview-icon='home' ><Icon id='home' fixedWidth /><FormattedMessage id='tabs_bar.home' defaultMessage='Home' /></NavLink>,
   <NavLink className='tabs-bar__link' to='/notifications' data-preview-title-id='column.notifications' data-preview-icon='bell' ><NotificationsCounterIcon /><FormattedMessage id='tabs_bar.notifications' defaultMessage='Notifications' /></NavLink>,
-  <NavLink className='tabs-bar__link' exact to='/timelines/public' data-preview-title-id='column.public' data-preview-icon='globe' ><Icon id='globe' fixedWidth /><FormattedMessage id='tabs_bar.federated_timeline' defaultMessage='Federated' /></NavLink>,
-  <NavLink className='tabs-bar__link optional' to='/search' data-preview-title-id='tabs_bar.search' data-preview-icon='bell' ><Icon id='search' fixedWidth /><FormattedMessage id='tabs_bar.search' defaultMessage='Search' /></NavLink>,
+  <NavLink className='tabs-bar__link' exact to='/public' data-preview-title-id='column.public' data-preview-icon='globe' ><Icon id='globe' fixedWidth /><FormattedMessage id='tabs_bar.federated_timeline' defaultMessage='Federated' /></NavLink>,
+  <NavLink className='tabs-bar__link optional' to='/explore' data-preview-title-id='tabs_bar.search' data-preview-icon='search' ><Icon id='search' fixedWidth /><FormattedMessage id='tabs_bar.search' defaultMessage='Search' /></NavLink>,
   <NavLink className='tabs-bar__link' style={{ flexGrow: '0', flexBasis: '30px' }} to='/getting-started' data-preview-title-id='getting_started.heading' data-preview-icon='bars' ><Icon id='bars' fixedWidth /></NavLink>,
 ];
 
