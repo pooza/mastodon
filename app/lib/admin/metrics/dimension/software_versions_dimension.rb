@@ -10,7 +10,7 @@ class Admin::Metrics::Dimension::SoftwareVersionsDimension < Admin::Metrics::Dim
   protected
 
   def perform_query
-    [mastodon_version, ruby_version, postgresql_version, redis_version]
+    [mastodon_version, ruby_version, postgresql_version, redis_version, mulukhiya_version]
   end
 
   def mastodon_version
@@ -56,6 +56,21 @@ class Admin::Metrics::Dimension::SoftwareVersionsDimension < Admin::Metrics::Dim
       human_value: value,
     }
   end
+
+  def mulukhiya_version
+    uri = Addressable::URI.parse('https://' + Rails.configuration.x.web_domain)
+    uri.path = '/mulukhiya/api/about'
+    r = HTTParty.get(uri.to_s)
+    value = r['package']['version']
+
+    {
+      key: 'mulukhiya',
+      human_key: 'mulukhiya-toot-proxy',
+      value: value,
+      human_value: value,
+    }
+  end
+
 
   def redis_info
     @redis_info ||= begin
