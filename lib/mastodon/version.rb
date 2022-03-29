@@ -24,15 +24,6 @@ module Mastodon
       ''
     end
 
-    def mulukhiya
-      uri = Addressable::URI.parse('https://' + Rails.configuration.x.web_domain)
-      uri.path = '/mulukhiya/api/about'
-      r = HTTParty.get(uri.to_s)
-      r.code == 200 ? r['package']['version'] : ''
-    rescue
-      'nil'
-    end
-
     def to_a
       [major, minor, patch].compact
     end
