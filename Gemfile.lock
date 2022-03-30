@@ -739,7 +739,7 @@ DEPENDENCIES
   browser
   bullet (~> 7.0)
   bundler-audit (~> 0.9)
-  capistrano (~> 3.16)
+  capistrano (~> 3.17)
   capistrano-rails (~> 1.6)
   capistrano-rbenv (~> 2.2)
   capistrano-yarn (~> 2.0)
