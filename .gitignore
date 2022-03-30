@@ -44,6 +44,7 @@ public/packs-test
 
 # Ignore postgres + redis + elasticsearch volume optionally created by docker-compose
 /postgres
+/postgres14
 /redis
 /elasticsearch
 
