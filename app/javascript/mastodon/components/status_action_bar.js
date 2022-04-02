@@ -28,6 +28,7 @@ const messages = defineMessages({
   favourite: { id: 'status.favourite', defaultMessage: 'Favourite' },
   bookmark: { id: 'status.bookmark', defaultMessage: 'Bookmark' },
   removeBookmark: { id: 'status.remove_bookmark', defaultMessage: 'Remove bookmark' },
+  tagging: { id: 'status.tagging', defaultMessage: 'Tagging' },
   open: { id: 'status.open', defaultMessage: 'Expand this status' },
   report: { id: 'status.report', defaultMessage: 'Report @{name}' },
   muteConversation: { id: 'status.mute_conversation', defaultMessage: 'Mute conversation' },
@@ -129,6 +130,10 @@ class StatusActionBar extends ImmutablePureComponent {
 
   handleBookmarkClick = () => {
     this.props.onBookmark(this.props.status);
+  }
+
+  handleTaggingClick = () => {
+    window.open(`/mulukhiya/app/status/${this.props.status.get('id')}`, 'mulukhiya-tagging');
   }
 
   handleDeleteClick = () => {
@@ -248,6 +253,7 @@ class StatusActionBar extends ImmutablePureComponent {
     menu.push(null);
 
     menu.push({ text: intl.formatMessage(status.get('bookmarked') ? messages.removeBookmark : messages.bookmark), action: this.handleBookmarkClick });
+    menu.push({ text: intl.formatMessage(messages.tagging), action: this.handleTaggingClick });
 
     if (writtenByMe && pinnableStatus) {
       menu.push({ text: intl.formatMessage(status.get('pinned') ? messages.unpin : messages.pin), action: this.handlePinClick });
