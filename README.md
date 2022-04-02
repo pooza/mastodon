@@ -10,3 +10,4 @@ https://mstdn.b-shock.org
 - PGroonga対応
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - WebUIの画像リサイズ処理をキャンセル
+  - 投稿の「もっと見る」メニューに「タグ付け」追加
