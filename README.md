@@ -10,6 +10,8 @@ https://mstdn.delmulin.com
 - PGroonga対応
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - WebUIの画像リサイズ処理をキャンセル
+  - 投稿の「もっと見る」メニューに「タグ付け」追加
 - 実況メニュー
 - 関連リンク表示
 - CWでの投稿をデフォルトに
+- 「魂の絆」関連著作権表示
