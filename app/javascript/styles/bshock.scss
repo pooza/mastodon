@@ -1,5 +1,5 @@
 @import 'mastodon/mixins';
-@import 'bshock/variables';
+@import 'mastodon/variables';
 @import 'fonts/roboto';
 @import 'fonts/roboto-mono';
 @import 'fonts/montserrat';
@@ -26,3 +26,5 @@
 @import 'mastodon/dashboard';
 @import 'mastodon/rtl';
 @import 'mastodon/accessibility';
+
+@import 'bshock/diff';
