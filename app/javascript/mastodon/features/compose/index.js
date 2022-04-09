@@ -109,7 +109,7 @@ class Compose extends React.PureComponent {
             <Link to='/notifications' className='drawer__tab' title={intl.formatMessage(messages.notifications)} aria-label={intl.formatMessage(messages.notifications)}><Icon id='bell' fixedWidth /></Link>
           )}
           {!columns.some(column => column.get('id') === 'COMMUNITY') && (
-            <Link to='/timelines/tag/delmulin' className='drawer__tab' title={intl.formatMessage(messages.delmulin_timeline)} aria-label={intl.formatMessage(messages.delmulin_timeline)}><Icon id='hashtag' fixedWidth /></Link>
+            <Link to='/tags/delmulin' className='drawer__tab' title={intl.formatMessage(messages.delmulin_timeline)} aria-label={intl.formatMessage(messages.delmulin_timeline)}><Icon id='hashtag' fixedWidth /></Link>
           )}
           {!columns.some(column => column.get('id') === 'PUBLIC') && (
             <Link to='/public' className='drawer__tab' title={intl.formatMessage(messages.public)} aria-label={intl.formatMessage(messages.public)}><Icon id='globe' fixedWidth /></Link>

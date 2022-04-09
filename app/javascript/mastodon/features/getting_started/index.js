@@ -99,7 +99,7 @@ class GettingStarted extends ImmutablePureComponent {
     if (multiColumn) {
       navItems.push(
         <ColumnSubheading key='header-discover' text={intl.formatMessage(messages.discover)} />,
-        <ColumnLink key='delmulin_timeline' icon='hashtag' text={intl.formatMessage(messages.delmulin_timeline)} to='/timelines/tag/delmulin' />,
+        <ColumnLink key='delmulin_timeline' icon='hashtag' text={intl.formatMessage(messages.delmulin_timeline)} to='/tags/delmulin' />,
       );
       height += 34+48;
     }

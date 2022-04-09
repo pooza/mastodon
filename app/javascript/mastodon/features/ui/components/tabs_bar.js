@@ -8,7 +8,7 @@ import Icon from 'mastodon/components/icon';
 import NotificationsCounterIcon from './notifications_counter_icon';
 
 export const links = [
-  <NavLink className='tabs-bar__link' to='/timelines/tag/delmulin' data-preview-title-id='column.delmulin' data-preview-icon='hashtag' ><Icon id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.delmulin_timeline' defaultMessage='delmulin' /></NavLink>,
+  <NavLink className='tabs-bar__link' to='/tags/delmulin' data-preview-title-id='column.delmulin' data-preview-icon='hashtag' ><Icon id='hashtag' fixedWidth /><FormattedMessage id='tabs_bar.delmulin_timeline' defaultMessage='delmulin' /></NavLink>,
   <NavLink className='tabs-bar__link' to='/home' data-preview-title-id='column.home' data-preview-icon='home' ><Icon id='home' fixedWidth /><FormattedMessage id='tabs_bar.home' defaultMessage='Home' /></NavLink>,
   <NavLink className='tabs-bar__link' to='/notifications' data-preview-title-id='column.notifications' data-preview-icon='bell' ><NotificationsCounterIcon /><FormattedMessage id='tabs_bar.notifications' defaultMessage='Notifications' /></NavLink>,
   <NavLink className='tabs-bar__link' exact to='/public' data-preview-title-id='column.public' data-preview-icon='globe' ><Icon id='globe' fixedWidth /><FormattedMessage id='tabs_bar.federated_timeline' defaultMessage='Federated' /></NavLink>,
