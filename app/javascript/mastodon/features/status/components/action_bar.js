@@ -12,6 +12,7 @@ const messages = defineMessages({
   delete: { id: 'status.delete', defaultMessage: 'Delete' },
   redraft: { id: 'status.redraft', defaultMessage: 'Delete & re-draft' },
   edit: { id: 'status.edit', defaultMessage: 'Edit' },
+  tagging: { id: 'status.tagging', defaultMessage: 'Tagging' },
   direct: { id: 'status.direct', defaultMessage: 'Direct message @{name}' },
   mention: { id: 'status.mention', defaultMessage: 'Mention @{name}' },
   reply: { id: 'status.reply', defaultMessage: 'Reply' },
@@ -61,6 +62,7 @@ class ActionBar extends React.PureComponent {
     onBookmark: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onTagging: PropTypes.func.isRequired,
     onDirect: PropTypes.func.isRequired,
     onMention: PropTypes.func.isRequired,
     onMute: PropTypes.func,
@@ -90,6 +92,10 @@ class ActionBar extends React.PureComponent {
 
   handleBookmarkClick = (e) => {
     this.props.onBookmark(this.props.status, e);
+  }
+
+  handleTaggingClick = () => {
+    window.open(`/mulukhiya/app/status/${this.props.status.get('id')}`, 'mulukhiya-tagging');
   }
 
   handleDeleteClick = () => {
@@ -216,6 +222,7 @@ class ActionBar extends React.PureComponent {
       menu.push({ text: intl.formatMessage(mutingConversation ? messages.unmuteConversation : messages.muteConversation), action: this.handleConversationMuteClick });
       menu.push(null);
       // menu.push({ text: intl.formatMessage(messages.edit), action: this.handleEditClick });
+      menu.push({ text: intl.formatMessage(messages.tagging), action: this.handleTaggingClick });
       menu.push({ text: intl.formatMessage(messages.delete), action: this.handleDeleteClick });
       menu.push({ text: intl.formatMessage(messages.redraft), action: this.handleRedraftClick });
     } else {
