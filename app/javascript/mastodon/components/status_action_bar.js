@@ -253,7 +253,6 @@ class StatusActionBar extends ImmutablePureComponent {
     menu.push(null);
 
     menu.push({ text: intl.formatMessage(status.get('bookmarked') ? messages.removeBookmark : messages.bookmark), action: this.handleBookmarkClick });
-    menu.push({ text: intl.formatMessage(messages.tagging), action: this.handleTaggingClick });
 
     if (writtenByMe && pinnableStatus) {
       menu.push({ text: intl.formatMessage(status.get('pinned') ? messages.unpin : messages.pin), action: this.handlePinClick });
@@ -268,6 +267,7 @@ class StatusActionBar extends ImmutablePureComponent {
 
     if (writtenByMe) {
       // menu.push({ text: intl.formatMessage(messages.edit), action: this.handleEditClick });
+      menu.push({ text: intl.formatMessage(messages.tagging), action: this.handleTaggingClick });
       menu.push({ text: intl.formatMessage(messages.delete), action: this.handleDeleteClick });
       menu.push({ text: intl.formatMessage(messages.redraft), action: this.handleRedraftClick });
     } else {
