@@ -113,6 +113,7 @@
     "mark-loader": "^0.1.6",
     "marky": "^1.2.4",
     "mini-css-extract-plugin": "^1.6.2",
+    "minimist": "^1.2.6",
     "mkdirp": "^1.0.4",
     "npmlog": "^6.0.1",
     "object-assign": "^4.1.1",
