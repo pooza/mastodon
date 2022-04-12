@@ -7,7 +7,7 @@ class SearchService < BaseService
     @options = options
     @limit   = limit.to_i
     @offset  = options[:type].blank? ? 0 : options[:offset].to_i
-    @resolve = options[:resolve] || false
+    @resolve = options.fetch(:resolve, true)
 
     default_results.tap do |results|
       next if @query.blank? || @limit.zero?
