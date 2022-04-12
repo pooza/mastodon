@@ -38,10 +38,9 @@ class SearchService < BaseService
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
       .where('statuses.local=true')
-    @query.split(/[\s　]+/).each do |keyword|
+    @query.split(/[[:blank:]]+/).each do |keyword|
       if matches = keyword.match(/^-(.*)/)
-        keyword = matches[1]
-        statuses = statuses.where('statuses.text NOT LIKE ?', "%#{keyword}%")
+        statuses = statuses.where('statuses.text NOT &@ ?', matches[1])
       else
         statuses = statuses.where('statuses.text &@ ?', keyword)
       end
