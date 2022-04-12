@@ -7,7 +7,7 @@ class SearchService < BaseService
     @options = options
     @limit   = limit.to_i
     @offset  = options[:type].blank? ? 0 : options[:offset].to_i
-    @resolve = options.fetch(:resolve, true)
+    @resolve = true
 
     default_results.tap do |results|
       next if @query.blank? || @limit.zero?
@@ -40,7 +40,7 @@ class SearchService < BaseService
       .where('statuses.local=true')
     @query.split(/[[:blank:]]+/).each do |keyword|
       if matches = keyword.match(/^-(.*)/)
-        statuses = statuses.where('statuses.text NOT &@ ?', matches[1])
+        statuses = statuses.where('statuses.text NOT LIKE ?', "%#{matches[1]}%" )
       else
         statuses = statuses.where('statuses.text &@ ?', keyword)
       end
