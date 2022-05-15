@@ -40,7 +40,7 @@ class SearchService < BaseService
       .where('statuses.local=true')
     @query.split(/[[:blank:]]+/).each do |keyword|
       if matches = keyword.match(/^-(.*)/)
-        statuses = statuses.where('statuses.text NOT LIKE ?', "%#{matches[1]}%" )
+        statuses = statuses.where('NOT (statuses.text &@ ?)', keyword)
       else
         statuses = statuses.where('statuses.text &@ ?', keyword)
       end
