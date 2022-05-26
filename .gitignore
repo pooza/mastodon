@@ -68,24 +68,25 @@ yarn-debug.log
 docker-compose.override.yml
 
 # local
-/.config/
-/.npm/
-/.rbenv/
-/.gem/
-/.vim/
-/.viminfo
-/.vimrc
-/.zhistory
-/.zlogout
-/.zshenv
-/.zshrc
-/.gemrc
-/.gitconfig
-/.babel.json
-/.yarnrc
-/.cache/
-/.node-gyp/
-/.pm2/
-/.ssh/
-/.zfs/
+.config
+.npm
+.rbenv
+.gem
+.vim
+.viminfo
+.vimrc
+.zhistory
+.zlogout
+.zshenv
+.zshrc
+.gemrc
+.gitconfig
+.babel.json
+.yarnrc
+.cache
+.node-gyp
+.pm2
+.ssh
+.zfs
+.lesshst
 
