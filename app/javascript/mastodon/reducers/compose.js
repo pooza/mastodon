@@ -337,8 +337,8 @@ export default function compose(state = initialState, action) {
             if (k != name) {continue}
             const entry = result[k];
             const tags = [entry.series];
-            if (entry.livecure) {tags.push('実況')}
             if (entry.air) {tags.push('エア番組')}
+            if (entry.livecure) {tags.push('実況')}
             if (entry.episode) {tags.push(`${entry.episode}${entry.episode_suffix || '話'}`)}
             if (entry.subtitle) {tags.push(entry.subtitle)}
             entry.extra_tags.map(tag => {tags.push(tag)});
