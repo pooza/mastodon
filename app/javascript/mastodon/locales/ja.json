@@ -517,7 +517,7 @@
   "tabs_bar.precure_timeline": "precure_fun",
   "tabs_bar.livecure_timeline": "実況",
   "tagset.change": "タグセット",
-  "tagset.empty.long": "実況の終了",
+  "tagset.empty.long": "タグを削除",
   "tagset.empty.short": "タグなし",
   "time_remaining.days": "残り{number}日",
   "time_remaining.hours": "残り{number}時間",
