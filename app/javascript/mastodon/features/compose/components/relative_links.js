@@ -4,34 +4,10 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router-dom';
 
-const links = Immutable.fromJS([
-  {
-    body: 'お知らせ',
-    links: [
-      {href: 'https://mstdn.delmulin.com/@info', body: 'お知らせボット'},
-      {href: 'https://blog.delmulin.com/categories/お知らせ', body: '過去のお知らせ'},
-    ],
-  },
-  {
-    body: 'デルムリン丼Blog',
-    links: [
-      {href: 'https://blog.delmulin.com/', body: 'Home'},
-      {href: 'https://blog.delmulin.com/categories/新規さん向け', body: '新規さん向け'},
-      {href: 'https://blog.delmulin.com/articles/実況', body: '実況'},
-      {href: 'https://blog.delmulin.com/articles/魂の絆', body: '「魂の絆」画像等の著作権'},
-    ],
-  },
-  {
-    body: 'モロヘイヤ',
-    links: [
-      {href: '/mulukhiya', body: 'Home'},
-      {href: '/mulukhiya/app/status', body: '投稿'},
-      {href: '/mulukhiya/app/media', body: 'メディア'},
-      {href: '/mulukhiya/app/config', body: '設定'},
-      {href: '/mulukhiya/app/api', body: 'API'},
-    ],
-  },
-]);
+const request = new XMLHttpRequest();
+request.open('GET', '/links.json', false);
+request.send(null);
+const links = Immutable.fromJS(JSON.parse(request.responseText));
 
 export default class RelativeLinks extends React.PureComponent {
   static propTypes = {
