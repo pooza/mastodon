@@ -328,10 +328,9 @@ export default function compose(state = initialState, action) {
         const createToot = name => {
           const request = new XMLHttpRequest();
           request.open('GET', '/mulukhiya/api/program', false);
+          request.setRequestHeader('Content-Type', 'application/json');
           request.send(null);
-          if (request.status != 200) {
-            return '';
-          }
+          if (request.status != 200) {return ''}
           const result = JSON.parse(request.responseText);
           for (const k of Object.keys(result)) {
             if (k != name) {continue}
