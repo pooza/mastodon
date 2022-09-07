@@ -21,6 +21,7 @@
       {"href": "/mulukhiya", "body": "Home"},
       {"href": "/mulukhiya/app/status", "body": "投稿"},
       {"href": "/mulukhiya/app/media", "body": "メディア"},
+      {"href": "/mulukhiya/app/episode", "body": "エピソード"},
       {"href": "/mulukhiya/app/config", "body": "設定"},
       {"href": "/mulukhiya/app/api", "body": "API"}
     ]
