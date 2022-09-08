@@ -215,7 +215,7 @@ GEM
       faraday (~> 1)
       multi_json
     encryptor (3.0.0)
-    erubi (1.10.0)
+    erubi (1.11.0)
     et-orbi (1.2.7)
       tzinfo
     excon (0.92.3)
@@ -308,7 +308,7 @@ GEM
     httplog (1.5.0)
       rack (>= 1.0)
       rainbow (>= 2.0.0)
-    i18n (1.10.0)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.0.11)
       activesupport (>= 4.0.2)
@@ -400,7 +400,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.15.0)
+    minitest (5.16.3)
     msgpack (1.5.1)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -503,8 +503,8 @@ GEM
       rack (>= 2.1.0)
     rack-proxy (0.7.2)
       rack
-    rack-test (1.1.0)
-      rack (>= 1.0, < 3)
+    rack-test (2.0.2)
+      rack (>= 1.3)
     rails (6.1.6.1)
       actioncable (= 6.1.6.1)
       actionmailbox (= 6.1.6.1)
@@ -688,7 +688,7 @@ GEM
     twitter-text (3.1.0)
       idn-ruby
       unf (~> 0.1.0)
-    tzinfo (2.0.4)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.1)
       tzinfo (>= 1.0.0)
@@ -737,7 +737,7 @@ GEM
     xorcist (1.1.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   x86_64-freebsd-13
