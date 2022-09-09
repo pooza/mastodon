@@ -89,4 +89,5 @@ docker-compose.override.yml
 .ssh
 .zfs
 .lesshst
+.node_repl_history
 
