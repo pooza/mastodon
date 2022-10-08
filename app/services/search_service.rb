@@ -11,7 +11,7 @@ class SearchService < BaseService
 
     default_results.tap do |results|
       next if @query.blank?
-      @limit = ENV.fetch('DEFAULT_SEARCH_LIMIT', 20) if @limit.zero?
+      @limit = ENV.fetch('DEFAULT_SEARCH_LIMIT', 20).to_i if @limit.to_i.zero?
 
       if url_query?
         results.merge!(url_resource_results) unless url_resource.nil? || @offset.positive? || (@options[:type].present? && url_resource_symbol != @options[:type].to_sym)
