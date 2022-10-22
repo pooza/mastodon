@@ -59,8 +59,8 @@ import { unescapeHTML } from '../utils/html';
 const initialState = ImmutableMap({
   mounted: 0,
   sensitive: false,
-  spoiler: true,
-  spoiler_text: ':netabare: ',
+  spoiler: false,
+  spoiler_text: '',
   privacy: null,
   id: null,
   text: '',
@@ -115,8 +115,8 @@ function clearAll(state) {
   return state.withMutations(map => {
     map.set('id', null);
     map.set('text', '');
-    map.set('spoiler', true);
-    map.set('spoiler_text', ':netabare: ');
+    map.set('spoiler', false);
+    map.set('spoiler_text', '');
     map.set('is_submitting', false);
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
