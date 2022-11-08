@@ -29,7 +29,8 @@ export function clearSearch() {
 
 export function submitSearch() {
   return (dispatch, getState) => {
-    const value = getState().getIn(['search', 'value']);
+    const value    = getState().getIn(['search', 'value']);
+    const signedIn = !!getState().getIn(['meta', 'me']);
 
     if (value.length === 0) {
       dispatch(fetchSearchSuccess({ accounts: [], statuses: [], hashtags: [] }, ''));
@@ -42,7 +43,9 @@ export function submitSearch() {
       params: {
         q: value,
         resolve: true,
+        //resolve: signedIn,
         limit: 100,
+        //limit: 5,
       },
     }).then(response => {
       if (response.data.accounts) {
