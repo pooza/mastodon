@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import SearchContainer from 'mastodon/features/compose/containers/search_container';
 import ComposeFormContainer from 'mastodon/features/compose/containers/compose_form_container';
 import NavigationContainer from 'mastodon/features/compose/containers/navigation_container';
-import RelativeLinksContainer from 'mastodon/features/compose/containers/relative_links_container';
 import LinkFooter from './link_footer';
 import ServerBanner from 'mastodon/components/server_banner';
 import { changeComposing, mountCompose, unmountCompose } from 'mastodon/actions/compose';
@@ -58,7 +57,6 @@ class ComposePanel extends React.PureComponent {
           <React.Fragment>
             <NavigationContainer onClose={this.onBlur} />
             <ComposeFormContainer singleColumn />
-            <RelativeLinksContainer singleColumn />
           </React.Fragment>
         )}
 

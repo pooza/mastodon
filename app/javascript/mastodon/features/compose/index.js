@@ -15,7 +15,6 @@ import { openModal } from 'mastodon/actions/modal';
 import elephantUIPlane from '../../../images/elephant_ui_plane.svg';
 import { mascot } from '../../initial_state';
 import Icon from 'mastodon/components/icon';
-import RelativeLinksContainer from './containers/relative_links_container';
 import { logOut } from 'mastodon/utils/log_out';
 import Column from 'mastodon/components/column';
 import { Helmet } from 'react-helmet';
@@ -140,7 +139,6 @@ class Compose extends React.PureComponent {
       <Column onFocus={this.onFocus}>
         <NavigationContainer onClose={this.onBlur} />
         <ComposeFormContainer />
-        <RelativeLinksContainer />
 
         <Helmet>
           <meta name='robots' content='noindex' />
