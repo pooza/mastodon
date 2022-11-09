@@ -58,10 +58,10 @@ class ComposePanel extends React.PureComponent {
           <React.Fragment>
             <NavigationContainer onClose={this.onBlur} />
             <ComposeFormContainer singleColumn />
+            <RelativeLinksContainer singleColumn />
           </React.Fragment>
         )}
 
-        <RelativeLinksContainer singleColumn />
         <LinkFooter />
       </div>
     );
