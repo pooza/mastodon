@@ -1500,7 +1500,6 @@ ja:
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
-    juliamo-mastodon-light: ユリアーモ (ライト)
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M"
