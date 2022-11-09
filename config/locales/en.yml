@@ -1532,8 +1532,6 @@ en:
     contrast: Mastodon (High contrast)
     default: Mastodon (Dark)
     mastodon-light: Mastodon (Light)
-    cure-orange: Cure orange (Light)
-    cure-lime: Cure lime (Light)
   time:
     formats:
       default: "%b %d, %Y, %H:%M"
