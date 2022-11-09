@@ -601,7 +601,6 @@
   "tabs_bar.notifications": "Notifications",
   "tabs_bar.search": "Search",
   "tabs_bar.precure_timeline": "precure_fun",
-  "tabs_bar.livecure_timeline": "実況 timeline",
   "time_remaining.days": "{number, plural, one {# day} other {# days}} left",
   "time_remaining.hours": "{number, plural, one {# hour} other {# hours}} left",
   "time_remaining.minutes": "{number, plural, one {# minute} other {# minutes}} left",

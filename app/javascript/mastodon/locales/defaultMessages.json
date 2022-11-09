@@ -1809,10 +1809,6 @@
         "id": "navigation_bar.precure_timeline"
       },
       {
-        "defaultMessage": "livecure",
-        "id": "navigation_bar.livecure_timeline"
-      },
-      {
         "defaultMessage": "Preferences",
         "id": "navigation_bar.preferences"
       },
@@ -2380,10 +2376,6 @@
       {
         "defaultMessage": "precure_fun",
         "id": "navigation_bar.precure_timeline"
-      },
-      {
-         "defaultMessage": "livecure",
-         "id": "navigation_bar.livecure_timeline"
       },
       {
         "defaultMessage": "Explore",
