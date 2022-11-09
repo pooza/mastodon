@@ -31,7 +31,6 @@ import listAdder from './list_adder';
 import filters from './filters';
 import conversations from './conversations';
 import suggestions from './suggestions';
-import relative_links from './relative_links';
 import polls from './polls';
 import trends from './trends';
 import missed_updates from './missed_updates';
@@ -74,7 +73,6 @@ const reducers = {
   lists,
   listEditor,
   listAdder,
-  relative_links,
   filters,
   conversations,
   suggestions,
