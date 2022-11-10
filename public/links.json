@@ -2,27 +2,27 @@
   {
     "body": "お知らせ",
     "links": [
-      {"href": "https://precure.ml/@infomation", "body": "お知らせボット"},
-      {"href": "https://blog.precure.ml/categories/お知らせ", "body": "過去のお知らせ"}
+      {"href": "https://precure.ml/@infomation", "body": "お知らせボット", "icon": "robot"},
+      {"href": "https://blog.precure.ml/categories/お知らせ", "body": "過去のお知らせ", "icon": "info"}
     ]
   },
   {
     "body": "キュアスタ！Blog",
     "links": [
-      {"href": "https://blog.precure.ml/", "body": "Home"},
-      {"href": "https://blog.precure.ml/categories/新規さん向け", "body": "新規さん向け"},
-      {"href": "https://blog.precure.ml/articles/実況", "body": "実況"}
+      {"href": "https://blog.precure.ml/", "body": "Home", "icon": "house"},
+      {"href": "https://blog.precure.ml/categories/新規さん向け", "body": "新規さん向け", "icon": "person"},
+      {"href": "https://blog.precure.ml/articles/実況", "body": "実況", "icon": "microphone"}
     ]
   },
   {
     "body": "モロヘイヤ",
     "links": [
-      {"href": "/mulukhiya", "body": "Home"},
-      {"href": "/mulukhiya/app/status", "body": "キュア！"},
-      {"href": "/mulukhiya/app/media", "body": "メディア"},
-      {"href": "/mulukhiya/app/episode", "body": "エピソード"},
-      {"href": "/mulukhiya/app/config", "body": "設定"},
-      {"href": "/mulukhiya/app/api", "body": "API"}
+      {"href": "/mulukhiya", "body": "Home", "icon": "leaf"},
+      {"href": "/mulukhiya/app/status", "body": "キュア！", "icon": "comment"},
+      {"href": "/mulukhiya/app/media", "body": "メディア", "icon": "media"},
+      {"href": "/mulukhiya/app/episode", "body": "エピソード", "icon": "film"},
+      {"href": "/mulukhiya/app/config", "body": "設定", "icon": "sliders"},
+      {"href": "/mulukhiya/app/api", "body": "API", "icon": "function"}
     ]
   }
 ]
