@@ -2,28 +2,28 @@
   {
     "body": "お知らせ",
     "links": [
-      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット"},
-      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ"}
+      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット", "icon": "info"},
+      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ", "icon": "info"}
     ]
   },
   {
     "body": "デルムリン丼Blog",
     "links": [
-      {"href": "https://blog.delmulin.com/", "body": "Home"},
-      {"href": "https://blog.delmulin.com/categories/新規さん向け", "body": "新規さん向け"},
-      {"href": "https://blog.delmulin.com/articles/実況", "body": "実況"},
-      {"href": "https://blog.delmulin.com/articles/魂の絆", "body": "「魂の絆」画像等の著作権"}
+      {"href": "https://blog.delmulin.com/", "body": "Home", "icon": "home"},
+      {"href": "https://blog.delmulin.com/categories/新規さん向け", "body": "新規さん向け", "icon": "user"},
+      {"href": "https://blog.delmulin.com/articles/実況", "body": "実況", "icon": "microphone"},
+      {"href": "https://blog.delmulin.com/articles/魂の絆", "body": "「魂の絆」画像等の著作権", "icon": "info"}
     ]
   },
   {
     "body": "モロヘイヤ",
     "links": [
-      {"href": "/mulukhiya", "body": "Home"},
-      {"href": "/mulukhiya/app/status", "body": "投稿"},
-      {"href": "/mulukhiya/app/media", "body": "メディア"},
-      {"href": "/mulukhiya/app/episode", "body": "エピソード"},
-      {"href": "/mulukhiya/app/config", "body": "設定"},
-      {"href": "/mulukhiya/app/api", "body": "API"}
+      {"href": "/mulukhiya", "body": "Home", "icon": "leaf"},
+      {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "leaf"},
+      {"href": "/mulukhiya/app/media", "body": "メディア", "icon": "image"},
+      {"href": "/mulukhiya/app/episode", "body": "エピソード", "icon": "film"},
+      {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"},
+      {"href": "/mulukhiya/app/api", "body": "API", "icon": "star"}
     ]
   }
 ]
