@@ -22,7 +22,7 @@
       {"href": "/mulukhiya/app/media", "body": "メディア", "icon": "image"},
       {"href": "/mulukhiya/app/episode", "body": "エピソード", "icon": "film"},
       {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"},
-      {"href": "/mulukhiya/app/api", "body": "API", "icon": "star"}
+      {"href": "/mulukhiya/app/api", "body": "API", "icon": "terminal"}
     ]
   }
 ]
