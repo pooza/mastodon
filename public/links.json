@@ -19,7 +19,7 @@
     "body": "モロヘイヤ",
     "links": [
       {"href": "/mulukhiya", "body": "Home", "icon": "leaf"},
-      {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "leaf"},
+      {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "comment"},
       {"href": "/mulukhiya/app/media", "body": "メディア", "icon": "image"},
       {"href": "/mulukhiya/app/episode", "body": "エピソード", "icon": "film"},
       {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"},
