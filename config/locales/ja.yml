@@ -828,7 +828,7 @@ ja:
       new: 新しいwebhook
       rotate_secret: シークレットをローテートする
       secret: シークレットに署名
-      status: 投稿
+      status: キュア！
       title: Webhooks
       webhook: Webhook
   admin_mailer:
