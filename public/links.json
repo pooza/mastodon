@@ -15,7 +15,7 @@
     ]
   },
   {
-    "body": "モロヘイヤ",
+    "body": "mulukhiya-toot-proxy",
     "links": [
       {"href": "/mulukhiya", "body": "Home", "icon": "leaf"},
       {"href": "/mulukhiya/app/status", "body": "キュア！", "icon": "comment"},
