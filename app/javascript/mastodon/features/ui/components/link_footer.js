@@ -87,11 +87,6 @@ class LinkFooter extends React.PureComponent {
           {' · '}
           v{version}
         </p>
-
-        <p>
-          <strong>mulukhiya-toot-proxy</strong>:
-          <a href='/mulukhiya' target='_blank'><FormattedMessage id='navigation_bar.mulukhiya_home' defaultMessage='Mulukhiya Home' /></a>
-        </p>
       </div>
     );
   }
