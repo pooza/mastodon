@@ -60,7 +60,7 @@ gem 'idn-ruby', require: 'idn'
 gem 'kaminari', '~> 1.2'
 gem 'link_header', '~> 0.0'
 gem 'mime-types', '~> 3.4.1', require: 'mime/types/columnar'
-gem 'nokogiri', '~> 1.13.6'
+gem 'nokogiri', '~> 1.13'
 gem 'nsa', '~> 0.2'
 gem 'oj', '~> 3.13'
 gem 'ox', '~> 2.14'
@@ -73,7 +73,7 @@ gem 'rack-cors', '~> 1.1', require: 'rack/cors'
 gem 'rails-i18n', '~> 6.0'
 gem 'rails-settings-cached', '~> 0.6'
 gem 'redcarpet', '~> 3.5'
-gem 'redis', '~> 4.5.0', require: ['redis', 'redis/connection/hiredis']
+gem 'redis', '~> 4.5', require: ['redis', 'redis/connection/hiredis']
 gem 'mario-redis-lock', '~> 1.2', require: 'redis_lock'
 gem 'rqrcode', '~> 2.1'
 gem 'ruby-progressbar', '~> 1.11'
@@ -154,8 +154,6 @@ end
 gem 'concurrent-ruby', require: false
 gem 'connection_pool', require: false
 gem 'xorcist', '~> 1.1'
-
 gem 'cocoon', '~> 1.2'
-
 gem 'resolv', '~> 0.1.0'
 gem 'httparty'
