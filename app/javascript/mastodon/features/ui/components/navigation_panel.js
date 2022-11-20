@@ -67,7 +67,7 @@ class NavigationPanel extends React.Component {
 
         {(signedIn || timelinePreview) && (
           <>
-            <ColumnLink transparent to='/tags/precure_fun' icon='users' text={intl.formatMessage(messages.precure)} />
+            <ColumnLink transparent to='/tags/precure_fun' icon='hashtag' text={intl.formatMessage(messages.precure)} />
             <ColumnLink transparent exact to='/public' icon='globe' text={intl.formatMessage(messages.federated)} />
           </>
         )}
