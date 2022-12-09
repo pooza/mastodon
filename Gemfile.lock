@@ -421,8 +421,10 @@ GEM
       net-protocol
     net-ssh (7.0.1)
     nio4r (2.5.8)
-    nokogiri (1.13.9)
+    nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+    nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     nsa (0.2.8)
       activesupport (>= 4.2, < 7)
@@ -493,7 +495,7 @@ GEM
     pundit (2.2.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
-    racc (1.6.0)
+    racc (1.6.1)
     rack (2.2.4)
     rack-attack (6.6.1)
       rack (>= 1.0, < 3)
@@ -743,6 +745,7 @@ GEM
 
 PLATFORMS
   x86_64-freebsd-13
+  x86_64-linux
 
 DEPENDENCIES
   active_model_serializers (~> 0.10)
