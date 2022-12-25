@@ -24,5 +24,12 @@
       {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"},
       {"href": "/mulukhiya/app/api", "body": "API", "icon": "terminal"}
     ]
+  },
+  {
+    "body": "その他",
+    "links": [
+      {"href": "https://uptime.precure.ml/", "body": "UptimeRobot（監視）", "icon": ""},
+      {"href": "https://leroma.shrieker.net/", "body": "美食レロマ（避難所）", "icon": ""}
+    ]
   }
 ]
