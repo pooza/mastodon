@@ -18,7 +18,7 @@
   {
     "body": "モロヘイヤ",
     "links": [
-      {"href": "/mulukhiya", "body": "Home", "icon": "leaf"},
+      {"href": "/mulukhiya", "body": "Home", "icon": "home"},
       {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "comment"},
       {"href": "/mulukhiya/app/media", "body": "メディア", "icon": "image"},
       {"href": "/mulukhiya/app/episode", "body": "エピソード", "icon": "film"},
@@ -29,8 +29,8 @@
   {
     "body": "その他",
     "links": [
-      {"href": "https://uptime.mstdn.delmulin.com/", "body": "UptimeRobot（監視）", "icon": ""},
-      {"href": "https://leroma.shrieker.net/", "body": "美食レロマ（避難所）", "icon": ""}
+      {"href": "https://uptime.mstdn.delmulin.com/", "body": "UptimeRobot（監視）"},
+      {"href": "https://leroma.shrieker.net/", "body": "美食レロマ（避難所）"}
     ]
   }
 ]
