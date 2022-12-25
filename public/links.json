@@ -8,5 +8,11 @@
       {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"},
       {"href": "/mulukhiya/app/api", "body": "API", "icon": "terminal"}
     ]
+  },
+  {
+    "body": "監視",
+    "links": [
+      {"href": "https://uptime.delmulin.b-shock.org/", "body": "UptimeRobot", "icon": "heart-pulse"}
+    ]
   }
 ]
