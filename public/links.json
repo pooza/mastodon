@@ -10,9 +10,10 @@
     ]
   },
   {
-    "body": "監視",
+    "body": "その他",
     "links": [
-      {"href": "https://uptime.mstdn.b-shock.org/", "body": "UptimeRobot", "icon": "heart-pulse"}
+      {"href": "https://uptime.mstdn.b-shock.org/", "body": "UptimeRobot（監視）", "icon": "heart-pulse"},
+      {"href": "https://leroma.shrieker.net/", "body": "美食レロマ（避難所）", "icon": "heart-pulse"}
     ]
   }
 ]
