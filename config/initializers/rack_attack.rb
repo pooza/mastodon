@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'doorkeeper/grape/authorization_decorator'
+require 'ipaddr'
 
 class Rack::Attack
   class Request
@@ -56,6 +57,11 @@ class Rack::Attack
 
   Rack::Attack.safelist('allow from localhost') do |req|
     req.remote_ip == '127.0.0.1' || req.remote_ip == '::1'
+  end
+
+  Rack::Attack.safelist('allow from MY_NETWORKS') do |req|
+    networks = ENV.fetch('MY_NETWORKS', '').split(',').map {|v| IPAddr.new(v)}
+    networks.any? {|v| v.include?(req.remote_ip)}
   end
 
   Rack::Attack.blocklist('deny from blocklist') do |req|
