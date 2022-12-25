@@ -27,9 +27,10 @@
     ]
   },
   {
-    "body": "監視",
+    "body": "その他",
     "links": [
-      {"href": "https://uptime.delmulin.b-shock.org/", "body": "UptimeRobot", "icon": "heart-pulse"}
+      {"href": "https://uptime.mstdn.delmulin.com/", "body": "UptimeRobot（監視）", "icon": ""},
+      {"href": "https://leroma.shrieker.net/", "body": "美食レロマ（避難所）", "icon": ""}
     ]
   }
 ]
