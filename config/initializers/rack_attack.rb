@@ -55,7 +55,8 @@ class Rack::Attack
   end
 
   Rack::Attack.safelist('allow from localhost') do |req|
-    req.remote_ip == '127.0.0.1' || req.remote_ip == '::1'
+    networks = fetch('MY_NETWORKS', '').split(',').map {|v| IPAddr.new(v)}
+    req.remote_ip == '127.0.0.1' || req.remote_ip == '::1' || networks.any? {|v| v.include?(remote_ip)}
   end
 
   Rack::Attack.blocklist('deny from blocklist') do |req|
