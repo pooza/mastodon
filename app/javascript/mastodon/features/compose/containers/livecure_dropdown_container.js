@@ -5,7 +5,8 @@ import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
 
 const mapStateToProps = state => ({
-  value: state.getIn(['compose', 'livecure']),
+  isModalOpen: state.get('modal').modalType === 'ACTIONS',
+  value: '',
 });
 
 const mapDispatchToProps = dispatch => ({
