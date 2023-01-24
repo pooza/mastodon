@@ -243,7 +243,7 @@ class LivecureDropdown extends React.PureComponent {
           <IconButton
             className='privacy-dropdown__value-icon'
             icon={valueOption.icon}
-            title={intl.formatMessage(messages.change_privacy)}
+            title={intl.formatMessage(messages.change)}
             size={18}
             expanded={open}
             active={open}
@@ -260,7 +260,7 @@ class LivecureDropdown extends React.PureComponent {
           {({ props, placement }) => (
             <div {...props}>
               <div className={`dropdown-animation privacy-dropdown__dropdown ${placement}`}>
-                <PrivacyDropdownMenu
+                <LivecureDropdownMenu
                   items={this.options}
                   value={value}
                   onClose={this.handleClose}
