@@ -1,3 +1,4 @@
+/*
 import { connect } from 'react-redux';
 import TagsetDropdown from '../components/tagset_dropdown';
 import { changeTagset } from '../../../actions/compose';
@@ -22,3 +23,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsetDropdown);
+*/

@@ -1,3 +1,4 @@
+/*
 import { connect } from 'react-redux';
 import LivecureDropdown from '../components/livecure_dropdown';
 import { toggleLivecuresVisibility } from '../../../actions/compose';
@@ -22,3 +23,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LivecureDropdown);
+*/
