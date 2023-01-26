@@ -331,20 +331,20 @@ export default function compose(state = initialState, action) {
           const request = new XMLHttpRequest();
           request.open('GET', '/mulukhiya/api/program', false);
           request.send(null);
-          if (request.status != 200) {return ''}
+          if (request.status != 200) {return '';}
           const result = JSON.parse(request.responseText);
           for (const k of Object.keys(result)) {
-            if (k != name) {continue}
+            if (k != name) {continue;}
             const entry = result[k];
             const tags = [entry.series];
-            if (entry.air) {tags.push('エア番組')}
-            if (entry.livecure) {tags.push('実況')}
-            if (entry.episode) {tags.push(`${entry.episode}${entry.episode_suffix || '話'}`)}
-            if (entry.subtitle) {tags.push(entry.subtitle)}
+            if (entry.air) {tags.push('エア番組');}
+            if (entry.livecure) {tags.push('実況');}
+            if (entry.episode) {tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);}
+            if (entry.subtitle) {tags.push(entry.subtitle);}
             entry.extra_tags.map(tag => {tags.push(tag)});
             const toot = ['command: user_config', 'tagging:', '  user_tags:'];
             tags.map(tag => {toot.push(`  - ${tag}`)});
-            if (entry.minutes) {toot.push(`  minutes: ${entry.minutes}`)}
+            if (entry.minutes) {toot.push(`  minutes: ${entry.minutes}`);}
             return toot.join("\n");
           }
           return '';
