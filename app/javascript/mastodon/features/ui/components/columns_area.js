@@ -18,7 +18,7 @@ import {
   BookmarkedStatuses,
   ListTimeline,
   Directory,
-} from '../util/async-components';
+} from '../../ui/util/async-components';
 import ComposePanel from './compose_panel';
 import NavigationPanel from './navigation_panel';
 import { supportsPassiveEvents } from 'detect-passive-events';
