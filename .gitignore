@@ -87,4 +87,6 @@ docker-compose.override.yml
 .zfs
 .lesshst
 .node_repl_history
+.psql_history
+.wget-hsts
 
