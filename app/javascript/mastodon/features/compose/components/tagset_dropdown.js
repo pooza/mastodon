@@ -257,7 +257,7 @@ class TagsetDropdown extends React.PureComponent {
         <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
-            //icon={valueOption.icon}
+            icon='hashtag'
             title={intl.formatMessage(messages.change)}
             size={18}
             expanded={open}
