@@ -10,7 +10,8 @@ import Icon from 'mastodon/components/icon';
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
   empty_long: { id: 'tagset.empty.long', defaultMessage: 'Empty tagset' },
-  episodes: { id: 'tagset.episodes', defaultMessage: 'Other episodes' },
+  episodes_short: { id: 'tagset.episodes.short', defaultMessage: 'Other episodes' },
+  episodes_long: { id: 'tagset.episodes.long', defaultMessage: 'Episode browser of Mulukhiya' },
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
 });
 
@@ -211,7 +212,6 @@ class TagsetDropdown extends React.PureComponent {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
-      { icon: 'hashtag', value: '', text: '', meta: '' },
       { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
     ];
 
@@ -234,7 +234,7 @@ class TagsetDropdown extends React.PureComponent {
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
 
-    this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes), meta: formatMessage(messages.episodes) });
+    this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
   }
 
   setTargetRef = c => {
@@ -253,11 +253,9 @@ class TagsetDropdown extends React.PureComponent {
     const { value, container, disabled, intl } = this.props;
     const { open, placement } = this.state;
 
-    const valueOption = this.options.find(item => item.value === value);
-
     return (
       <div className={classNames('privacy-dropdown', placement, { active: open })} onKeyDown={this.handleKeyDown}>
-        <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
+        <div className={classNames('privacy-dropdown__value')} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
             icon='hashtag'

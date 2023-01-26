@@ -280,7 +280,6 @@ class ComposeForm extends ImmutablePureComponent {
             <LanguageDropdown />
             <TagsetDropdown />
             <LivecureDropdown />
-
           </div>
 
           <div className='character-counter__wrapper'>
