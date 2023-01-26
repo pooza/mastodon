@@ -211,7 +211,7 @@ class TagsetDropdown extends React.PureComponent {
 
     this.options = [
       { icon: 'hashtag', value: '', text: '', meta: '' },
-      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_lo) },
+      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
     ];
 
     const request = new XMLHttpRequest();
