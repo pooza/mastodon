@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { injectIntl, defineMessages } from 'react-intl';
 import IconButton from '../../../components/icon_button';
 import Overlay from 'react-overlays/Overlay';
-import Motion from '../../ui/util/optional_motion';
-import spring from 'react-motion/lib/spring';
 import { supportsPassiveEvents } from 'detect-passive-events';
 import classNames from 'classnames';
 import Icon from 'mastodon/components/icon';
@@ -23,13 +21,8 @@ class TagsetDropdownMenu extends React.PureComponent {
     style: PropTypes.object,
     items: PropTypes.array.isRequired,
     value: PropTypes.string.isRequired,
-    placement: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-  };
-
-  state = {
-    mounted: false,
   };
 
   handleDocumentClick = e => {
@@ -95,7 +88,6 @@ class TagsetDropdownMenu extends React.PureComponent {
     document.addEventListener('click', this.handleDocumentClick, false);
     document.addEventListener('touchend', this.handleDocumentClick, listenerOptions);
     if (this.focusedItem) this.focusedItem.focus({ preventScroll: true });
-    this.setState({ mounted: true });
   }
 
   componentWillUnmount () {
@@ -112,31 +104,23 @@ class TagsetDropdownMenu extends React.PureComponent {
   }
 
   render () {
-    const { mounted } = this.state;
-    const { style, items, placement, value } = this.props;
+    const { style, items, value } = this.props;
 
     return (
-      <Motion defaultStyle={{ opacity: 0, scaleX: 0.85, scaleY: 0.75 }} style={{ opacity: spring(1, { damping: 35, stiffness: 400 }), scaleX: spring(1, { damping: 35, stiffness: 400 }), scaleY: spring(1, { damping: 35, stiffness: 400 }) }}>
-        {({ opacity, scaleX, scaleY }) => (
-          // It should not be transformed when mounting because the resulting
-          // size will be used to determine the coordinate of the menu by
-          // react-overlays
-          <div className={`privacy-dropdown__dropdown ${placement}`} style={{ ...style, opacity: opacity, transform: mounted ? `scale(${scaleX}, ${scaleY})` : null, zIndex: 2 }} role='listbox' ref={this.setRef}>
-            {items.map(item => (
-              <div role='option' tabIndex='0' key={item.value} data-index={item.value} onKeyDown={this.handleKeyDown} onClick={this.handleClick} className={classNames('privacy-dropdown__option', { active: item.value === value })} aria-selected={item.value === value} ref={item.value === value ? this.setFocusRef : null}>
-                <div className='privacy-dropdown__option__icon'>
-                  <Icon id={item.icon} fixedWidth />
-                </div>
+      <div style={{ ...style }} role='listbox' ref={this.setRef}>
+        {items.map(item => (
+          <div role='option' tabIndex='0' key={item.value} data-index={item.value} onKeyDown={this.handleKeyDown} onClick={this.handleClick} className={classNames('privacy-dropdown__option', { active: item.value === value })} aria-selected={item.value === value} ref={item.value === value ? this.setFocusRef : null}>
+            <div className='privacy-dropdown__option__icon'>
+              <Icon id={item.icon} fixedWidth />
+            </div>
 
-                <div className='privacy-dropdown__option__content'>
-                  <strong>{item.text}</strong>
-                  {item.meta}
-                </div>
-              </div>
-            ))}
+            <div className='privacy-dropdown__option__content'>
+              <strong>{item.text}</strong>
+              {item.meta}
+            </div>
           </div>
-        )}
-      </Motion>
+        ))}
+      </div>
     );
   }
 
@@ -147,11 +131,13 @@ class TagsetDropdown extends React.PureComponent {
 
   static propTypes = {
     isUserTouching: PropTypes.func,
-    isModalOpen: PropTypes.bool.isRequired,
     onModalOpen: PropTypes.func,
     onModalClose: PropTypes.func,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    noDirect: PropTypes.bool,
+    container: PropTypes.func,
+    disabled: PropTypes.bool,
     intl: PropTypes.object.isRequired,
   };
 
@@ -160,8 +146,8 @@ class TagsetDropdown extends React.PureComponent {
     placement: 'bottom',
   };
 
-  handleToggle = ({ target }) => {
-    if (this.props.isUserTouching()) {
+  handleToggle = () => {
+    if (this.props.isUserTouching && this.props.isUserTouching()) {
       if (this.state.open) {
         this.props.onModalClose();
       } else {
@@ -171,11 +157,9 @@ class TagsetDropdown extends React.PureComponent {
         });
       }
     } else {
-      const { top } = target.getBoundingClientRect();
       if (this.state.open && this.activeElement) {
         this.activeElement.focus({ preventScroll: true });
       }
-      this.setState({ placement: top * 2 < innerHeight ? 'bottom' : 'top' });
       this.setState({ open: !this.state.open });
     }
   }
@@ -249,17 +233,35 @@ class TagsetDropdown extends React.PureComponent {
       v.extra_tags.map(tag => {meta.push(tag)});
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
+
+    if (!this.props.noDirect) {
+      this.options.push(
+        { icon: 'at', value: 'direct', text: formatMessage(messages.direct_short), meta: formatMessage(messages.direct_long) },
+      );
+    }
+  }
+
+  setTargetRef = c => {
+    this.target = c;
+  }
+
+  findTarget = () => {
+    return this.target;
+  }
+
+  handleOverlayEnter = (state) => {
+    this.setState({ placement: state.placement });
   }
 
   render () {
-    const { value, intl } = this.props;
+    const { value, container, disabled, intl } = this.props;
     const { open, placement } = this.state;
 
     const valueOption = this.options.find(item => item.value === value);
 
     return (
       <div className={classNames('privacy-dropdown', placement, { active: open })} onKeyDown={this.handleKeyDown}>
-        <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })}>
+        <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
             icon={valueOption.icon}
@@ -272,17 +274,23 @@ class TagsetDropdown extends React.PureComponent {
             onMouseDown={this.handleMouseDown}
             onKeyDown={this.handleButtonKeyDown}
             style={{ height: null, lineHeight: '27px' }}
+            disabled={disabled}
           />
         </div>
 
-        <Overlay show={open} placement={placement} target={this}>
-          <TagsetDropdownMenu
-            items={this.options}
-            value={value}
-            onClose={this.handleClose}
-            onChange={this.handleChange}
-            placement={placement}
-          />
+        <Overlay show={open} placement={'bottom'} flip target={this.findTarget} container={container} popperConfig={{ strategy: 'fixed', onFirstUpdate: this.handleOverlayEnter }}>
+          {({ props, placement }) => (
+            <div {...props}>
+              <div className={`dropdown-animation privacy-dropdown__dropdown ${placement}`}>
+                <TagsetDropdownMenu
+                  items={this.options}
+                  value={value}
+                  onClose={this.handleClose}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+          )}
         </Overlay>
       </div>
     );
