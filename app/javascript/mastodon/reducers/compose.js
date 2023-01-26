@@ -29,7 +29,6 @@ import {
   COMPOSE_SPOILERNESS_CHANGE,
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
-  COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
   COMPOSE_TAGSET_CHANGE,
   COMPOSE_LANGUAGE_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
@@ -315,14 +314,6 @@ export default function compose(state = initialState, action) {
     return state
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
-  case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
-    switch (action.value) {
-    case 'show':
-      return state.set('text', 'command: filter\ntag: 実況\naction: unregister');
-    case 'hide':
-      return state.set('text', 'command: filter\ntag: 実況');
-    }
-    break;
   case COMPOSE_TAGSET_CHANGE:
     switch (action.value) {
     case 'empty':
@@ -330,6 +321,10 @@ export default function compose(state = initialState, action) {
     case 'episodes':
       window.open('/mulukhiya/app/episode');
       return state;
+    case 'show_livecure':
+      return state.set('text', 'command: filter\ntag: 実況\naction: unregister');
+    case 'hide_livecure':
+      return state.set('text', 'command: filter\ntag: 実況');
     default:
       const createToot = name => {
         const request = new XMLHttpRequest();

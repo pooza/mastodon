@@ -16,7 +16,6 @@ import PollFormContainer from '../containers/poll_form_container';
 import UploadFormContainer from '../containers/upload_form_container';
 import WarningContainer from '../containers/warning_container';
 import LanguageDropdown from '../containers/language_dropdown_container';
-import LivecureDropdown from '../containers/livecure_dropdown_container';
 import TagsetDropdown from '../containers/tagset_dropdown_container';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { length } from 'stringz';
@@ -279,7 +278,6 @@ class ComposeForm extends ImmutablePureComponent {
             <SpoilerButtonContainer />
             <LanguageDropdown />
             <TagsetDropdown />
-            <LivecureDropdown />
           </div>
 
           <div className='character-counter__wrapper'>
