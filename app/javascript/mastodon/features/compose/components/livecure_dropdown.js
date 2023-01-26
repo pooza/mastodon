@@ -217,12 +217,6 @@ class PrivacyDropdown extends React.PureComponent {
       { icon: 'microphone', value: 'show', text: formatMessage(messages.show_short), meta: formatMessage(messages.show_long) },
       { icon: 'microphone-slash', value: 'hide', text: formatMessage(messages.hide_short), meta: formatMessage(messages.hide_long) },
     ];
-
-    if (!this.props.noDirect) {
-      this.options.push(
-        { icon: 'at', value: 'direct', text: formatMessage(messages.direct_short), meta: formatMessage(messages.direct_long) },
-      );
-    }
   }
 
   setTargetRef = c => {
@@ -248,7 +242,7 @@ class PrivacyDropdown extends React.PureComponent {
         <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
-            icon={valueOption.icon}
+            //icon={valueOption.icon}
             title={intl.formatMessage(messages.change)}
             size={18}
             expanded={open}
