@@ -1,3 +1,5 @@
 default: styles/application.scss
 contrast: styles/contrast.scss
 mastodon-light: styles/mastodon-light.scss
+
+mastodon-material: styles/mastodon-light.scss #廃止予定
