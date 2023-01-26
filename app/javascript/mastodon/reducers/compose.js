@@ -56,6 +56,7 @@ import { Map as ImmutableMap, List as ImmutableList, OrderedSet as ImmutableOrde
 import uuid from '../uuid';
 import { me } from '../initial_state';
 import { unescapeHTML } from '../utils/html';
+import { Redirect, Route, withRouter } from 'react-router-dom';
 
 const initialState = ImmutableMap({
   mounted: 0,
@@ -327,6 +328,8 @@ export default function compose(state = initialState, action) {
     switch (action.value) {
     case 'empty':
       return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
+    case 'episodes':
+      return <Redirect to="/mulukhiya/app/episode"/>;
     default:
       const createToot = name => {
         const request = new XMLHttpRequest();
