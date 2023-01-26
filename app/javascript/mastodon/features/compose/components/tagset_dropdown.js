@@ -12,6 +12,8 @@ const messages = defineMessages({
   empty_long: { id: 'tagset.empty.long', defaultMessage: 'Empty tagset' },
   episodes_short: { id: 'tagset.episodes.short', defaultMessage: 'Other episodes' },
   episodes_long: { id: 'tagset.episodes.long', defaultMessage: 'Episode browser of Mulukhiya' },
+  hide_livecure: { id: 'tagset.hide_livecure', defaultMessage: 'Hide livecures' },
+  show_livecure: { id: 'tagset.show_livecure', defaultMessage: 'Show livecures' },
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
 });
 
@@ -235,6 +237,8 @@ class TagsetDropdown extends React.PureComponent {
     }
 
     this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
+    this.options.push({ icon: 'microphone-slash', value: 'hide_livecure', text: formatMessage(messages.hide_livecure) });
+    this.options.push({ icon: 'microphone', value: 'show_livecure', text: formatMessage(messages.show_livecure) });
   }
 
   setTargetRef = c => {
