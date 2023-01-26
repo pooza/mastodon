@@ -11,8 +11,6 @@ import UploadButtonContainer from '../containers/upload_button_container';
 import { defineMessages, injectIntl } from 'react-intl';
 import SpoilerButtonContainer from '../containers/spoiler_button_container';
 import PrivacyDropdownContainer from '../containers/privacy_dropdown_container';
-import LivecureDropdownContainer from '../containers/livecure_dropdown_container';
-import TagsetDropdownContainer from '../containers/tagset_dropdown_container';
 import EmojiPickerDropdown from '../containers/emoji_picker_dropdown_container';
 import PollFormContainer from '../containers/poll_form_container';
 import UploadFormContainer from '../containers/upload_form_container';
@@ -66,7 +64,6 @@ class ComposeForm extends ImmutablePureComponent {
     anyMedia: PropTypes.bool,
     isInReply: PropTypes.bool,
     singleColumn: PropTypes.bool,
-    lang: PropTypes.string,
   };
 
   static defaultProps = {
@@ -243,7 +240,6 @@ class ComposeForm extends ImmutablePureComponent {
             searchTokens={[':']}
             id='cw-spoiler-input'
             className='spoiler-input__input'
-            lang={this.props.lang}
           />
         </div>
 
@@ -261,7 +257,6 @@ class ComposeForm extends ImmutablePureComponent {
           onSuggestionSelected={this.onSuggestionSelected}
           onPaste={onPaste}
           autoFocus={autoFocus}
-          lang={this.props.lang}
         >
           <EmojiPickerDropdown onPickEmoji={this.handleEmojiPick} />
 
@@ -277,8 +272,6 @@ class ComposeForm extends ImmutablePureComponent {
             <PollButtonContainer />
             <PrivacyDropdownContainer disabled={this.props.isEditing} />
             <SpoilerButtonContainer />
-            <TagsetDropdownContainer />
-            <LivecureDropdownContainer />
             <LanguageDropdown />
           </div>
 

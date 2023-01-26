@@ -1842,10 +1842,6 @@
         "id": "navigation_bar.community_timeline"
       },
       {
-        "defaultMessage": "delmulin",
-        "id": "navigation_bar.delmulin_timeline"
-      },
-      {
         "defaultMessage": "Preferences",
         "id": "navigation_bar.preferences"
       },
@@ -2422,10 +2418,6 @@
       {
         "defaultMessage": "Local timeline",
         "id": "navigation_bar.community_timeline"
-      },
-      {
-        "defaultMessage": "delmulin",
-        "id": "navigation_bar.delmulin_timeline"
       },
       {
         "defaultMessage": "Explore",

@@ -59,7 +59,7 @@ class Audio extends React.PureComponent {
     duration: null,
     paused: true,
     muted: false,
-    volume: 1,
+    volume: 0.5,
     dragging: false,
     revealed: this.props.visible !== undefined ? this.props.visible : (displayMedia !== 'hide_all' && !this.props.sensitive || displayMedia === 'show_all'),
   };
@@ -80,8 +80,8 @@ class Audio extends React.PureComponent {
   _pack() {
     return {
       src: this.props.src,
-      volume: this.state.volume,
-      muted: this.state.muted,
+      volume: this.audio.volume,
+      muted: this.audio.muted,
       currentTime: this.audio.currentTime,
       poster: this.props.poster,
       backgroundColor: this.props.backgroundColor,
@@ -115,8 +115,7 @@ class Audio extends React.PureComponent {
     this.audio = c;
 
     if (this.audio) {
-      this.audio.volume = 1;
-      this.audio.muted = false;
+      this.setState({ volume: this.audio.volume, muted: this.audio.muted });
     }
   }
 
@@ -203,9 +202,7 @@ class Audio extends React.PureComponent {
     const muted = !this.state.muted;
 
     this.setState({ muted }, () => {
-      if (this.gainNode) {
-        this.gainNode.gain.value = muted ? 0 : this.state.volume;
-      }
+      this.audio.muted = muted;
     });
   }
 
@@ -283,9 +280,7 @@ class Audio extends React.PureComponent {
 
     if(!isNaN(x)) {
       this.setState({ volume: x }, () => {
-        if (this.gainNode) {
-          this.gainNode.gain.value = this.state.muted ? 0 : x;
-        }
+        this.audio.volume = x;
       });
     }
   }, 15);
@@ -318,10 +313,18 @@ class Audio extends React.PureComponent {
   }
 
   handleLoadedData = () => {
-    const { autoPlay, currentTime } = this.props;
+    const { autoPlay, currentTime, volume, muted } = this.props;
 
     if (currentTime) {
       this.audio.currentTime = currentTime;
+    }
+
+    if (volume !== undefined) {
+      this.audio.volume = volume;
+    }
+
+    if (muted !== undefined) {
+      this.audio.muted = muted;
     }
 
     if (autoPlay) {
@@ -333,16 +336,11 @@ class Audio extends React.PureComponent {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const context      = new AudioContext();
     const source       = context.createMediaElementSource(this.audio);
-    const gainNode     = context.createGain();
-
-    gainNode.gain.value = this.state.muted ? 0 : this.state.volume;
 
     this.visualizer.setAudioContext(context, source);
-    source.connect(gainNode);
-    gainNode.connect(context.destination);
+    source.connect(context.destination);
 
     this.audioContext = context;
-    this.gainNode = gainNode;
   }
 
   handleDownload = () => {
