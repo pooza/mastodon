@@ -232,12 +232,6 @@ class TagsetDropdown extends React.PureComponent {
       v.extra_tags.map(tag => {meta.push(tag)});
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
-
-    if (!this.props.noDirect) {
-      this.options.push(
-        { icon: 'at', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
-      );
-    }
   }
 
   setTargetRef = c => {
