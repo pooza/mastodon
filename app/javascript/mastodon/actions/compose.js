@@ -728,7 +728,7 @@ export function changeComposeVisibility(value) {
   };
 }
 
-export function toggleLivecuresVisibility(value) {
+export function toggleLivecureVisibility(value) {
   return {
     type: COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
     value,
