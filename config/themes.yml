@@ -5,3 +5,4 @@ mastodon-light: styles/mastodon-light.scss
 #Added theme
 cure-orange: styles/cure-orange.scss
 cure-lime : styles/cure-lime.scss
+mastodon-material: styles/cure-lime.scss #廃止予定
