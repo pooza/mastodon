@@ -246,11 +246,7 @@ class Notification extends ImmutablePureComponent {
   }
 
   renderStatus (notification, link) {
-    const { intl, unread, status } = this.props;
-
-    if (!status) {
-      return null;
-    }
+    const { intl, unread } = this.props;
 
     return (
       <HotKeys handlers={this.getHandlers()}>
@@ -268,7 +264,6 @@ class Notification extends ImmutablePureComponent {
           <StatusContainer
             id={notification.get('status')}
             account={notification.get('account')}
-            contextType='notifications'
             muted
             withDismiss
             hidden={this.props.hidden}
@@ -283,11 +278,7 @@ class Notification extends ImmutablePureComponent {
   }
 
   renderUpdate (notification, link) {
-    const { intl, unread, status } = this.props;
-
-    if (!status) {
-      return null;
-    }
+    const { intl, unread } = this.props;
 
     return (
       <HotKeys handlers={this.getHandlers()}>
@@ -305,7 +296,6 @@ class Notification extends ImmutablePureComponent {
           <StatusContainer
             id={notification.get('status')}
             account={notification.get('account')}
-            contextType='notifications'
             muted
             withDismiss
             hidden={this.props.hidden}
@@ -320,13 +310,9 @@ class Notification extends ImmutablePureComponent {
   }
 
   renderPoll (notification, account) {
-    const { intl, unread, status } = this.props;
+    const { intl, unread } = this.props;
     const ownPoll  = me === account.get('id');
     const message  = ownPoll ? intl.formatMessage(messages.ownPoll) : intl.formatMessage(messages.poll);
-
-    if (!status) {
-      return null;
-    }
 
     return (
       <HotKeys handlers={this.getHandlers()}>
@@ -348,7 +334,6 @@ class Notification extends ImmutablePureComponent {
           <StatusContainer
             id={notification.get('status')}
             account={account}
-            contextType='notifications'
             muted
             withDismiss
             hidden={this.props.hidden}

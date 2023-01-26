@@ -16,6 +16,8 @@ import PollFormContainer from '../containers/poll_form_container';
 import UploadFormContainer from '../containers/upload_form_container';
 import WarningContainer from '../containers/warning_container';
 import LanguageDropdown from '../containers/language_dropdown_container';
+import LivecureDropdown from '../containers/livecure_dropdown_container';
+import TagsetDropdown from '../containers/tagset_dropdown_container';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { length } from 'stringz';
 import { countableText } from '../util/counter';
@@ -64,7 +66,6 @@ class ComposeForm extends ImmutablePureComponent {
     anyMedia: PropTypes.bool,
     isInReply: PropTypes.bool,
     singleColumn: PropTypes.bool,
-    lang: PropTypes.string,
   };
 
   static defaultProps = {
@@ -241,7 +242,6 @@ class ComposeForm extends ImmutablePureComponent {
             searchTokens={[':']}
             id='cw-spoiler-input'
             className='spoiler-input__input'
-            lang={this.props.lang}
           />
         </div>
 
@@ -259,7 +259,6 @@ class ComposeForm extends ImmutablePureComponent {
           onSuggestionSelected={this.onSuggestionSelected}
           onPaste={onPaste}
           autoFocus={autoFocus}
-          lang={this.props.lang}
         >
           <EmojiPickerDropdown onPickEmoji={this.handleEmojiPick} />
 
@@ -276,6 +275,8 @@ class ComposeForm extends ImmutablePureComponent {
             <PrivacyDropdownContainer disabled={this.props.isEditing} />
             <SpoilerButtonContainer />
             <LanguageDropdown />
+            <TagsetDropdown />
+            <LivecureDropdown />
           </div>
 
           <div className='character-counter__wrapper'>
