@@ -22,6 +22,7 @@ import { isMobile } from '../../is_mobile';
 
 const messages = defineMessages({
   start: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
+  delmulin_timeline: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin' },
   home_timeline: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
   public: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
@@ -101,7 +102,7 @@ class Compose extends React.PureComponent {
               <Link to='/notifications' className='drawer__tab' title={intl.formatMessage(messages.notifications)} aria-label={intl.formatMessage(messages.notifications)}><Icon id='bell' fixedWidth /></Link>
             )}
             {!columns.some(column => column.get('id') === 'COMMUNITY') && (
-              <Link to='/public/local' className='drawer__tab' title={intl.formatMessage(messages.community)} aria-label={intl.formatMessage(messages.community)}><Icon id='users' fixedWidth /></Link>
+              <Link to='/tags/delmulin' className='drawer__tab' title={intl.formatMessage(messages.delmulin_timeline)} aria-label={intl.formatMessage(messages.delmulin_timeline)}><Icon id='hashtag' fixedWidth /></Link>
             )}
             {!columns.some(column => column.get('id') === 'PUBLIC') && (
               <Link to='/public' className='drawer__tab' title={intl.formatMessage(messages.public)} aria-label={intl.formatMessage(messages.public)}><Icon id='globe' fixedWidth /></Link>
