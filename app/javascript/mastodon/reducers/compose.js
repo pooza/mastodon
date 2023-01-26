@@ -326,18 +326,18 @@ export default function compose(state = initialState, action) {
   case COMPOSE_TAGSET_CHANGE:
     switch (action.value) {
     case 'empty':
-      return state.set('text',['command: user_config', 'tagging:', '  user_tags: null'].join("\n"));
+      return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
     default:
       const createToot = name => {
         const request = new XMLHttpRequest();
         request.open('GET', '/mulukhiya/api/program', false);
         request.send(null);
-        if (request.status != 200) {
+        if (request.status !== 200) {
           return '';
         }
         const result = JSON.parse(request.responseText);
         for (const k of Object.keys(result)) {
-          if (k != name) {
+          if (k !== name) {
             continue;
           }
           const entry = result[k];
@@ -354,13 +354,17 @@ export default function compose(state = initialState, action) {
           if (entry.subtitle) {
             tags.push(entry.subtitle);
           }
-          entry.extra_tags.map(tag => {tags.push(tag)});
+          entry.extra_tags.map(tag => {
+            tags.push(tag);
+          });
           const toot = ['command: user_config', 'tagging:', '  user_tags:'];
-          tags.map(tag => {toot.push(`  - ${tag}`)});
+          tags.map(tag => {
+            toot.push(`  - ${tag}`);
+          });
           if (entry.minutes) {
             toot.push(`  minutes: ${entry.minutes}`);
           }
-          return toot.join("\n");
+          return toot.join('\n');
         }
         return '';
       }
@@ -570,4 +574,5 @@ export default function compose(state = initialState, action) {
   default:
     return state;
   }
+  return;
 }
