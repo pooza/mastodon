@@ -129,7 +129,7 @@ class LivecureDropdownMenu extends React.PureComponent {
 }
 
 export default @injectIntl
-class PrivacyDropdown extends React.PureComponent {
+class LivecureDropdown extends React.PureComponent {
 
   static propTypes = {
     isUserTouching: PropTypes.func,
