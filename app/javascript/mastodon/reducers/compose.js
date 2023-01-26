@@ -110,7 +110,7 @@ function statusToTextMentions(state, status) {
   }
 
   return set.union(status.get('mentions').filterNot(mention => mention.get('id') === me).map(mention => `@${mention.get('acct')} `)).join('');
-};
+}
 
 function clearAll(state) {
   return state.withMutations(map => {
@@ -128,7 +128,7 @@ function clearAll(state) {
     map.set('poll', null);
     map.set('idempotencyKey', uuid());
   });
-};
+}
 
 function appendMedia(state, media, file) {
   const prevSize = state.get('media_attachments').size;
@@ -148,7 +148,7 @@ function appendMedia(state, media, file) {
       map.set('sensitive', true);
     }
   });
-};
+}
 
 function removeMedia(state, mediaId) {
   const prevSize = state.get('media_attachments').size;
@@ -161,7 +161,7 @@ function removeMedia(state, mediaId) {
       map.set('sensitive', false);
     }
   });
-};
+}
 
 const insertSuggestion = (state, position, token, completion, path) => {
   return state.withMutations(map => {
@@ -317,40 +317,56 @@ export default function compose(state = initialState, action) {
       .set('idempotencyKey', uuid());
   case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
     switch (action.value) {
-      case 'show':
-        return state.set('text', "command: filter\ntag: 実況\naction: unregister");
-      case 'hide':
-        return state.set('text', "command: filter\ntag: 実況");
-    };
+    case 'show':
+      return state.set('text', 'command: filter\ntag: 実況\naction: unregister');
+    case 'hide':
+      return state.set('text', 'command: filter\ntag: 実況');
+    }
+    break;
   case COMPOSE_TAGSET_CHANGE:
     switch (action.value) {
-      case 'empty':
-        return state.set('text',['command: user_config', 'tagging:', '  user_tags: null'].join("\n"));
-      default:
-        const createToot = name => {
-          const request = new XMLHttpRequest();
-          request.open('GET', '/mulukhiya/api/program', false);
-          request.send(null);
-          if (request.status != 200) {return '';}
-          const result = JSON.parse(request.responseText);
-          for (const k of Object.keys(result)) {
-            if (k != name) {continue;}
-            const entry = result[k];
-            const tags = [entry.series];
-            if (entry.air) {tags.push('エア番組');}
-            if (entry.livecure) {tags.push('実況');}
-            if (entry.episode) {tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);}
-            if (entry.subtitle) {tags.push(entry.subtitle);}
-            entry.extra_tags.map(tag => {tags.push(tag)});
-            const toot = ['command: user_config', 'tagging:', '  user_tags:'];
-            tags.map(tag => {toot.push(`  - ${tag}`)});
-            if (entry.minutes) {toot.push(`  minutes: ${entry.minutes}`);}
-            return toot.join("\n");
-          }
+    case 'empty':
+      return state.set('text',['command: user_config', 'tagging:', '  user_tags: null'].join("\n"));
+    default:
+      const createToot = name => {
+        const request = new XMLHttpRequest();
+        request.open('GET', '/mulukhiya/api/program', false);
+        request.send(null);
+        if (request.status != 200) {
           return '';
         }
-        return state.set('text', createToot(action.value));
-      };
+        const result = JSON.parse(request.responseText);
+        for (const k of Object.keys(result)) {
+          if (k != name) {
+            continue;
+          }
+          const entry = result[k];
+          const tags = [entry.series];
+          if (entry.air) {
+            tags.push('エア番組');
+          }
+          if (entry.livecure) {
+            tags.push('実況');
+          }
+          if (entry.episode) {
+            tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
+          }
+          if (entry.subtitle) {
+            tags.push(entry.subtitle);
+          }
+          entry.extra_tags.map(tag => {tags.push(tag)});
+          const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+          tags.map(tag => {toot.push(`  - ${tag}`)});
+          if (entry.minutes) {
+            toot.push(`  minutes: ${entry.minutes}`);
+          }
+          return toot.join("\n");
+        }
+        return '';
+      }
+      return state.set('text', createToot(action.value));
+    }
+    break;
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -554,4 +570,4 @@ export default function compose(state = initialState, action) {
   default:
     return state;
   }
-};
+}
