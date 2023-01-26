@@ -549,6 +549,7 @@
   "status.admin_status": "Open this post in the moderation interface",
   "status.block": "Block @{name}",
   "status.bookmark": "Bookmark",
+  "status.tagging": "Tagging",
   "status.cancel_reblog_private": "Unboost",
   "status.cannot_reblog": "This post cannot be boosted",
   "status.copy": "Copy link to post",
