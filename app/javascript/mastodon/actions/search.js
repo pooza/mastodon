@@ -42,10 +42,8 @@ export function submitSearch() {
     api(getState).get('/api/v2/search', {
       params: {
         q: value,
-        resolve: true,
-        //resolve: signedIn,
+        resolve: signedIn,
         limit: 100,
-        //limit: 5,
       },
     }).then(response => {
       if (response.data.accounts) {
