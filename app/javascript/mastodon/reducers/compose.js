@@ -370,7 +370,6 @@ export default function compose(state = initialState, action) {
       };
       return state.set('text', createToot(action.value));
     }
-    break;
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -574,5 +573,4 @@ export default function compose(state = initialState, action) {
   default:
     return state;
   }
-  return;
 }
