@@ -211,7 +211,7 @@ class TagsetDropdown extends React.PureComponent {
 
     this.options = [
       { icon: 'hashtag', value: '', text: '', meta: '' },
-      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
+      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_lo) },
     ];
 
     const request = new XMLHttpRequest();
@@ -257,7 +257,7 @@ class TagsetDropdown extends React.PureComponent {
         <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
-            icon={valueOption.icon}
+            //icon={valueOption.icon}
             title={intl.formatMessage(messages.change)}
             size={18}
             expanded={open}
