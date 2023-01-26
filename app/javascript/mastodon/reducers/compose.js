@@ -367,7 +367,7 @@ export default function compose(state = initialState, action) {
           return toot.join('\n');
         }
         return '';
-      }
+      };
       return state.set('text', createToot(action.value));
     }
     break;
