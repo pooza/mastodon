@@ -4,3 +4,4 @@ mastodon-light: styles/mastodon-light.scss
 
 #Added theme
 bshock: styles/bshock.scss
+mastodon-material: styles/bshock.scss #廃止予定
