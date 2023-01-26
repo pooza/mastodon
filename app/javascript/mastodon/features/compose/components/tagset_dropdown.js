@@ -10,7 +10,8 @@ import Icon from 'mastodon/components/icon';
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
   empty_long: { id: 'tagset.empty.long', defaultMessage: 'Empty tagset' },
-  episodes: { id: 'tagset.episodes', defaultMessage: 'Other episodes' },
+  episodes_short: { id: 'tagset.episodes.short', defaultMessage: 'Other episodes' },
+  episodes_long: { id: 'tagset.episodes.long', defaultMessage: 'Episode browser of Mulukhiya' },
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
 });
 
@@ -234,7 +235,7 @@ class TagsetDropdown extends React.PureComponent {
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
     }
 
-    this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes), meta: formatMessage(messages.episodes) });
+    this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
   }
 
   setTargetRef = c => {
