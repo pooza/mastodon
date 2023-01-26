@@ -1555,8 +1555,6 @@ eo:
   tags:
     does_not_match_previous_name: ne kongruas kun la antaŭa nomo
   themes:
-    cure-orange: Cure oranĝo (Luma)
-    cure-lime: Cure lime (Luma)
     contrast: Mastodon (Forta kontrasto)
     default: Mastodon (Malhela)
     mastodon-light: Mastodon (Hela)
