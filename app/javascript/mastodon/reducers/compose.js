@@ -29,6 +29,8 @@ import {
   COMPOSE_SPOILERNESS_CHANGE,
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
+  COMPOSE_LIVECURES_VISIBILITY_TOGGLE,
+  COMPOSE_TAGSET_CHANGE,
   COMPOSE_LANGUAGE_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
@@ -108,7 +110,7 @@ function statusToTextMentions(state, status) {
   }
 
   return set.union(status.get('mentions').filterNot(mention => mention.get('id') === me).map(mention => `@${mention.get('acct')} `)).join('');
-}
+};
 
 function clearAll(state) {
   return state.withMutations(map => {
@@ -126,7 +128,7 @@ function clearAll(state) {
     map.set('poll', null);
     map.set('idempotencyKey', uuid());
   });
-}
+};
 
 function appendMedia(state, media, file) {
   const prevSize = state.get('media_attachments').size;
@@ -146,7 +148,7 @@ function appendMedia(state, media, file) {
       map.set('sensitive', true);
     }
   });
-}
+};
 
 function removeMedia(state, mediaId) {
   const prevSize = state.get('media_attachments').size;
@@ -159,7 +161,7 @@ function removeMedia(state, mediaId) {
       map.set('sensitive', false);
     }
   });
-}
+};
 
 const insertSuggestion = (state, position, token, completion, path) => {
   return state.withMutations(map => {
@@ -313,6 +315,42 @@ export default function compose(state = initialState, action) {
     return state
       .set('privacy', action.value)
       .set('idempotencyKey', uuid());
+  case COMPOSE_LIVECURES_VISIBILITY_TOGGLE:
+    switch (action.value) {
+      case 'show':
+        return state.set('text', "command: filter\ntag: 実況\naction: unregister");
+      case 'hide':
+        return state.set('text', "command: filter\ntag: 実況");
+    };
+  case COMPOSE_TAGSET_CHANGE:
+    switch (action.value) {
+      case 'empty':
+        return state.set('text',['command: user_config', 'tagging:', '  user_tags: null'].join("\n"));
+      default:
+        const createToot = name => {
+          const request = new XMLHttpRequest();
+          request.open('GET', '/mulukhiya/api/program', false);
+          request.send(null);
+          if (request.status != 200) {return ''}
+          const result = JSON.parse(request.responseText);
+          for (const k of Object.keys(result)) {
+            if (k != name) {continue}
+            const entry = result[k];
+            const tags = [entry.series];
+            if (entry.air) {tags.push('エア番組')}
+            if (entry.livecure) {tags.push('実況')}
+            if (entry.episode) {tags.push(`${entry.episode}${entry.episode_suffix || '話'}`)}
+            if (entry.subtitle) {tags.push(entry.subtitle)}
+            entry.extra_tags.map(tag => {tags.push(tag)});
+            const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+            tags.map(tag => {toot.push(`  - ${tag}`)});
+            if (entry.minutes) {toot.push(`  minutes: ${entry.minutes}`)}
+            return toot.join("\n");
+          }
+          return '';
+        }
+        return state.set('text', createToot(action.value));
+      };
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -330,19 +368,13 @@ export default function compose(state = initialState, action) {
       map.set('preselectDate', new Date());
       map.set('idempotencyKey', uuid());
 
-      if (action.status.get('language') && !action.status.has('translation')) {
+      if (action.status.get('language')) {
         map.set('language', action.status.get('language'));
-      } else {
-        map.set('language', state.get('default_language'));
       }
 
       if (action.status.get('spoiler_text').length > 0) {
         map.set('spoiler', true);
         map.set('spoiler_text', action.status.get('spoiler_text'));
-
-        if (map.get('media_attachments').size >= 1) {
-          map.set('sensitive', true);
-        }
       } else {
         map.set('spoiler', false);
         map.set('spoiler_text', '');
@@ -431,8 +463,6 @@ export default function compose(state = initialState, action) {
   case TIMELINE_DELETE:
     if (action.id === state.get('in_reply_to')) {
       return state.set('in_reply_to', null);
-    } else if (action.id === state.get('id')) {
-      return state.set('id', null);
     } else {
       return state;
     }
@@ -444,7 +474,7 @@ export default function compose(state = initialState, action) {
       .setIn(['media_modal', 'dirty'], false)
       .update('media_attachments', list => list.map(item => {
         if (item.get('id') === action.media.id) {
-          return fromJS(action.media).set('unattached', !action.attached);
+          return fromJS(action.media).set('unattached', true);
         }
 
         return item;
@@ -524,4 +554,4 @@ export default function compose(state = initialState, action) {
   default:
     return state;
   }
-}
+};
