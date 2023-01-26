@@ -135,7 +135,6 @@ class TagsetDropdown extends React.PureComponent {
     onModalClose: PropTypes.func,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    noDirect: PropTypes.bool,
     container: PropTypes.func,
     disabled: PropTypes.bool,
     intl: PropTypes.object.isRequired,
@@ -212,7 +211,7 @@ class TagsetDropdown extends React.PureComponent {
 
     this.options = [
       { icon: 'hashtag', value: '', text: '', meta: '' },
-      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
+      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.direct_short), meta: formatMessage(messages.direct_long) },
     ];
 
     const request = new XMLHttpRequest();
@@ -232,12 +231,6 @@ class TagsetDropdown extends React.PureComponent {
       if (v.minutes) {meta.push(`(${v.minutes}分)`)}
       v.extra_tags.map(tag => {meta.push(tag)});
       this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
-    }
-
-    if (!this.props.noDirect) {
-      this.options.push(
-        { icon: 'at', value: 'direct', text: formatMessage(messages.direct_short), meta: formatMessage(messages.direct_long) },
-      );
     }
   }
 
