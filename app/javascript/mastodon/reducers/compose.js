@@ -328,7 +328,8 @@ export default function compose(state = initialState, action) {
     case 'empty':
       return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
     case 'episodes':
-      return state.set('text', state.get('text'));
+      window.open('/mulukhiya/app/episode');
+      return state;
     default:
       const createToot = name => {
         const request = new XMLHttpRequest();
