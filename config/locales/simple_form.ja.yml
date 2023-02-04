@@ -12,7 +12,7 @@ ja:
       admin_account_action:
         include_statuses: ユーザーは取られた制限や警告の原因となったキュア！を確認できるようになります
         send_email_notification: ユーザーは自分のアカウントに何が起こったのか説明を受け取ります
-        text_html: オプションです。キュア!に用いる構文を使うことができます。簡略化のため<a href="%{path}">プリセット警告文を追加</a>することができます
+        text_html: オプションです。キュア！に用いる構文を使うことができます。簡略化のため<a href="%{path}">プリセット警告文を追加</a>することができます
         type_html: "<strong>%{acct}</strong>さんに対し、何を行うか選択してください"
         types:
           disable: ユーザーが自分のアカウントを使用できないようにします。コンテンツを削除したり非表示にすることはありません。
@@ -46,7 +46,7 @@ ja:
         locale: ユーザーインターフェース、メールやプッシュ通知の言語
         locked: フォロワーを手動で承認する必要があります
         password: 少なくとも8文字は入力してください
-        phrase: キュア！の大文字小文字や閲覧注意に関係なく一致
+        phrase: キュア！内容の大文字小文字や閲覧注意に関係なく一致
         scopes: アプリの API に許可するアクセス権を選択してください。最上位のスコープを選択する場合、個々のスコープを選択する必要はありません。
         setting_aggregate_reblogs: 最近ブーストされたキュア！が新たにブーストされても表示しません (設定後受信したものにのみ影響)
         setting_always_send_emails: 通常、Mastodon からメール通知は行われません。
@@ -55,7 +55,7 @@ ja:
         setting_display_media_hide_all: メディアを常に隠す
         setting_display_media_show_all: メディアを常に表示する
         setting_hide_network: フォローとフォロワーの情報がプロフィールページで見られないようにします
-        setting_noindex: 公開プロフィールおよび各キュア！のページに影響します
+        setting_noindex: 公開プロフィールおよび各キュア！ページに影響します
         setting_show_application: キュア！するのに使用したアプリがキュア！の詳細ビューに表示されるようになります
         setting_use_blurhash: ぼかしはメディアの色を元に生成されますが、細部は見えにくくなっています
         setting_use_pending_items: 新着があってもタイムラインを自動的にスクロールしないようにします
@@ -69,7 +69,7 @@ ja:
       featured_tag:
         name: 最近使用したハッシュタグ
       filters:
-        action: キュア！がフィルタに一致したときに実行するアクションを選択します
+        action: キュア！がフィルタに一致したときに実行するアクションを選択
         actions:
           hide: フィルタに一致したキュア！を完全に非表示にします
           warn: フィルタに一致したキュア！を非表示にし、フィルタのタイトルを含む警告を表示します
@@ -78,7 +78,7 @@ ja:
         backups_retention_period: 生成されたユーザーのアーカイブを指定した日数の間保持します。
         bootstrap_timeline_accounts: これらのアカウントは、新しいユーザー向けのおすすめユーザーの一番上にピン留めされます。
         closed_registrations_message: アカウント作成を停止している時に表示されます
-        content_cache_retention_period: 正の値に設定されている場合、他のサーバーキュア！は指定された日数の後に削除されます。元に戻せません。
+        content_cache_retention_period: 正の値に設定されている場合、他のサーバーのキュア！は指定された日数の後に削除されます。元に戻せません。
         custom_css: ウェブ版のMastodonでカスタムスタイルを適用できます。
         mascot: 上級者向けWebインターフェースのイラストを上書きします。
         media_cache_retention_period: 正の値に設定されている場合、ダウンロードされたメディアファイルは指定された日数の後に削除され、リクエストに応じて再ダウンロードされます。
@@ -194,7 +194,7 @@ ja:
         setting_always_send_emails: 常にメール通知を送信する
         setting_auto_play_gif: アニメーションGIFを自動再生する
         setting_boost_modal: ブーストする前に確認ダイアログを表示する
-        setting_crop_images: キュア！詳細以外では画像を16:9に切り抜く
+        setting_crop_images: キュア！の詳細以外では画像を16:9に切り抜く
         setting_default_language: キュア！する言語
         setting_default_privacy: キュア！の公開範囲
         setting_default_sensitive: メディアを常に閲覧注意としてマークする
