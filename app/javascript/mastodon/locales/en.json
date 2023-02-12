@@ -393,6 +393,7 @@
   "navigation_bar.public_timeline": "Federated timeline",
   "navigation_bar.search": "Search",
   "navigation_bar.security": "Security",
+  "navigation_bar.mulukhiya": "Mulukhiya Home",
   "not_signed_in_indicator.not_signed_in": "You need to sign in to access this resource.",
   "notification.admin.report": "{name} reported {target}",
   "notification.admin.sign_up": "{name} signed up",

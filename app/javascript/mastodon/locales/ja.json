@@ -393,6 +393,7 @@
   "navigation_bar.public_timeline": "連合タイムライン",
   "navigation_bar.search": "検索",
   "navigation_bar.security": "セキュリティ",
+  "navigation_bar.mulukhiya": "モロヘイヤHome",
   "not_signed_in_indicator.not_signed_in": "この機能を使うにはログインする必要があります。",
   "notification.admin.report": "{name}さんが{target}さんを通報しました",
   "notification.admin.sign_up": "{name}さんがサインアップしました",
