@@ -26,6 +26,7 @@ const messages = defineMessages({
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
+  mulukhiya: { id: 'navigation_bar.mulukhiya', defaultMessage: 'Mulukhiya Home' },
 });
 
 export default @injectIntl
@@ -85,6 +86,7 @@ class NavigationPanel extends React.Component {
             <ColumnLink transparent to='/favourites' icon='star' text={intl.formatMessage(messages.favourites)} />
             <ColumnLink transparent to='/bookmarks' icon='bookmark' text={intl.formatMessage(messages.bookmarks)} />
             <ColumnLink transparent to='/lists' icon='list-ul' text={intl.formatMessage(messages.lists)} />
+            <ColumnLink transparent to='/mulukhiya' icon='leaf' text={intl.formatMessage(messages.mulukhiya)} />
 
             <ListPanel />
 
