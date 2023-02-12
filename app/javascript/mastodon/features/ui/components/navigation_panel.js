@@ -86,7 +86,7 @@ class NavigationPanel extends React.Component {
             <ColumnLink transparent to='/favourites' icon='star' text={intl.formatMessage(messages.favourites)} />
             <ColumnLink transparent to='/bookmarks' icon='bookmark' text={intl.formatMessage(messages.bookmarks)} />
             <ColumnLink transparent to='/lists' icon='list-ul' text={intl.formatMessage(messages.lists)} />
-            <ColumnLink transparent to='/mulukhiya' icon='leaf' text={intl.formatMessage(messages.mulukhiya)} />
+            <ColumnLink transparent href='/mulukhiya' icon='leaf' text={intl.formatMessage(messages.mulukhiya)} />
 
             <ListPanel />
 
