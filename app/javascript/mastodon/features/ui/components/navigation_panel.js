@@ -26,7 +26,7 @@ const messages = defineMessages({
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
-  search: { id: 'navigation_bar.mulukhiya', defaultMessage: 'Mulukhiya Home' },
+  mulukhiya: { id: 'navigation_bar.mulukhiya', defaultMessage: 'Mulukhiya Home' },
 });
 
 export default @injectIntl
