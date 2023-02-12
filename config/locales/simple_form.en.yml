@@ -31,7 +31,7 @@ en:
         text: You can only appeal a strike once
       defaults:
         autofollow: People who sign up through the invite will automatically follow you
-        avatar: PNG, GIF or JPG. At most %{size}. Will be downscaled to %{dimensions}px
+        avatar: PNG, GIF, JPG or WebP. At most %{size}. Will be downscaled to %{dimensions}px
         bot: Signal to others that the account mainly performs automated actions and might not be monitored
         context: One or multiple contexts where the filter should apply
         current_password: For security purposes please enter the password of the current account
@@ -40,7 +40,7 @@ en:
         discoverable: Allow your account to be discovered by strangers through recommendations, trends and other features
         email: You will be sent a confirmation e-mail
         fields: You can have up to 10 items displayed as a table on your profile
-        header: PNG, GIF or JPG. At most %{size}. Will be downscaled to %{dimensions}px
+        header: PNG, GIF, JPG or WebP. At most %{size}. Will be downscaled to %{dimensions}px
         inbox_url: Copy the URL from the frontpage of the relay you want to use
         irreversible: Filtered posts will disappear irreversibly, even if filter is later removed
         locale: The language of the user interface, e-mails and push notifications
