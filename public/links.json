@@ -18,11 +18,13 @@
     "body": "モロヘイヤ",
     "links": [
       {"href": "/mulukhiya", "body": "Home", "icon": "home"},
+      {"href": "/mulukhiya/app/feed", "body": "フィード", "icon": "rss"},
+      {"href": "/mulukhiya/app/media", "body": "メディアカタログ", "icon": "image"},
       {"href": "/mulukhiya/app/status", "body": "キュア！", "icon": "comment"},
-      {"href": "/mulukhiya/app/media", "body": "メディア", "icon": "image"},
+      {"href": "/mulukhiya/app/hashtag", "body": "ハッシュタグ", "icon": "hashtag"},
       {"href": "/mulukhiya/app/episode", "body": "エピソードブラウザ", "icon": "film"},
-      {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"},
-      {"href": "/mulukhiya/app/api", "body": "API", "icon": "terminal"}
+      {"href": "/mulukhiya/app/api", "body": "API", "icon": "terminal"},
+      {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"}
     ]
   },
   {
