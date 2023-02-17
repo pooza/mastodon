@@ -89,4 +89,4 @@ docker-compose.override.yml
 .node_repl_history
 .psql_history
 .wget-hsts
-
+.local
