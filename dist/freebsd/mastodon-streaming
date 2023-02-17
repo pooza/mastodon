@@ -18,12 +18,14 @@ load_rc_config "mastodon"
 : ${mastodon_user="mastodon"}
 : ${mastodon_streaming_bind="0.0.0.0"}
 : ${mastodon_env="production"}
+: ${mastodon_threads="20"}
 
 export PATH=${PATH}:/usr/local/bin:/usr/local/sbin
 export LANG=ja_JP.UTF-8
 export LC_ALL=ja_JP.UTF-8
 export BIND=$mastodon_streaming_bind
 export NODE_ENV=$mastodon_env
+export DB_POOL=$mastodon_threads
 
 start_cmd=${name}_start
 stop_cmd=${name}_stop
