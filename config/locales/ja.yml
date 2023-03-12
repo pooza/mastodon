@@ -761,7 +761,7 @@ ja:
       no_status_selected: 何も選択されていないため、変更されていません
       open: キュア！を開く
       original_status: オリジナルのキュア！
-      reblogs: ブースト
+      reblogs: リキュア！
       status_changed: キュア！を変更しました
       title: キュア！一覧
       trending: トレンド
@@ -1310,9 +1310,9 @@ ja:
     poll:
       subject: "%{name} さんの投票が終了しました"
     reblog:
-      body: "%{name}さんにブーストされた、あなたのキュア！があります:"
-      subject: "%{name}さんにブーストされました"
-      title: 新たなブースト
+      body: "%{name}さんにリキュア！された、あなたのキュア！があります:"
+      subject: "%{name}さんにリキュア！されました"
+      title: 新たなリキュア！
     status:
       subject: "%{name}さんがキュア！しました"
     update:
@@ -1474,7 +1474,7 @@ ja:
         other: "%{count}枚の画像"
       video:
         other: "%{count}本の動画"
-    boosted_from_html: "%{acct_link}からブースト"
+    boosted_from_html: "%{acct_link}からリキュア！"
     content_warning: '閲覧注意: %{warning}'
     default_language: UIの表示言語
     disallowed_hashtags:
@@ -1488,7 +1488,7 @@ ja:
       direct: 返信したユーザーのみに表示されるキュア！はピン留めできません
       limit: 固定できるキュア！数の上限に達しました
       ownership: 他人のキュア！を固定することはできません
-      reblog: ブーストを固定することはできません
+      reblog: リキュア！を固定することはできません
     poll:
       total_people:
         other: "%{count}人"
@@ -1517,7 +1517,7 @@ ja:
     ignore_favs: 設定しない
     ignore_reblogs: 設定しない
     interaction_exceptions: インタラクションに基づく例外
-    interaction_exceptions_explanation: お気に入りやブーストの基準値を一度超えてしまったキュア！は、基準値を下回った後であっても、削除される保証はありません。
+    interaction_exceptions_explanation: お気に入りやリキュア！の基準値を一度超えてしまったキュア！は、基準値を下回った後であっても、削除される保証はありません。
     keep_direct: ダイレクトメッセージを保持
     keep_direct_hint: ダイレクトメッセージを削除せずに残します
     keep_media: メディア付きのキュア！を保持
@@ -1542,11 +1542,11 @@ ja:
     min_age_label: キュア！を保持する期間
     min_favs: お気に入りの基準値
     min_favs_hint: この数以上、お気に入りされたキュア！を削除せずに残します。空白にしておくと、お気に入りに登録された数に関わらずキュア！を削除します。
-    min_reblogs: ブーストの基準値
-    min_reblogs_hint: この数以上、ブーストされたキュア！を削除せずに残します。空白にしておくと、ブーストされた数に関わらずキュア！を削除します。
+    min_reblogs: リキュア！の基準値
+    min_reblogs_hint: この数以上、リキュア！されたキュア！を削除せずに残します。空白にしておくと、リキュア！された数に関わらずキュア！を削除します。
   stream_entries:
     pinned: 固定されたキュア！
-    reblogged: さんがブースト
+    reblogged: さんがリキュア！
     sensitive_content: 閲覧注意
   strikes:
     errors:

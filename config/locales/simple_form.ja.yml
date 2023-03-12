@@ -48,7 +48,7 @@ ja:
         password: 少なくとも8文字は入力してください
         phrase: キュア！内容の大文字小文字や閲覧注意に関係なく一致
         scopes: アプリの API に許可するアクセス権を選択してください。最上位のスコープを選択する場合、個々のスコープを選択する必要はありません。
-        setting_aggregate_reblogs: 最近ブーストされたキュア！が新たにブーストされても表示しません (設定後受信したものにのみ影響)
+        setting_aggregate_reblogs: 最近リキュア！されたキュア！が新たにリキュア！されても表示しません (設定後受信したものにのみ影響)
         setting_always_send_emails: 通常、Mastodon からメール通知は行われません。
         setting_default_sensitive: 閲覧注意状態のメディアはデフォルトでは内容が伏せられ、クリックして初めて閲覧できるようになります
         setting_display_media_default: 閲覧注意としてマークされたメディアは隠す
@@ -103,7 +103,7 @@ ja:
       imports:
         data: 他のMastodonサーバーからエクスポートしたCSVファイルを選択して下さい
       invite_request:
-        text: このサーバーは現在承認制です。申請を承認する際に役立つメッセージを添えてください。推しキュア（好きなプリキュア）だけでも結構です。
+        text: このサーバーは現在承認制です。申請を承認する際に役立つメッセージを添えてください。推しキュア（好きなプリキュア！）だけでも結構です。
       ip_block:
         comment: オプションです。このルールを追加した理由の覚え書きにご利用ください。
         expires_in: IPアドレスは有限のリソースです。複数人で共有されたり変更されることもあります。そのため無期限にIPアドレスをブロックするのは推奨されません。
@@ -192,10 +192,10 @@ ja:
         password: パスワード
         phrase: キーワードまたはフレーズ
         setting_advanced_layout: 上級者向けUIを有効にする
-        setting_aggregate_reblogs: ブーストをまとめる
+        setting_aggregate_reblogs: リキュア！をまとめる
         setting_always_send_emails: 常にメール通知を送信する
         setting_auto_play_gif: アニメーションGIFを自動再生する
-        setting_boost_modal: ブーストする前に確認ダイアログを表示する
+        setting_boost_modal: リキュア！する前に確認ダイアログを表示する
         setting_crop_images: キュア！の詳細以外では画像を16:9に切り抜く
         setting_default_language: キュア！する言語
         setting_default_privacy: キュア！の公開範囲
@@ -267,7 +267,7 @@ ja:
       invite:
         comment: コメント
       invite_request:
-        text: プリキュアの好きなところをお聞かせください
+        text: プリキュア！の好きなところをお聞かせください
       ip_block:
         comment: コメント
         ip: IP
@@ -284,7 +284,7 @@ ja:
         follow_request: フォローリクエストを受けた時
         mention: 返信が来た時
         pending_account: 新しいアカウントの承認が必要な時
-        reblog: キュア！がブーストされた時
+        reblog: キュア！がリキュア！された時
         report: 新しい通報が送信された時
         trending_tag: 新しいトレンドのレビューをする必要がある時
       rule:
