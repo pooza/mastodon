@@ -1,11 +1,5 @@
 [
   {
-    "body": "姉妹インスタンス",
-    "links": [
-      {"href": "https://misskey.delmulin.com/", "body": "ダイスキー（Misskey）"}
-    ]
-  },
-  {
     "body": "お知らせ",
     "links": [
       {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット", "icon": "info"},
@@ -17,8 +11,7 @@
     "links": [
       {"href": "https://blog.mstdn.delmulin.com/", "body": "Home", "icon": "home"},
       {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け", "icon": "user"},
-      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況", "icon": "microphone"},
-      {"href": "https://blog.mstdn.delmulin.com/articles/魂の絆", "body": "「魂の絆」画像等の著作権", "icon": "info"}
+      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況", "icon": "microphone"}
     ]
   },
   {
@@ -37,8 +30,8 @@
   {
     "body": "その他",
     "links": [
-      {"href": "https://uptime.delmulin.com/", "body": "UptimeRobot（監視）"},
-      {"href": "https://leroma.shrieker.net/", "body": "美食レロマ（避難所）"}
+      {"href": "https://misskey.delmulin.com/", "body": "ダイスキー（Misskey）"},
+      {"href": "https://uptime.delmulin.com/", "body": "UptimeRobot（監視）"}
     ]
   }
 ]
