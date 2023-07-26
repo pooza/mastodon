@@ -33,5 +33,11 @@
       {"href": "https://misskey.delmulin.com/", "body": "ダイスキー（Misskey）"},
       {"href": "https://uptime.delmulin.com/", "body": "UptimeRobot（監視）"}
     ]
+  },
+  {
+    "body": "その他",
+    "links": [
+      {"href": "https://uptime.mstdn.b-shock.org/", "body": "UptimeRobot（監視）"}
+    ]
   }
 ]
