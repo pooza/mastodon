@@ -86,12 +86,16 @@ class ComposeForm extends ImmutablePureComponent {
     return [this.props.spoiler? this.props.spoilerText: '', countableText(this.props.text)].join('');
   };
 
+  getMaxCharacters = () => {
+    return 1500;
+  };
+
   canSubmit = () => {
     const { isSubmitting, isChangingUpload, isUploading, anyMedia } = this.props;
     const fulltext = this.getFulltextForCharacterCounting();
     const isOnlyWhitespace = fulltext.length !== 0 && fulltext.trim().length === 0;
 
-    return !(isSubmitting || isUploading || isChangingUpload || length(fulltext) > (process.env.COMPOSER_MAX_CHARS || 500) || (isOnlyWhitespace && !anyMedia));
+    return !(isSubmitting || isUploading || isChangingUpload || length(fulltext) > this.getMaxCharacters() || (isOnlyWhitespace && !anyMedia));
   };
 
   handleSubmit = (e) => {
@@ -282,7 +286,7 @@ class ComposeForm extends ImmutablePureComponent {
           </div>
 
           <div className='character-counter__wrapper'>
-            <CharacterCounter max={(process.env.COMPOSER_MAX_CHARS || 500)} text={this.getFulltextForCharacterCounting()} />
+            <CharacterCounter max={this.getMaxCharacters()} text={this.getFulltextForCharacterCounting()} />
           </div>
         </div>
 
