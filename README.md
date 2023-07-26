@@ -1,6 +1,6 @@
-# デルムリン丼
+# 美食丼
 
-https://mstdn.delmulin.com
+https://mstdn.b-shock.org
 
 フォーク元 https://github.com/mastodon/mastodon
 
@@ -10,8 +10,3 @@ https://mstdn.delmulin.com
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - WebUIの画像リサイズ処理をキャンセル
   - 投稿の「もっと見る」メニューに「タグ付け」追加
-- 実況メニュー
-- Elasticsearchなしでも動作する、簡易な投稿検索 ~~pgroonga対応~~
-- スタートメニューの項目をJSONファイルで拡張できる様に
-- レートリミットの対象外とするネットワークを指定できる様に
-- パラメータ調整多数

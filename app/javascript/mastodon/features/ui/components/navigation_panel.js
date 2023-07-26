@@ -16,7 +16,7 @@ const messages = defineMessages({
   home: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
   explore: { id: 'explore.title', defaultMessage: 'Explore' },
-  delmulin: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin' },
+  local: { id: 'tabs_bar.local_timeline', defaultMessage: 'Local' },
   federated: { id: 'tabs_bar.federated_timeline', defaultMessage: 'Federated' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Direct messages' },
   favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Favourites' },
@@ -26,7 +26,6 @@ const messages = defineMessages({
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
-  mulukhiya: { id: 'navigation_bar.mulukhiya', defaultMessage: 'Mulukhiya Home' },
 });
 
 export default @injectIntl
@@ -68,7 +67,7 @@ class NavigationPanel extends React.Component {
 
         {(signedIn || timelinePreview) && (
           <>
-            <ColumnLink transparent to='/tags/delmulin' icon='hashtag' text={intl.formatMessage(messages.delmulin)} />
+            <ColumnLink transparent to='/public/local' icon='users' text={intl.formatMessage(messages.local)} />
             <ColumnLink transparent exact to='/public' icon='globe' text={intl.formatMessage(messages.federated)} />
           </>
         )}
@@ -86,7 +85,6 @@ class NavigationPanel extends React.Component {
             <ColumnLink transparent to='/bookmarks' icon='bookmark' text={intl.formatMessage(messages.bookmarks)} />
             <ColumnLink transparent to='/favourites' icon='star' text={intl.formatMessage(messages.favourites)} />
             <ColumnLink transparent to='/lists' icon='list-ul' text={intl.formatMessage(messages.lists)} />
-            <ColumnLink transparent href='/mulukhiya' icon='leaf' text={intl.formatMessage(messages.mulukhiya)} />
 
             <ListPanel />
 
