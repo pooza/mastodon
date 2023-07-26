@@ -165,4 +165,3 @@ class GettingStarted extends ImmutablePureComponent {
   }
 
 }
-
