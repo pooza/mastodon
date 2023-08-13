@@ -97,7 +97,7 @@ class ComposeForm extends ImmutablePureComponent {
   };
 
   getMaxCharacters = () => {
-    return 1500;
+    return 2400;
   };
 
   canSubmit = () => {
@@ -303,7 +303,7 @@ class ComposeForm extends ImmutablePureComponent {
             </div>
 
             <div className='character-counter__wrapper'>
-              <CharacterCounter max={500} text={this.getFulltextForCharacterCounting()} />
+              <CharacterCounter max={this.getMaxCharacters()} text={this.getFulltextForCharacterCounting()} />
             </div>
           </div>
         </div>
