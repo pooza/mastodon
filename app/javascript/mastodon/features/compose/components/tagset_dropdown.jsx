@@ -245,12 +245,6 @@ class TagsetDropdown extends PureComponent {
     this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
     this.options.push({ icon: 'microphone-slash', value: 'hide_livecure', text: formatMessage(messages.hide_livecure) });
     this.options.push({ icon: 'microphone', value: 'show_livecure', text: formatMessage(messages.show_livecure) });
-
-    if (!this.props.noDirect) {
-      this.options.push(
-        { icon: 'at', value: 'direct', text: formatMessage(messages.direct_short), meta: formatMessage(messages.direct_long) },
-      );
-    }
   }
 
   setTargetRef = c => {
