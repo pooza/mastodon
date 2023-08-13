@@ -21,6 +21,7 @@ import PollFormContainer from '../containers/poll_form_container';
 import PrivacyDropdownContainer from '../containers/privacy_dropdown_container';
 import ReplyIndicatorContainer from '../containers/reply_indicator_container';
 import SpoilerButtonContainer from '../containers/spoiler_button_container';
+import TagsetDropdownContainer from '../containers/tagset_dropdown_container';
 import UploadButtonContainer from '../containers/upload_button_container';
 import UploadFormContainer from '../containers/upload_form_container';
 import WarningContainer from '../containers/warning_container';
@@ -298,6 +299,7 @@ class ComposeForm extends ImmutablePureComponent {
               <PrivacyDropdownContainer disabled={this.props.isEditing} />
               <SpoilerButtonContainer />
               <LanguageDropdown />
+              <TagsetDropdownContainer />
             </div>
 
             <div className='character-counter__wrapper'>

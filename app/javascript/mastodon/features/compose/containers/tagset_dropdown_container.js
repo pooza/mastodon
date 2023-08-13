@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import TagsetDropdown from '../components/tagset_dropdown';
 import { changeTagset } from '../../../actions/compose';
 import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
+import TagsetDropdown from '../components/tagset_dropdown';
 
 const mapStateToProps = state => ({
   value: state.getIn(['compose', 'tagset']),
@@ -15,8 +15,14 @@ const mapDispatchToProps = dispatch => ({
   },
 
   isUserTouching,
-  onModalOpen: props => dispatch(openModal('ACTIONS', props)),
-  onModalClose: () => dispatch(closeModal()),
+  onModalOpen: props => dispatch(openModal({
+    modalType: 'ACTIONS',
+    modalProps: props,
+  })),
+  onModalClose: () => dispatch(closeModal({
+    modalType: undefined,
+    ignoreFocus: false,
+  })),
 
 });
 
