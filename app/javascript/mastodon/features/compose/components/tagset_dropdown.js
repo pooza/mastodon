@@ -1,11 +1,16 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { PureComponent } from 'react';
+
 import { injectIntl, defineMessages } from 'react-intl';
-import IconButton from '../../../components/icon_button';
-import Overlay from 'react-overlays/Overlay';
-import { supportsPassiveEvents } from 'detect-passive-events';
+
 import classNames from 'classnames';
-import Icon from 'mastodon/components/icon';
+
+import { supportsPassiveEvents } from 'detect-passive-events';
+import Overlay from 'react-overlays/Overlay';
+
+import { Icon }  from 'mastodon/components/icon';
+
+import { IconButton } from '../../../components/icon_button';
 
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
@@ -17,9 +22,9 @@ const messages = defineMessages({
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
 });
 
-const listenerOptions = supportsPassiveEvents ? { passive: true } : false;
+const listenerOptions = supportsPassiveEvents ? { passive: true, capture: true } : true;
 
-class TagsetDropdownMenu extends React.PureComponent {
+class TagsetDropdownMenu extends PureComponent {
 
   static propTypes = {
     style: PropTypes.object,
@@ -32,8 +37,9 @@ class TagsetDropdownMenu extends React.PureComponent {
   handleDocumentClick = e => {
     if (this.node && !this.node.contains(e.target)) {
       this.props.onClose();
+      e.stopPropagation();
     }
-  }
+  };
 
   handleKeyDown = e => {
     const { items } = this.props;
@@ -77,7 +83,7 @@ class TagsetDropdownMenu extends React.PureComponent {
       e.preventDefault();
       e.stopPropagation();
     }
-  }
+  };
 
   handleClick = e => {
     const value = e.currentTarget.getAttribute('data-index');
@@ -86,26 +92,26 @@ class TagsetDropdownMenu extends React.PureComponent {
 
     this.props.onClose();
     this.props.onChange(value);
-  }
+  };
 
   componentDidMount () {
-    document.addEventListener('click', this.handleDocumentClick, false);
+    document.addEventListener('click', this.handleDocumentClick, { capture: true });
     document.addEventListener('touchend', this.handleDocumentClick, listenerOptions);
     if (this.focusedItem) this.focusedItem.focus({ preventScroll: true });
   }
 
   componentWillUnmount () {
-    document.removeEventListener('click', this.handleDocumentClick, false);
+    document.removeEventListener('click', this.handleDocumentClick, { capture: true });
     document.removeEventListener('touchend', this.handleDocumentClick, listenerOptions);
   }
 
   setRef = c => {
     this.node = c;
-  }
+  };
 
   setFocusRef = c => {
     this.focusedItem = c;
-  }
+  };
 
   render () {
     const { style, items, value } = this.props;
@@ -113,7 +119,7 @@ class TagsetDropdownMenu extends React.PureComponent {
     return (
       <div style={{ ...style }} role='listbox' ref={this.setRef}>
         {items.map(item => (
-          <div role='option' tabIndex='0' key={item.value} data-index={item.value} onKeyDown={this.handleKeyDown} onClick={this.handleClick} className={classNames('privacy-dropdown__option', { active: item.value === value })} aria-selected={item.value === value} ref={item.value === value ? this.setFocusRef : null}>
+          <div role='option' tabIndex={0} key={item.value} data-index={item.value} onKeyDown={this.handleKeyDown} onClick={this.handleClick} className={classNames('privacy-dropdown__option', { active: item.value === value })} aria-selected={item.value === value} ref={item.value === value ? this.setFocusRef : null}>
             <div className='privacy-dropdown__option__icon'>
               <Icon id={item.icon} fixedWidth />
             </div>
@@ -130,8 +136,7 @@ class TagsetDropdownMenu extends React.PureComponent {
 
 }
 
-export default @injectIntl
-class TagsetDropdown extends React.PureComponent {
+class TagsetDropdown extends PureComponent {
 
   static propTypes = {
     isUserTouching: PropTypes.func,
@@ -139,6 +144,7 @@ class TagsetDropdown extends React.PureComponent {
     onModalClose: PropTypes.func,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    noDirect: PropTypes.bool,
     container: PropTypes.func,
     disabled: PropTypes.bool,
     intl: PropTypes.object.isRequired,
@@ -165,7 +171,7 @@ class TagsetDropdown extends React.PureComponent {
       }
       this.setState({ open: !this.state.open });
     }
-  }
+  };
 
   handleModalActionClick = (e) => {
     e.preventDefault();
@@ -174,7 +180,7 @@ class TagsetDropdown extends React.PureComponent {
 
     this.props.onModalClose();
     this.props.onChange(value);
-  }
+  };
 
   handleKeyDown = e => {
     switch(e.key) {
@@ -182,13 +188,13 @@ class TagsetDropdown extends React.PureComponent {
       this.handleClose();
       break;
     }
-  }
+  };
 
   handleMouseDown = () => {
     if (!this.state.open) {
       this.activeElement = document.activeElement;
     }
-  }
+  };
 
   handleButtonKeyDown = (e) => {
     switch(e.key) {
@@ -197,20 +203,20 @@ class TagsetDropdown extends React.PureComponent {
       this.handleMouseDown();
       break;
     }
-  }
+  };
 
   handleClose = () => {
     if (this.state.open && this.activeElement) {
       this.activeElement.focus({ preventScroll: true });
     }
     this.setState({ open: false });
-  }
+  };
 
   handleChange = value => {
     this.props.onChange(value);
-  }
+  };
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
@@ -220,7 +226,7 @@ class TagsetDropdown extends React.PureComponent {
     const request = new XMLHttpRequest();
     request.open('GET', '/mulukhiya/api/program', false);
     request.send(null);
-    if (request.status != 200) {return}
+    if (request.status !== 200) {return}
     const result = JSON.parse(request.responseText);
     for (const k of Object.keys(result)) {
       const v = result[k];
@@ -243,15 +249,15 @@ class TagsetDropdown extends React.PureComponent {
 
   setTargetRef = c => {
     this.target = c;
-  }
+  };
 
   findTarget = () => {
     return this.target;
-  }
+  };
 
   handleOverlayEnter = (state) => {
     this.setState({ placement: state.placement });
-  }
+  };
 
   render () {
     const { value, container, disabled, intl } = this.props;
@@ -295,3 +301,5 @@ class TagsetDropdown extends React.PureComponent {
   }
 
 }
+
+export default injectIntl(TagsetDropdown);
