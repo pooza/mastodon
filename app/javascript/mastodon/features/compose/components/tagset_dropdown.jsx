@@ -263,11 +263,9 @@ class TagsetDropdown extends PureComponent {
     const { value, container, disabled, intl } = this.props;
     const { open, placement } = this.state;
 
-    const valueOption = this.options.find(item => item.value === value);
-
     return (
       <div className={classNames('privacy-dropdown', placement, { active: open })} onKeyDown={this.handleKeyDown}>
-        <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
+        <div className={classNames('privacy-dropdown__value')} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
             icon='hashtag'
