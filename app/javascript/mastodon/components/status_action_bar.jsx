@@ -284,7 +284,8 @@ class StatusActionBar extends ImmutablePureComponent {
       }
 
       if (writtenByMe) {
-        menu.push({ text: intl.formatMessage(messages.edit), action: this.handleEditClick });
+        //menu.push({ text: intl.formatMessage(messages.edit), action: this.handleEditClick });
+        menu.push({ text: intl.formatMessage(messages.tagging), action: this.handleTaggingClick });
         menu.push({ text: intl.formatMessage(messages.delete), action: this.handleDeleteClick, dangerous: true });
         menu.push({ text: intl.formatMessage(messages.redraft), action: this.handleRedraftClick, dangerous: true });
       } else {
