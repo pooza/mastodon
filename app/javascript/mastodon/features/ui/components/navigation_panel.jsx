@@ -82,10 +82,7 @@ class NavigationPanel extends Component {
         )}
 
         {(signedIn || timelinePreview) && (
-          <>
-            <ColumnLink transparent to='/tags/delmulin' icon='hashtag' text={intl.formatMessage(messages.delmulin)} />
-            <ColumnLink transparent to='/public/local' isActive={this.isFirehoseActive} icon='globe' text={intl.formatMessage(messages.firehose)} />
-          </>
+          <ColumnLink transparent to='/tags/delmulin' icon='hashtag' text={intl.formatMessage(messages.delmulin)} />
         )}
 
         {!signedIn && (
