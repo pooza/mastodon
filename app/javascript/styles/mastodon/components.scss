@@ -4433,7 +4433,6 @@ a.status-card {
   background-color: rgba($black, 0.45);
   backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
   font-size: 11px;
-  text-transform: uppercase;
   font-weight: 700;
   padding: 2px 6px;
   border-radius: 4px;
@@ -4981,7 +4980,6 @@ a.status-card {
     padding: 15px 5px;
 
     h4 {
-      text-transform: uppercase;
       color: $dark-text-color;
       font-weight: 500;
       padding: 0 10px;
@@ -9207,7 +9205,6 @@ noscript {
 }
 
 .notification-bar-action {
-  text-transform: uppercase;
   margin-inline-start: 10px;
   cursor: pointer;
   color: $blurple-300;
