@@ -226,7 +226,7 @@ class TagsetDropdown extends PureComponent {
     const request = new XMLHttpRequest();
     request.open('GET', '/mulukhiya/api/program', false);
     request.send(null);
-    if (request.status != 200) {return}
+    if (request.status !== 200) {return}
     const result = JSON.parse(request.responseText);
     for (const k of Object.keys(result)) {
       const v = result[k];
@@ -270,8 +270,8 @@ class TagsetDropdown extends PureComponent {
         <div className={classNames('privacy-dropdown__value', { active: this.options.indexOf(valueOption) === (placement === 'bottom' ? 0 : (this.options.length - 1)) })} ref={this.setTargetRef}>
           <IconButton
             className='privacy-dropdown__value-icon'
-            icon={valueOption.icon}
-            title={intl.formatMessage(messages.change_tagset)}
+            icon='hashtag'
+            title={intl.formatMessage(messages.change)}
             size={18}
             expanded={open}
             active={open}

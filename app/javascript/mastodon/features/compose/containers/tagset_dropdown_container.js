@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+
 import { changeTagset } from '../../../actions/compose';
 import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
