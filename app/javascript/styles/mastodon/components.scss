@@ -2934,6 +2934,7 @@ $ui-header-height: 55px;
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 310px;
     padding-bottom: 71px;
     margin-bottom: -71px;
   }
@@ -3268,7 +3269,7 @@ $ui-header-height: 55px;
 }
 
 .react-toggle--checked .react-toggle-thumb {
-  insex;
+  inset-inline-start: 27px;
   border-color: $ui-highlight-color;
 }
 
