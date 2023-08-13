@@ -82,10 +82,7 @@ class NavigationPanel extends Component {
         )}
 
         {(signedIn || timelinePreview) && (
-          <>
-            <ColumnLink transparent to='/tags/precure_fun' icon='hashtag' text={intl.formatMessage(messages.precure)} />
-            <ColumnLink transparent exact to='/public' icon='globe' text={intl.formatMessage(messages.federated)} />
-          </>
+          <ColumnLink transparent to='/tags/precure_fun' icon='hashtag' text={intl.formatMessage(messages.precure)} />
         )}
 
         {!signedIn && (
