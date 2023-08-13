@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StatusLengthValidator < ActiveModel::Validator
-  MAX_CHARS = ENV.fetch('MAX_CHARS', 500).to_i
+  MAX_CHARS = ENV.fetch('MAX_CHARS', 3000).to_i
   URL_PLACEHOLDER_CHARS = 23
   URL_PLACEHOLDER = 'x' * 23
 
@@ -45,7 +45,7 @@ class StatusLengthValidator < ActiveModel::Validator
 
   def rewrite_entities(str, entities)
     entities.sort_by! { |entity| entity[:indices].first }
-    result = ''.dup
+    result = +''
 
     last_index = entities.reduce(0) do |index, entity|
       result << str[index...entity[:indices].first]
@@ -53,7 +53,7 @@ class StatusLengthValidator < ActiveModel::Validator
       entity[:indices].last
     end
 
-    result << str[last_index..-1]
+    result << str[last_index..]
     result
   end
 end
