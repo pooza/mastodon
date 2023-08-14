@@ -1678,11 +1678,11 @@ en:
   tags:
     does_not_match_previous_name: does not match the previous name
   themes:
+    cure-lime: Cure lime
+    cure-orange: Cure orange
     contrast: Mastodon (High contrast)
     default: Mastodon (Dark)
     mastodon-light: Mastodon (Light)
-    cure-orange: Cure orange (Light)
-    cure-lime: Cure lime (Light)
     juliamo-mastodon-light: Juliamo (Light)
   time:
     formats:

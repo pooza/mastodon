@@ -1645,6 +1645,8 @@ ja:
   tags:
     does_not_match_previous_name: 以前の名前と一致しません
   themes:
+    cure-lime: キュアライム
+    cure-orange: キュアオレンジ
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
