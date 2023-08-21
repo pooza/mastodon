@@ -486,6 +486,10 @@ GEM
     nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    nokogiri (1.15.4-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.15.4-x86_64-linux)
+      racc (~> 1.4)
     oj (3.16.0)
     omniauth (2.1.1)
       hashie (>= 3.4.6)
@@ -818,7 +822,9 @@ GEM
     zeitwerk (2.6.11)
 
 PLATFORMS
+  aarch64-linux
   x86_64-freebsd-13
+  x86_64-linux
 
 DEPENDENCIES
   active_model_serializers (~> 0.10)
