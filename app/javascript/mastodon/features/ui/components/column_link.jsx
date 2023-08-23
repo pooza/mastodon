@@ -13,7 +13,7 @@ const ColumnLink = ({ icon, text, to, href, method, badge, transparent, target, 
   if (href) {
     target = target || '_self';
     return (
-      <a href={href} className={className} data-method={method} title={text} target={target} rel="noreferrer" {...other}>
+      <a href={href} className={className} data-method={method} title={text} target={target} rel='noreferrer' {...other}>
         {iconElement}
         <span>{text}</span>
         {badgeElement}
