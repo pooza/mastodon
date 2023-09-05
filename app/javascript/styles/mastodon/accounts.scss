@@ -187,6 +187,7 @@
 }
 
 .information-badge,
+.simple_form .overridden,
 .simple_form .recommended,
 .simple_form .not_recommended {
   display: inline-block;
@@ -203,6 +204,7 @@
 }
 
 .information-badge,
+.simple_form .overridden,
 .simple_form .recommended,
 .simple_form .not_recommended {
   background-color: rgba($ui-secondary-color, 0.1);
