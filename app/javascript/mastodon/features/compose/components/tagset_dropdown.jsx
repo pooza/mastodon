@@ -239,11 +239,11 @@ class TagsetDropdown extends PureComponent {
           v.extra_tags.map(tag => {meta.push(tag)});
           this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
         }
+      }).then(_ => {
+        this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
+        this.options.push({ icon: 'microphone-slash', value: 'hide_livecure', text: formatMessage(messages.hide_livecure) });
+        this.options.push({ icon: 'microphone', value: 'show_livecure', text: formatMessage(messages.show_livecure) });
       })
-
-    this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
-    this.options.push({ icon: 'microphone-slash', value: 'hide_livecure', text: formatMessage(messages.hide_livecure) });
-    this.options.push({ icon: 'microphone', value: 'show_livecure', text: formatMessage(messages.show_livecure) });
   }
 
   setTargetRef = c => {
