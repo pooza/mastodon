@@ -137,7 +137,7 @@
   "compose.language.search": "言語を検索...",
   "compose.published.body": "キュア！されました！",
   "compose.published.open": "開く",
-  "compose.saved.body": "投稿が保存されました",
+  "compose.saved.body": "キュア！が保存されました",
   "compose_form.direct_message_warning_learn_more": "もっと詳しく",
   "compose_form.encryption_warning": "Mastodonのキュア！はエンドツーエンド暗号化に対応していません。安全に送受信されるべき情報をMastodonで共有しないでください。",
   "compose_form.hashtag_warning": "このキュア！は公開設定ではないのでハッシュタグの一覧に表示されません。公開キュア！だけがハッシュタグで検索できます。",
@@ -414,7 +414,7 @@
   "navigation_bar.lists": "リスト",
   "navigation_bar.logout": "ログアウト",
   "navigation_bar.mutes": "ミュートしたユーザー",
-  "navigation_bar.opened_in_classic_interface": "投稿やプロフィールを直接開いた場合は一時的に標準UIで表示されます。",
+  "navigation_bar.opened_in_classic_interface": "キュア！やプロフィールを直接開いた場合は一時的に標準UIで表示されます。",
   "navigation_bar.personal": "個人用",
   "navigation_bar.pins": "固定したキュア！",
   "navigation_bar.preferences": "ユーザー設定",
@@ -538,12 +538,8 @@
   "relative_time.today": "今日",
   "reply_indicator.cancel": "キャンセル",
   "report.block": "ブロック",
-<<<<<<< HEAD
   "report.block_explanation": "相手のキュア！が表示されなくなります。相手はあなたのキュア！を見ることやフォローすることができません。相手はブロックされていることがわかります。",
-=======
-  "report.block_explanation": "相手の投稿が表示されなくなります。相手はあなたの投稿を見ることやフォローすることができません。相手はブロックされていることがわかります。",
   "report.categories.legal": "法令違反",
->>>>>>> v4.2.0-rc1
   "report.categories.other": "その他",
   "report.categories.spam": "スパム",
   "report.categories.violation": "サーバーのルールに違反",
@@ -580,15 +576,9 @@
   "report.thanks.title": "見えないようにしたいですか？",
   "report.thanks.title_actionable": "ご報告ありがとうございます、追って確認します。",
   "report.unfollow": "@{name}さんのフォローを解除",
-<<<<<<< HEAD
   "report.unfollow_explanation": "このアカウントをフォローしています。ホームフィードに彼らのキュア！を表示しないようにするには、彼らのフォローを外してください。",
   "report_notification.attached_statuses": "{count, plural, one {{count}件のキュア！} other {{count}件のキュア！}}が添付されました。",
-  "report_notification.categories.legal": "法的事項",
-=======
-  "report.unfollow_explanation": "このアカウントをフォローしています。ホームフィードに彼らの投稿を表示しないようにするには、彼らのフォローを外してください。",
-  "report_notification.attached_statuses": "{count, plural, one {{count}件の投稿} other {{count}件の投稿}}が添付されました。",
   "report_notification.categories.legal": "法令違反",
->>>>>>> v4.2.0-rc1
   "report_notification.categories.other": "その他",
   "report_notification.categories.spam": "スパム",
   "report_notification.categories.violation": "ルール違反",
@@ -612,13 +602,8 @@
   "search_results.all": "すべて",
   "search_results.hashtags": "ハッシュタグ",
   "search_results.nothing_found": "この検索条件では何も見つかりませんでした",
-<<<<<<< HEAD
-  "search_results.statuses": "キュア！",
-  "search_results.statuses_fts_disabled": "このサーバーではキュア！本文の検索は利用できません。",
-=======
   "search_results.see_all": "すべて表示",
-  "search_results.statuses": "投稿",
->>>>>>> v4.2.0-rc1
+  "search_results.statuses": "キュア！",
   "search_results.title": "『{q}』の検索結果",
   "server_banner.about_active_users": "過去30日間にこのサーバーを使用している人 (月間アクティブユーザー)",
   "server_banner.active_users": "人のアクティブユーザー",

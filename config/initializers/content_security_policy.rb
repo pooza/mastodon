@@ -19,12 +19,6 @@ media_host ||= host_to_url(ENV['AZURE_ALIAS_HOST'])
 media_host ||= host_to_url(ENV['S3_HOSTNAME']) if ENV['S3_ENABLED'] == 'true'
 media_host ||= assets_host
 
-<<<<<<< HEAD
-# custom host
-github_host = "https://raw.githubusercontent.com" # GitHub
-google_fonts_host = "https://fonts.gstatic.com" # Google Fonts
-
-=======
 def sso_host
   return unless ENV['ONE_CLICK_SSO_LOGIN'] == 'true'
   return unless ENV['OMNIAUTH_ONLY'] == 'true'
@@ -42,7 +36,6 @@ def sso_host
     end
   end
 end
->>>>>>> v4.2.0-rc1
 
 Rails.application.config.content_security_policy do |p|
   p.base_uri        :none
