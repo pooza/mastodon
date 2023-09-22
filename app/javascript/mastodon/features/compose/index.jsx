@@ -29,9 +29,9 @@ import SearchResultsContainer from './containers/search_results_container';
 
 const messages = defineMessages({
   start: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
-  delmulin_timeline: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin' },
   home_timeline: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
+  delmulin_timeline: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin timeline' },
   public: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
   community: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   preferences: { id: 'navigation_bar.preferences', defaultMessage: 'Preferences' },

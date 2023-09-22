@@ -20,9 +20,9 @@ import SignInBanner from './sign_in_banner';
 const messages = defineMessages({
   home: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
+  delmulin: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin timeline' },
   explore: { id: 'explore.title', defaultMessage: 'Explore' },
   firehose: { id: 'column.firehose', defaultMessage: 'Live feeds' },
-  delmulin: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Private mentions' },
   favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Favorites' },
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
