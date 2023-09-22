@@ -29,9 +29,9 @@ import SearchResultsContainer from './containers/search_results_container';
 
 const messages = defineMessages({
   start: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
-  precure_timeline: { id: 'tabs_bar.precure_timeline', defaultMessage: 'precure_fun' },
   home_timeline: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
+  precure_timeline: { id: 'tabs_bar.precure_timeline', defaultMessage: 'precure_fun timeline' },
   public: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
   community: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   preferences: { id: 'navigation_bar.preferences', defaultMessage: 'Preferences' },
