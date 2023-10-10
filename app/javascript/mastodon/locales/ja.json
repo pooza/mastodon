@@ -273,6 +273,7 @@
   "filter_modal.title.status": "投稿をフィルターする",
   "firehose.all": "すべて",
   "firehose.local": "このサーバー",
+  "firehose.delmulin": "delmulin",
   "firehose.remote": "ほかのサーバー",
   "follow_request.authorize": "許可",
   "follow_request.reject": "拒否",

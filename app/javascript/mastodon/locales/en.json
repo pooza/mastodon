@@ -272,6 +272,7 @@
   "filter_modal.title.status": "Filter a post",
   "firehose.all": "All",
   "firehose.local": "This server",
+  "firehose.delmulin": "delmulin",
   "firehose.remote": "Other servers",
   "follow_request.authorize": "Authorize",
   "follow_request.reject": "Reject",
