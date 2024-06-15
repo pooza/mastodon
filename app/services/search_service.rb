@@ -42,7 +42,7 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    statuses = Status.joins(:account).joins(:tag)
+    statuses = Status.joins(:account).joins(statuses_tags: :tag)
       .where('accounts.domain IS NULL OR tags.name=?', 'precure_fun')
       .where('statuses.local=true')
     @query.split(/[[:blank:]]+/).each do |keyword|
