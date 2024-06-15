@@ -42,8 +42,8 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    statuses = Status.joins(:account)
-      .where('accounts.domain IS NULL')
+    statuses = Status.joins(:account).join(:tag)
+      .where('accounts.domain IS NULL OR tags.name=?', 'precure_fun')
       .where('statuses.local=true')
     @query.split(/[[:blank:]]+/).each do |keyword|
       if matches = keyword.match(/^-(.*)/)
@@ -65,7 +65,7 @@ class SearchService < BaseService
       .offset(@offset)
       .reject{|status| StatusFilter.new(status, @account).filtered?}
       .compact
-  rescue Faraday::ConnectionFailed, Parslet::ParseFailed
+  rescue
     []
   end
 
