@@ -38,6 +38,10 @@ class Rack::Attack
       authenticated_token&.id
     end
 
+    def warden_user_id
+      @env['warden']&.user&.id
+    end
+
     def unauthenticated?
       !authenticated_user_id
     end
@@ -111,6 +115,10 @@ class Rack::Attack
     req.authenticated_user_id if (req.post? && req.path.match?(API_DELETE_REBLOG_REGEX)) || (req.delete? && req.path.match?(API_DELETE_STATUS_REGEX))
   end
 
+  throttle('throttle_oauth_application_registrations/ip', limit: 5, period: 10.minutes) do |req|
+    req.throttleable_remote_ip if req.post? && req.path == '/api/v1/apps'
+  end
+
   throttle('throttle_sign_up_attempts/ip', limit: 25, period: 5.minutes) do |req|
     req.throttleable_remote_ip if req.post? && req.path_matches?('/auth')
   end
@@ -141,6 +149,10 @@ class Rack::Attack
 
   throttle('throttle_login_attempts/email', limit: 25, period: 1.hour) do |req|
     req.session[:attempt_user_id] || req.params.dig('user', 'email').presence if req.post? && req.path_matches?('/auth/sign_in')
+  end
+
+  throttle('throttle_password_change/account', limit: 10, period: 10.minutes) do |req|
+    req.warden_user_id if req.put? || (req.patch? && req.path_matches?('/auth'))
   end
 
   self.throttled_responder = lambda do |request|
