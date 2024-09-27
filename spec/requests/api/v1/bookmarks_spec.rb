@@ -14,7 +14,7 @@ RSpec.describe 'Bookmarks' do
     end
 
     let(:params)     { {} }
-    let!(:bookmarks) { Fabricate.times(3, :bookmark, account: user.account) }
+    let!(:bookmarks) { Fabricate.times(2, :bookmark, account: user.account) }
 
     let(:expected_response) do
       bookmarks.map do |bookmark|
@@ -33,18 +33,23 @@ RSpec.describe 'Bookmarks' do
     it 'returns the bookmarked statuses' do
       subject
 
-      expect(body_as_json).to match_array(expected_response)
+      expect(response.parsed_body).to match_array(expected_response)
     end
 
     context 'with limit param' do
-      let(:params) { { limit: 2 } }
+      let(:params) { { limit: 1 } }
 
       it 'paginates correctly', :aggregate_failures do
         subject
 
-        expect(body_as_json.size).to eq(params[:limit])
-        expect(response.headers['Link'].find_link(%w(rel prev)).href).to eq(api_v1_bookmarks_url(limit: params[:limit], min_id: bookmarks.last.id))
-        expect(response.headers['Link'].find_link(%w(rel next)).href).to eq(api_v1_bookmarks_url(limit: params[:limit], max_id: bookmarks[1].id))
+        expect(response.parsed_body.size)
+          .to eq(params[:limit])
+
+        expect(response)
+          .to include_pagination_headers(
+            prev: api_v1_bookmarks_url(limit: params[:limit], min_id: bookmarks.last.id),
+            next: api_v1_bookmarks_url(limit: params[:limit], max_id: bookmarks.second.id)
+          )
       end
     end
 

@@ -74,7 +74,8 @@ Doorkeeper.configure do
   # For more information go to
   # https://github.com/doorkeeper-gem/doorkeeper/wiki/Using-Scopes
   default_scopes  :read
-  optional_scopes :write,
+  optional_scopes :profile,
+                  :write,
                   :'write:accounts',
                   :'write:blocks',
                   :'write:bookmarks',
@@ -146,11 +147,11 @@ Doorkeeper.configure do
   force_ssl_in_redirect_uri false
 
   # Specify what redirect URI's you want to block during Application creation.
-  # Any redirect URI is whitelisted by default.
+  # Any redirect URI is allowed by default.
   #
   # You can use this option in order to forbid URI's with 'javascript' scheme
   # for example.
-  forbid_redirect_uri { |uri| %w[data vbscript javascript].include?(uri.scheme.to_s.downcase) }
+  forbid_redirect_uri { |uri| %w(data vbscript javascript).include?(uri.scheme.to_s.downcase) }
 
   # Specify what grant flows are enabled in array of Strings. The valid
   # strings and the flows they enable are:
@@ -174,7 +175,7 @@ Doorkeeper.configure do
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.
   # For example if dealing with a trusted application.
-  skip_authorization do |resource_owner, client|
+  skip_authorization do |_resource_owner, client|
     client.application.superapp?
   end
 
