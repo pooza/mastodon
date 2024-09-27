@@ -925,9 +925,9 @@ ja:
       statuses:
         allow: 掲載を許可
         allow_account: 投稿者を許可
-        confirm_allow: 本当に選択されたトゥートを許可しますか？
+        confirm_allow: 本当に選択された投稿を許可しますか？
         confirm_allow_account: 本当に選択されたアカウントを許可しますか？
-        confirm_disallow: 本当に選択されたトゥートを禁止しますか？
+        confirm_disallow: 本当に選択された投稿を禁止しますか？
         confirm_disallow_account: 本当に選択されたアカウントを禁止しますか？
         description_html: これらは、このサーバーが知っている、たくさんシェアされ、お気に入り登録されている投稿です。新しいユーザーや久しぶりにアクセスするユーザーがフォローする人を探すのに役立ちます。あなたが投稿者を承認し、投稿者が許可するまで、表示されることはありません。また、個別の投稿を許可または拒否することもできます。
         disallow: 掲載を拒否
