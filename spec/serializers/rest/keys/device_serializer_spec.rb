@@ -2,14 +2,8 @@
 
 require 'rails_helper'
 
-describe REST::Keys::DeviceSerializer do
-  let(:serialization) do
-    JSON.parse(
-      ActiveModelSerializers::SerializableResource.new(
-        record, serializer: described_class
-      ).to_json
-    )
-  end
+RSpec.describe REST::Keys::DeviceSerializer do
+  let(:serialization) { serialized_record_json(record, described_class) }
   let(:record) { Device.new(name: 'Device name') }
 
   describe 'name' do

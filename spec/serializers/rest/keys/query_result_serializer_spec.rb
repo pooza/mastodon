@@ -2,14 +2,8 @@
 
 require 'rails_helper'
 
-describe REST::Keys::QueryResultSerializer do
-  let(:serialization) do
-    JSON.parse(
-      ActiveModelSerializers::SerializableResource.new(
-        record, serializer: described_class
-      ).to_json
-    )
-  end
+RSpec.describe REST::Keys::QueryResultSerializer do
+  let(:serialization) { serialized_record_json(record, described_class) }
   let(:record) { Keys::QueryService::Result.new(Account.new(id: 123), []) }
 
   describe 'account' do

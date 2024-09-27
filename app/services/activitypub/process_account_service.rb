@@ -117,6 +117,7 @@ class ActivityPub::ProcessAccountService < BaseService
     @account.discoverable            = @json['discoverable'] || false
     @account.indexable               = @json['indexable'] || false
     @account.memorial                = @json['memorial'] || false
+    @account.attribution_domains     = as_array(@json['attributionDomains'] || []).map { |item| value_or_id(item) }
   end
 
   def set_fetchable_key!
@@ -180,7 +181,7 @@ class ActivityPub::ProcessAccountService < BaseService
   end
 
   def check_links!
-    VerifyAccountLinksWorker.perform_async(@account.id)
+    VerifyAccountLinksWorker.perform_in(rand(10.minutes.to_i), @account.id)
   end
 
   def process_duplicate_accounts!
