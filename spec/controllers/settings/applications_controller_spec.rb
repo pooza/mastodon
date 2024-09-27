@@ -163,10 +163,6 @@ RSpec.describe Settings::ApplicationsController do
     it 'sends a session kill payload to the streaming server' do
       expect(redis_pipeline_stub).to have_received(:publish).with("timeline:access_token:#{access_token.id}", '{"event":"kill"}')
     end
-
-    it 'sends a session kill payload to the streaming server' do
-      expect(redis_pipeline_stub).to have_received(:publish).with("timeline:access_token:#{access_token.id}", '{"event":"kill"}')
-    end
   end
 
   describe 'regenerate' do

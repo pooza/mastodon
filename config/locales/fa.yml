@@ -1215,9 +1215,6 @@ fa:
   mail_subscriptions:
     unsubscribe:
       complete: لغو اشتراک شد
-      emails:
-        notification_emails:
-          mention: رایانامه‌های آگاهی اشاره
       title: لغو اشتراک
   media_attachments:
     validations:

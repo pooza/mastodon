@@ -13,7 +13,7 @@ class SearchService < BaseService
     @following = options[:following] || false
 
     default_results.tap do |results|
-      next if @query.blank?
+      next if @query.blank? || @limit.zero?
       @limit = ENV.fetch('DEFAULT_SEARCH_LIMIT', 50).to_i if @limit.to_i.zero?
 
       if url_query?
