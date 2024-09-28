@@ -28,7 +28,10 @@ const mapStateToProps = state => ({
   anyMedia: state.getIn(['compose', 'media_attachments']).size > 0,
   isInReply: state.getIn(['compose', 'in_reply_to']) !== null,
   lang: state.getIn(['compose', 'language']),
-  maxChars: state.getIn(['server', 'server', 'configuration', 'statuses', 'max_characters'], 2400),
+  maxChars: state.getIn(
+    Math.floor(['server', 'server', 'configuration', 'statuses', 'max_characters'] * 0.8),
+    2400
+  ),
 });
 
 const mapDispatchToProps = (dispatch) => ({
