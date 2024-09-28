@@ -5,7 +5,7 @@ import { useRouteMatch, NavLink } from 'react-router-dom';
 
 import { Icon }  from 'mastodon/components/icon';
 
-const ColumnLink = ({ icon, activeIcon, iconComponent, activeIconComponent, text, to, href, method, badge, transparent, ...other }) => {
+const ColumnLink = ({ icon, activeIcon, iconComponent, activeIconComponent, text, to, href, target, method, badge, transparent, ...other }) => {
   const match = useRouteMatch(to);
   const className = classNames('column-link', { 'column-link--transparent': transparent });
   const badgeElement = typeof badge !== 'undefined' ? <span className='column-link__badge'>{badge}</span> : null;
@@ -16,7 +16,7 @@ const ColumnLink = ({ icon, activeIcon, iconComponent, activeIconComponent, text
   if (href) {
     target = target || '_self';
     return (
-      <a href={href} className={className} data-method={method} title={text} {...other}>
+      <a href={href} className={className} data-method={method} title={text} target={target} {...other}>
         {active ? activeIconElement : iconElement}
         <span>{text}</span>
         {badgeElement}
