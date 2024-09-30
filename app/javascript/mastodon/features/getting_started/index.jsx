@@ -40,8 +40,8 @@ const messages = defineMessages({
   home_timeline: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
   public_timeline: { id: 'navigation_bar.public_timeline', defaultMessage: 'Federated timeline' },
-  delmulin_timeline: { id: 'navigation_bar.delmulin_timeline', defaultMessage: 'delmulin timeline' },
   settings_subheading: { id: 'column_subheading.settings', defaultMessage: 'Settings' },
+  community_timeline: { id: 'navigation_bar.community_timeline', defaultMessage: 'Local timeline' },
   explore: { id: 'navigation_bar.explore', defaultMessage: 'Explore' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Private mentions' },
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
@@ -119,7 +119,7 @@ class GettingStarted extends ImmutablePureComponent {
     }
 
     navItems.push(
-      <ColumnLink key='delmulin_timeline' icon='users' iconComponent={PeopleIcon} text={intl.formatMessage(messages.delmulin_timeline)} to='/tags/delmulin' />,
+      <ColumnLink key='community_timeline' icon='users' iconComponent={PeopleIcon} text={intl.formatMessage(messages.community_timeline)} to='/tags/delmulin' />,
       <ColumnLink key='public_timeline' icon='globe' iconComponent={PublicIcon} text={intl.formatMessage(messages.public_timeline)} to='/public' />,
     );
 

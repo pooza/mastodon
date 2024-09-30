@@ -46,7 +46,6 @@ import SignInBanner from './sign_in_banner';
 const messages = defineMessages({
   home: { id: 'tabs_bar.home', defaultMessage: 'Home' },
   notifications: { id: 'tabs_bar.notifications', defaultMessage: 'Notifications' },
-  delmulin: { id: 'tabs_bar.delmulin_timeline', defaultMessage: 'delmulin timeline' },
   explore: { id: 'explore.title', defaultMessage: 'Explore' },
   firehose: { id: 'column.firehose', defaultMessage: 'Live feeds' },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Private mentions' },
@@ -173,7 +172,7 @@ class NavigationPanel extends Component {
           )}
 
           {(signedIn || timelinePreview) && (
-            <ColumnLink transparent to='/tags/delmulin' isActive={this.isFirehoseActive} icon='globe' iconComponent={PublicIcon} text={intl.formatMessage(messages.delmulin)} />
+            <ColumnLink transparent to='/tags/delmulin' isActive={this.isFirehoseActive} icon='globe' iconComponent={PublicIcon} text={intl.formatMessage(messages.firehose)} />
           )}
 
           {!signedIn && (
