@@ -1,5 +1,5 @@
 ---
-:concurrency: 40
+:concurrency: <%= ENV.fetch('SIDEKIQ_CONCURRENCY', 40) %>
 :queues:
   - [default, 8]
   - [push, 6]
@@ -7,6 +7,7 @@
   - [mailers, 2]
   - [pull]
   - [scheduler]
+
 :scheduler:
   :listened_queues_only: true
   :schedule:

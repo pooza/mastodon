@@ -8,6 +8,7 @@ https://precure.ml
 
 - FreeBSD向けの調整
 - `トゥート！`→`キュア`
+- `ブースト`→`リキュア`
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - WebUIの画像リサイズ処理をキャンセル
   - キュア！の「もっと見る」メニューに「タグ付け」追加
