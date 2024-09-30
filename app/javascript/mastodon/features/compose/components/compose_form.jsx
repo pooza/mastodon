@@ -18,7 +18,6 @@ import LanguageDropdown from '../containers/language_dropdown_container';
 import PollButtonContainer from '../containers/poll_button_container';
 import PrivacyDropdownContainer from '../containers/privacy_dropdown_container';
 import SpoilerButtonContainer from '../containers/spoiler_button_container';
-import TagsetDropdownContainer from '../containers/tagset_dropdown_container';
 import UploadButtonContainer from '../containers/upload_button_container';
 import WarningContainer from '../containers/warning_container';
 import { countableText } from '../util/counter';
@@ -288,7 +287,6 @@ class ComposeForm extends ImmutablePureComponent {
             <div className='compose-form__dropdowns'>
               <PrivacyDropdownContainer disabled={this.props.isEditing} />
               <LanguageDropdown />
-              <TagsetDropdownContainer />
             </div>
 
             <div className='compose-form__actions'>

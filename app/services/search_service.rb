@@ -64,7 +64,7 @@ class SearchService < BaseService
       .offset(@offset)
       .reject{|status| StatusFilter.new(status, @account).filtered?}
       .compact
-  rescue
+  rescue Faraday::ConnectionFailed, Parslet::ParseFailed
     []
   end
 
