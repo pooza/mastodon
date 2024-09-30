@@ -2,16 +2,16 @@
   {
     "body": "お知らせ",
     "links": [
-      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット", "icon": "info"},
-      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ", "icon": "info"}
+      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット"},
+      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ"}
     ]
   },
   {
     "body": "デルムリン丼Blog",
     "links": [
-      {"href": "https://blog.mstdn.delmulin.com/", "body": "Home", "icon": "home"},
-      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け", "icon": "user"},
-      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況", "icon": "microphone"}
+      {"href": "https://blog.mstdn.delmulin.com/", "body": "Home"},
+      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け"},
+      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況"}
     ]
   },
   {
