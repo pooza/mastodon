@@ -209,7 +209,7 @@
   "directory.recently_active": "最近の活動順",
   "disabled_account_banner.account_settings": "アカウント設定",
   "disabled_account_banner.text": "あなたのアカウント『{disabledAccount}』は現在無効になっています。",
-  "dismissable_banner.community_timeline": "これらは{domain}がホストしている人たちの最新の公開キュア！です。",
+  "dismissable_banner.community_timeline": "これらは{domain}がホストしている人たち等、 #precure_fun タグを含む最新の公開キュア！です。",
   "dismissable_banner.dismiss": "閉じる",
   "dismissable_banner.explore_links": "ネットワーク上で話題になっているニュースです。たくさんのユーザーにシェアされた記事ほど上位に表示されます。",
   "dismissable_banner.explore_statuses": "ネットワーク上で注目を集めているキュア！です。リキュアやお気に入り登録の多い新しいキュア！が上位に表示されます。",
