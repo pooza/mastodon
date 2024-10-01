@@ -100,10 +100,10 @@ class TagsetDropdown extends PureComponent {
           if (v.livecure) meta.push('実況');
           if (v.minutes) meta.push(`(${v.minutes}分)`);
           v.extra_tags.map(tag => {meta.push(tag)});
-          this.options.push({icon: 'hashtag', value: k, text: text, meta: meta.join(' ')});
+          this.options.push({value: k, text: text, meta: meta.join(' ')});
         }
       }).then(_ => {
-        this.options.push({ icon: 'film', value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
+        this.options.push({ value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
       })
   }
 
