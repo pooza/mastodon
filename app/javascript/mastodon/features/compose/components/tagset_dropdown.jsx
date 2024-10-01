@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import Overlay from 'react-overlays/Overlay';
 
-import TheatersIcon from '@/material-icons/400-24px/theaters.svg?react';
+import MovieIcon from '@/material-icons/400-24px/movie.svg?react';
 import TagIcon from '@/material-icons/400-24px/tag.svg?react';
 import { DropdownSelector } from 'mastodon/components/dropdown_selector';
 import { Icon }  from 'mastodon/components/icon';
@@ -105,7 +105,7 @@ class TagsetDropdown extends PureComponent {
           this.options.push({icon: 'hashtag', iconComponent: TagIcon, value: k, text: text, meta: meta.join(' ')});
         }
       }).then(_ => {
-        this.options.push({ icon: 'film', iconComponent: TheatersIcon, value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
+        this.options.push({ icon: 'film', iconComponent: MovieIcon, value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
       })
   }
 
