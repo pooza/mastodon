@@ -15,6 +15,7 @@ const messages = defineMessages({
   episodes_short: { id: 'tagset.episodes.short', defaultMessage: 'Other episodes' },
   episodes_long: { id: 'tagset.episodes.long', defaultMessage: 'Episode browser of Mulukhiya' },
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
+  label: { id: 'tagset.label', defaultMessage: 'Livecure' },
 });
 
 class TagsetDropdown extends PureComponent {
@@ -136,7 +137,7 @@ class TagsetDropdown extends PureComponent {
           disabled={disabled}
           className={classNames('dropdown-button', { active: open })}
         >
-          <span className='dropdown-button__label'>{valueOption.text}</span>
+          <span className='dropdown-button__label'>{formatMessage(messages.label)}</span>
         </button>
 
         <Overlay show={open} offset={[5, 5]} placement={placement} flip target={this.findTarget} container={container} popperConfig={{ strategy: 'fixed', onFirstUpdate: this.handleOverlayEnter }}>
