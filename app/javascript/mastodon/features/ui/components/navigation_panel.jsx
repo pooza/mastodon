@@ -133,8 +133,6 @@ class NavigationPanel extends Component {
       );
     }
 
-    let banner = undefined;
-
     if(transientSingleColumn)
       banner = (<div className='switch-to-advanced'>
         {intl.formatMessage(messages.openedInClassicInterface)}
