@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import Overlay from 'react-overlays/Overlay';
 
 import TagIcon from '@/material-icons/400-24px/tag.svg?react';
+import CancelIcon from '@/material-icons/400-24px/cancel.svg?react';
+import MovieIcon from '@/material-icons/400-24px/movie.svg?react';
 import { DropdownSelector } from 'mastodon/components/dropdown_selector';
 import { Icon }  from 'mastodon/components/icon';
 
@@ -85,7 +87,7 @@ class TagsetDropdown extends PureComponent {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
-      { value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
+      { value: 'empty', icon: 'cancel', iconComponent: CancelIcon, text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
     ];
 
     fetch('/mulukhiya/api/program')
@@ -102,10 +104,10 @@ class TagsetDropdown extends PureComponent {
           if (v.livecure) meta.push('実況');
           if (v.minutes) meta.push(`(${v.minutes}分)`);
           v.extra_tags.map(tag => {meta.push(tag)});
-          this.options.push({value: k, text: text, meta: meta.join(' ')});
+          this.options.push({value: k, icon: 'tag' , iconComponent: TagIcon, text: text, meta: meta.join(' ')});
         }
       }).then(_ => {
-        this.options.push({ value: 'episodes', text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
+        this.options.push({ value: 'episodes', icon: 'movie', iconComponent: MovieIcon, text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
       })
   }
 
