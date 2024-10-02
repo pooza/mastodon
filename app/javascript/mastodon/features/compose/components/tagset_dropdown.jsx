@@ -7,6 +7,7 @@ import classNames from 'classnames';
 
 import Overlay from 'react-overlays/Overlay';
 
+import CancelIcon from '@/material-icons/400-24px/cancel.svg?react';
 import MovieIcon from '@/material-icons/400-24px/movie.svg?react';
 import TagIcon from '@/material-icons/400-24px/tag.svg?react';
 import { DropdownSelector } from 'mastodon/components/dropdown_selector';
@@ -85,7 +86,7 @@ class TagsetDropdown extends PureComponent {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
-      { icon: 'hashtag', value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
+      { icon: 'cancel', iconComponent: CancelIcon, value: 'empty', text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
     ];
 
     fetch('/mulukhiya/api/program')
