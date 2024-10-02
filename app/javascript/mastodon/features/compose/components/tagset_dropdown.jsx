@@ -7,7 +7,9 @@ import classNames from 'classnames';
 
 import Overlay from 'react-overlays/Overlay';
 
+import TagIcon from '@/material-icons/400-24px/tag.svg?react';
 import { DropdownSelector } from 'mastodon/components/dropdown_selector';
+import { Icon }  from 'mastodon/components/icon';
 
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
@@ -137,6 +139,7 @@ class TagsetDropdown extends PureComponent {
           disabled={disabled}
           className={classNames('dropdown-button', { active: open })}
         >
+          <Icon id='tag' icon={TagIcon} />
           <span className='dropdown-button__label'>{intl.formatMessage(messages.label)}</span>
         </button>
 
