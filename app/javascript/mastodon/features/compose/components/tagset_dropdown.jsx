@@ -137,7 +137,7 @@ class TagsetDropdown extends PureComponent {
           disabled={disabled}
           className={classNames('dropdown-button', { active: open })}
         >
-          <span className='dropdown-button__label'>{formatMessage(messages.label)}</span>
+          <span className='dropdown-button__label'>{intl.formatMessage(messages.label)}</span>
         </button>
 
         <Overlay show={open} offset={[5, 5]} placement={placement} flip target={this.findTarget} container={container} popperConfig={{ strategy: 'fixed', onFirstUpdate: this.handleOverlayEnter }}>
