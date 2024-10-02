@@ -148,7 +148,7 @@ class TagsetDropdown extends PureComponent {
         <Overlay show={open} offset={[5, 5]} placement={placement} flip target={this.findTarget} container={container} popperConfig={{ strategy: 'fixed', onFirstUpdate: this.handleOverlayEnter }}>
           {({ props, placement }) => (
             <div {...props}>
-              <div className={`dropdown-animation privacy-dropdown__dropdown ${placement}`}>
+              <div className={`dropdown-animation tagset-dropdown__dropdown ${placement}`}>
                 <DropdownSelector
                   items={this.options}
                   value={value}
