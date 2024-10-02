@@ -5376,6 +5376,26 @@ a.status-card {
   }
 }
 
+.tagset-dropdown__dropdown {
+  box-shadow: var(--dropdown-shadow);
+  background: var(--dropdown-background-color);
+  backdrop-filter: var(--background-filter);
+  border: 1px solid var(--dropdown-border-color);
+  padding: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 2;
+  width: 500px;
+
+  &.top {
+    transform-origin: 50% 100%;
+  }
+
+  &.bottom {
+    transform-origin: 50% 0;
+  }
+}
+
 .modal-root__container .privacy-dropdown {
   flex-grow: 0;
 }
