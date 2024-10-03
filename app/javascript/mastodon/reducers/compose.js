@@ -338,10 +338,6 @@ export default function compose(state = initialState, action) {
     case 'episodes':
       window.open('/mulukhiya/app/episode');
       return state;
-    case 'show_livecure':
-      return state.set('text', 'command: filter\ntag: 実況\naction: unregister');
-    case 'hide_livecure':
-      return state.set('text', 'command: filter\ntag: 実況');
     default:
       const createToot = name => {
         const request = new XMLHttpRequest();
@@ -352,33 +348,17 @@ export default function compose(state = initialState, action) {
         }
         const result = JSON.parse(request.responseText);
         for (const k of Object.keys(result)) {
-          if (k !== name) {
-            continue;
-          }
+          if (k !== name) continue;
           const entry = result[k];
           const tags = [entry.series];
-          if (entry.air) {
-            tags.push('エア番組');
-          }
-          if (entry.livecure) {
-            tags.push('実況');
-          }
-          if (entry.episode) {
-            tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
-          }
-          if (entry.subtitle) {
-            tags.push(entry.subtitle);
-          }
-          entry.extra_tags.map(tag => {
-            tags.push(tag);
-          });
+          if (entry.air) tags.push('エア番組');
+          if (entry.livecure) tags.push('実況');
+          if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
+          if (entry.subtitle) tags.push(entry.subtitle);
+          entry.extra_tags.map(tag => tags.push(tag));
           const toot = ['command: user_config', 'tagging:', '  user_tags:'];
-          tags.map(tag => {
-            toot.push(`  - ${tag}`);
-          });
-          if (entry.minutes) {
-            toot.push(`  minutes: ${entry.minutes}`);
-          }
+          tags.map(tag => toot.push(`  - ${tag}`));
+          if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
           return toot.join('\n');
         }
         return '';
