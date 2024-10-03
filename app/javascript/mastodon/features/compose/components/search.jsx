@@ -4,7 +4,7 @@ import { PureComponent } from 'react';
 import { defineMessages, injectIntl, FormattedMessage, FormattedList } from 'react-intl';
 
 import classNames from 'classnames';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -376,15 +376,11 @@ class Search extends PureComponent {
           <h4><FormattedMessage id='search_popout.services' defaultMessage='External search services' /></h4>
 
           <div className='search__popout__menu'>
-            <div className='search__popout__menu__message'>
-              <Link href='https://notestock.osa-p.net'>
-                <FormattedMessage id='search_popout.notestock' defaultMessage='notestock' />
-              </Link>
+            <div className='search__popout__menu__message' onMouseDown={ () => window.open('https://notestock.osa-p.net') }>
+              <FormattedMessage id='search_popout.notestock' defaultMessage='notestock' />
             </div>
-            <div className='search__popout__menu__message'>
-              <Link href='https://f.chomechome.jp'>
-                <FormattedMessage id='search_popout.fediver' defaultMessage='Fediver' />
-              </Link>
+            <div className='search__popout__menu__message' onMouseDown={ () => window.open('https://f.chomechome.jp') }>
+              <FormattedMessage id='search_popout.fediver' defaultMessage='Fediver' />
             </div>
           </div>
 
