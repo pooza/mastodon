@@ -44,7 +44,8 @@
     "body": "その他",
     "links": [
       {"href": "https://misskey.delmulin.com/", "body": "ダイスキー（Misskey）"},
-      {"href": "https://uptime.delmulin.com/", "body": "UptimeRobot（監視）"}
+      {"href": "https://uptime.delmulin.com/", "body": "UptimeRobot（監視）"},
+      {"href": "https://www.b-shock.co.jp/", "body": "運営"}
     ]
   }
 ]
