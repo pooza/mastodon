@@ -13,8 +13,8 @@ class SearchService < BaseService
     @following = options[:following] || false
 
     default_results.tap do |results|
-      next if @query.blank?
       @limit = ENV.fetch('DEFAULT_SEARCH_LIMIT', 50).to_i if @limit.to_i.zero?
+      next if @query.blank? || @limit.zero?
 
       if url_query?
         results.merge!(url_resource_results) unless url_resource.nil? || @offset.positive? || (@options[:type].present? && url_resource_symbol != @options[:type].to_sym)
@@ -42,30 +42,15 @@ class SearchService < BaseService
   end
 
   def perform_statuses_search!
-    statuses = Status.joins(:account).joins(statuses_tags: :tag)
-      .where('(statuses.local=true) OR (tags.name=?)', 'precure_fun')
-    @query.split(/[[:blank:]]+/).each do |keyword|
-      if matches = keyword.match(/^-(.*)/)
-        if ENV.fetch('PGROONGA_ENABLE', nil)
-          statuses = statuses.where('NOT statuses.text &@ ?', matches[1])
-        else
-          statuses = statuses.where('statuses.text NOT LIKE ?', "%#{matches[1]}%")
-        end
-      else
-        if ENV.fetch('PGROONGA_ENABLE', nil)
-          statuses = statuses.where('statuses.text &@ ?', keyword)
-        else
-          statuses = statuses.where('statuses.text LIKE ?', "%#{keyword}%")
-        end
-      end
-    end
-    statuses
-      .limit(@limit)
-      .offset(@offset)
-      .reject{|status| StatusFilter.new(status, @account).filtered?}
-      .compact
-  rescue
-    []
+    StatusesSearchService.new.call(
+      @query,
+      @account,
+      limit: @limit,
+      offset: @offset,
+      account_id: @options[:account_id],
+      min_id: @options[:min_id],
+      max_id: @options[:max_id]
+    )
   end
 
   def perform_hashtags_search!
@@ -98,7 +83,7 @@ class SearchService < BaseService
   end
 
   def status_searchable?
-    status_search? && @account.present?
+    Chewy.enabled? && status_search? && @account.present?
   end
 
   def account_searchable?
