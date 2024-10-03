@@ -1,23 +1,9 @@
-// Commonly used web colors
-$black: #000000; // Black
-$white: #ffffff; // White
-$red-600: #b7253d !default; // Deep Carmine
-$red-500: #df405a !default; // Cerise
-$blurple-600: #563acc; // Iris
-$blurple-500: #6364ff; // Brand purple
-$blurple-400: #7477fd; // Medium slate blue
-$blurple-300: #858afa; // Faded Blue
-$grey-600: hsl(240deg, 8%, 33%); // Trout
-$grey-100: hsl(240deg, 51%, 90%); // Topaz
+@use 'sass:color';
 
-$success-green: #79bd9a !default; // Padua
-$error-red: $red-500 !default; // Cerise
-$warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: #ca8f04 !default; // Dark Goldenrod
+// Dependent colors
+$black: #000000;
+$white: #ffffff;
 
-$red-bookmark: $warning-red;
-
-// Values from the classic Mastodon UI
 $classic-base-color: #0f500f;
 $classic-primary-color: #9bbe9b;
 $classic-secondary-color: #d7e6d7;
