@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Dependent colors
 $black: #000000;
 $white: #ffffff;
@@ -19,8 +21,16 @@ $ui-primary-color: #99e899;
 $ui-secondary-color: $classic-base-color !default;
 $ui-highlight-color: #239b23;
 
+$ui-button-secondary-color: $grey-600 !default;
+$ui-button-secondary-border-color: $grey-600 !default;
+$ui-button-secondary-focus-color: $white !default;
+
+$ui-button-tertiary-color: $blurple-500 !default;
+$ui-button-tertiary-border-color: $blurple-500 !default;
+
 $primary-text-color: $black !default;
 $darker-text-color: $classic-base-color !default;
+$highlight-text-color: $ui-highlight-color !default;
 $dark-text-color: #0f4b0f;
 $action-button-color: #466446;
 
@@ -28,14 +38,36 @@ $inverted-text-color: $black !default;
 $lighter-text-color: $classic-base-color !default;
 $light-text-color: #274f34;
 
-//Newly added colors
+// Newly added colors
 $account-background-color: $white !default;
 
-//Invert darkened and lightened colors
+// Invert darkened and lightened colors
 @function darken($color, $amount) {
-  @return hsl(hue($color), saturation($color), lightness($color) + $amount);
+  @return hsl(
+    hue($color),
+    color.channel($color, 'saturation', $space: hsl),
+    color.channel($color, 'lightness', $space: hsl) + $amount
+  );
 }
 
 @function lighten($color, $amount) {
-  @return hsl(hue($color), saturation($color), lightness($color) - $amount);
+  @return hsl(
+    hue($color),
+    color.channel($color, 'saturation', $space: hsl),
+    color.channel($color, 'lightness', $space: hsl) - $amount
+  );
+}
+
+$emojis-requiring-inversion: 'chains';
+
+body {
+  --dropdown-border-color: hsl(240deg, 25%, 88%);
+  --dropdown-background-color: #fff;
+  --modal-border-color: hsl(240deg, 25%, 88%);
+  --modal-background-color: var(--background-color-tint);
+  --background-border-color: hsl(240deg, 25%, 88%);
+  --background-color: #fff;
+  --background-color-tint: rgba(255, 255, 255, 80%);
+  --background-filter: blur(10px);
+  --on-surface-color: #{transparentize($ui-base-color, 0.65)};
 }
