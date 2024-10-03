@@ -7,14 +7,6 @@
     ]
   },
   {
-    "body": "デルムリン丼Blog",
-    "links": [
-      {"href": "https://blog.mstdn.delmulin.com/", "body": "Home"},
-      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け"},
-      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況"}
-    ]
-  },
-  {
     "body": "検索",
     "links": [
       {
@@ -25,6 +17,14 @@
         "href": "https://f.chomechome.jp",
         "body": "Fediver"
       }
+    ]
+  },
+  {
+    "body": "デルムリン丼Blog",
+    "links": [
+      {"href": "https://blog.mstdn.delmulin.com/", "body": "Home"},
+      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け"},
+      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況"}
     ]
   },
   {
