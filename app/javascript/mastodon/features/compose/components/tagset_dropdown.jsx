@@ -90,7 +90,7 @@ class TagsetDropdown extends PureComponent {
     this.props.onChange(value);
   };
 
-  UNSAFE_componentWillMount () {
+  reloadOptions = () => {
     const { intl: { formatMessage } } = this.props;
 
     this.options = [
@@ -117,6 +117,10 @@ class TagsetDropdown extends PureComponent {
         this.options.push({ value: 'episodes', icon: 'movie', iconComponent: MovieIcon, text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
         this.options.push({ value: 'reload', icon: 'refresh', iconComponent: RefreshIcon, text: formatMessage(messages.reload_short), meta: formatMessage(messages.reload_long) });
       })
+  }
+
+  UNSAFE_componentWillMount () {
+    reloadOptions();
   }
 
   setTargetRef = c => {
