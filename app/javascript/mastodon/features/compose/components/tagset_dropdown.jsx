@@ -84,7 +84,7 @@ class TagsetDropdown extends PureComponent {
 
   handleChange = value => {
     if (value == 'reload') {
-      reloadOptions();
+      this.reloadOptions();
       return;
     }
     this.props.onChange(value);
@@ -120,7 +120,7 @@ class TagsetDropdown extends PureComponent {
   }
 
   UNSAFE_componentWillMount () {
-    reloadOptions();
+    this.reloadOptions();
   }
 
   setTargetRef = c => {
