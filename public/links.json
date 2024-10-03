@@ -7,14 +7,6 @@
     ]
   },
   {
-    "body": "キュアスタ！Blog",
-    "links": [
-      {"href": "https://blog.precure.ml/", "body": "Home"},
-      {"href": "https://blog.precure.ml/categories/新規さん向け", "body": "新規さん向け"},
-      {"href": "https://blog.precure.ml/articles/実況", "body": "実況"}
-    ]
-  },
-  {
     "body": "検索",
     "links": [
       {
@@ -25,6 +17,14 @@
         "href": "https://f.chomechome.jp",
         "body": "Fediver"
       }
+    ]
+  },
+  {
+    "body": "キュアスタ！Blog",
+    "links": [
+      {"href": "https://blog.precure.ml/", "body": "Home"},
+      {"href": "https://blog.precure.ml/categories/新規さん向け", "body": "新規さん向け"},
+      {"href": "https://blog.precure.ml/articles/実況", "body": "実況"}
     ]
   },
   {
