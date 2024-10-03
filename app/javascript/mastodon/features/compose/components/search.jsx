@@ -373,6 +373,17 @@ class Search extends PureComponent {
             </>
           )}
 
+          <h4><FormattedMessage id='search_popout.services' defaultMessage='External search services' /></h4>
+
+          <div className='search__popout__menu'>
+            <div className='search__popout__menu__message'>
+              <a href='https://notestock.osa-p.net' target='_blank' rel='noopener noreferrer'><FormattedMessage id='search_popout.notestock' defaultMessage='notestock' /></a>
+            </div>
+            <div className='search__popout__menu__message'>
+              <a href='https://f.chomechome.jp' target='_blank' rel='noopener noreferrer'><FormattedMessage id='search_popout.fediver' defaultMessage='Fediver' /></a>
+            </div>
+          </div>
+
           <h4><FormattedMessage id='search_popout.options' defaultMessage='Search options' /></h4>
 
           {searchEnabled && signedIn ? (
