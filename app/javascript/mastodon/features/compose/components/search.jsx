@@ -376,11 +376,11 @@ class Search extends PureComponent {
           <h4><FormattedMessage id='search_popout.services' defaultMessage='External search services' /></h4>
 
           <div className='search__popout__menu'>
-            <div className='search__popout__menu__message'>
-              <a href='https://notestock.osa-p.net' target='_blank' rel='noopener noreferrer'><FormattedMessage id='search_popout.notestock' defaultMessage='notestock' /></a>
+            <div className='search__popout__menu__message' onMouseDown={() => window.open('https://notestock.osa-p.net')}>
+              <FormattedMessage id='search_popout.notestock' defaultMessage='notestock' />
             </div>
-            <div className='search__popout__menu__message'>
-              <a href='https://f.chomechome.jp' target='_blank' rel='noopener noreferrer'><FormattedMessage id='search_popout.fediver' defaultMessage='Fediver' /></a>
+            <div className='search__popout__menu__message' onMouseDown={() => window.open('https://f.chomechome.jp')}>
+              <FormattedMessage id='search_popout.fediver' defaultMessage='Fediver' />
             </div>
           </div>
 
