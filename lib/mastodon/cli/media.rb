@@ -61,6 +61,7 @@ module Mastodon::CLI
       unless options[:prune_profiles] || options[:remove_headers]
         processed, aggregate = parallelize_with_progress(MediaAttachment.cached.remote.where(created_at: ..time_ago)) do |media_attachment|
           next if media_attachment.file.blank?
+          next if media_attachment.status.tags.find { |tag| tag.name == 'delmulin'}
 
           size = (media_attachment.file_file_size || 0) + (media_attachment.thumbnail_file_size || 0)
 
