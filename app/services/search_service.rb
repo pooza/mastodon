@@ -44,8 +44,9 @@ class SearchService < BaseService
   def perform_statuses_search!
     statuses = Status.joins(:account)
       .where('accounts.domain IS NULL')
+      .where('accounts.discoverable=true')
       .where('statuses.local=true')
-    @query.split(/[[:blank:]]+/).each do |keyword|
+      @query.split(/[[:blank:]]+/).each do |keyword|
       if matches = keyword.match(/^-(.*)/)
         if ENV.fetch('PGROONGA_ENABLE', nil)
           statuses = statuses.where('NOT statuses.text &@ ?', matches[1])
