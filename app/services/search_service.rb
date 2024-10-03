@@ -46,19 +46,11 @@ class SearchService < BaseService
       .where('accounts.domain IS NULL')
       .where('accounts.discoverable=true')
       .where('statuses.local=true')
-      @query.split(/[[:blank:]]+/).each do |keyword|
+    @query.split(/[[:blank:]]+/).each do |keyword|
       if matches = keyword.match(/^-(.*)/)
-        if ENV.fetch('PGROONGA_ENABLE', nil)
-          statuses = statuses.where('NOT statuses.text &@ ?', matches[1])
-        else
-          statuses = statuses.where('statuses.text NOT LIKE ?', "%#{matches[1]}%")
-        end
+        statuses = statuses.where('statuses.text NOT LIKE ?', "%#{matches[1]}%")
       else
-        if ENV.fetch('PGROONGA_ENABLE', nil)
-          statuses = statuses.where('statuses.text &@ ?', keyword)
-        else
-          statuses = statuses.where('statuses.text LIKE ?', "%#{keyword}%")
-        end
+        statuses = statuses.where('statuses.text LIKE ?', "%#{keyword}%")
       end
     end
     statuses
