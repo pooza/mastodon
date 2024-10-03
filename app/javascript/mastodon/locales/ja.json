@@ -839,7 +839,7 @@
   "tagset.empty.short": "タグなし",
   "tagset.episodes.long": "モロヘイヤのエピソードブラウザを開く",
   "tagset.episodes.short": "ほかのエピソード",
-  "tagset.reload.long": "番組表を更新する",
+  "tagset.reload.long": "実況番組表を更新する",
   "tagset.reload.short": "リロード",
   "time_remaining.days": "残り{number}日",
   "time_remaining.hours": "残り{number}時間",
