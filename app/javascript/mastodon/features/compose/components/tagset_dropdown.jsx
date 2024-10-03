@@ -10,6 +10,7 @@ import Overlay from 'react-overlays/Overlay';
 import TagIcon from '@/material-icons/400-24px/tag.svg?react';
 import CancelIcon from '@/material-icons/400-24px/cancel.svg?react';
 import MovieIcon from '@/material-icons/400-24px/movie.svg?react';
+import RefreshIcon from '@/material-icons/400-24px/refresh.svg?react';
 import { DropdownSelector } from 'mastodon/components/dropdown_selector';
 import { Icon }  from 'mastodon/components/icon';
 
@@ -18,6 +19,8 @@ const messages = defineMessages({
   empty_long: { id: 'tagset.empty.long', defaultMessage: 'Empty tagset' },
   episodes_short: { id: 'tagset.episodes.short', defaultMessage: 'Other episodes' },
   episodes_long: { id: 'tagset.episodes.long', defaultMessage: 'Episode browser of Mulukhiya' },
+  reload_short: { id: 'tagset.reload.short', defaultMessage: 'Reload' },
+  reload_long: { id: 'tagset.reload.long', defaultMessage: 'Reload episodes' },
   change: { id: 'tagset.change', defaultMessage: 'Change tagset' },
   label: { id: 'tagset.label', defaultMessage: 'Livecure' },
 });
@@ -80,6 +83,10 @@ class TagsetDropdown extends PureComponent {
   };
 
   handleChange = value => {
+    if (value == 'reload') {
+      UNSAFE_componentWillMount();
+      return;
+    }
     this.props.onChange(value);
   };
 
@@ -108,6 +115,7 @@ class TagsetDropdown extends PureComponent {
         }
       }).then(_ => {
         this.options.push({ value: 'episodes', icon: 'movie', iconComponent: MovieIcon, text: formatMessage(messages.episodes_short), meta: formatMessage(messages.episodes_long) });
+        this.options.push({ value: 'reload', icon: 'refresh', iconComponent: RefreshIcon, text: formatMessage(messages.reload_short), meta: formatMessage(messages.reload_long) });
       })
   }
 
