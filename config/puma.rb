@@ -15,8 +15,6 @@ end
 environment ENV.fetch('RAILS_ENV') { 'development' }
 workers     ENV.fetch('WEB_CONCURRENCY') { 2 }.to_i
 
-pidfile 'tmp/pids/puma.pid'
-
 preload_app!
 
 on_worker_boot do

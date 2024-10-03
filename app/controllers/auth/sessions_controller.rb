@@ -20,11 +20,6 @@ class Auth::SessionsController < Devise::SessionsController
     p.form_action(false)
   end
 
-  def check_suspicious!
-    user = find_user
-    @login_is_suspicious = suspicious_sign_in?(user) unless user.nil?
-  end
-
   def create
     super do |resource|
       # We only need to call this if this hasn't already been
@@ -100,6 +95,11 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   private
+
+  def check_suspicious!
+    user = find_user
+    @login_is_suspicious = suspicious_sign_in?(user) unless user.nil?
+  end
 
   def home_paths(resource)
     paths = [about_path, '/explore']
@@ -197,9 +197,5 @@ class Auth::SessionsController < Devise::SessionsController
       end
       format.all { super }
     end
-  end
-
-  def second_factor_attempts_key(user)
-    "2fa_auth_attempts:#{user.id}:#{Time.now.utc.hour}"
   end
 end

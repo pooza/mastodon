@@ -10,7 +10,7 @@ class Admin::Metrics::Dimension::SoftwareVersionsDimension < Admin::Metrics::Dim
   protected
 
   def perform_query
-    [mastodon_version, ruby_version, postgresql_version, redis_version, mulukhiya_version, elasticsearch_version, libvips_version, imagemagick_version, ffmpeg_version].compact
+    [mastodon_version, ruby_version, postgresql_version, redis_version, elasticsearch_version, mulukhiya_version, libvips_version, imagemagick_version, ffmpeg_version].compact
   end
 
   def mastodon_version

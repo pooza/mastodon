@@ -141,7 +141,7 @@ class GettingStarted extends ImmutablePureComponent {
         navItems.push(<ColumnSubheading key='header-{group.body}' text={group.body} />);
         for (let link of group.links) {
           link.target = link.target || '_blank';
-          navItems.push(<ColumnLink key='{group.body}-{link.body}' icon={link.icon} text={link.body} href={link.href} target={link.target} />);
+          navItems.push(<ColumnLink key='{group.body}-{link.body}' text={link.body} href={link.href} target={link.target} />);
         }
       }
 

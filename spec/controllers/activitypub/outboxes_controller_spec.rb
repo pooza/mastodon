@@ -34,10 +34,6 @@ RSpec.describe ActivityPub::OutboxesController do
           expect(response.parsed_body[:totalItems]).to eq 4
         end
 
-        it 'does not have a Vary header' do
-          expect(response.headers['Vary']).to be_nil
-        end
-
         context 'when account is permanently suspended' do
           before do
             account.suspend!
@@ -73,13 +69,10 @@ RSpec.describe ActivityPub::OutboxesController do
 
           expect(response.parsed_body)
             .to include(
-              orderedItems: be_an(Array).and(have_attributes(size: 2))
+              orderedItems: be_an(Array)
+              .and(have_attributes(size: 2))
+              .and(all(satisfy { |item| targets_public_collection?(item) }))
             )
-          expect(response.parsed_body[:orderedItems].all? { |item| targets_public_collection?(item) }).to be true
-        end
-
-        it 'returns Vary header with Signature' do
-          expect(response.headers['Vary']).to include 'Signature'
         end
 
         context 'when account is permanently suspended' do
@@ -121,9 +114,10 @@ RSpec.describe ActivityPub::OutboxesController do
 
           expect(response.parsed_body)
             .to include(
-              orderedItems: be_an(Array).and(have_attributes(size: 2))
+              orderedItems: be_an(Array)
+              .and(have_attributes(size: 2))
+              .and(all(satisfy { |item| targets_public_collection?(item) }))
             )
-          expect(response.parsed_body[:orderedItems].all? { |item| targets_public_collection?(item) }).to be true
         end
       end
 
@@ -140,9 +134,10 @@ RSpec.describe ActivityPub::OutboxesController do
 
           expect(response.parsed_body)
             .to include(
-              orderedItems: be_an(Array).and(have_attributes(size: 3))
+              orderedItems: be_an(Array)
+              .and(have_attributes(size: 3))
+              .and(all(satisfy { |item| targets_public_collection?(item) || targets_followers_collection?(item, account) }))
             )
-          expect(response.parsed_body[:orderedItems].all? { |item| targets_public_collection?(item) || targets_followers_collection?(item, account) }).to be true
         end
       end
 

@@ -274,9 +274,15 @@ class LinkDetailsExtractor
   end
 
   def detect_encoding_and_parse_document
-    [detect_encoding, nil, @html_charset, 'UTF-8'].uniq.each do |encoding|
-      document = Nokogiri::HTML(@html, nil, encoding)
-      return document if document.to_s.valid_encoding?
+    html = nil
+    encoding = nil
+
+    [detect_encoding, header_encoding].compact.each do |enc|
+      html = @html.dup.force_encoding(enc)
+      if html.valid_encoding?
+        encoding = enc
+        break
+      end
     end
 
     html = @html unless encoding
@@ -294,11 +300,6 @@ class LinkDetailsExtractor
   rescue ArgumentError
     # Encoding from HTTP header is not recognized by ruby
     nil
-  end
-
-  def detect_encoding
-    guess = detector.detect(@html, @html_charset)
-    guess&.fetch(:confidence, 0).to_i > 60 ? guess&.fetch(:encoding, nil) : nil
   end
 
   def detector
