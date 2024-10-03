@@ -838,8 +838,6 @@
   "tagset.empty.short": "タグなし",
   "tagset.episodes.long": "モロヘイヤのエピソードブラウザを開く",
   "tagset.episodes.short": "ほかのエピソード",
-  "tagset.hide_livecure": "実況投稿を非表示",
-  "tagset.show_livecure": "実況投稿を表示",
   "time_remaining.days": "残り{number}日",
   "time_remaining.hours": "残り{number}時間",
   "time_remaining.minutes": "残り{number}分",
