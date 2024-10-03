@@ -28,6 +28,9 @@ const mapStateToProps = state => ({
   anyMedia: state.getIn(['compose', 'media_attachments']).size > 0,
   isInReply: state.getIn(['compose', 'in_reply_to']) !== null,
   lang: state.getIn(['compose', 'language']),
+  maxChars: Math.floor(
+    state.getIn(['server', 'server', 'configuration', 'statuses', 'max_characters'], 3000) * 0.8
+  ),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -36,8 +39,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeCompose(text));
   },
 
-  onSubmit (router) {
-    dispatch(submitCompose(router));
+  onSubmit () {
+    dispatch(submitCompose());
   },
 
   onClearSuggestions () {

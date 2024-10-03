@@ -2,29 +2,29 @@
   {
     "body": "お知らせ",
     "links": [
-      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット", "icon": "info"},
-      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ", "icon": "info"}
+      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット"},
+      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ"}
     ]
   },
   {
     "body": "デルムリン丼Blog",
     "links": [
-      {"href": "https://blog.mstdn.delmulin.com/", "body": "Home", "icon": "home"},
-      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け", "icon": "user"},
-      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況", "icon": "microphone"}
+      {"href": "https://blog.mstdn.delmulin.com/", "body": "Home"},
+      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け"},
+      {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況"}
     ]
   },
   {
     "body": "モロヘイヤ",
     "links": [
-      {"href": "/mulukhiya", "body": "Home", "icon": "home"},
-      {"href": "/mulukhiya/app/feed", "body": "フィード", "icon": "rss"},
-      {"href": "/mulukhiya/app/media", "body": "メディアカタログ", "icon": "image"},
-      {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "comment"},
-      {"href": "/mulukhiya/app/hashtag", "body": "ハッシュタグ", "icon": "hashtag"},
-      {"href": "/mulukhiya/app/episode", "body": "エピソードブラウザ", "icon": "film"},
-      {"href": "/mulukhiya/app/api", "body": "API", "icon": "terminal"},
-      {"href": "/mulukhiya/app/config", "body": "設定", "icon": "gears"}
+      {"href": "/mulukhiya", "body": "Home"},
+      {"href": "/mulukhiya/app/feed", "body": "フィード"},
+      {"href": "/mulukhiya/app/media", "body": "メディアカタログ"},
+      {"href": "/mulukhiya/app/status", "body": "投稿"},
+      {"href": "/mulukhiya/app/hashtag", "body": "ハッシュタグ"},
+      {"href": "/mulukhiya/app/episode", "body": "エピソードブラウザ"},
+      {"href": "/mulukhiya/app/api", "body": "API"},
+      {"href": "/mulukhiya/app/config", "body": "設定"}
     ]
   },
   {
