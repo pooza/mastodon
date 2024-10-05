@@ -19,18 +19,9 @@ body:
     attributes:
       label: 期待される動作
       description: 「現象」が、本来どの様なふるまいであるべきかを記載してください。
-  - type: input
+  - type: textarea
     attributes:
       label: 再現環境
-      description: |
-        再現環境を記載してください。
-        例：
-        Chrome + Windows
-        Edge + Windows
-        Chrome + macOS
-        Safari + macOS
-    validations:
-      required: true
   - type: input
     attributes:
       label: 発生時刻
