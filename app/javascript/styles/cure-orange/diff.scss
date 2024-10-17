@@ -16,7 +16,13 @@ button.button {
 .button.button-secondary span {
   color: white;
 }
+.button.button-secondary:hover span {
+  color: #ce9041;
+}
 
 .button.button-secondary svg.icon path {
   fill: white;
+}
+.button.button-secondary:hover svg.icon path {
+  fill: #ce9041;
 }

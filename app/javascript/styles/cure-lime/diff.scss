@@ -13,7 +13,13 @@ button.button {
 .button.button-secondary span {
   color: white;
 }
+.button.button-secondary:hover span {
+  color: #4c9938;
+}
 
 .button.button-secondary svg.icon path {
   fill: white;
+}
+.button.button-secondary:hover svg.icon path {
+  fill: #4c9938;
 }
