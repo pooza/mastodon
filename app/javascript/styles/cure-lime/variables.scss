@@ -4,45 +4,54 @@
 $black: #000000;
 $white: #ffffff;
 
-$classic-base-color: #0f500f;
-$classic-primary-color: #9bbe9b;
-$classic-secondary-color: #d7e6d7;
-$classic-highlight-color: #1ea51e;
+$classic-base-color: hsl(120deg, 68%, 19%);
+$classic-primary-color: hsl(120deg, 21%, 68%);
+$classic-secondary-color: hsl(120deg, 23%, 87%);
+$classic-highlight-color: hsl(120deg, 69%, 38%);
 
-$blurple-600: hsl(252deg, 59%, 51%); // Iris
-$blurple-500: hsl(240deg, 100%, 69%); // Brand purple
-$blurple-300: hsl(237deg, 92%, 75%); // Faded Blue
-$grey-600: hsl(240deg, 8%, 33%); // Trout
-$grey-100: hsl(240deg, 51%, 90%); // Topaz
+$blurple-600: hsl(120deg, 63%, 34%); // Iris
+$blurple-500: hsl(120deg, 63%, 39%); // Brand purple
+$blurple-400: hsl(120deg, 63%, 44%);
+$blurple-300: hsl(120deg, 100%, 23%); // Faded Blue
+$grey-600: hsl(120deg, 8%, 33%); // Trout
+$grey-100: hsl(120deg, 51%, 90%); // Topaz
 
 // Differences
-$success-green: #3c754d;
+$success-green: lighten(hsl(138deg, 32%, 35%), 8%);
 
 $base-overlay-background: $white !default;
 $valid-value-color: $success-green !default;
 
 $ui-base-color: $classic-secondary-color !default;
-$ui-base-lighter-color: #afdcaf;
-$ui-primary-color: #99e899;
+$ui-base-lighter-color: hsl(120deg, 24%, 75%);
+$ui-primary-color: $classic-primary-color !default;
 $ui-secondary-color: $classic-base-color !default;
-$ui-highlight-color: #239b23;
+$ui-highlight-color: $classic-highlight-color !default;
+
+$ui-button-color: $white !default;
+$ui-button-background-color: $blurple-500 !default;
+$ui-button-focus-background-color: $blurple-600 !default;
+$ui-button-focus-outline-color: $blurple-400 !default;
+$ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
 
 $ui-button-secondary-color: $grey-600 !default;
 $ui-button-secondary-border-color: $grey-600 !default;
 $ui-button-secondary-focus-color: $white !default;
 
-$ui-button-tertiary-color: $blurple-500 !default;
-$ui-button-tertiary-border-color: $blurple-500 !default;
+$ui-button-tertiary-color: $blurple-300 !default;
+$ui-button-tertiary-border-color: $blurple-300 !default;
+$ui-button-tertiary-focus-background-color: $blurple-600 !default;
+$ui-button-tertiary-focus-color: $white !default;
 
 $primary-text-color: $black !default;
 $darker-text-color: $classic-base-color !default;
 $highlight-text-color: $ui-highlight-color !default;
-$dark-text-color: #0f4b0f;
-$action-button-color: #466446;
+$dark-text-color: hsl(120deg, 16%, 32%);
+$action-button-color: hsl(120deg, 38%, 36%);
 
 $inverted-text-color: $black !default;
 $lighter-text-color: $classic-base-color !default;
-$light-text-color: #274f34;
+$light-text-color: hsl(120deg, 16%, 32%);
 
 // Newly added colors
 $account-background-color: $white !default;
@@ -67,13 +76,14 @@ $account-background-color: $white !default;
 $emojis-requiring-inversion: 'chains';
 
 body {
-  --dropdown-border-color: hsl(240deg, 25%, 88%);
+  --dropdown-border-color: hsl(120deg, 25%, 88%);
   --dropdown-background-color: #fff;
-  --modal-border-color: hsl(240deg, 25%, 88%);
+  --modal-border-color: hsl(120deg, 25%, 88%);
   --modal-background-color: var(--background-color-tint);
-  --background-border-color: hsl(240deg, 25%, 88%);
+  --background-border-color: hsl(120deg, 25%, 88%);
   --background-color: #fff;
   --background-color-tint: rgba(255, 255, 255, 80%);
   --background-filter: blur(10px);
   --on-surface-color: #{transparentize($ui-base-color, 0.65)};
 }
+
