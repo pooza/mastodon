@@ -97,7 +97,8 @@ class TagsetDropdown extends PureComponent {
       { value: 'empty', icon: 'cancel', iconComponent: CancelIcon, text: formatMessage(messages.empty_short), meta: formatMessage(messages.empty_long) },
     ];
 
-    fetch('/mulukhiya/api/program')
+    fetch('/mulukhiya/api/program/update', {method: 'POST'})
+      .then(() => fetch('/mulukhiya/api/program'))
       .then(response => response.json())
       .then(result => {
         for (const k of Object.keys(result)) {
