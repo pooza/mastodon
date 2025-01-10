@@ -136,7 +136,7 @@ Rails.application.configure do
     password: ENV['SMTP_PASSWORD'].presence,
     domain: ENV['SMTP_DOMAIN'] || ENV['LOCAL_DOMAIN'],
     authentication: ENV['SMTP_AUTH_METHOD'] == 'none' ? nil : ENV['SMTP_AUTH_METHOD'] || :plain,
-    ca_file: ENV['SMTP_CA_FILE'].presence || '/etc/ssl/certs/ca-certificates.crt',
+    ca_file: ENV['SMTP_CA_FILE'].presence || '/usr/local/share/certs/ca-root-nss.crt', # FreeBSD default
     openssl_verify_mode: ENV['SMTP_OPENSSL_VERIFY_MODE'],
     enable_starttls: enable_starttls,
     enable_starttls_auto: enable_starttls_auto,
