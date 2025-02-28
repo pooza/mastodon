@@ -17,9 +17,8 @@ class ActivityPub::LinkedDataSignature
     creator_uri = @json['signature']['creator']
     signature   = @json['signature']['signatureValue']
 
-
     # 2025/2 e-komik.org creator誤りへの対応
-    creator_uri.sub('https:/e-komik.org', 'https://e-komik.org')
+    creator_uri.sub!('https:/e-komik.org', 'https://e-komik.org')
 
     return unless type == 'RsaSignature2017'
 
