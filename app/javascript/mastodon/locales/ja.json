@@ -786,7 +786,7 @@
   "status.admin_status": "このキュア！をモデレーション画面で開く",
   "status.block": "@{name}さんをブロック",
   "status.bookmark": "ブックマーク",
-  "status.tagging": "タグづけ",
+  "status.tagging": "削除してタグづけ",
   "status.cancel_reblog_private": "リキュア解除",
   "status.cannot_reblog": "このキュア！はリキュアできません",
   "status.copy": "キュア！へのリンクをコピー",
