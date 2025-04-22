@@ -785,7 +785,7 @@
   "status.admin_status": "この投稿をモデレーション画面で開く",
   "status.block": "@{name}さんをブロック",
   "status.bookmark": "ブックマーク",
-  "status.tagging": "タグづけ",
+  "status.tagging": "削除してタグづけ",
   "status.cancel_reblog_private": "ブースト解除",
   "status.cannot_reblog": "この投稿はブーストできません",
   "status.continued_thread": "続きのスレッド",
