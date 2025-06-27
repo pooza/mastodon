@@ -1,5 +1,5 @@
 @use 'sass:color';
-@use 'functions' as *;
+@use '../mastodon/functions' as *;
 
 // Commonly used web colors
 $black: #000; // Black
