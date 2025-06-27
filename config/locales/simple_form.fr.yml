@@ -43,7 +43,7 @@ fr:
         avatar: WEBP, PNG, GIF ou JPG. Au plus %{size}. Sera réduit à %{dimensions}px
         bot: Signale aux autres que ce compte exécute principalement des actions automatisées et pourrait ne pas être surveillé
         context: Un ou plusieurs contextes où le filtre devrait s’appliquer
-        current_password: Par mesure de sécurité, veuillez saisir le mot de passe du compte actuel
+        current_password: Par mesure de sécurité, veuillez saisir le mot de passe de ce compte
         current_username: Pour confirmer, veuillez saisir l’identifiant de ce compte
         digest: Uniquement envoyé après une longue période d’inactivité en cas de messages personnels reçus pendant votre absence
         email: Vous recevrez un courriel de confirmation
