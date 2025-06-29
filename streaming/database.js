@@ -102,7 +102,7 @@ export function configFromEnv(env, environment) {
 
   return {
     ...baseConfig,
-    max: parseIntFromEnvValue(env.DB_POOL, 10, 'DB_POOL'),
+    max: parseIntFromEnvValue(env.DB_POOL, 20, 'DB_POOL'),
     connectionTimeoutMillis: 15000,
     // Deliberately set application_name to an empty string to prevent excessive
     // CPU usage with PG Bouncer. See:
