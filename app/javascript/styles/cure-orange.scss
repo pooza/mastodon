@@ -1,3 +1,4 @@
-@import 'cure-orange/variables';
-@import 'application';
-@import 'mastodon-light/diff';
+@use 'cure-orange/variables';
+@use 'cure-orange/css_variables';
+@use 'application';
+@use 'cure-orange/diff';
