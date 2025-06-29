@@ -2,7 +2,7 @@
 
 persistent_timeout ENV.fetch('PERSISTENT_TIMEOUT') { 20 }.to_i
 
-max_threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i
+max_threads_count = ENV.fetch('MAX_THREADS') { 40 }.to_i
 min_threads_count = ENV.fetch('MIN_THREADS') { max_threads_count }.to_i
 threads min_threads_count, max_threads_count
 

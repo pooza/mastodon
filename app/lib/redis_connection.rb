@@ -17,7 +17,7 @@ class RedisConnection
       if Sidekiq.server?
         Sidekiq.default_configuration[:concurrency]
       else
-        ENV['MAX_THREADS'] || 5
+        ENV['MAX_THREADS'] || 40
       end
     end
   end
