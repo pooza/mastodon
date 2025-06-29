@@ -7,9 +7,9 @@
 
 $black: #000; // Black
 $white: #fff; // White
-$blurple-500: hsl(34deg, 70%, 53%); // Brand purple
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
+$orange: hsl(34deg, 100%, 38%);
 
 $classic-base-color: hsl(35deg, 43%, 24%);
 $classic-primary-color: hsl(34deg, 24%, 67%);
@@ -31,8 +31,8 @@ $classic-highlight-color: hsl(34deg, 70%, 51%);
   $ui-button-secondary-color: $grey-600,
   $ui-button-secondary-border-color: $grey-600,
   $ui-button-secondary-focus-color: $white,
-  $ui-button-tertiary-color: $blurple-500,
-  $ui-button-tertiary-border-color: $blurple-500,
+  $ui-button-tertiary-color: $orange,
+  $ui-button-tertiary-border-color: $orange,
 
   $primary-text-color: $black,
   $darker-text-color: $classic-base-color,
@@ -42,6 +42,6 @@ $classic-highlight-color: hsl(34deg, 70%, 51%);
   $light-text-color: hsl(240deg, 16%, 32%),
   $inverted-text-color: $black,
 
-  $action-button-color: hsl(34deg, 100%, 38%),
+  $action-button-color: $orange,
   $emojis-requiring-inversion: 'chains'
 );
