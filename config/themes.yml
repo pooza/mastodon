@@ -3,4 +3,4 @@ contrast: styles/contrast.scss
 mastodon-light: styles/mastodon-light.scss
 
 #Added theme
-daidai-orange: style/daidai-orange.scss
+daidai-orange: styles/daidai-orange.scss
