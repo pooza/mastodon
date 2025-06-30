@@ -1890,7 +1890,7 @@ ja:
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
-    daidai-orange:: 橙 (ライト)
+    daidai-orange:: 橙
     system: 自動 (システムのテーマを使用)
   time:
     formats:
