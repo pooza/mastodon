@@ -14,6 +14,7 @@ $blurple-600: $theme-lime-600;
 $blurple-500: $theme-lime-500;
 $blurple-400: $theme-lime-400;
 $blurple-300: $theme-lime-300;
+$theme-lime-100: hsl(120, 85%, 94%);
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
@@ -25,7 +26,7 @@ $gold-star: $theme-lime-600 !default;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: hsl(240deg, 16%, 19%);
+$classic-base-color: $theme-lime-100;
 $classic-primary-color: hsl(240deg, 29%, 70%);
 $classic-secondary-color: hsl(255deg, 25%, 88%);
 $classic-highlight-color: $theme-lime-500;
