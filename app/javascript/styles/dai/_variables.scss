@@ -29,7 +29,7 @@ $red-bookmark: $warning-red;
 $classic-base-color: $theme-blue-100;
 $classic-primary-color: hsl(212, 65%, 50%);
 $classic-secondary-color: hsl(212, 50%, 80%);
-$classic-highlight-color: hsl(212, 70%, 60%);
+$classic-highlight-color: $theme-blue-500;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
