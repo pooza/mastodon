@@ -18,7 +18,7 @@ $blurple-300: $theme-red-300;
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
-$success-red: #79bd9a !default; // Padua
+$success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
 $gold-star: $theme-red-400;
@@ -36,7 +36,7 @@ $base-shadow-color: $black !default;
 $base-overlay-background: $black !default;
 $base-border-color: $white !default;
 $simple-background-color: $white !default;
-$valid-value-color: $success-red !default;
+$valid-value-color: $success-green !default;
 $error-value-color: $error-red !default;
 
 // Tell UI to use selected colors
@@ -84,7 +84,7 @@ $highlight-text-color: lighten($ui-highlight-color, 8%) !default;
 $action-button-color: $ui-highlight-color !default;
 $action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
 $passive-text-color: $gold-star !default;
-$active-passive-text-color: $success-red !default;
+$active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds
 $inverted-text-color: $ui-base-color !default;
