@@ -1938,11 +1938,11 @@ en:
     review_link: Review terms of service
     title: The terms of service of %{domain} are changing
   themes:
-    cure-lime: Cure lime
-    cure-orange: Cure orange
     contrast: Mastodon (High contrast)
     default: Mastodon (Dark)
     mastodon-light: Mastodon (Light)
+    cure-lime: Cure lime
+    cure-orange: Cure orange
     system: Automatic (use system theme)
   time:
     formats:

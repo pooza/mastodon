@@ -1887,11 +1887,11 @@ ja:
     review_link: 利用規約を確認する
     title: "%{domain} の利用規約が変更されています"
   themes:
-    cure-lime: キュアライム
-    cure-orange: キュアオレンジ
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
+    cure-lime: キュアライム
+    cure-orange: キュアオレンジ
     system: 自動 (システムのテーマを使用)
   time:
     formats:
