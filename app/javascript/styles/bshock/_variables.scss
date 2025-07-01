@@ -2,8 +2,8 @@
 @use 'functions' as *;
 
 // Commonly used web colors
-$black: #000; // Black
-$white: #fff; // White
+$black: hsl(0, 0%, 7%);   // dark gray-ish
+$white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
 $theme-bishoku-green-600: #517a51;
