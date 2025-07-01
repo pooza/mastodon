@@ -25,7 +25,7 @@ $gold-star: $theme-orange-600 !default;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: hsl(30deg, 40%, 93%);
+$classic-base-color: $white;
 $classic-primary-color: hsl(30deg, 60%, 38%);
 $classic-secondary-color: hsl(30deg, 50%, 15%);
 $classic-highlight-color: $theme-orange-400;
