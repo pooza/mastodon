@@ -4,3 +4,8 @@ mastodon-light: styles/mastodon-light.scss
 
 # Custom theme
 daidai-orange: styles/daidai-orange.scss
+dai: styles/dai.scss
+popp: styles/popp.scss
+maam: styles/maam.scss
+hyunckel: styles/hyunckel.scss
+leona: styles/leona.scss

@@ -1942,6 +1942,11 @@ en:
     default: Mastodon (Dark)
     mastodon-light: Mastodon (Light)
     daidai-orange: DaiDai Orange
+    dai: dai
+    popp: popp
+    maam: maam
+    hyunckel: hyunchel
+    leona: leona
     system: Automatic (use system theme)
   time:
     formats:
