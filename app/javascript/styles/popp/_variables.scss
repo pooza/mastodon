@@ -21,7 +21,7 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: $theme-green-400;
+$gold-star: $theme-green-600;
 
 $red-bookmark: $warning-red;
 
@@ -76,11 +76,11 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: $white !default;
-$darker-text-color: $ui-primary-color !default;
-$dark-text-color: $ui-base-lighter-color !default;
-$secondary-text-color: $ui-secondary-color !default;
-$highlight-text-color: lighten($ui-highlight-color, 8%) !default;
+$primary-text-color: hsl(0, 0%, 10%) !default;
+$darker-text-color: hsl(0, 0%, 20%) !default;
+$dark-text-color: hsl(0, 0%, 30%) !default;
+$secondary-text-color: hsl(0, 0%, 40%) !default;
+$highlight-text-color: hsl(0, 0%, 20%) !default;
 $action-button-color: $ui-highlight-color !default;
 $action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
 $passive-text-color: $gold-star !default;
