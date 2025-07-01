@@ -6,21 +6,21 @@ $black: hsl(0, 0%, 7%);   // dark gray-ish
 $white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
-$theme-orange-600: #cc5500; // Burnt Orange - 濃い橙色
-$theme-orange-500: #ff6600; // ブランド橙色（目立つメインカラーに最適）
-$theme-orange-400: #ff8533; // 中間の橙色
-$theme-orange-300: #ff9966; // 明るめの橙色（ホバー色や背景に）
-$blurple-600: $theme-orange-600; // ブランドパープルの代わりに使用
-$blurple-500: $theme-orange-500; // ブランドパープルの代わりに使用
-$blurple-400: $theme-orange-400; // ブランドパープルの代わりに使用
-$blurple-300: $theme-orange-300; // ブランドパープルの代わりに使用
+$theme-orange-600: #cc5500;
+$theme-orange-500: #ff6600;
+$theme-orange-400: #ff8533;
+$theme-orange-300: #ff9966;
+$blurple-600: $theme-orange-600;
+$blurple-500: $theme-orange-500;
+$blurple-400: $theme-orange-400;
+$blurple-300: $theme-orange-300;
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: #ca8f04 !default; // Dark Goldenrod
+$gold-star: $theme-orange-600 !default;
 
 $red-bookmark: $warning-red;
 
