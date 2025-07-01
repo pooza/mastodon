@@ -14,10 +14,10 @@ $blurple-600: $theme-green-600;
 $blurple-500: $theme-green-500;
 $blurple-400: $theme-green-300;
 $blurple-300: $theme-green-300;
+$bandana-yellow: #f5d47c; // バンダナ
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
-$bandana-yellow: #f5d47c; // バンダナ色
 $success-green: #79bd9a !default;
 $error-red: $red-500 !default;
 $warning-red: #ff5050 !default;
@@ -27,9 +27,9 @@ $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-green-100;
-$classic-primary-color: hsl(120, 40%, 50%);
-$classic-secondary-color: hsl(120, 30%, 75%);
-$classic-highlight-color: $theme-green-500;
+$classic-primary-color: $theme-green-500;
+$classic-secondary-color: $theme-green-300;
+$classic-highlight-color: $bandana-yellow;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
