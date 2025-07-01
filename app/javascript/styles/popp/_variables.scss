@@ -6,19 +6,18 @@ $black: hsl(0, 0%, 7%);   // dark gray-ish
 $white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
-$theme-green-600: hsl(120, 55%, 30%);
-$theme-green-500: hsl(120, 50%, 45%);
-$theme-green-400: hsl(120, 60%, 60%);
-$theme-green-300: hsl(120, 70%, 78%);
+$theme-green-600: #28434e; // 旅人の服 影
+$theme-green-500: #2e9985; // 旅人の服
+$theme-green-300: #67ab60; // ブーツ
 $theme-green-100: hsl(120, 4%, 94%);
 $blurple-600: $theme-green-600;
 $blurple-500: $theme-green-500;
-$blurple-400: $theme-green-400;
+$blurple-400: $theme-green-300;
 $blurple-300: $theme-green-300;
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
-$bandana-yellow: #b08c3e; // バンダナ色
+$bandana-yellow: #f5d47c; // バンダナ色
 $success-green: #79bd9a !default;
 $error-red: $red-500 !default;
 $warning-red: #ff5050 !default;
@@ -52,7 +51,7 @@ $ui-highlight-color: $classic-highlight-color !default;
 $ui-button-color: $white !default;
 $ui-button-background-color: $theme-green-500 !default;
 $ui-button-focus-background-color: $theme-green-600 !default;
-$ui-button-focus-outline-color: $theme-green-400 !default;
+$ui-button-focus-outline-color: $theme-green-300 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
 
 $ui-button-disabled-color: color.adjust(
