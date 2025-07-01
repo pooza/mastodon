@@ -10,6 +10,10 @@ $theme-orange-600: #cc5500; // Burnt Orange - 濃い橙色
 $theme-orange-500: #ff6600; // ブランド橙色（目立つメインカラーに最適）
 $theme-orange-400: #ff8533; // 中間の橙色
 $theme-orange-300: #ff9966; // 明るめの橙色（ホバー色や背景に）
+$blurple-600: $theme-orange-600; // ブランドパープルの代わりに使用
+$blurple-500: $theme-orange-500; // ブランドパープルの代わりに使用
+$blurple-400: $theme-orange-400; // ブランドパープルの代わりに使用
+$blurple-300: $theme-orange-300; // ブランドパープルの代わりに使用
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
