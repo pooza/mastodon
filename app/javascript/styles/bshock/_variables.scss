@@ -20,7 +20,7 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: #ca8f04 !default; // Dark Goldenrod
+$gold-star: $theme-green-600 !default; // Dark Goldenrod
 
 $red-bookmark: $warning-red;
 
