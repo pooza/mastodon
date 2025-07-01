@@ -10,11 +10,11 @@ $theme-lime-600: #1da41d;
 $theme-lime-500: #25ce25;
 $theme-lime-400: #50d750;
 $theme-lime-300: #7ce17c;
+$theme-lime-100: hsl(120, 85%, 94%);
 $blurple-600: $theme-lime-600;
 $blurple-500: $theme-lime-500;
 $blurple-400: $theme-lime-400;
 $blurple-300: $theme-lime-300;
-$theme-lime-100: hsl(120, 85%, 94%);
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
@@ -27,9 +27,9 @@ $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-lime-100;
-$classic-primary-color: hsl(240deg, 29%, 70%);
-$classic-secondary-color: hsl(255deg, 25%, 88%);
-$classic-highlight-color: $theme-lime-500;
+$classic-primary-color: hsl(120deg, 21%, 68%);
+$classic-secondary-color: hsl(120deg, 23%, 87%);
+$classic-highlight-color: hsl(120deg, 69%, 38%);
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -76,20 +76,20 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: $white !default;
-$darker-text-color: $ui-primary-color !default;
-$dark-text-color: $ui-base-lighter-color !default;
-$secondary-text-color: $ui-secondary-color !default;
-$highlight-text-color: lighten($ui-highlight-color, 8%) !default;
-$action-button-color: $ui-base-lighter-color !default;
-$action-button-focus-color: lighten($ui-base-lighter-color, 4%) !default;
+$primary-text-color: hsl(0, 0%, 20%) !default;
+$darker-text-color: hsl(0, 0%, 33%) !default;
+$dark-text-color: hsl(0, 0%, 47%) !default;
+$secondary-text-color: hsl(120, 30%, 35%) !default;
+$highlight-text-color: hsl(120, 50%, 40%) !default;
+$action-button-color: $ui-highlight-color !default;
+$action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
 $passive-text-color: $gold-star !default;
 $active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds
-$inverted-text-color: $ui-base-color !default;
+$inverted-text-color: hsl(0, 0%, 98%) !default;
 $lighter-text-color: $ui-base-lighter-color !default;
-$light-text-color: $ui-primary-color !default;
+$light-text-color: hsl(0, 0%, 60%) !default;
 
 // Language codes that uses CJK fonts
 $cjk-langs: ja, ko, zh-CN, zh-HK, zh-TW;
