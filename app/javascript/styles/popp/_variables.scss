@@ -80,7 +80,7 @@ $primary-text-color: hsl(0, 0%, 10%) !default;
 $darker-text-color: hsl(0, 0%, 20%) !default;
 $dark-text-color: hsl(0, 0%, 30%) !default;
 $secondary-text-color: hsl(0, 0%, 40%) !default;
-$highlight-text-color: hsl(0, 0%, 20%) !default;
+$highlight-text-color: $theme-green-500;
 $action-button-color: $ui-highlight-color !default;
 $action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
 $passive-text-color: $gold-star !default;
