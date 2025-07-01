@@ -18,13 +18,11 @@ $blurple-300: $theme-green-300;
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
-$success-green: #79bd9a !default; // Padua
-$error-red: $red-500 !default; // Cerise
-$warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: $theme-green-600;
-
-$bandana-yellow: #4d453f;
-$bandana-yellow-light: #b08c3e;
+$bandana-yellow: #b08c3e; // バンダナ色
+$success-green: #79bd9a !default;
+$error-red: $red-500 !default;
+$warning-red: #ff5050 !default;
+$gold-star: $bandana-yellow;
 
 $red-bookmark: $warning-red;
 
@@ -83,7 +81,7 @@ $primary-text-color: hsl(0, 0%, 10%) !default;
 $darker-text-color: hsl(0, 0%, 20%) !default;
 $dark-text-color: hsl(0, 0%, 30%) !default;
 $secondary-text-color: hsl(0, 0%, 40%) !default;
-$highlight-text-color: $theme-green-500;
+$highlight-text-color: $theme-green-600;
 $action-button-color: $bandana-yellow;
 $action-button-focus-color: darken($bandana-yellow, 8%);
 $passive-text-color: $gold-star !default;
