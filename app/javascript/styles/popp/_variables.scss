@@ -23,6 +23,9 @@ $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
 $gold-star: $theme-green-600;
 
+$bandana-yellow: #4d453f;
+$bandana-yellow-light: #b08c3e;
+
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
@@ -81,8 +84,8 @@ $darker-text-color: hsl(0, 0%, 20%) !default;
 $dark-text-color: hsl(0, 0%, 30%) !default;
 $secondary-text-color: hsl(0, 0%, 40%) !default;
 $highlight-text-color: $theme-green-500;
-$action-button-color: $ui-highlight-color !default;
-$action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
+$action-button-color: $bandana-yellow;
+$action-button-focus-color: darken($bandana-yellow, 8%);
 $passive-text-color: $gold-star !default;
 $active-passive-text-color: $success-green !default;
 
