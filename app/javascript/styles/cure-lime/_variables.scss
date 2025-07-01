@@ -25,10 +25,10 @@ $gold-star: $theme-lime-600 !default;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: hsl(120deg, 68%, 19%);
-$classic-primary-color: hsl(120deg, 21%, 68%);
-$classic-secondary-color: hsl(120deg, 23%, 87%);
-$classic-highlight-color: hsl(120deg, 69%, 38%);
+$classic-base-color: hsl(30deg, 40%, 93%);
+$classic-primary-color: hsl(30deg, 60%, 38%);
+$classic-secondary-color: hsl(30deg, 50%, 15%);
+$classic-highlight-color: $theme-lime-400;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -75,11 +75,11 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: hsl(0, 0%, 20%);
-$darker-text-color: hsl(0, 0%, 40%);
-$dark-text-color: hsl(0, 0%, 60%);
-$secondary-text-color: hsl(30, 70%, 40%);
-$highlight-text-color: hsl(30, 70%, 30%);
+$primary-text-color: hsl(30deg, 50%, 15%);
+$darker-text-color: hsl(30deg, 35%, 40%);
+$dark-text-color: hsl(30deg, 45%, 30%);
+$secondary-text-color: hsl(30deg, 35%, 50%);
+$highlight-text-color: hsl(30deg, 65%, 35%);
 $action-button-color: $ui-highlight-color !default;
 $action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
 $passive-text-color: $gold-star !default;

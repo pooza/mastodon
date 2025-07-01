@@ -19,16 +19,16 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
-$warning-red: #ff5050 !default;
+$warning-red: #ff5050 !default; // Sunset Orange
 $gold-star: $theme-orange-600 !default;
 
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: hsl(35deg, 43%, 24%);
-$classic-primary-color: hsl(34deg, 24%, 67%);
-$classic-secondary-color: hsl(34deg, 25%, 88%);
-$classic-highlight-color: hsl(34deg, 70%, 51%);
+$classic-base-color: hsl(30deg, 40%, 93%);
+$classic-primary-color: hsl(30deg, 60%, 38%);
+$classic-secondary-color: hsl(30deg, 50%, 15%);
+$classic-highlight-color: $theme-orange-400;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -72,14 +72,14 @@ $ui-button-destructive-background-color: $red-500 !default;
 $ui-button-destructive-focus-background-color: $red-600 !default;
 
 $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
-$ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
+$ui-button-icon-hover-background-color: rgba(255, 128, 64, 0.2);
 
 // Variables for texts
-$primary-text-color: hsl(0, 0%, 20%);
-$darker-text-color: hsl(0, 0%, 40%);
-$dark-text-color: hsl(0, 0%, 60%);
-$secondary-text-color: hsl(30, 70%, 40%);
-$highlight-text-color: hsl(30, 70%, 30%);
+$primary-text-color: hsl(30deg, 50%, 15%);
+$darker-text-color: hsl(30deg, 35%, 40%);
+$dark-text-color: hsl(30deg, 45%, 30%);
+$secondary-text-color: hsl(30deg, 35%, 50%);
+$highlight-text-color: hsl(30deg, 65%, 35%);
 $action-button-color: $ui-highlight-color !default;
 $action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
 $passive-text-color: $gold-star !default;
