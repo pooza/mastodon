@@ -25,9 +25,9 @@ $gold-star: #ca8f04 !default; // Dark Goldenrod
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: hsl(30deg, 70%, 96%);
-$classic-primary-color: hsl(30deg, 85%, 55%);
-$classic-secondary-color: hsl(30deg, 95%, 85%);
+$classic-base-color: hsl(30, 60%, 96%);
+$classic-primary-color: hsl(30, 70%, 40%);
+$classic-secondary-color: hsl(30, 80%, 88%);
 $classic-highlight-color: $theme-orange-500;
 
 // Variables for defaults in UI
@@ -75,11 +75,11 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: #222;
-$darker-text-color: $ui-primary-color !default;
-$dark-text-color: $ui-base-lighter-color !default;
-$secondary-text-color: $ui-secondary-color !default;
-$highlight-text-color: lighten($ui-highlight-color, 8%) !default;
+$primary-text-color: hsl(0, 0%, 20%);
+$darker-text-color: hsl(0, 0%, 40%);
+$dark-text-color: hsl(0, 0%, 60%);
+$secondary-text-color: hsl(30, 70%, 40%);
+$highlight-text-color: hsl(30, 70%, 30%);
 $action-button-color: $ui-base-lighter-color !default;
 $action-button-focus-color: lighten($ui-base-lighter-color, 4%) !default;
 $passive-text-color: $gold-star !default;
