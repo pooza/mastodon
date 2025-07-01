@@ -2,8 +2,8 @@
 @use 'functions' as *;
 
 // Commonly used web colors
-$black: #000; // Black
-$white: #fff; // White
+$black: hsl(0, 0%, 7%);   // dark gray-ish
+$white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
 $theme-orange-600: #cc5500; // Burnt Orange - 濃い橙色
@@ -25,10 +25,10 @@ $gold-star: #ca8f04 !default; // Dark Goldenrod
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: hsl(30deg, 35%, 30%);
-$classic-primary-color: hsl(30deg, 90%, 70%);
-$classic-secondary-color: hsl(30deg, 95%, 92%);
-$classic-highlight-color: $theme-orange-400;
+$classic-base-color: hsl(30deg, 70%, 96%);
+$classic-primary-color: hsl(30deg, 85%, 55%);
+$classic-secondary-color: hsl(30deg, 95%, 85%);
+$classic-highlight-color: $theme-orange-500;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -75,7 +75,7 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: $white !default;
+$primary-text-color: #222;
 $darker-text-color: $ui-primary-color !default;
 $dark-text-color: $ui-base-lighter-color !default;
 $secondary-text-color: $ui-secondary-color !default;
