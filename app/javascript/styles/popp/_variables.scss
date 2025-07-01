@@ -25,7 +25,7 @@ $gold-star: $bandana-yellow;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: lighten($ui-base-color, 30%);
+$classic-base-color: lighten($theme-green-500, 30%);
 $classic-primary-color: $theme-green-500;
 $classic-secondary-color: $theme-green-300;
 $classic-highlight-color: $bandana-yellow;
@@ -49,11 +49,7 @@ $ui-button-background-color: $theme-green-500 !default;
 $ui-button-focus-background-color: $theme-green-600 !default;
 $ui-button-focus-outline-color: $theme-green-300 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
-
-$ui-button-disabled-color: color.adjust(
-  $ui-button-background-color,
-  $alpha: -0.3
-) !default;
+$ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
 
 $ui-button-secondary-color: $theme-green-500 !default;
 $ui-button-secondary-border-color: $theme-green-500 !default;
