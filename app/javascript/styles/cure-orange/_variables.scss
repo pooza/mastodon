@@ -10,6 +10,7 @@ $theme-orange-600: #b97926;
 $theme-orange-500: #e89830;
 $theme-orange-400: #ecac59;
 $theme-orange-300: #f1c182;
+$theme-orange-100: hsl(34, 100%, 94%);
 $blurple-600: $theme-orange-600;
 $blurple-500: $theme-orange-500;
 $blurple-400: $theme-orange-400;
@@ -25,7 +26,7 @@ $gold-star: $theme-orange-600 !default;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: $white;
+$classic-base-color: $theme-orange-100;
 $classic-primary-color: hsl(30deg, 60%, 38%);
 $classic-secondary-color: hsl(30deg, 50%, 15%);
 $classic-highlight-color: $theme-orange-400;
