@@ -9,7 +9,6 @@ $red-500: #df405a !default; // Cerise
 $theme-green-600: #28434e; // 旅人の服 影
 $theme-green-500: #2e9985; // 旅人の服
 $theme-green-300: #67ab60; // ブーツ
-$theme-green-100: hsl(120, 4%, 94%);
 $blurple-600: $theme-green-600;
 $blurple-500: $theme-green-500;
 $blurple-400: $theme-green-300;
@@ -26,7 +25,7 @@ $gold-star: $bandana-yellow;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: $theme-green-100;
+$classic-base-color: lighten($ui-base-color, 30%);
 $classic-primary-color: $theme-green-500;
 $classic-secondary-color: $theme-green-300;
 $classic-highlight-color: $bandana-yellow;
@@ -40,13 +39,10 @@ $valid-value-color: $success-green !default;
 $error-value-color: $error-red !default;
 
 // Tell UI to use selected colors
-$ui-base-color: $classic-base-color !default; // Darkest
-$ui-base-lighter-color: lighten(
-  $ui-base-color,
-  26%
-) !default; // Lighter darkest
-$ui-primary-color: $classic-primary-color !default; // Lighter
-$ui-secondary-color: $classic-secondary-color !default; // Lightest
+$ui-base-color: $classic-base-color !default;
+$ui-base-lighter-color: lighten($ui-base-color, 26%) !default;
+$ui-primary-color: $classic-primary-color !default;
+$ui-secondary-color: $classic-secondary-color !default;
 $ui-highlight-color: $classic-highlight-color !default;
 $ui-button-color: $white !default;
 $ui-button-background-color: $theme-green-500 !default;
