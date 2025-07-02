@@ -6,17 +6,19 @@ $black: hsl(0, 0%, 7%);   // dark gray-ish
 $white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
-$theme-green-600: #28434e; // 旅人の服 影
-$theme-green-500: #2e9985; // 旅人の服
-$theme-green-300: #67ab60; // ブーツ
+$theme-green-600: hsl(167, 52%, 30%);
+$theme-green-500: hsl(167, 52%, 39%); // 基準色（旅人の服）
+$theme-green-400: hsl(167, 52%, 48%);
+$theme-green-300: hsl(167, 52%, 60%);
+$theme-green-100: hsl(167, 52%, 85%);
 $blurple-600: $theme-green-600;
 $blurple-500: $theme-green-500;
-$blurple-400: $theme-green-300;
+$blurple-400: $theme-green-400;
 $blurple-300: $theme-green-300;
-$bandana-yellow: #f5d47c; // バンダナ
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
+$bandana-yellow: #b08c3e; // バンダナ色
 $success-green: #79bd9a !default;
 $error-red: $red-500 !default;
 $warning-red: #ff5050 !default;
@@ -25,10 +27,10 @@ $gold-star: $bandana-yellow;
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: lighten($theme-green-500, 50%);
+$classic-base-color: $theme-green-100;
 $classic-primary-color: $theme-green-500;
-$classic-secondary-color: $theme-green-300;
-$classic-highlight-color: $bandana-yellow;
+$classic-secondary-color: $bandana-yellow;
+$classic-highlight-color: $theme-green-300;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -47,7 +49,7 @@ $ui-highlight-color: $classic-highlight-color !default;
 $ui-button-color: $white !default;
 $ui-button-background-color: $theme-green-500 !default;
 $ui-button-focus-background-color: $theme-green-600 !default;
-$ui-button-focus-outline-color: $theme-green-300 !default;
+$ui-button-focus-outline-color: $theme-green-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
 $ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
 
@@ -72,7 +74,7 @@ $primary-text-color: hsl(0, 0%, 10%) !default;
 $darker-text-color: hsl(0, 0%, 20%) !default;
 $dark-text-color: hsl(0, 0%, 30%) !default;
 $secondary-text-color: hsl(0, 0%, 40%) !default;
-$highlight-text-color: $theme-green-500;
+$highlight-text-color: $theme-green-600;
 $action-button-color: $bandana-yellow;
 $action-button-focus-color: darken($bandana-yellow, 8%);
 $passive-text-color: $gold-star !default;
