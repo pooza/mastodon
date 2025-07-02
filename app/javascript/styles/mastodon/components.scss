@@ -362,7 +362,7 @@
   &.overlayed {
     box-sizing: content-box;
     background: rgba($black, 0.65);
-    backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
+    backdrop-filter: $backdrop-blur-filter;
     color: rgba($white, 0.7);
     border-radius: 4px;
     padding: 2px;
@@ -2016,7 +2016,7 @@ body > [data-popper-placement] {
 
     &__popout {
       background: var(--dropdown-background-color);
-      backdrop-filter: var(--background-filter);
+      backdrop-filter: $backdrop-blur-filter;
       border: 1px solid var(--dropdown-border-color);
       box-shadow: var(--dropdown-shadow);
       max-width: 320px;
@@ -2693,7 +2693,7 @@ a.account__display-name {
 
 .dropdown-menu {
   background: var(--dropdown-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--dropdown-border-color);
   padding: 4px;
   border-radius: 4px;
@@ -2892,7 +2892,7 @@ a.account__display-name {
   gap: 8px;
   padding-bottom: env(safe-area-inset-bottom);
   background: var(--background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border-top: 1px solid var(--background-border-color);
   box-sizing: border-box;
 
@@ -2952,7 +2952,7 @@ a.account__display-name {
 
 .tabs-bar__wrapper {
   background: var(--background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -3247,6 +3247,7 @@ a.account__display-name {
 .columns-area__panels__pane--overlay {
   pointer-events: auto;
   background: rgba($base-overlay-background, 0.5);
+  z-index: 3;
 
   .columns-area__panels__pane__inner {
     box-shadow: var(--dropdown-shadow);
@@ -4031,7 +4032,7 @@ a.account__display-name {
       background: rgba($base-shadow-color, 0.6);
       border-radius: 8px;
       padding: 12px 9px;
-      backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
+      backdrop-filter: $backdrop-blur-filter;
       flex: 0 0 auto;
       display: flex;
       justify-content: center;
@@ -4814,7 +4815,7 @@ a.status-card {
 
     &__label {
       background-color: rgba($black, 0.45);
-      backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
+      backdrop-filter: $backdrop-blur-filter;
       border-radius: 8px;
       padding: 12px 16px;
       display: flex;
@@ -5165,7 +5166,7 @@ a.status-card {
   margin-top: 5px;
   z-index: 2;
   background: var(--dropdown-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--dropdown-border-color);
   box-shadow: var(--dropdown-shadow);
   border-radius: 5px;
@@ -5363,7 +5364,7 @@ a.status-card {
 .tagset-dropdown__dropdown {
   box-shadow: var(--dropdown-shadow);
   background: var(--dropdown-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--dropdown-border-color);
   padding: 4px;
   border-radius: 4px;
@@ -6043,7 +6044,7 @@ a.status-card {
   min-height: 478px;
   flex-direction: column;
   background: var(--modal-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--modal-border-color);
   border-radius: 16px;
 
@@ -6087,7 +6088,7 @@ a.status-card {
     padding: 24px;
     flex-direction: column;
     background: var(--modal-background-color);
-    backdrop-filter: var(--background-filter);
+    backdrop-filter: $backdrop-blur-filter;
     border: 1px solid var(--modal-border-color);
   }
 
@@ -6305,7 +6306,7 @@ a.status-card {
   max-height: 80vh;
   flex-direction: column;
   background: var(--modal-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--modal-border-color);
   border-radius: 16px;
 
@@ -6372,7 +6373,7 @@ a.status-card {
 
   &__popout {
     background: var(--dropdown-background-color);
-    backdrop-filter: var(--background-filter);
+    backdrop-filter: $backdrop-blur-filter;
     border: 1px solid var(--dropdown-border-color);
     box-shadow: var(--dropdown-shadow);
     max-width: 320px;
@@ -6732,7 +6733,7 @@ a.status-card {
 .actions-modal {
   border-radius: 8px 8px 0 0;
   background: var(--dropdown-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border-color: var(--dropdown-border-color);
   box-shadow: var(--dropdown-shadow);
   max-height: 80vh;
@@ -6858,7 +6859,7 @@ a.status-card {
     color: $white;
     border: 0;
     background: rgba($black, 0.65);
-    backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
+    backdrop-filter: $backdrop-blur-filter;
     padding: 3px 12px;
     border-radius: 99px;
     font-size: 14px;
@@ -6883,7 +6884,7 @@ a.status-card {
   color: $white;
   border: 0;
   background: rgba($black, 0.65);
-  backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
+  backdrop-filter: $backdrop-blur-filter;
   padding: 3px 8px;
   border-radius: 4px;
   font-size: 12px;
@@ -6904,7 +6905,7 @@ a.status-card {
 
 .media-gallery__alt__popover {
   background: rgba($black, 0.65);
-  backdrop-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
+  backdrop-filter: $backdrop-blur-filter;
   border-radius: 4px;
   box-shadow: var(--dropdown-shadow);
   padding: 16px;
@@ -7657,7 +7658,7 @@ a.status-card {
     inset-inline-start: 50%;
     transform: translate(-50%, -50%);
     background: rgba($base-shadow-color, 0.45);
-    backdrop-filter: var(--background-filter);
+    backdrop-filter: $backdrop-blur-filter;
     color: $white;
     border-radius: 8px;
     padding: 16px 24px;
@@ -8828,7 +8829,7 @@ noscript {
   &__footer {
     border-radius: 0 0 4px 4px;
     background: var(--modal-background-variant-color);
-    backdrop-filter: var(--background-filter);
+    backdrop-filter: $backdrop-blur-filter;
     border: 1px solid var(--modal-border-color);
     border-top: 0;
     padding: 12px;
@@ -8839,7 +8840,7 @@ noscript {
   &__header {
     border-radius: 4px 4px 0 0;
     background: var(--modal-background-variant-color);
-    backdrop-filter: var(--background-filter);
+    backdrop-filter: $backdrop-blur-filter;
     border: 1px solid var(--modal-border-color);
     border-bottom: 0;
     padding: 12px;
@@ -9244,7 +9245,7 @@ noscript {
   display: block;
   border-radius: 16px;
   background: var(--modal-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--modal-border-color);
   padding: 24px;
   box-sizing: border-box;
@@ -10876,7 +10877,7 @@ noscript {
 .hover-card {
   box-shadow: var(--dropdown-shadow);
   background: var(--modal-background-color);
-  backdrop-filter: var(--background-filter);
+  backdrop-filter: $backdrop-blur-filter;
   border: 1px solid var(--modal-border-color);
   border-radius: 8px;
   padding: 16px;
