@@ -11,6 +11,9 @@ $theme-gold-500: hsl(44, 55%, 60%);
 $theme-gold-400: hsl(44, 60%, 75%);
 $theme-gold-300: hsl(44, 65%, 88%);
 $theme-gold-100: hsl(44, 22%, 95%);
+$royal-white: #FAFBFD;
+$royal-green: #99D2C1;
+$royal-gold: #F6F18B;
 $blurple-600: $theme-gold-600;
 $blurple-500: $theme-gold-500;
 $blurple-400: $theme-gold-400;
@@ -21,14 +24,14 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: $theme-gold-600;
+$gold-star: $royal-gold;
 
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: $theme-gold-100;
-$classic-primary-color: hsl(44, 50%, 50%);
-$classic-secondary-color: hsl(44, 30%, 80%);
+$classic-base-color: $royal-white;
+$classic-primary-color: $royal-white;
+$classic-secondary-color: $royal-green;
 $classic-highlight-color: $theme-gold-300;
 
 // Variables for defaults in UI
@@ -41,10 +44,7 @@ $error-value-color: $error-red !default;
 
 // Tell UI to use selected colors
 $ui-base-color: $classic-base-color !default; // Darkest
-$ui-base-lighter-color: lighten(
-  $ui-base-color,
-  26%
-) !default; // Lighter darkest
+$ui-base-lighter-color: lighten($ui-base-color, 26%) !default; // Lighter darkest
 $ui-primary-color: $classic-primary-color !default; // Lighter
 $ui-secondary-color: $classic-secondary-color !default; // Lightest
 $ui-highlight-color: $classic-highlight-color !default;
@@ -53,11 +53,7 @@ $ui-button-background-color: $theme-gold-500 !default;
 $ui-button-focus-background-color: $theme-gold-600 !default;
 $ui-button-focus-outline-color: $theme-gold-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
-
-$ui-button-disabled-color: color.adjust(
-  $ui-button-background-color,
-  $alpha: -0.3
-) !default;
+$ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
 
 $ui-button-secondary-color: $theme-gold-500 !default;
 $ui-button-secondary-border-color: $theme-gold-500 !default;
@@ -76,14 +72,15 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: $white !default;
-$darker-text-color: $ui-primary-color !default;
-$dark-text-color: $ui-base-lighter-color !default;
-$secondary-text-color: $ui-secondary-color !default;
-$highlight-text-color: lighten($ui-highlight-color, 8%) !default;
-$action-button-color: $ui-highlight-color !default;
-$action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
-$passive-text-color: $gold-star !default;
+$primary-text-color: hsl(0, 0%, 10%) !default;
+$darker-text-color: hsl(0, 0%, 20%) !default;
+$dark-text-color: hsl(0, 0%, 30%) !default;
+$secondary-text-color: hsl(0, 0%, 40%) !default;
+$highlight-text-color: $royal-green;
+$action-button-color: $ui-secondary-color;
+$action-button-focus-color: darken($ui-secondary-color, 8%);
+$gold-star: $royal-gold;
+$passive-text-color: hsl(0, 0%, 60%);
 $active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds
