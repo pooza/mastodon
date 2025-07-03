@@ -6,11 +6,11 @@ $black: hsl(0, 0%, 7%);   // dark gray-ish
 $white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
-$theme-blue-600: hsl(212, 75%, 45%);
-$theme-blue-500: hsl(212, 65%, 60%);
-$theme-blue-400: hsl(212, 70%, 75%);
-$theme-blue-300: hsl(212, 80%, 88%);
-$theme-blue-100: hsl(212, 30%, 95%);
+$theme-blue-600: hsl(205, 71%, 52%);
+$theme-blue-500: hsl(205, 71%, 62%);
+$theme-blue-400: hsl(205, 71%, 72%);
+$theme-blue-300: hsl(205, 71%, 79%);
+$theme-blue-100: hsl(205, 71%, 90%);
 $blurple-600: $theme-blue-600;
 $blurple-500: $theme-blue-500;
 $blurple-400: $theme-blue-400;
@@ -27,9 +27,9 @@ $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-blue-100;
-$classic-primary-color: hsl(212, 65%, 50%);
-$classic-secondary-color: hsl(212, 50%, 80%);
-$classic-highlight-color: $theme-blue-500;
+$classic-primary-color: $theme-blue-500;
+$classic-secondary-color: #4573c9;
+$classic-highlight-color: $theme-blue-300;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
