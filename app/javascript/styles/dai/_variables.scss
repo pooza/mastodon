@@ -82,7 +82,7 @@ $secondary-text-color: hsl(0, 0%, 40%) !default;
 $highlight-text-color: $theme-blue-500;
 $action-button-color: $ui-secondary-color;
 $action-button-focus-color: darken($ui-secondary-color, 8%);
-$gold-star: $darken($ui-secondary-color, 8%);
+$gold-star: darken($ui-secondary-color, 8%);
 $passive-text-color: $gold-star !default;
 $active-passive-text-color: $success-green !default;
 
