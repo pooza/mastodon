@@ -13,7 +13,7 @@ $theme-gold-300: hsl(44, 65%, 88%);
 $theme-gold-100: hsl(44, 22%, 95%);
 $royal-white: #FAFBFD;
 $royal-green: #99D2C1;
-$royal-gold: #F6F18B;
+$royal-green-dark: #508782
 $blurple-600: $theme-gold-600;
 $blurple-500: $theme-gold-500;
 $blurple-400: $theme-gold-400;
@@ -24,14 +24,14 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: $royal-gold;
+$gold-star: $theme-gold-500;
 
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
 $classic-base-color: $royal-white;
 $classic-primary-color: $royal-white;
-$classic-secondary-color: $royal-green;
+$classic-secondary-color: $royal-green-dark;
 $classic-highlight-color: $theme-gold-300;
 
 // Variables for defaults in UI
@@ -79,7 +79,7 @@ $secondary-text-color: hsl(0, 0%, 40%) !default;
 $highlight-text-color: $royal-green;
 $action-button-color: $ui-secondary-color;
 $action-button-focus-color: darken($ui-secondary-color, 8%);
-$gold-star: $royal-gold;
+$gold-star: $theme-gold-500;
 $passive-text-color: hsl(0, 0%, 60%);
 $active-passive-text-color: $success-green !default;
 
