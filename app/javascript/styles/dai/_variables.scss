@@ -83,7 +83,7 @@ $highlight-text-color: $theme-blue-500;
 $action-button-color: $ui-secondary-color;
 $action-button-focus-color: darken($ui-secondary-color, 8%);
 $gold-star: darken($ui-secondary-color, 8%);
-$passive-text-color: $gold-star !default;
+$passive-text-color: hsl(0, 0%, 60%);
 $active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds

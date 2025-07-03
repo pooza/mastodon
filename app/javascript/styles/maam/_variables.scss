@@ -21,15 +21,14 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: $theme-red-600;
 
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-red-100;
-$classic-primary-color: hsl(0, 65%, 60%);
-$classic-secondary-color: hsl(0, 35%, 85%);
-$classic-highlight-color: $theme-red-500;
+$classic-primary-color: $theme-red-500;
+$classic-secondary-color: #F8D7E8;
+$classic-highlight-color: $theme-red-300;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -81,9 +80,10 @@ $darker-text-color: hsl(0, 0%, 20%) !default;
 $dark-text-color: hsl(0, 0%, 30%) !default;
 $secondary-text-color: hsl(0, 0%, 40%) !default;
 $highlight-text-color: $theme-red-500;
-$action-button-color: $ui-highlight-color !default;
-$action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
-$passive-text-color: $gold-star !default;
+$action-button-color: $ui-secondary-color;
+$action-button-focus-color: darken($ui-secondary-color, 8%);
+$gold-star: darken($ui-secondary-color, 8%);
+$passive-text-color: hsl(0, 0%, 60%);
 $active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds
