@@ -22,7 +22,6 @@ $bandana-yellow: #b08c3e; // バンダナ色
 $success-green: #79bd9a !default;
 $error-red: $red-500 !default;
 $warning-red: #ff5050 !default;
-$gold-star: $bandana-yellow;
 
 $red-bookmark: $warning-red;
 
@@ -75,8 +74,9 @@ $darker-text-color: hsl(0, 0%, 20%) !default;
 $dark-text-color: hsl(0, 0%, 30%) !default;
 $secondary-text-color: hsl(0, 0%, 40%) !default;
 $highlight-text-color: $theme-green-600;
-$action-button-color: $bandana-yellow;
-$action-button-focus-color: darken($bandana-yellow, 8%);
+$action-button-color: $ui-secondary-color;
+$action-button-focus-color: darken($ui-secondary-color, 8%);
+$gold-star: $darken($ui-secondary-color, 8%);
 $passive-text-color: $gold-star !default;
 $active-passive-text-color: $success-green !default;
 
