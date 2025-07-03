@@ -23,8 +23,6 @@ $success-green: #79bd9a !default;
 $error-red: $red-500 !default;
 $warning-red: #ff5050 !default;
 
-$red-bookmark: $warning-red;
-
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-green-100;
 $classic-primary-color: $theme-green-500;
@@ -51,20 +49,16 @@ $ui-button-focus-background-color: $theme-green-600 !default;
 $ui-button-focus-outline-color: $theme-green-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
 $ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
-
 $ui-button-secondary-color: $theme-green-500 !default;
 $ui-button-secondary-border-color: $theme-green-500 !default;
 $ui-button-secondary-focus-border-color: $theme-green-300 !default;
 $ui-button-secondary-focus-color: $theme-green-300 !default;
-
 $ui-button-tertiary-color: $theme-green-300 !default;
 $ui-button-tertiary-border-color: $theme-green-300 !default;
 $ui-button-tertiary-focus-background-color: $theme-green-600 !default;
 $ui-button-tertiary-focus-color: $white !default;
-
 $ui-button-destructive-background-color: $red-500 !default;
 $ui-button-destructive-focus-background-color: $red-600 !default;
-
 $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
@@ -77,6 +71,7 @@ $highlight-text-color: $theme-green-600;
 $action-button-color: $ui-secondary-color;
 $action-button-focus-color: darken($ui-secondary-color, 8%);
 $gold-star: $ui-secondary-color;
+$red-bookmark: $ui-secondary-color;
 $passive-text-color: hsl(0, 0%, 60%);
 $active-passive-text-color: $success-green !default;
 

@@ -21,14 +21,11 @@ $grey-100: hsl(240deg, 51%, 90%); // Topaz
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: $theme-purple-400;
-
-$red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-purple-100;
-$classic-primary-color: hsl(260, 25%, 60%);
-$classic-secondary-color: hsl(260, 20%, 35%);
+$classic-primary-color: $theme-purple-500;
+$classic-secondary-color: $theme-purple-600;
 $classic-highlight-color: $theme-purple-500;
 
 // Variables for defaults in UI
@@ -40,38 +37,27 @@ $valid-value-color: $success-green !default;
 $error-value-color: $error-red !default;
 
 // Tell UI to use selected colors
-$ui-base-color: $classic-base-color !default; // Darkest
-$ui-base-lighter-color: lighten(
-  $ui-base-color,
-  26%
-) !default; // Lighter darkest
-$ui-primary-color: $classic-primary-color !default; // Lighter
-$ui-secondary-color: $classic-secondary-color !default; // Lightest
+$ui-base-color: $classic-base-color !default;
+$ui-base-lighter-color: lighten($ui-base-color, 26%) !default;
+$ui-primary-color: $classic-primary-color !default;
+$ui-secondary-color: $classic-secondary-color !default;
 $ui-highlight-color: $classic-highlight-color !default;
 $ui-button-color: $white !default;
 $ui-button-background-color: $theme-purple-500 !default;
 $ui-button-focus-background-color: $theme-purple-600 !default;
 $ui-button-focus-outline-color: $theme-purple-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
-
-$ui-button-disabled-color: color.adjust(
-  $ui-button-background-color,
-  $alpha: -0.3
-) !default;
-
+$ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
 $ui-button-secondary-color: $theme-purple-500 !default;
 $ui-button-secondary-border-color: $theme-purple-500 !default;
 $ui-button-secondary-focus-border-color: $theme-purple-300 !default;
 $ui-button-secondary-focus-color: $theme-purple-300 !default;
-
 $ui-button-tertiary-color: $theme-purple-300 !default;
 $ui-button-tertiary-border-color: $theme-purple-300 !default;
 $ui-button-tertiary-focus-background-color: $theme-purple-600 !default;
 $ui-button-tertiary-focus-color: $white !default;
-
 $ui-button-destructive-background-color: $red-500 !default;
 $ui-button-destructive-focus-background-color: $red-600 !default;
-
 $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
@@ -81,9 +67,11 @@ $darker-text-color: $ui-primary-color !default;
 $dark-text-color: $ui-base-lighter-color !default;
 $secondary-text-color: $ui-secondary-color !default;
 $highlight-text-color: lighten($ui-highlight-color, 8%) !default;
-$action-button-color: $ui-highlight-color !default;
-$action-button-focus-color: lighten($ui-highlight-color, 4%) !default;
-$passive-text-color: $gold-star !default;
+$action-button-color: $ui-secondary-color;
+$action-button-focus-color: lighten($ui-secondary-color, 8%);
+$gold-star: $ui-secondary-color;
+$red-bookmark: $ui-secondary-color;
+$passive-text-color: hsl(0, 0%, 65%);
 $active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds
