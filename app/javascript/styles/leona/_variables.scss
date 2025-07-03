@@ -17,6 +17,10 @@ $blurple-300: $theme-gold-300;
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
+$success-green: #79bd9a !default; // Padua
+$error-red: $red-500 !default; // Cerise
+$warning-red: #ff5050 !default; // Sunset Orange
+
 $royal-white: hsl(220, 20%, 98%);
 $royal-emerald: hsl(165, 40%, 65%);
 $royal-emerald-lighter: hsl(165, 40%, 85%);
