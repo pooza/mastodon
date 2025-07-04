@@ -25,7 +25,7 @@ $warning-red: #ff5050 !default; // Sunset Orange
 $royal-white: hsl(165, 20%, 98%); // レオナの衣装の白い部分が、うっすらエメラルドであるという解釈から
 $royal-gold: hsl(45, 90%, 80%);
 $soul-lighter: #fff; // 発光時、魂の色は純白であるはず
-$soul: darken($soul-lighter, 10%); // 激しく発光していない時
+$soul: darken($soul-lighter, 5%); // 激しく発光していない時
 
 // Values from the classic Mastodon UI
 $classic-base-color: $royal-white;
