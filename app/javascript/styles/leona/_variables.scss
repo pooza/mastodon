@@ -30,7 +30,7 @@ $soul-lighter: lighten($royal-white, 20%);
 $classic-base-color: $royal-white;
 $classic-primary-color: $theme-emerald-500;
 $classic-secondary-color: $theme-emerald-300;
-$classic-highlight-color: $royal-gold;
+$classic-highlight-color: $theme-emerald-300;
 
 // Variables for defaults in UI
 $base-shadow-color: $black !default;
@@ -57,7 +57,7 @@ $ui-button-secondary-border-color: $theme-emerald-500 !default;
 $ui-button-secondary-focus-border-color: $theme-emerald-300 !default;
 $ui-button-secondary-focus-color: $theme-emerald-300 !default;
 $ui-button-tertiary-color: $theme-emerald-300 !default;
-$ui-button-tertiary-border-color: $theme-emerald-300 !default;
+$ui-button-tertiary-border-color: $theme-emerald-600 !default;
 $ui-button-tertiary-focus-background-color: $theme-emerald-600 !default;
 $ui-button-tertiary-focus-color: $white !default;
 $ui-button-destructive-background-color: $red-500 !default;
