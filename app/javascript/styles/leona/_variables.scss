@@ -21,10 +21,11 @@ $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
 
-$royal-white: hsl(220, 20%, 98%);
+// $royal-white: hsl(220, 20%, 98%); // 本来の色指定
+$royal-white: hsl(165, 20%, 98%); // レオナの衣装の白い部分が、うっすらエメラルドであるという解釈から
 $royal-gold: hsl(45, 90%, 80%);
-$soul: $royal-white;
-$soul-lighter: lighten($royal-white, 20%);
+$soul-lighter: #fff; // 発光時、魂の色は純白であるはず
+$soul: darken($soul-lighter, 10%); // 激しく発光していない時
 
 // Values from the classic Mastodon UI
 $classic-base-color: $royal-white;
