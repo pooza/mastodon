@@ -6,11 +6,11 @@ $black: hsl(0, 0%, 7%);   // dark gray-ish
 $white: hsl(0, 0%, 98%);  // off-white
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
-$theme-purple-600: hsl(260, 25%, 35%);
+$theme-purple-600: hsl(260, 30%, 45%);
 $theme-purple-500: hsl(260, 30%, 55%);
-$theme-purple-400: hsl(260, 40%, 70%);
-$theme-purple-300: hsl(260, 45%, 85%);
-$theme-purple-100: hsl(260, 18%, 17%);
+$theme-purple-400: hsl(260, 30%, 65%);
+$theme-purple-300: hsl(260, 30%, 75%);
+$theme-purple-100: hsl(260, 30%, 93%);
 $blurple-600: $theme-purple-600;
 $blurple-500: $theme-purple-500;
 $blurple-400: $theme-purple-400;
@@ -65,16 +65,16 @@ $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%) !default;
 
 // Variables for texts
-$primary-text-color: $white !default;
-$darker-text-color: $ui-primary-color !default;
-$dark-text-color: $ui-base-lighter-color !default;
-$secondary-text-color: $ui-secondary-color !default;
-$highlight-text-color: lighten($ui-highlight-color, 8%) !default;
-$action-button-color: $ui-secondary-color;
-$action-button-focus-color: lighten($ui-secondary-color, 8%);
-$gold-star: $ui-secondary-color;
-$red-bookmark: $ui-secondary-color;
-$passive-text-color: hsl(0, 0%, 65%);
+$primary-text-color: hsl(0, 0%, 10%) !default;
+$darker-text-color: hsl(0, 0%, 20%) !default;
+$dark-text-color: hsl(0, 0%, 30%) !default;
+$secondary-text-color: hsl(0, 0%, 40%) !default;
+$highlight-text-color: $theme-purple-500;
+$action-button-color: $ui-primary-color;
+$action-button-focus-color: darken($ui-primary-color, 8%);
+$gold-star: $ui-primary-color;
+$red-bookmark: $ui-primary-color;
+$passive-text-color: hsl(0, 0%, 60%);
 $active-passive-text-color: $success-green !default;
 
 // For texts on inverted backgrounds
