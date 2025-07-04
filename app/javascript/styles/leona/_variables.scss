@@ -23,6 +23,8 @@ $warning-red: #ff5050 !default; // Sunset Orange
 
 $royal-white: hsl(220, 20%, 98%);
 $royal-gold: hsl(45, 90%, 80%);
+$soul: $royal-white;
+$soul-lighter: lighten($royal-white, 20%);
 
 // Values from the classic Mastodon UI
 $classic-base-color: $royal-white;
@@ -45,8 +47,8 @@ $ui-primary-color: $classic-primary-color !default;
 $ui-secondary-color: $classic-secondary-color !default;
 $ui-highlight-color: $classic-highlight-color !default;
 $ui-button-color: $black !default;
-$ui-button-background-color: $theme-emerald-500 !default;
-$ui-button-focus-background-color: $theme-emerald-600 !default;
+$ui-button-background-color: $soul !default;
+$ui-button-focus-background-color: $soul-lighter !default;
 $ui-button-focus-outline-color: $theme-emerald-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
 $ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;

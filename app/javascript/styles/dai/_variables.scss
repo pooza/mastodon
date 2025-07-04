@@ -22,6 +22,9 @@ $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
 
+$soul: $theme-blue-600;
+$soul-lighter: $theme-blue-400;
+
 // Values from the classic Mastodon UI
 $classic-base-color: $theme-blue-100;
 $classic-primary-color: $theme-blue-500;
@@ -43,8 +46,8 @@ $ui-primary-color: $classic-primary-color !default;
 $ui-secondary-color: $classic-secondary-color !default;
 $ui-highlight-color: $classic-highlight-color !default;
 $ui-button-color: $white !default;
-$ui-button-background-color: $theme-blue-500 !default;
-$ui-button-focus-background-color: $theme-blue-600 !default;
+$ui-button-background-color: $soul !default;
+$ui-button-focus-background-color: $soul-lighter !default;
 $ui-button-focus-outline-color: $theme-blue-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
 $ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
