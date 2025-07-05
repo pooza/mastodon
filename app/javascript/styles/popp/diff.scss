@@ -1,0 +1,6 @@
+@use 'sass:color';
+@use 'variables' as *;
+
+.icon-button.active {
+  color: $ui-secondary-color;
+}
