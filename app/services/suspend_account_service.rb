@@ -71,10 +71,6 @@ class SuspendAccountService < BaseService
     StatusTrend.where(account: @account).delete_all
   end
 
-  def remove_from_trends!
-    StatusTrend.where(account: @account).delete_all
-  end
-
   def signed_activity_json
     @signed_activity_json ||= Oj.dump(serialize_payload(@account, ActivityPub::UpdateSerializer, signer: @account))
   end
