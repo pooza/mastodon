@@ -75,34 +75,6 @@ const ClearButton: React.FC<{
   );
 };
 
-const ClearButton: React.FC<{
-  onClick: () => void;
-  hasValue: boolean;
-}> = ({ onClick, hasValue }) => {
-  const intl = useIntl();
-
-  return (
-    <div
-      className={classNames('search__icon-wrapper', { 'has-value': hasValue })}
-    >
-      <Icon id='search' icon={SearchIcon} className='search__icon' />
-      <button
-        type='button'
-        onClick={onClick}
-        className='search__icon search__icon--clear-button'
-        tabIndex={hasValue ? undefined : -1}
-        aria-hidden={!hasValue}
-      >
-        <Icon
-          id='times-circle'
-          icon={CancelIcon}
-          aria-label={intl.formatMessage(messages.clearSearch)}
-        />
-      </button>
-    </div>
-  );
-};
-
 interface SearchOption {
   key: string;
   label: React.ReactNode;
