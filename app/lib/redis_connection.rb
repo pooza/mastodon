@@ -15,9 +15,9 @@ class RedisConnection
 
     def pool_size
       if Sidekiq.server?
-        Sidekiq[:concurrency]
+        Sidekiq.default_configuration[:concurrency]
       else
-        ENV['MAX_THREADS'] || 5
+        ENV['MAX_THREADS'] || 20
       end
     end
   end
@@ -29,12 +29,7 @@ class RedisConnection
   end
 
   def connection
-    namespace = config[:namespace]
-    if namespace.present?
-      Redis::Namespace.new(namespace, redis: raw_connection)
-    else
-      raw_connection
-    end
+    raw_connection
   end
 
   private
