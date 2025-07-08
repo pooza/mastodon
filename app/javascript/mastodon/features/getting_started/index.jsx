@@ -25,16 +25,16 @@ import StarIcon from '@/material-icons/400-24px/star.svg?react';
 import { fetchFollowRequests } from 'mastodon/actions/accounts';
 import Column from 'mastodon/components/column';
 import ColumnHeader from 'mastodon/components/column_header';
-import LinkFooter from 'mastodon/features/ui/components/link_footer';
+import { LinkFooter } from 'mastodon/features/ui/components/link_footer';
 import { identityContextPropShape, withIdentity } from 'mastodon/identity_context';
 import { canManageReports, canViewAdminDashboard } from 'mastodon/permissions';
 
 import { me, showTrends } from '../../initial_state';
 import { NavigationBar } from '../compose/components/navigation_bar';
-import ColumnLink from '../ui/components/column_link';
+import { ColumnLink } from '../ui/components/column_link';
 import ColumnSubheading from '../ui/components/column_subheading';
 
-import TrendsContainer from './containers/trends_container';
+import { Trends } from 'mastodon/features/navigation_panel/components/trends';
 
 const messages = defineMessages({
   home_timeline: { id: 'tabs_bar.home', defaultMessage: 'Home' },
@@ -119,7 +119,7 @@ class GettingStarted extends ImmutablePureComponent {
     }
 
     navItems.push(
-      <ColumnLink key='community_timeline' icon='users' iconComponent={PeopleIcon} text={intl.formatMessage(messages.community_timeline)} to='/tags/precure_fun' />,
+      <ColumnLink key='community_timeline' icon='users' iconComponent={PeopleIcon} text={intl.formatMessage(messages.community_timeline)} to='/public/local' />,
       <ColumnLink key='public_timeline' icon='globe' iconComponent={PublicIcon} text={intl.formatMessage(messages.public_timeline)} to='/public' />,
     );
 
@@ -176,7 +176,7 @@ class GettingStarted extends ImmutablePureComponent {
           <LinkFooter multiColumn />
         </div>
 
-        {(multiColumn && showTrends) && <TrendsContainer />}
+        {(multiColumn && showTrends) && <Trends />}
 
         <Helmet>
           <title>{intl.formatMessage(messages.menu)}</title>

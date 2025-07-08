@@ -2,6 +2,6 @@ default: styles/application.scss
 contrast: styles/contrast.scss
 mastodon-light: styles/mastodon-light.scss
 
-#Added theme
+# custom theme
 cure-orange: styles/cure-orange.scss
 cure-lime : styles/cure-lime.scss
