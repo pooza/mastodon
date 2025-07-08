@@ -11,9 +11,9 @@ class SearchService < BaseService
     @offset    = options[:type].blank? ? 0 : options[:offset].to_i
     @resolve   = options[:resolve] || false
     @following = options[:following] || false
+    @query_fasp = options[:query_fasp] || false
 
     default_results.tap do |results|
-      @limit = ENV.fetch('DEFAULT_SEARCH_LIMIT', 50).to_i if @limit.to_i.zero?
       next if @query.blank? || @limit.zero?
 
       if url_query?
@@ -37,7 +37,8 @@ class SearchService < BaseService
       offset: @offset,
       use_searchable_text: true,
       following: @following,
-      start_with_hashtag: @query.start_with?('#')
+      start_with_hashtag: @query.start_with?('#'),
+      query_fasp: @options[:query_fasp]
     )
   end
 
