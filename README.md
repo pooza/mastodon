@@ -8,11 +8,9 @@ https://mstdn.delmulin.com
 
 - FreeBSD向けの調整
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
-  - WebUIの画像リサイズ処理をキャンセル
-  - 投稿の「もっと見る」メニューに「タグ付け」追加
+  - 投稿の「もっと見る」メニューに「削除してタグ付け」追加
 - 実況メニュー
 - スタートメニューの項目をAjaxで拡張
-- ローカルタイムラインのリンクの宛先を #delmulin タグに
 - レートリミットの対象外とするネットワークを指定できる様に
 - 2024/2に大量発生したスパムへの対策
 - パラメータ調整多数
