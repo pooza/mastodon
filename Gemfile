@@ -231,5 +231,5 @@ gem 'mail', '~> 2.8'
 
 gem 'vite_rails', '~> 3.0.19'
 
-gem 'resolv', '~> 0.1.0'
+gem 'resolv', '~> 0.2.3'
 gem 'httparty'
