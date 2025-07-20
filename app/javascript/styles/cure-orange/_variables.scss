@@ -41,10 +41,7 @@ $error-value-color: $error-red !default;
 
 // Tell UI to use selected colors
 $ui-base-color: $classic-base-color !default; // Darkest
-$ui-base-lighter-color: lighten(
-  $ui-base-color,
-  26%
-) !default; // Lighter darkest
+$ui-base-lighter-color: lighten($ui-base-color, 26%) !default; // Lighter darkest
 $ui-primary-color: $classic-primary-color !default; // Lighter
 $ui-secondary-color: $classic-secondary-color !default; // Lightest
 $ui-highlight-color: $classic-highlight-color !default;
@@ -53,25 +50,17 @@ $ui-button-background-color: $theme-orange-500 !default;
 $ui-button-focus-background-color: $theme-orange-600 !default;
 $ui-button-focus-outline-color: $theme-orange-400 !default;
 $ui-button-focus-outline: solid 2px $ui-button-focus-outline-color !default;
-
-$ui-button-disabled-color: color.adjust(
-  $ui-button-background-color,
-  $alpha: -0.3
-) !default;
-
+$ui-button-disabled-color: color.adjust($ui-button-background-color, $alpha: -0.3) !default;
 $ui-button-secondary-color: $theme-orange-500 !default;
 $ui-button-secondary-border-color: $theme-orange-500 !default;
 $ui-button-secondary-focus-border-color: $theme-orange-300 !default;
 $ui-button-secondary-focus-color: $theme-orange-300 !default;
-
 $ui-button-tertiary-color: $theme-orange-300 !default;
 $ui-button-tertiary-border-color: $theme-orange-300 !default;
 $ui-button-tertiary-focus-background-color: $theme-orange-600 !default;
 $ui-button-tertiary-focus-color: $white !default;
-
 $ui-button-destructive-background-color: $red-500 !default;
 $ui-button-destructive-focus-background-color: $red-600 !default;
-
 $ui-button-icon-focus-outline: $ui-button-focus-outline !default;
 $ui-button-icon-hover-background-color: rgba(140, 141, 255, 40%);
 

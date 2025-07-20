@@ -1,2 +1,15 @@
 @use 'sass:color';
 @use 'variables' as *;
+@use 'functions' as *;
+
+.batch-table__row--muted .pending-account__header a {
+  color: lighten($ui-highlight-color, 20%);
+}
+
+.batch-table__row--attention .pending-account__header a {
+  color: $ui-highlight-color;
+}
+
+.pending-account__header a {
+  color: lighten($ui-highlight-color, 20%);
+}
