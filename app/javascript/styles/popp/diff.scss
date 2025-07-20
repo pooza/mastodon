@@ -1,9 +1,26 @@
 @use 'sass:color';
 @use 'variables' as *;
+@use 'functions' as *;
 
 .icon-button.active {
   color: $ui-secondary-color;
 }
 .icon-button.active:hover {
   color: $ui-secondary-color;
+}
+
+.batch-table__row--muted .pending-account__header a {
+  color: $ui-highlight-color;
+}
+
+.batch-table__row--attention .pending-account__header a {
+  color: darken($ui-highlight-color, 20%);
+}
+
+.batch-table__row--muted .pending-account__header a {
+  color: $grey-600;
+}
+
+.pending-account__header a {
+  color: $ui-highlight-color;
 }
