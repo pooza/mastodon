@@ -3,13 +3,13 @@
 @use 'functions' as *;
 
 .batch-table__row--muted .pending-account__header a {
-  color: lighten($ui-highlight-color, 20%);
-}
-
-.batch-table__row--attention .pending-account__header a {
   color: $ui-highlight-color;
 }
 
+.batch-table__row--attention .pending-account__header a {
+  color: darken($ui-highlight-color, 20%);
+}
+
 .pending-account__header a {
-  color: lighten($ui-highlight-color, 20%);
+  color: $ui-highlight-color;
 }
