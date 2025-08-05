@@ -1825,8 +1825,6 @@ ja:
       ownership: 他人のキュア！を固定することはできません
       reblog: リキュアを固定することはできません
     quote_policies:
-      followers: フォロワーとメンションされたユーザー
-      nobody: メンションされたユーザーのみ
       public: 全員
     title: '%{name}: "%{quote}"'
     visibilities:
