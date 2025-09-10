@@ -2736,7 +2736,7 @@ __metadata:
     typescript: "npm:~5.7.3"
     typescript-eslint: "npm:^8.29.1"
     use-debounce: "npm:^10.0.0"
-    vite: "npm:^6.3.5"
+    vite: "npm:^6.3.6"
     vite-plugin-pwa: "npm:^1.0.0"
     vite-plugin-rails: "npm:^0.5.0"
     vite-plugin-ruby: "npm:^5.1.1"
