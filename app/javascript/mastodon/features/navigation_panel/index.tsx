@@ -295,6 +295,13 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
 
         {signedIn && (
           <>
+
+
+
+
+
+
+
             <NotificationsLink />
 
             <FollowRequestsLink />
