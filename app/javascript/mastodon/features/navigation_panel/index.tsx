@@ -104,6 +104,12 @@ const messages = defineMessages({
   compose: { id: 'tabs_bar.publish', defaultMessage: 'New Post' },
 });
 
+const response = await fetch('/links.json');
+if (!response.ok) {
+  throw new Error(`レスポンスステータス: ${response.status}`);
+}
+const groups = await response.json();
+
 const NotificationsLink = () => {
   const count = useAppSelector(selectUnreadNotificationGroupsCount);
   const intl = useIntl();
@@ -224,11 +230,6 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
     );
   }
 
-  const response = await fetch('/links.json');
-  if (!response.ok) {
-    throw new Error(`レスポンスステータス: ${response.status}`);
-  }
-  const groups = await response.json();
   let group: any;
   let link: any;
 
@@ -340,19 +341,21 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
             {
               Array(groups).map((group) => {
                 return (
-                  <hr />
-                  {
-                    Array(group).map((link) => {
-                      return (
-                        <ColumnLink
-                          key='{group.body}-{link.body}'
-                          text={link.body}
-                          href={link.href}
-                          target={link.target || '_blank'}
-                        />
-                      );
-                    })
-                  }
+                  <>
+                    <hr />
+                    {
+                      Array(group).map((link) => {
+                        return (
+                          <ColumnLink
+                            key='{group.body}-{link.body}'
+                            text={link.body}
+                            href={link.href}
+                            target={link.target || '_blank'}
+                          />
+                        );
+                      })
+                    }
+                  </>
                 )
               })
             }
