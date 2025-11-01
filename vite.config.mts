@@ -47,6 +47,7 @@ export const config: UserConfigFnPromise = async ({ mode, command }) => {
         '~/': `${jsRoot}/`,
         '@/': `${jsRoot}/`,
       },
+      preserveSymlinks: true,
     },
     css: {
       postcss: {
@@ -81,6 +82,7 @@ export const config: UserConfigFnPromise = async ({ mode, command }) => {
       outDir,
       assetsDir: 'assets',
       rollupOptions: {
+        preserveSymlinks: true,
         input: await findEntrypoints(),
         output: {
           chunkFileNames({ facadeModuleId, name }) {
