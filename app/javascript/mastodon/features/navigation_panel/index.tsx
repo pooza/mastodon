@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
 
@@ -208,6 +208,45 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
   const location = useLocation();
   const showSearch = useBreakpoint('full') && !multiColumn;
 
+  type LinkItem = { body: string; href: string; target?: string };
+  type LinkGroup = { body?: string; links: LinkItem[] };
+  const [linkGroups, setLinkGroups] = useState<LinkGroup[] | null>(null);
+  const [linksError, setLinksError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch('/links.json', { credentials: 'same-origin' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        let normalized: LinkGroup[] = [];
+        if (Array.isArray(data)) {
+          if (data.every(d => d && typeof d === 'object' && 'href' in d)) {
+            normalized = [{ links: data as LinkItem[] }];
+          } else {
+            normalized = (data as any[])
+              .map(g =>
+                Array.isArray(g)
+                  ? ({ links: g } as LinkGroup)
+                  : g && Array.isArray(g.links)
+                    ? (g as LinkGroup)
+                    : null,
+              )
+              .filter((g): g is LinkGroup => !!g);
+          }
+        }
+        if (alive) setLinkGroups(normalized);
+      } catch (e: any) {
+        if (alive) setLinksError(e);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   let banner: React.ReactNode;
 
   if (transientSingleColumn) {
@@ -223,13 +262,6 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
       </div>
     );
   }
-
-  const request = new XMLHttpRequest();
-  request.open('GET', '/links.json', false);
-  request.send(null);
-  const groups = JSON.parse(request.responseText);
-  let group: any;
-  let link: any;
 
   return (
     <div className='navigation-panel'>
@@ -336,27 +368,29 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
               text={intl.formatMessage(messages.direct)}
             />
 
-            {
-              Array(groups).map((group) => {
-                return (
-                  <>
+            {linkGroups && linkGroups.length > 0 && (
+              <>
+                {linkGroups.map((group, gi) => (
+                  <div key={`grp-${gi}`}>
                     <hr />
-                    {
-                      Array(group).map((link) => {
-                        return (
-                          <ColumnLink
-                            key='{group.body}-{link.body}'
-                            text={link.body}
-                            href={link.href}
-                            target={link.target || '_blank'}
-                          />
-                        );
-                      })
-                    }
-                  </>
-                )
-              })
-            }
+                    {group.body && (
+                      <div className='navigation-panel__group-title'>
+                        {group.body}
+                      </div>
+                    )}
+                    {group.links.map((link, li) => (
+                      <ColumnLink
+                        key={`grp-${gi}-${link.body}-${li}`}
+                        transparent
+                        href={link.href}
+                        target={link.target || '_blank'}
+                        text={link.body}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </>
+            )}
 
             <hr />
 
@@ -385,7 +419,6 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
         {!signedIn && (
           <div className='navigation-panel__sign-in-banner'>
             <hr />
-
             {disabledAccountId ? <DisabledAccountBanner /> : <SignInBanner />}
           </div>
         )}
