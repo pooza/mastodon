@@ -61,5 +61,13 @@ export default defineConfig(async (context) => {
     test: {
       projects: [legacyTests, storybookTests],
     },
+    resolve: {
+      preserveSymlinks: true,
+    },
+    build: {
+      rollupOptions: {
+        preserveSymlinks: true,
+      },
+    },
   };
 });
