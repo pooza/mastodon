@@ -224,6 +224,14 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
     );
   }
 
+  const response = await fetch('/links.json');
+  if (!response.ok) {
+    throw new Error(`レスポンスステータス: ${response.status}`);
+  }
+  const groups = await response.json();
+  let group: any;
+  let link: any;
+
   return (
     <div className='navigation-panel'>
       <div className='navigation-panel__logo'>
@@ -330,22 +338,23 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
             />
 
             {
-              const request = new XMLHttpRequest();
-              request.open('GET', '/links.json', false);
-              request.send(null);
-              const groups = JSON.parse(request.responseText);
-              Array(groups).map(group) => {
+              Array(groups).map((group) => {
                 return (
                   <hr />
                   {
-                    Array(group).map(link) => {
+                    Array(group).map((link) => {
                       return (
-                        <ColumnLink key='{group.body}-{link.body}' text={link.body} href={link.href} target={link.target || '_blank'} />
+                        <ColumnLink
+                          key='{group.body}-{link.body}'
+                          text={link.body}
+                          href={link.href}
+                          target={link.target || '_blank'}
+                        />
                       );
-                    }
+                    })
                   }
                 )
-              }
+              })
             }
 
             <hr />
