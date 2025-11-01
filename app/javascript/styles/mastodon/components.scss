@@ -5792,6 +5792,9 @@ a.status-card {
 .tagset-dropdown__dropdown {
   background: var(--dropdown-background-color);
   border: 1px solid var(--dropdown-border-color);
+  box-shadow: var(--dropdown-shadow);
+  border-radius: 6px;
+  max-height: 15em;
 }
 
 .search {
