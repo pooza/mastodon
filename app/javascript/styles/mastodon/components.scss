@@ -5788,6 +5788,11 @@ a.status-card {
   }
 }
 
+// TODO: タグセットドロップダウン
+.tagset-dropdown__dropdown {
+  background: var(--dropdown-background-color);
+}
+
 .search {
   margin-bottom: 32px;
   position: relative;
