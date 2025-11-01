@@ -914,7 +914,7 @@
   "tabs_bar.publish": "新しい投稿",
   "tabs_bar.search": "検索",
   "tagset.label": "実況",
-  "tagset.change": "実況用タグセット",
+  "tagset.change": "実況用タグセットを設定",
   "tagset.empty.long": "タグセットを削除し、実況を終了する",
   "tagset.empty.short": "タグなし",
   "tagset.episodes.long": "モロヘイヤのエピソードブラウザを開く",
