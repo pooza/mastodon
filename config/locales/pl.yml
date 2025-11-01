@@ -331,10 +331,7 @@ pl:
         create: Utwórz ogłoszenie
         title: Nowe ogłoszenie
       preview:
-<<<<<<< HEAD
-=======
         disclaimer: Ponieważ użytkownicy nie mogą zrezygnować z otrzymywania powiadomień email, powinny one ograniczać się do ważnych ogłoszeń, takich jak powiadomienia o naruszeniu bezpieczeństwa danych osobowych lub zamknięciu serwera.
->>>>>>> v4.5.0-rc.2
         explanation_html: 'Wiadomość e-mail zostanie wysłana do <strong>%{display_count} użytkowników</strong>. Otrzymają oni wiadomość o następującej treści:'
         title: Podgląd powiadomienia
       publish: Opublikuj
@@ -511,10 +508,7 @@ pl:
           created_at: 'Utworzono:'
           delete: Usuń
           ip: Adres IP
-<<<<<<< HEAD
-=======
           request_body: Treść zgłoszenia
->>>>>>> v4.5.0-rc.2
       providers:
         active: Aktywne
         base_url: Podstawowy adres URL
@@ -523,18 +517,12 @@ pl:
         finish_registration: Zakończ rejestrację
         name: Nazwa
         providers: Dostawca
-<<<<<<< HEAD
-=======
         public_key_fingerprint: Odcisk klucza publicznego
->>>>>>> v4.5.0-rc.2
         registration_requested: Wymagana rejestracja
         registrations:
           confirm: Zatwierdź
           reject: Odrzuć
-<<<<<<< HEAD
-=======
           title: Potwierdź rejestrację FASP
->>>>>>> v4.5.0-rc.2
         save: Zapisz
         sign_in: Zaloguj się
         status: Status
@@ -616,13 +604,10 @@ pl:
         title: Moderacja
       moderation_notes:
         create: Dodaj notatkę moderacyjną
-<<<<<<< HEAD
-=======
         created_msg: Notatka dotycząca moderacji instancji została pomyślnie utworzona!
         description_html: Wyświetlaj i zostawiaj notatki dla innych moderatorów oraz dla siebie samego w przyszłości
         destroyed_msg: Notatka dotycząca moderacji instancji została pomyślnie usunięta!
         placeholder: Informacje o tej instancji, podjętych działaniach lub wszelkie inne informacje, które pomogą ci moderować tę instancję w przyszłości.
->>>>>>> v4.5.0-rc.2
         title: Notatki moderacyjne
       private_comment: Prywatny komentarz
       public_comment: Publiczny komentarz
@@ -850,10 +835,7 @@ pl:
       title: Regulamin serwera
       translation: Tłumaczenie
       translations: Tłumaczenia
-<<<<<<< HEAD
-=======
       translations_explanation: Możesz opcjonalnie dodać tłumaczenia reguł. Wyświetlany będzie tekst domyślny, jeśli nie ma dostępnej wersji przetłumaczonej. Zawsze upewnij się, że podane tłumaczenie jest zgodne z tekstem domyślnym.
->>>>>>> v4.5.0-rc.2
     settings:
       about:
         manage_rules: Zarządzaj regułami serwera
@@ -878,10 +860,6 @@ pl:
         title: Domyślnie żądaj nieindeksowania użytkowników przez wyszukiwarki
       discovery:
         follow_recommendations: Polecane konta
-<<<<<<< HEAD
-        preamble: Prezentowanie interesujących treści ma kluczowe znaczenie dla nowych użytkowników, którzy mogą nie znać nikogo z Mastodona. Kontroluj, jak różne funkcje odkrywania działają na Twoim serwerze.
-=======
->>>>>>> v4.5.0-rc.2
         privacy: Prywatność
         profile_directory: Katalog profilów
         public_timelines: Publiczne osie czasu
@@ -2008,11 +1986,6 @@ pl:
       public: Każdy
     title: '%{name}: "%{quote}"'
     visibilities:
-<<<<<<< HEAD
-      private: Tylko dla obserwujących
-      private_long: Widoczne tylko dla osób, które Cię obserwują
-=======
->>>>>>> v4.5.0-rc.2
       public: Publiczne
       unlisted: Niewidoczny
       unlisted_long: Ukryte w wynikach wyszukiwania Mastodona, trendach i publicznych osiach czasu
@@ -2061,11 +2034,8 @@ pl:
   terms_of_service:
     title: Regulamin
   terms_of_service_interstitial:
-<<<<<<< HEAD
-=======
     future_preamble_html: Wprowadzamy pewne zmiany w naszych warunkach świadczenia usług, które zaczną obowiązywać od <strong>%{date}</strong>. Zachęcamy do zapoznania się z aktualnymi warunkami.
     past_preamble_html: Od czasu twojej ostatniej wizyty zmieniliśmy warunki korzystania z usługi. Zachęcamy do zapoznania się z aktualnymi warunkami.
->>>>>>> v4.5.0-rc.2
     review_link: Przeglądnij Warunki Korzystania
     title: Warunki korzystania z %{domain} zmieniają się
   themes:
@@ -2100,10 +2070,7 @@ pl:
     webauthn: Klucze bezpieczeństwa
   user_mailer:
     announcement_published:
-<<<<<<< HEAD
-=======
       description: 'Administratorzy %{domain} publikują ogłoszenie:'
->>>>>>> v4.5.0-rc.2
       subject: Ogłoszenie serwisu
       title: Ogłoszenie serwisu %{domain}
     appeal_approved:

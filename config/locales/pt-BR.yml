@@ -1757,11 +1757,8 @@ pt-BR:
       too_few_options: deve ter mais que um item
       too_many_options: não pode ter mais que %{max} itens
     vote: Votar
-<<<<<<< HEAD
-=======
   posting_defaults:
     explanation: Estas configurações serão usadas como padrão quando você criar publicações, mas você pode editá-las por postagem no compositor.
->>>>>>> v4.5.0-rc.2
   preferences:
     other: Outro
     posting_defaults: Padrões de publicação
@@ -1942,10 +1939,7 @@ pt-BR:
       followers: Apenas seguidores
       nobody: Apenas eu
       public: Qualquer um
-<<<<<<< HEAD
-=======
     quote_post_author: Publicação citada por %{acct}
->>>>>>> v4.5.0-rc.2
     title: '%{name}: "%{quote}"'
     visibilities:
       direct: Citação privada
