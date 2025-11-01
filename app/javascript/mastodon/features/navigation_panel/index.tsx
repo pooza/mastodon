@@ -295,13 +295,6 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
 
         {signedIn && (
           <>
-
-
-
-
-
-
-
             <NotificationsLink />
 
             <FollowRequestsLink />
@@ -336,15 +329,26 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
               text={intl.formatMessage(messages.direct)}
             />
 
-            <hr />
+            {
+              const request = new XMLHttpRequest();
+              request.open('GET', '/links.json', false);
+              request.send(null);
+              const groups = JSON.parse(request.responseText);
+              Array(groups).map(group) => {
+                return (
+                  <hr />
+                  {
+                    Array(group).map(link) => {
+                      return (
+                        <ColumnLink key='{group.body}-{link.body}' text={link.body} href={link.href} target={link.target || '_blank'} />
+                      );
+                    }
+                  }
+                )
+              }
+            }
 
-            <ColumnLink
-              transparent
-              href='/mulukhiya'
-              icon='leaf'
-              iconComponent={LeafIcon}
-              text={intl.formatMessage(messages.mulukhiya)}
-            />
+            <hr />
 
             <ColumnLink
               transparent
