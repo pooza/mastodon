@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
 
@@ -36,8 +36,14 @@ import { Search } from 'mastodon/features/compose/components/search';
 import { ColumnLink } from 'mastodon/features/ui/components/column_link';
 import { useBreakpoint } from 'mastodon/features/ui/hooks/useBreakpoint';
 import { useIdentity } from 'mastodon/identity_context';
-import { timelinePreview, trendsEnabled, me } from 'mastodon/initial_state';
+import {
+  localLiveFeedAccess,
+  remoteLiveFeedAccess,
+  trendsEnabled,
+  me,
+} from 'mastodon/initial_state';
 import { transientSingleColumn } from 'mastodon/is_mobile';
+import { canViewFeed } from 'mastodon/permissions';
 import { selectUnreadNotificationGroupsCount } from 'mastodon/selectors/notifications';
 import { useAppSelector, useAppDispatch } from 'mastodon/store';
 
@@ -56,6 +62,10 @@ const messages = defineMessages({
   },
   explore: { id: 'explore.title', defaultMessage: 'Trending' },
   firehose: { id: 'column.firehose', defaultMessage: 'Live feeds' },
+  firehose_singular: {
+    id: 'column.firehose_singular',
+    defaultMessage: 'Live feed',
+  },
   direct: { id: 'navigation_bar.direct', defaultMessage: 'Private mentions' },
   favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Favorites' },
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
@@ -194,9 +204,48 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
   multiColumn = false,
 }) => {
   const intl = useIntl();
-  const { signedIn, disabledAccountId } = useIdentity();
+  const { signedIn, permissions, disabledAccountId } = useIdentity();
   const location = useLocation();
   const showSearch = useBreakpoint('full') && !multiColumn;
+
+  type LinkItem = { body: string; href: string; target?: string };
+  type LinkGroup = { body?: string; links: LinkItem[] };
+  const [linkGroups, setLinkGroups] = useState<LinkGroup[] | null>(null);
+  const [linksError, setLinksError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch('/links.json', { credentials: 'same-origin' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        let normalized: LinkGroup[] = [];
+        if (Array.isArray(data)) {
+          if (data.every(d => d && typeof d === 'object' && 'href' in d)) {
+            normalized = [{ links: data as LinkItem[] }];
+          } else {
+            normalized = (data as any[])
+              .map(g =>
+                Array.isArray(g)
+                  ? ({ links: g } as LinkGroup)
+                  : g && Array.isArray(g.links)
+                    ? (g as LinkGroup)
+                    : null,
+              )
+              .filter((g): g is LinkGroup => !!g);
+          }
+        }
+        if (alive) setLinkGroups(normalized);
+      } catch (e: any) {
+        if (alive) setLinksError(e);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   let banner: React.ReactNode;
 
@@ -262,14 +311,24 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
           />
         )}
 
-        {(signedIn || timelinePreview) && (
+        {(canViewFeed(signedIn, permissions, localLiveFeedAccess) ||
+          canViewFeed(signedIn, permissions, remoteLiveFeedAccess)) && (
           <ColumnLink
             transparent
-            to='/public/local'
+            to={
+              canViewFeed(signedIn, permissions, localLiveFeedAccess)
+                ? '/public/local'
+                : '/public/remote'
+            }
             icon='globe'
             iconComponent={PublicIcon}
             isActive={isFirehoseActive}
-            text={intl.formatMessage(messages.firehose)}
+            text={intl.formatMessage(
+              canViewFeed(signedIn, permissions, localLiveFeedAccess) &&
+                canViewFeed(signedIn, permissions, remoteLiveFeedAccess)
+                ? messages.firehose
+                : messages.firehose_singular,
+            )}
           />
         )}
 
@@ -309,15 +368,31 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
               text={intl.formatMessage(messages.direct)}
             />
 
-            <hr />
+            {linkGroups && linkGroups.length > 0 && (
+              <>
+                {linkGroups.map((group, gi) => (
+                  <div key={`grp-${gi}`}>
+                    <hr />
+                    {group.body && (
+                      <div className='navigation-panel__group-title'>
+                        {group.body}
+                      </div>
+                    )}
+                    {group.links.map((link, li) => (
+                      <ColumnLink
+                        key={`grp-${gi}-${link.body}-${li}`}
+                        transparent
+                        href={link.href}
+                        target={link.target || '_blank'}
+                        text={link.body}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </>
+            )}
 
-            <ColumnLink
-              transparent
-              href='/mulukhiya'
-              icon='leaf'
-              iconComponent={LeafIcon}
-              text={intl.formatMessage(messages.mulukhiya)}
-            />
+            <hr />
 
             <ColumnLink
               transparent
@@ -344,7 +419,6 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
         {!signedIn && (
           <div className='navigation-panel__sign-in-banner'>
             <hr />
-
             {disabledAccountId ? <DisabledAccountBanner /> : <SignInBanner />}
           </div>
         )}
