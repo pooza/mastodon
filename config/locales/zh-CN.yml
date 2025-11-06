@@ -187,6 +187,7 @@ zh-CN:
         create_relay: 创建中继站
         create_unavailable_domain: 创建不可用域名
         create_user_role: 创建角色
+        create_username_block: 新建用户名规则
         demote_user: 取消管理员
         destroy_announcement: 删除公告
         destroy_canonical_email_block: 解除邮箱封禁
@@ -200,6 +201,7 @@ zh-CN:
         destroy_status: 删除嘟文
         destroy_unavailable_domain: 删除不可用域名
         destroy_user_role: 删除角色
+        destroy_username_block: 删除用户名规则
         disable_2fa_user: 停用双因素认证
         disable_custom_emoji: 禁用自定义表情符号
         disable_relay: 禁用中继站
@@ -234,6 +236,7 @@ zh-CN:
         update_report: 更新举报
         update_status: 更新嘟文
         update_user_role: 更新角色
+        update_username_block: 更新用户名规则
       actions:
         approve_appeal_html: "%{name} 批准了 %{target} 对审核结果的申诉"
         approve_user_html: "%{name} 批准了用户 %{target} 的注册"
@@ -252,6 +255,7 @@ zh-CN:
         create_relay_html: "%{name} 添加了中继站 %{target}"
         create_unavailable_domain_html: "%{name} 停止了向域名 %{target} 的投递"
         create_user_role_html: "%{name} 创建了角色 %{target}"
+        create_username_block_html: "%{name} 新增了有关包含 %{target} 的用户名的规则"
         demote_user_html: "%{name} 撤销了用户 %{target} 的管理权限"
         destroy_announcement_html: "%{name} 删除了公告 %{target}"
         destroy_canonical_email_block_html: "%{name} 解封了 hash 为 %{target} 的邮箱地址"
@@ -265,6 +269,7 @@ zh-CN:
         destroy_status_html: "%{name} 删除了 %{target} 的嘟文"
         destroy_unavailable_domain_html: "%{name} 恢复了向域名 %{target} 的投递"
         destroy_user_role_html: "%{name} 删除了角色 %{target}"
+        destroy_username_block_html: "%{name} 移除了有关包含 %{target} 的用户名的规则"
         disable_2fa_user_html: "%{name} 停用了用户 %{target} 的双因素认证"
         disable_custom_emoji_html: "%{name} 停用了自定义表情 %{target}"
         disable_relay_html: "%{name} 停用了中继站 %{target}"
@@ -299,6 +304,7 @@ zh-CN:
         update_report_html: "%{name} 更新了举报 %{target}"
         update_status_html: "%{name} 刷新了 %{target} 的嘟文"
         update_user_role_html: "%{name} 更改了角色 %{target}"
+        update_username_block_html: "%{name} 更新了有关包含 %{target} 的用户名的规则"
       deleted_account: 账号已注销
       empty: 没有找到日志
       filter_by_action: 根据操作筛选
@@ -776,6 +782,8 @@ zh-CN:
         view_dashboard_description: 允许用户访问信息面板和各种指标
         view_devops: 开发运维
         view_devops_description: 允许用户访问 Sidekiq 和 pgHero 控制面板
+        view_feeds: 查看实时动态和话题
+        view_feeds_description: 允许用户无视服务器设置访问实时动态和话题
       title: 角色
     rules:
       add_new: 添加规则
@@ -817,7 +825,7 @@ zh-CN:
         title: 默认不让用户被搜索引擎索引
       discovery:
         follow_recommendations: 关注推荐
-        preamble: 露出有趣的内容有助于新加入 Mastodon 的用户融入。可在这里控制多种发现功能如何在你的服务器上工作。
+        preamble: 展示有趣的内容有助于新加入 Mastodon 的用户融入。可在这里控制多种发现功能如何在你的服务器上工作。
         privacy: 隐私
         profile_directory: 个人资料目录
         public_timelines: 公共时间线
@@ -828,6 +836,16 @@ zh-CN:
         all: 对所有人
         disabled: 不对任何人
         users: 对已登录的本站用户
+      feed_access:
+        modes:
+          authenticated: 仅已登录用户
+          disabled: 需要特定的用户角色
+          public: 所有人
+      landing_page:
+        values:
+          about: 关于
+          local_feed: 本站动态
+          trends: 热门
       registrations:
         moderation_recommandation: 在向所有人开放注册之前，请确保你拥有一个人手足够且反应迅速的管理团队！
         preamble: 控制谁可以在你的服务器上创建账号。
@@ -881,6 +899,7 @@ zh-CN:
       no_status_selected: 因为没有嘟文被选中，所以没有更改
       open: 展开嘟文
       original_status: 原始嘟文
+      quotes: 引用嘟文
       reblogs: 转发
       replied_to_html: 回复 %{acct_link}
       status_changed: 嘟文已编辑
@@ -888,6 +907,7 @@ zh-CN:
       title: 该账号的嘟文 - @%{name}
       trending: 当前热门
       view_publicly: 以公开身份查看
+      view_quoted_post: 查看引用的嘟文
       visibility: 可见性
       with_media: 含有媒体文件
     strikes:
@@ -1067,6 +1087,25 @@ zh-CN:
           other: 过去一周内被 %{count} 个人使用过
       title: 推荐与热门
       trending: 当前热门
+    username_blocks:
+      add_new: 新建
+      block_registrations: 禁止注册
+      comparison:
+        contains: 包含
+        equals: 等于
+      contains_html: 包含%{string}
+      created_msg: 成功创建用户名规则
+      delete: 删除
+      edit:
+        title: 编辑用户名规则
+      matches_exactly_html: 等于%{string}
+      new:
+        create: 新建规则
+        title: 新建用户名规则
+      no_username_block_selected: 因为没有选择任何用户名规则，没有任何更改发生
+      not_permitted: 不允许
+      title: 用户名规则
+      updated_msg: 成功更新用户名规则
     warning_presets:
       add_new: 添加新条目
       delete: 删除
@@ -1138,10 +1177,10 @@ zh-CN:
     hint_html: 如果你想从另一个账号迁移到这里，可以先在这里创建一个别名。要把旧账号的关注者迁移过来，这一步是必须的。设置别名的操作是<strong>无害且可撤销的</strong>。<strong>账号迁移的操作会从旧账号发起</strong>。
     remove: 取消关联别名
   appearance:
-    advanced_web_interface: 高级 Web 界面
-    advanced_web_interface_hint: 在高级网页界面支持自定义多栏显示，你可以利用整个屏幕的宽度，同时查看首页、通知、跨站时间线及任意数量的列表和话题。
+    advanced_settings: 高级设置
     animations_and_accessibility: 动画与可访问性
-    confirmation_dialogs: 确认对话框
+    boosting_preferences: 转嘟首选项
+    boosting_preferences_info_html: "<strong>提示：</strong>无论当前设置如何，对 %{icon} 转嘟图标按<kbd>Shift</kbd> + <kbd>鼠标单击</kbd>将会立即转嘟。"
     discovery: 发现
     localization:
       body: Mastodon 由志愿者翻译。
@@ -1330,6 +1369,10 @@ zh-CN:
     basic_information: 基本信息
     hint_html: "<strong>自定义公开资料和嘟文旁边显示的内容。</strong>当你填写完整的个人资料并设置了头像时，其他人更有可能关注你并与你互动。"
     other: 其他
+  emoji_styles:
+    auto: 自动
+    native: 原生
+    twemoji: Twemoji
   errors:
     '400': 你提交的请求无效或格式不正确。
     '403': 你没有访问此页面的权限。
@@ -1519,6 +1562,13 @@ zh-CN:
       expires_at: 失效时间
       uses: 已使用次数
     title: 邀请用户
+  link_preview:
+    author_html: 来自 %{name}
+    potentially_sensitive_content:
+      action: 点击查看
+      confirm_visit: 您确定要打开此链接吗？
+      hide_button: 隐藏
+      label: 可能为敏感内容
   lists:
     errors:
       limit: 你已达到列表数量的上限
@@ -1619,6 +1669,10 @@ zh-CN:
       title: 新的提及
     poll:
       subject: "%{name} 创建的一个投票已经结束"
+    quote:
+      body: 你的嘟文被 %{name} 引用了：
+      subject: "%{name} 引用了你的嘟文"
+      title: 新引用
     reblog:
       body: 你的嘟文被 %{name} 转嘟了：
       subject: "%{name} 转嘟了你的嘟文"
@@ -1668,6 +1722,8 @@ zh-CN:
       too_few_options: 至少需要两个选项
       too_many_options: 不能超过 %{max} 项
     vote: 投票
+  posting_defaults:
+    explanation: 这些设置会在您撰写新嘟文时作为默认值应用，但每篇嘟文的设置也可以在编辑器处单独修改。
   preferences:
     other: 其他
     posting_defaults: 发布默认值
@@ -1820,31 +1876,39 @@ zh-CN:
         other: "%{count} 段视频"
     boosted_from_html: 转嘟自 %{acct_link}
     content_warning: 内容警告：%{warning}
+    content_warnings:
+      hide: 隐藏嘟文
+      show: 显示更多
     default_language: 与界面显示语言相同
     disallowed_hashtags:
       other: 包含以下被禁止的话题：%{tags}
     edited_at_html: 编辑于 %{date}
     errors:
       in_reply_not_found: 你回复的嘟文似乎不存在
+      quoted_status_not_found: 您尝试引用的嘟文似乎不存在。
     over_character_limit: 超过了 %{max} 字的限制
     pin_errors:
       direct: 仅对被提及的用户可见的帖子不能被置顶
       limit: 你置顶的嘟文数量已达上限
       ownership: 不能置顶别人的嘟文
       reblog: 不能置顶转嘟
+    quote_error:
+      not_available: 嘟文不可用
+      pending_approval: 嘟文待发布
+      revoked: 嘟文已被作者删除
     quote_policies:
       followers: 仅关注者
       nobody: 仅限自己
       public: 任何人
+    quote_post_author: 引用了 %{acct} 的嘟文
     title: "%{name}：“%{quote}”"
     visibilities:
       direct: 私下提及
       private: 仅关注者
-      private_long: 只有关注你的用户能看到
       public: 公开
-      public_long: 主页与列表
+      public_long: 任何人（无论是否注册了 Mastodon）
       unlisted: 悄悄公开
-      unlisted_long: 对所有人可见，但不出现在公共时间线上
+      unlisted_long: 不显示在Mastodon的搜索结果、热门趋势、公共时间线上
   statuses_cleanup:
     enabled: 自动删除旧嘟文
     enabled_hint: 自动删除你发布的超过指定期限的嘟文，除非满足下列条件之一
