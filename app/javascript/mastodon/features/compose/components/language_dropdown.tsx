@@ -397,6 +397,7 @@ export const LanguageDropdown: React.FC = () => {
         })}
       >
         <Icon id='translate' icon={TranslateIcon} />
+        <span className='dropdown-button__label'>{current[2] ?? value}</span>
       </button>
 
       <Overlay
