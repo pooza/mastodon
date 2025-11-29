@@ -5857,6 +5857,7 @@ a.status-card {
   border: 1px solid var(--dropdown-border-color);
   box-shadow: var(--dropdown-shadow);
   border-radius: 6px;
+  max-width: 40em;
 }
 
 .search {

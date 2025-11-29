@@ -227,14 +227,14 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
             normalized = [{ links: data as LinkItem[] }];
           } else {
             normalized = (data as any[])
-              .map(g =>
-                Array.isArray(g)
-                  ? ({ links: g } as LinkGroup)
-                  : g && Array.isArray(g.links)
-                    ? (g as LinkGroup)
-                    : null,
-              )
-              .filter((g): g is LinkGroup => !!g);
+              .map(g => {
+                if (Array.isArray(g)) {
+                  return { links: g } as LinkGroup;
+                } else if (g && Array.isArray(g.links)) {
+                  return g as LinkGroup;
+                }
+                return null;
+              }).filter((g): g is LinkGroup => !!g);
           }
         }
         if (alive) setLinkGroups(normalized);
