@@ -30,7 +30,8 @@
   {
     "body": "その他",
     "links": [
-      {"href": "https://uptime.mstdn.b-shock.org/", "body": "UptimeRobot（監視）", "icon": "monitoring"},
+      {"href": "https://uptime.b-shock.org/status/bshockdon", "body": "Uptime Kuma（監視）", "icon": "monitoring"},
+      {"href": "/contact", "body": "お問い合わせ", "icon": "contact_support"},
       {"href": "https://www.b-shock.co.jp/", "body": "運営", "icon": "business"}
     ]
   }]
