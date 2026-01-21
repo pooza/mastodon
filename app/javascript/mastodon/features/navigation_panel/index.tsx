@@ -208,7 +208,7 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
   const location = useLocation();
   const showSearch = useBreakpoint('full') && !multiColumn;
 
-  type LinkItem = { body: string; href: string; target?: string };
+  type LinkItem = { body: string; href: string; target?: string; icon?: string };
   type LinkGroup = { body?: string; links: LinkItem[] };
   const [linkGroups, setLinkGroups] = useState<LinkGroup[] | null>(null);
   const [linksError, setLinksError] = useState<Error | null>(null);
@@ -385,6 +385,13 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
                         href={link.href}
                         target={link.target || '_blank'}
                         text={link.body}
+                        icon={
+                          link.icon ? (
+                            <span className='material-symbols-outlined column-link__icon'>
+                              {link.icon}
+                            </span>
+                          ) : undefined
+                        }
                       />
                     ))}
                   </div>
