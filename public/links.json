@@ -24,9 +24,9 @@
   {
     "body": "キュアスタ！Blog",
     "links": [
-      {"href": "https://blog.precure.ml/", "body": "Home"},
-      {"href": "https://blog.precure.ml/categories/新規さん向け", "body": "新規さん向け"},
-      {"href": "https://blog.precure.ml/articles/実況", "body": "実況"}
+      {"href": "https://blog.precure.ml/", "body": "Home", "icon": "article"},
+      {"href": "https://blog.precure.ml/categories/新規さん向け", "body": "新規さん向け", "icon": "article"},
+      {"href": "https://blog.precure.ml/articles/実況", "body": "実況", "icon": "article"}
     ]
   },
   {
@@ -45,8 +45,8 @@
   {
     "body": "その他",
     "links": [
-      {"href": "https://mk.precure.fun", "body": "きゅあすきー（Misskey）"},
-      {"href": "https://uptime.b-shock.org/status/bshockdon", "body": "Uptime Kuma（監視）", "icon": "monitoring"},
+      {"href": "https://mk.precure.fun", "body": "きゅあすきー（Misskey）", "icon": "linked_services"},
+      {"href": "https://uptime.b-shock.org/status/precure-fun", "body": "Uptime Kuma（監視）", "icon": "monitoring"},
       {"href": "/contact", "body": "お問い合わせ", "icon": "contact_support"},
       {"href": "https://www.b-shock.co.jp/", "body": "運営", "icon": "business"}
     ]
