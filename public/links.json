@@ -4,25 +4,27 @@
     "links": [
       {
         "href": "https://notestock.osa-p.net",
-        "body": "notestock"
+        "body": "notestock",
+        "icon": "description"
       },
       {
         "href": "https://f.chomechome.jp",
-        "body": "Fediver"
+        "body": "Fediver",
+        "icon": "search"
       }
     ]
   },
   {
     "body": "モロヘイヤ",
     "links": [
-      {"href": "/mulukhiya", "body": "Home"},
-      {"href": "/mulukhiya/app/feed", "body": "フィード"},
-      {"href": "/mulukhiya/app/media", "body": "メディアカタログ"},
-      {"href": "/mulukhiya/app/status", "body": "投稿"},
-      {"href": "/mulukhiya/app/hashtag", "body": "ハッシュタグ"},
-      {"href": "/mulukhiya/app/episode", "body": "エピソードブラウザ"},
-      {"href": "/mulukhiya/app/api", "body": "API"},
-      {"href": "/mulukhiya/app/config", "body": "設定"}
+      {"href": "/mulukhiya", "body": "Home", "icon": "eco"},
+      {"href": "/mulukhiya/app/feed", "body": "フィード", "icon": "rss_feed"},
+      {"href": "/mulukhiya/app/media", "body": "メディアカタログ", "icon": "photo_library"},
+      {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "edit"},
+      {"href": "/mulukhiya/app/hashtag", "body": "ハッシュタグ", "icon": "tag"},
+      {"href": "/mulukhiya/app/episode", "body": "エピソードブラウザ", "icon": "movie"},
+      {"href": "/mulukhiya/app/api", "body": "API", "icon": "api"},
+      {"href": "/mulukhiya/app/config", "body": "設定", "icon": "settings"}
     ]
   },
   {
