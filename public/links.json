@@ -17,7 +17,7 @@
   {
     "body": "モロヘイヤ",
     "links": [
-      {"href": "/mulukhiya", "body": "Home", "icon": "home"},
+      {"href": "/mulukhiya", "body": "Home", "icon": "eco"},
       {"href": "/mulukhiya/app/feed", "body": "フィード", "icon": "rss_feed"},
       {"href": "/mulukhiya/app/media", "body": "メディアカタログ", "icon": "photo_library"},
       {"href": "/mulukhiya/app/status", "body": "投稿", "icon": "edit"},
