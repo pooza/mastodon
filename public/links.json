@@ -2,8 +2,7 @@
   {
     "body": "お知らせ",
     "links": [
-      {"href": "https://precure.ml/@infomation", "body": "お知らせボット", "icon": "chat_info"},
-      {"href": "https://blog.precure.ml/categories/お知らせ", "body": "過去のお知らせ", "icon": "history"}
+      {"href": "https://precure.ml/@infomation", "body": "お知らせボット", "icon": "chat_info"}
     ]
   },
   {
