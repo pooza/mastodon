@@ -2,8 +2,7 @@
   {
     "body": "お知らせ",
     "links": [
-      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット", "icon": "chat_info"},
-      {"href": "https://blog.delmulin.com/categories/お知らせ", "body": "過去のお知らせ", "icon": "history"}
+      {"href": "https://mstdn.delmulin.com/@info", "body": "お知らせボット", "icon": "chat_info"}
     ]
   },
   {
