@@ -3806,6 +3806,15 @@ a.account__display-name {
       display: none;
     }
   }
+
+  .material-symbols-outlined.column-link__icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .navigation-panel,
