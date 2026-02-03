@@ -3783,6 +3783,10 @@ a.account__display-name {
     padding-inline-start: 16px;
   }
 
+  .navigation-panel__group-title {
+    padding: 10px 12px;
+  }
+
   @media screen and (height <= 930px) {
     &__portal .trends__item:nth-child(n + 5) {
       display: none;
