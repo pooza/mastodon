@@ -24,7 +24,7 @@
     "body": "デルムリン丼Blog",
     "links": [
       {"href": "https://blog.mstdn.delmulin.com/", "body": "Home", "icon": "article"},
-      {"href": "https://blog.mstdn.delmulin.com/categories/新規さん向け", "body": "新規さん向け", "icon": "article"},
+      {"href": "https://blog.mstdn.delmulin.com/categories/#新規さん向け", "body": "新規さん向け", "icon": "article"},
       {"href": "https://blog.mstdn.delmulin.com/articles/実況", "body": "実況", "icon": "article"}
     ]
   },
