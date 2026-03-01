@@ -25,8 +25,7 @@ start_cmd=${name}_start
 stop_cmd=${name}_stop
 
 mastodon_web_start() {
-  cd $mastodon_path
-  sudo -u $mastodon_user zsh -c 'RAILS_ENV=production bundle exec rails server -u puma | logger -t mastodon_web &'
+  daemon -f -S -T mastodon_web -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && RAILS_ENV=production bundle exec rails server -u puma"
 }
 
 mastodon_web_stop() {
