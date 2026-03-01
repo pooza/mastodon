@@ -25,8 +25,7 @@ start_cmd=${name}_start
 stop_cmd=${name}_stop
 
 mastodon_streaming_start() {
-  cd $mastodon_path
-  sudo -u $mastodon_user sh -c 'NODE_ENV=production BIND=0.0.0.0 npm start | logger -t mastodon_streaming &'
+  daemon -f -S -T mastodon_streaming -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && NODE_ENV=production BIND=0.0.0.0 npm start"
 }
 
 mastodon_streaming_stop() {

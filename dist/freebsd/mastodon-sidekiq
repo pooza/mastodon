@@ -25,8 +25,7 @@ start_cmd=${name}_start
 stop_cmd=${name}_stop
 
 mastodon_sidekiq_start() {
-  cd $mastodon_path
-  sudo -u $mastodon_user zsh -c 'RAILS_ENV=production bundle exec sidekiq -C config/sidekiq.yml | logger -t mastodon_sidekiq &'
+  daemon -f -S -T mastodon_sidekiq -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && RAILS_ENV=production bundle exec sidekiq -C config/sidekiq.yml"
 }
 
 mastodon_sidekiq_stop() {
