@@ -25,11 +25,11 @@ start_cmd=${name}_start
 stop_cmd=${name}_stop
 
 mastodon_streaming_start() {
-  daemon -f -S -T mastodon_streaming -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && NODE_ENV=production BIND=0.0.0.0 npm start"
+  daemon -f -S -T mastodon_streaming -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && NODE_ENV=production BIND=0.0.0.0 node ./streaming/index.js"
 }
 
 mastodon_streaming_stop() {
-  pkill -U $mastodon_user -f streaming
+  pkill -U $mastodon_user -f 'node.*streaming/index\.js'
 }
 
 run_rc_command "$1"
