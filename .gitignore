@@ -106,3 +106,4 @@ storybook-static
 .psql_history
 .wget-hsts
 .local
+.bash_profile
