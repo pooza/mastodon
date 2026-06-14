@@ -1,11 +1,10 @@
-@use 'bshock/functions';
-@use 'bshock/mixins';
 @use 'bshock/variables';
-@use 'bshock/css_variables';
+@use 'bshock/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
 @use 'bshock/reset';
+@use 'bshock/theme';
 @use 'bshock/basics';
 @use 'bshock/branding';
 @use 'bshock/containers';
@@ -17,11 +16,9 @@
 @use 'bshock/polls';
 @use 'bshock/modal';
 @use 'bshock/emoji_picker';
-@use 'bshock/annual_reports';
 @use 'bshock/about';
 @use 'bshock/tables';
 @use 'bshock/admin';
 @use 'bshock/dashboard';
 @use 'bshock/rtl';
-@use 'bshock/accessibility';
 @use 'bshock/rich_text';
