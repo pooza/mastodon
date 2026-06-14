@@ -319,7 +319,6 @@ class ComposeForm extends ImmutablePureComponent {
           <PollForm />
           <UploadForm />
           <ComposeQuotedStatus />
-          <TagsetDropdownContainer />
 
           <div className='compose-form__footer'>
             <div className='compose-form__actions'>
