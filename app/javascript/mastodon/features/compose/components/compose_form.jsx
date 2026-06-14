@@ -18,7 +18,6 @@ import { Button } from 'mastodon/components/button';
 import { injectIntl } from '@/mastodon/components/intl';
 import EmojiPickerDropdown from '../containers/emoji_picker_dropdown_container';
 import PollButtonContainer from '../containers/poll_button_container';
-import TagsetDropdownContainer from '../containers/tagset_dropdown_container';
 import SpoilerButtonContainer from '../containers/spoiler_button_container';
 import UploadButtonContainer from '../containers/upload_button_container';
 import { countableText } from '../util/counter';
@@ -266,6 +265,11 @@ class ComposeForm extends ImmutablePureComponent {
 
         <div className='compose-form__highlightable' ref={this.setRef}>
           <EditIndicator />
+
+          <div className='compose-form__dropdowns'>
+            <VisibilityButton disabled={this.props.isEditing} />
+            <LanguageDropdown />
+          </div>
 
           {this.props.spoiler && (
             <div className='spoiler-input'>

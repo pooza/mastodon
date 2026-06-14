@@ -68,7 +68,7 @@ class Account < ApplicationRecord
   BACKGROUND_REFRESH_INTERVAL = 1.week.freeze
   REFRESH_DEADLINE = 6.hours
   STALE_THRESHOLD = 1.day
-  DEFAULT_FIELDS_SIZE = 10
+  DEFAULT_FIELDS_SIZE = 4
   INSTANCE_ACTOR_ID = -99
 
   USERNAME_RE   = /[a-z0-9_]+([.-]+[a-z0-9_]+)*/i
@@ -78,13 +78,6 @@ class Account < ApplicationRecord
   USERNAME_LENGTH_LIMIT = 30
   DISPLAY_NAME_LENGTH_LIMIT = 60
   NOTE_LENGTH_LIMIT = 3000
-
-  # Hard limits for federated content
-  USERNAME_LENGTH_HARD_LIMIT = 2048
-  DISPLAY_NAME_LENGTH_HARD_LIMIT = 2048
-  NOTE_LENGTH_HARD_LIMIT = 20.kilobytes
-  ATTRIBUTION_DOMAINS_HARD_LIMIT = 256
-  ALSO_KNOWN_AS_HARD_LIMIT = 256
 
   # Hard limits for federated content
   USERNAME_LENGTH_HARD_LIMIT = 2048

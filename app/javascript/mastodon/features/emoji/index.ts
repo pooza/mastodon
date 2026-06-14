@@ -110,10 +110,3 @@ function messageWorker(data: EmojiWorkerMessage | string) {
     worker.postMessage(data);
   }
 }
-
-function messageWorker(locale: LocaleOrCustom, path?: string) {
-  if (!worker) {
-    return;
-  }
-  worker.postMessage({ locale, path });
-}

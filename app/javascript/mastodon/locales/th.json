@@ -77,7 +77,6 @@
   "account.remove_from_followers": "เอา {name} ออกจากผู้ติดตาม",
   "account.report": "รายงาน @{name}",
   "account.requested_follow": "{name} ได้ขอติดตามคุณ",
-  "account.requests_to_follow_you": "ส่งคำขอติดตามคุณ",
   "account.share": "แชร์โปรไฟล์ของ @{name}",
   "account.show_reblogs": "แสดงการดันจาก @{name}",
   "account.statuses_counter": "{count, plural, other {{counter} โพสต์}}",

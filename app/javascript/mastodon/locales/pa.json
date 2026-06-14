@@ -89,7 +89,6 @@
   "account.remove_from_followers": "{name} ਨੂੰ ਫ਼ਾਲੋਅਰ ਵਿੱਚੋਂ ਹਟਾਓ",
   "account.report": "{name} ਬਾਰੇ ਰਿਪੋਰਟ ਕਰੋ",
   "account.requested_follow": "{name} ਨੇ ਤੁਹਾਨੂੰ ਫ਼ਾਲੋ ਕਰਨ ਦੀ ਬੇਨਤੀ ਕੀਤੀ ਹੈ",
-  "account.requests_to_follow_you": "ਤੁਹਾਨੂੰ ਫ਼ਾਲੋ ਕਰਨ ਦੀਆਂ ਬੇਨਤੀਆਂ",
   "account.share": "{name} ਦਾ ਪਰੋਫ਼ਾਇਲ ਸਾਂਝਾ ਕਰੋ",
   "account.show_reblogs": "@{name} ਵਲੋਂ ਬੂਸਟ ਨੂੰ ਵੇਖਾਓ",
   "account.statuses_counter": "{count, plural, one {{counter} ਪੋਸਟ} other {{counter} ਪੋਸਟਾਂ}}",

@@ -590,6 +590,7 @@ body > [data-popper-placement] {
     align-items: stretch;
 
     &__border {
+      background: url('@/images/warning-stripes.svg') repeat-y;
       width: 5px;
       flex: 0 0 auto;
     }
@@ -1036,7 +1037,7 @@ body > [data-popper-placement] {
   vertical-align: middle;
   object-fit: contain;
   margin: -0.2ex 0.15em 0.2ex;
-  width: auto;
+  width: 16px;
   height: 16px;
 
   img {
@@ -1079,7 +1080,7 @@ body > [data-popper-placement] {
   }
 
   .emojione {
-    width: auto;
+    width: 20px;
     height: 20px;
     margin: -3px 0 0;
   }
@@ -1307,7 +1308,7 @@ body > [data-popper-placement] {
 .edit-indicator__content,
 .reply-indicator__content {
   .emojione {
-    width: auto;
+    width: 18px;
     height: 18px;
     margin: -3px 0 0;
   }
@@ -1318,7 +1319,7 @@ body > [data-popper-placement] {
   overflow-y: auto;
 
   .emojione {
-    width: auto;
+    width: 20px;
     height: 20px;
     margin: -3px 0 0;
   }
@@ -1805,8 +1806,8 @@ body > [data-popper-placement] {
     line-height: 24px;
 
     .emojione {
-      width: auto;
-      height: 2em;
+      width: 24px;
+      height: 24px;
       margin: -1px 0 0;
     }
   }
@@ -3800,15 +3801,6 @@ a.account__display-name {
       display: none;
     }
   }
-
-  .material-symbols-outlined.column-link__icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 .navigation-panel,
@@ -4156,7 +4148,7 @@ a.account__display-name {
     border-bottom: 1px solid var(--color-border-primary);
     padding: 10px;
     font-size: 12px;
-    text-transform: uppercase;
+    text-transform: none;
     font-weight: 500;
 
     .navigation-panel & {
@@ -4875,6 +4867,7 @@ a.status-card {
   color: var(--color-text-secondary);
   font-size: 12px;
   font-weight: 400;
+  text-transform: none;
   overflow: visible;
   position: absolute;
   top: 50%;
@@ -5484,6 +5477,7 @@ a.status-card {
 
   span {
     font-size: 12px;
+    text-transform: none;
     font-weight: 500;
     display: block;
   }
@@ -5561,8 +5555,6 @@ a.status-card {
   border-radius: 4px;
   overflow: hidden;
   z-index: 2;
-  min-width: 300px;
-  max-width: 500px;
 
   &.top {
     transform-origin: 50% 100%;
@@ -5816,15 +5808,6 @@ a.status-card {
   }
 }
 
-// TODO: タグセットドロップダウン
-.tagset-dropdown__dropdown {
-  background: var(--dropdown-background-color);
-  border: 1px solid var(--dropdown-border-color);
-  box-shadow: var(--dropdown-shadow);
-  border-radius: 6px;
-  max-width: 40em;
-}
-
 .search {
   margin-bottom: 32px;
   position: relative;
@@ -5849,7 +5832,7 @@ a.status-card {
     padding: 15px 5px;
 
     h4 {
-      text-transform: uppercase;
+      text-transform: none;
       color: var(--color-text-secondary);
       font-weight: 500;
       padding: 0 10px;
@@ -7038,8 +7021,8 @@ a.status-card {
     line-height: 24px;
 
     .emojione {
-      width: auto;
-      height: 2em;
+      width: 24px;
+      height: 24px;
       margin: -1px 0 0;
     }
 
@@ -7140,6 +7123,7 @@ a.status-card {
 }
 
 .relationship-tag {
+  text-transform: none;
   cursor: default;
 }
 
@@ -9120,7 +9104,7 @@ noscript {
   }
 
   h4 {
-    text-transform: uppercase;
+    text-transform: none;
     color: var(--color-text-secondary);
     margin-bottom: 10px;
     font-weight: 600;
@@ -9712,7 +9696,7 @@ noscript {
 
     h4 {
       font-size: 15px;
-      text-transform: uppercase;
+      text-transform: none;
       color: var(--color-text-secondary);
       font-weight: 500;
       margin-bottom: 20px;
@@ -9931,6 +9915,7 @@ noscript {
   display: inline-block;
   border: 0;
   background: transparent;
+  text-transform: none;
   cursor: pointer;
   color: var(--color-text-brand-on-inverted);
   font-weight: 700;
@@ -10805,6 +10790,7 @@ noscript {
       color: var(--color-text-tertiary);
       font-size: 12px;
       font-weight: 500;
+      text-transform: none;
     }
 
     dd {
@@ -11071,6 +11057,7 @@ noscript {
     flex-grow: 1;
     font-size: 12px;
     font-weight: 500;
+    text-transform: none;
     display: flex;
     align-items: center;
     gap: 4px;

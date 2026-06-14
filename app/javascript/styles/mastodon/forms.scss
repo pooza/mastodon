@@ -989,7 +989,7 @@ code {
 
   a {
     color: var(--color-text-brand);
-    text-transform: uppercase;
+    text-transform: none;
     text-decoration: none;
     font-weight: 700;
 
@@ -1177,6 +1177,7 @@ code {
   button {
     flex: 0 0 auto;
     margin: 4px;
+    text-transform: none;
     font-weight: 400;
     font-size: 14px;
     padding: 7px 18px;

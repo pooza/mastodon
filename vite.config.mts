@@ -17,7 +17,6 @@ import {
   UserConfig,
 } from 'vite';
 import manifestSRI from 'vite-plugin-manifest-sri';
-import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
 
 import { MastodonAssetsManifest } from './config/vite/plugin-assets-manifest';
@@ -50,7 +49,6 @@ export const config: UserConfigFnPromise = async ({ mode, command }) => {
         '~/': `${jsRoot}/`,
         '@/': `${jsRoot}/`,
       },
-      preserveSymlinks: true,
     },
     css: {
       modules: {
@@ -123,8 +121,7 @@ export const config: UserConfigFnPromise = async ({ mode, command }) => {
       manifest: true,
       outDir,
       assetsDir: 'assets',
-      rollupOptions: {
-        preserveSymlinks: true,
+      rollupOptions: { preserveSymlinks: true }, // Needed to properly resolve linked packages in node_modules
       assetsInlineLimit: (filePath, _) =>
         /\.woff2?$/.exec(filePath) ? false : undefined,
       rolldownOptions: {

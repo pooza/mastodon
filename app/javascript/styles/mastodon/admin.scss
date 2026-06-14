@@ -297,7 +297,7 @@ $content-width: 840px;
 
     :where(h2):not(.heading-medium),
     .heading-small {
-      text-transform: uppercase;
+      text-transform: none;
       font-size: 13px;
       font-weight: 700;
       color: var(--color-text-secondary);
@@ -386,7 +386,7 @@ $content-width: 840px;
   }
 
   details > summary {
-    text-transform: uppercase;
+    text-transform: none;
     font-size: 13px;
     font-weight: 700;
     color: var(--color-text-secondary);
@@ -606,6 +606,7 @@ kbd {
 
     strong {
       font-weight: 500;
+      text-transform: none;
       font-size: 12px;
 
       @each $lang in $cjk-langs {
@@ -624,6 +625,7 @@ kbd {
       display: inline-block;
       color: var(--color-text-secondary);
       text-decoration: none;
+      text-transform: none;
       font-size: 12px;
       font-weight: 500;
       border-bottom: 2px solid var(--color-bg-secondary);
@@ -961,7 +963,7 @@ a.name-tag,
       flex: 0 0 auto;
       font-weight: 500;
       color: var(--color-text-secondary);
-      text-transform: uppercase;
+      text-transform: none;
       text-align: end;
 
       a {
@@ -1410,7 +1412,7 @@ a.name-tag,
   &__label {
     padding: 0 20px;
     padding-bottom: 10px;
-    text-transform: uppercase;
+    text-transform: none;
     color: var(--color-text-secondary);
     font-weight: 500;
   }

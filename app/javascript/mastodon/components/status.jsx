@@ -555,7 +555,7 @@ class Status extends ImmutablePureComponent {
       const taggedCollection = (
         status.get('tagged_collections')
       ).find((item) => compareUrls(item.get('url'), cardUrl));
-
+  
       if (taggedCollection) {
         media = <CollectionPreviewCard collection={taggedCollection.toJS()} headingLevel='h2' />;
       } else {

@@ -178,7 +178,7 @@
   "annual_report.summary.percentile.we_wont_tell_bernie": "Mēs neteiksim Bērnijam.",
   "attachments_list.unprocessed": "(neapstrādāti)",
   "audio.hide": "Slēpt audio",
-  "block_modal.remote_users_caveat": "Mēs lūgsim serverim {domain} ņemt vērā Tavu lēmumu. Tomēr sadarbība nav garantēta, jo atsevišķi serveri bloķēšanu var apstrādāt citādi. Publiski ieraksti, iespējams, joprojām būs redzami lietotājiem, kuri nav pieteikušies.",
+  "block_modal.remote_users_caveat": "Mēs vaicāsim serverim {domain} ņemt vērā Tavu lēmumu. Tomēr atbilstība nav nodrošināta, jo atsevišķi serveri liegšanu var apstrādāt citādi. Publiski ieraksti joprojām var būt redzami lietotājiem, kuri nav pieteikušies.",
   "block_modal.show_less": "Rādīt mazāk",
   "block_modal.show_more": "Rādīt vairāk",
   "block_modal.they_will_know": "Lietotājs varēs redzēt, ka ir liegts.",

@@ -91,7 +91,22 @@ const PrivacyModalButton: FC<PrivacyDropdownProps> = ({ disabled = false }) => {
     const visibilityText = intl.formatMessage(
       visibilityOptions[visibility].text,
     );
-    return visibilityText;
+    if (visibility === 'private' || visibility === 'direct') {
+      return visibilityText;
+    }
+    if (quotePolicy === 'nobody') {
+      return intl.formatMessage(messages.disabled_quote, {
+        visibility: visibilityText,
+      });
+    }
+    if (quotePolicy !== 'public') {
+      return intl.formatMessage(messages.limited_quote, {
+        visibility: visibilityText,
+      });
+    }
+    return intl.formatMessage(messages.anyone_quote, {
+      visibility: visibilityText,
+    });
   }, [quotePolicy, visibility, intl]);
 
   const dispatch = useAppDispatch();
