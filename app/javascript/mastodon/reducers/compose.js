@@ -421,7 +421,7 @@ export const composeReducer = (state = initialState, action) => {
     case 'episodes':
       window.open('/mulukhiya/app/episode');
       return state;
-    default:
+    default: {
       const createToot = name => {
         const request = new XMLHttpRequest();
         request.open('GET', '/mulukhiya/api/program', false);
@@ -447,6 +447,7 @@ export const composeReducer = (state = initialState, action) => {
         return '';
       };
       return state.set('text', createToot(action.value));
+    }
     }
   case COMPOSE_CHANGE:
     return state
