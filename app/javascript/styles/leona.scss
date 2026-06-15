@@ -39,3 +39,11 @@
   $button-text: hsl(165deg, 45%, 15%),
   $scrollbar: hsl(165deg, 40%, 55%)
 );
+
+// 純白ボタン（魂の色）は royal-white の地に明度差がほぼ無く埋もれるため、leona に限り
+// ボタンにエメラルドの枠線を出す。.button は既定で `border: 1px solid transparent` を
+// 確保しているので border-color のみ後勝ちで上書き（レイアウトシフトなし）。
+// 本来は枠なしが望ましいが、純白ボタンを維持するための妥協（dark は不問）。
+.button {
+  border-color: hsl(165deg, 40%, 55%);
+}
