@@ -32,6 +32,12 @@ ja:
           attributes:
             url:
               invalid: は無効なURLです
+        collection:
+          attributes:
+            collection_items:
+              too_many: は多すぎます。 %{count} 以下にしてください
+            tag:
+              unusable: は使用できません
         doorkeeper/application:
           attributes:
             website:
@@ -48,7 +54,7 @@ ja:
         status:
           attributes:
             reblog:
-              taken: は既にリキュアされています
+              taken: は既にリキュア！されています
         terms_of_service:
           attributes:
             effective_date:

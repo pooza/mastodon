@@ -8,7 +8,7 @@ https://precure.ml
 
 - FreeBSD向けの調整
 - `投稿`→`キュア！`
-- `ブースト`→`リキュア`
+- `ブースト`→`リキュア！`
 - 拙作[mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)むけの調整
   - キュア！の「もっと見る」メニューに「削除してタグ付け」追加
 - 実況メニュー

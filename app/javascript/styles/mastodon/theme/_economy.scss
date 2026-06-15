@@ -1,0 +1,66 @@
+@use 'sass:color';
+
+// 旧 economy（4アンカー→派生）を 4.6 新トークンモデル上に再建する導出 mixin（#907）。
+
+// 4.6 の意味トークン（--color-bg/text/border-*・*-brand 等）はすべて原始パレット
+// （--color-grey-* / --color-indigo-* ...）を var() 参照する。したがってランプ自体を
+// 再着色すれば、per-token の列挙なしに全トークンが連動する。これが旧 economy の
+// 「少数アンカー → 全体導出」を新モデル上で取り戻す仕組み。
+
+// 引数（旧 $classic-* アンカーに対応）:
+//   $base      背景・neutral の基準色。grey ランプを同色相のまま明度で 11 段に再構成
+//   $primary   主テキストアクセント（旧 $darker-text-color）。dark の text-secondary に適用
+//   $secondary （予約）将来のテキストアクセント調整用
+//   $highlight リンク・ブランドの基準色。indigo ランプを 11 段に再構成
+//   $button    主ボタン背景。省略時は brand（=highlight）に従う。美食グリーンは緑ボタン
+
+// 注: パレット（--color-*-NNN）は base.palette が `html` に置くため、ここも `html` に
+// 出して同特異度・後勝ちで上書きする。token（--color-bg-brand-base 等）は
+// [data-color-scheme] 配下にあり特異度が高いので、token 上書きは同セレクタで出す。
+@mixin theme($base, $primary, $secondary, $highlight, $button: null) {
+  html {
+    // Neutral ramp — $base の色相・彩度を保ち、明度で暗→明の 11 段を生成
+    --color-grey-50: #{color.adjust($base, $lightness: 78%)};
+    --color-grey-100: #{color.adjust($base, $lightness: 70%)};
+    --color-grey-200: #{color.adjust($base, $lightness: 56%)};
+    --color-grey-300: #{color.adjust($base, $lightness: 44%)};
+    --color-grey-400: #{color.adjust($base, $lightness: 32%)};
+    --color-grey-500: #{color.adjust($base, $lightness: 22%)};
+    --color-grey-600: #{color.adjust($base, $lightness: 14%)};
+    --color-grey-700: #{color.adjust($base, $lightness: 9%)};
+    --color-grey-800: #{color.adjust($base, $lightness: 5%)};
+    --color-grey-900: #{$base};
+    --color-grey-950: #{color.adjust($base, $lightness: -4%)};
+
+    // Brand ramp — $highlight を中心（400）に紫の 11 段を生成
+    --color-indigo-50: #{color.adjust($highlight, $lightness: 34%)};
+    --color-indigo-100: #{color.adjust($highlight, $lightness: 28%)};
+    --color-indigo-200: #{color.adjust($highlight, $lightness: 20%)};
+    --color-indigo-300: #{color.adjust($highlight, $lightness: 11%)};
+    --color-indigo-400: #{$highlight};
+    --color-indigo-500: #{color.adjust($highlight, $lightness: -8%)};
+    --color-indigo-600: #{color.adjust($highlight, $lightness: -16%)};
+    --color-indigo-700: #{color.adjust($highlight, $lightness: -22%)};
+    --color-indigo-800: #{color.adjust($highlight, $lightness: -28%)};
+    --color-indigo-900: #{color.adjust($highlight, $lightness: -34%)};
+    --color-indigo-950: #{color.adjust($highlight, $lightness: -42%)};
+  }
+
+  // 主テキストアクセント（カーキ）。旧 $darker-text-color 相当。dark のみ（light は
+  // 既定の暗色テキストを保ち白背景でのコントラストを壊さない）。
+  [data-color-scheme='dark'],
+  html:not([data-color-scheme]) {
+    --color-text-secondary: #{$primary};
+  }
+
+  // 主ボタンを brand から切り離して着色する場合（美食グリーンの緑ボタン）。
+  // token は [data-color-scheme] 配下にあるため同セレクタで上書きする。
+  @if $button {
+    [data-color-scheme='dark'],
+    html:not([data-color-scheme]),
+    [data-color-scheme='light'] {
+      --color-bg-brand-base: #{$button};
+      --color-bg-brand-base-hover: #{color.adjust($button, $lightness: -8%)};
+    }
+  }
+}
