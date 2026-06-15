@@ -34,6 +34,20 @@ module.exports = {
 
     'scss/dollar-variable-empty-line-before': null,
     'scss/no-global-function-names': null,
+
+    // Fork policy (#906): never adopt text-transform: uppercase / capitalize.
+    // Mechanical capitalization can change a word's meaning and loses information.
+    // upstream uses these frequently; we neutralize each to `none` per release and
+    // this rule prevents new occurrences from slipping in on upstream merges.
+    'declaration-property-value-disallowed-list': [
+      {
+        'text-transform': ['/^uppercase$/i', '/^capitalize$/i'],
+      },
+      {
+        message: (property, value) =>
+          `Fork policy (#906): "${property}: ${value}" is disallowed. Use "none" instead of uppercase/capitalize.`,
+      },
+    ],
   },
   overrides: [
     {
