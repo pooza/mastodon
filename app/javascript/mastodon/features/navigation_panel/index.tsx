@@ -25,7 +25,6 @@ import NotificationsIcon from '@/material-icons/400-24px/notifications.svg?react
 import PersonAddActiveIcon from '@/material-icons/400-24px/person_add-fill.svg?react';
 import PersonAddIcon from '@/material-icons/400-24px/person_add.svg?react';
 import PublicIcon from '@/material-icons/400-24px/public.svg?react';
-import LeafIcon from '@/material-icons/400-24px/leaf.svg?react';
 import SettingsIcon from '@/material-icons/400-24px/settings.svg?react';
 import StarActiveIcon from '@/material-icons/400-24px/star-fill.svg?react';
 import StarIcon from '@/material-icons/400-24px/star.svg?react';
@@ -216,6 +215,49 @@ const isFirehoseActive = (
 
 const MENU_WIDTH = 284;
 
+interface LinkItem {
+  body: string;
+  href: string;
+  target?: string;
+  icon?: string;
+}
+
+interface LinkGroup {
+  body?: string;
+  links: LinkItem[];
+}
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const isLinkItem = (value: unknown): value is LinkItem =>
+  isObject(value) && 'href' in value;
+
+const toLinkGroups = (data: unknown): LinkGroup[] => {
+  if (!Array.isArray(data)) return [];
+
+  const groups = data as unknown[];
+
+  if (groups.every(isLinkItem)) {
+    return [{ links: groups }];
+  }
+
+  return groups
+    .map((group): LinkGroup | null => {
+      if (Array.isArray(group)) {
+        return { links: (group as unknown[]).filter(isLinkItem) };
+      }
+
+      if (isObject(group) && Array.isArray(group.links)) {
+        const body = typeof group.body === 'string' ? group.body : undefined;
+        return { body, links: (group.links as unknown[]).filter(isLinkItem) };
+      }
+
+      return null;
+    })
+    .filter((group): group is LinkGroup => group !== null);
+};
+
 export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
   multiColumn = false,
 }) => {
@@ -225,42 +267,29 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
   const showSearch = useBreakpoint('full') && !multiColumn;
   const account = useAccount(me);
 
-  type LinkItem = { body: string; href: string; target?: string; icon?: string };
-  type LinkGroup = { body?: string; links: LinkItem[] };
   const [linkGroups, setLinkGroups] = useState<LinkGroup[] | null>(null);
-  const [linksError, setLinksError] = useState<Error | null>(null);
+  const [, setLinksError] = useState<Error | null>(null);
 
   useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const res = await fetch('/links.json', { credentials: 'same-origin' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+    const controller = new AbortController();
 
-        let normalized: LinkGroup[] = [];
-        if (Array.isArray(data)) {
-          if (data.every(d => d && typeof d === 'object' && 'href' in d)) {
-            normalized = [{ links: data as LinkItem[] }];
-          } else {
-            normalized = (data as any[])
-              .map(g => {
-                if (Array.isArray(g)) {
-                  return { links: g } as LinkGroup;
-                } else if (g && Array.isArray(g.links)) {
-                  return g as LinkGroup;
-                }
-                return null;
-              }).filter((g): g is LinkGroup => !!g);
-          }
-        }
-        if (alive) setLinkGroups(normalized);
-      } catch (e: any) {
-        if (alive) setLinksError(e);
+    void (async () => {
+      try {
+        const res = await fetch('/links.json', {
+          credentials: 'same-origin',
+          signal: controller.signal,
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: unknown = await res.json();
+        setLinkGroups(toLinkGroups(data));
+      } catch (e) {
+        if (e instanceof DOMException && e.name === 'AbortError') return;
+        setLinksError(e instanceof Error ? e : new Error(String(e)));
       }
     })();
+
     return () => {
-      alive = false;
+      controller.abort();
     };
   }, []);
 
@@ -439,7 +468,7 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
                         key={`grp-${gi}-${link.body}-${li}`}
                         transparent
                         href={link.href}
-                        target={link.target || '_blank'}
+                        target={link.target ?? '_blank'}
                         text={link.body}
                         icon={
                           link.icon ? (
