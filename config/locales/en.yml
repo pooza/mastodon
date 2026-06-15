@@ -2191,8 +2191,9 @@ en:
     review_link: Review terms of service
     title: The terms of service of %{domain} are changing
   themes:
+    cure-lime: Cure Lime
+    cure-orange: Cure Orange
     default: Mastodon
-    bshock: bshock. green
   time:
     formats:
       default: "%b %d, %Y, %H:%M"

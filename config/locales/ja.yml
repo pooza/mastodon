@@ -1917,8 +1917,9 @@ ja:
     review_link: 利用規約を確認する
     title: "%{domain} の利用規約が変更されています"
   themes:
+    cure-lime: キュアライム
+    cure-orange: キュアオレンジ
     default: Mastodon
-    bshock: 美食グリーン
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M"
