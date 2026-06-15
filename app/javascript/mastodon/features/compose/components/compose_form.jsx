@@ -28,6 +28,7 @@ import { LanguageDropdown } from './language_dropdown';
 import { NavigationBar } from './navigation_bar';
 import { PollForm } from "./poll_form";
 import { ReplyIndicator } from './reply_indicator';
+import { TagsetDropdown } from './tagset_dropdown';
 import { UploadForm } from './upload_form';
 import { Warning } from './warning';
 import { ComposeQuotedStatus } from './quoted_post';
@@ -314,6 +315,7 @@ class ComposeForm extends ImmutablePureComponent {
           <div className='compose-form__dropdowns'>
             <VisibilityButton disabled={this.props.isEditing} />
             <LanguageDropdown />
+            <TagsetDropdown disabled={this.props.isEditing} />
           </div>
 
           <PollForm />
