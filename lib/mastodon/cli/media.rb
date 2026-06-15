@@ -71,7 +71,6 @@ module Mastodon::CLI
 
         processed, aggregate = parallelize_with_progress(attachment_scope) do |media_attachment|
           next if media_attachment.file.blank?
-          next if media_attachment.status.tags.find { |tag| tag.name == 'delmulin'}
 
           size = (media_attachment.file_file_size || 0) + (media_attachment.thumbnail_file_size || 0)
 
