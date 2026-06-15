@@ -233,5 +233,4 @@ gem 'mail', '~> 2.8'
 gem 'vite_rails'
 
 # local
-gem 'resolv', '~> 0.1.0'
 gem 'httparty'
