@@ -81,6 +81,7 @@ docker-compose.override.yml
 storybook-static
 
 # local
+.claude/
 .config
 .npm
 .rbenv

@@ -2,7 +2,7 @@
 
 persistent_timeout ENV.fetch('PERSISTENT_TIMEOUT') { 20 }.to_i
 
-max_threads_count = ENV.fetch('MAX_THREADS') { 20 }.to_i
+max_threads_count = ENV.fetch('MAX_THREADS') { 40 }.to_i
 min_threads_count = ENV.fetch('MIN_THREADS') { max_threads_count }.to_i
 threads min_threads_count, max_threads_count
 
@@ -12,8 +12,7 @@ else
   bind "tcp://#{ENV.fetch('BIND', '127.0.0.1')}:#{ENV.fetch('PORT', 3000)}"
 end
 
-environment ENV.fetch('RAILS_ENV') { 'development' }
-workers     ENV.fetch('WEB_CONCURRENCY') { 2 }.to_i
+workers ENV.fetch('WEB_CONCURRENCY') { 2 }.to_i
 
 preload_app!
 
@@ -41,12 +40,6 @@ if ENV['MASTODON_PROMETHEUS_EXPORTER_ENABLED'] == 'true'
   after_worker_boot do
     # Puma metrics
     PrometheusExporter::Instrumentation::Puma.start unless PrometheusExporter::Instrumentation::Puma.started?
-  end
-end
-
-before_worker_boot do
-  ActiveSupport.on_load(:active_record) do
-    ActiveRecord::Base.establish_connection
   end
 end
 
