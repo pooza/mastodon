@@ -1,6 +1,3 @@
-// popp: 4.6 テーマ再建までの暫定。デフォルトテーマ（application.scss）のコピー（#907）。
-// 旧 symlink-farm 参照を廃しビルドを通すための仮置き。後日 economy.theme-light で再建予定。
-
 @use 'mastodon/variables';
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
@@ -25,3 +22,16 @@
 @use 'mastodon/dashboard';
 @use 'mastodon/rtl';
 @use 'mastodon/rich_text';
+
+// popp（勇気・緑）: 旧 economy を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// 明端アンカーの theme-light。旧 $theme-green ランプ踏襲、ブランド/ボタン/スクロールバーは
+// soul（green-500・旅人の服）。light 主役・dark 不問。$primary は白背景可読の暗緑。
+@use 'mastodon/theme/economy';
+
+@include economy.theme-light(
+  $base: hsl(167deg, 52%, 85%),
+  $primary: hsl(167deg, 52%, 30%),
+  $secondary: #b08c3e,
+  $highlight: hsl(167deg, 52%, 39%),
+  $scrollbar: hsl(167deg, 52%, 39%)
+);

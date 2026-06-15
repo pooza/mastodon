@@ -1,6 +1,3 @@
-// maam: 4.6 テーマ再建までの暫定。デフォルトテーマ（application.scss）のコピー（#907）。
-// 旧 symlink-farm 参照を廃しビルドを通すための仮置き。後日 economy.theme-light で再建予定。
-
 @use 'mastodon/variables';
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
@@ -25,3 +22,16 @@
 @use 'mastodon/dashboard';
 @use 'mastodon/rtl';
 @use 'mastodon/rich_text';
+
+// maam（慈愛・赤）: 旧 economy を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// 明端アンカーの theme-light。旧 $theme-red ランプ踏襲、ブランド/ボタン/スクロールバーは
+// soul（red-500）。light 主役・dark 不問。$primary は白背景可読の暗赤。
+@use 'mastodon/theme/economy';
+
+@include economy.theme-light(
+  $base: hsl(0deg, 30%, 94%),
+  $primary: hsl(0deg, 60%, 40%),
+  $secondary: #f8d7e8,
+  $highlight: hsl(0deg, 60%, 52%),
+  $scrollbar: hsl(0deg, 60%, 52%)
+);

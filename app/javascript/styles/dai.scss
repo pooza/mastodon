@@ -1,6 +1,3 @@
-// dai: 4.6 テーマ再建までの暫定。デフォルトテーマ（application.scss）のコピー（#907）。
-// 旧 symlink-farm 参照を廃しビルドを通すための仮置き。後日 economy.theme-light で再建予定。
-
 @use 'mastodon/variables';
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
@@ -25,3 +22,17 @@
 @use 'mastodon/dashboard';
 @use 'mastodon/rtl';
 @use 'mastodon/rich_text';
+
+// dai（純真・青）: 旧 economy を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// 旧 4.5 は明色 classic-base のライトテーマだったため明端アンカーの theme-light を使う。
+// アンカーは旧 $theme-blue ランプを踏襲し、ブランド/ボタン/スクロールバーは soul（blue-600）。
+// light 主役・dark は不問。$primary は白背景で読める暗めの青に調整。
+@use 'mastodon/theme/economy';
+
+@include economy.theme-light(
+  $base: hsl(205deg, 71%, 90%),
+  $primary: hsl(205deg, 71%, 40%),
+  $secondary: #4573c9,
+  $highlight: hsl(205deg, 71%, 52%),
+  $scrollbar: hsl(205deg, 71%, 52%)
+);
