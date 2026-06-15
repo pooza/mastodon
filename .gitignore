@@ -83,6 +83,7 @@ storybook-static
 # local
 .claude/
 .config
+.claude/
 .npm
 .rbenv
 .gem
