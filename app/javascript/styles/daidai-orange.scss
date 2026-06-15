@@ -1,27 +1,41 @@
-@use 'daidai-orange/functions';
-@use 'daidai-orange/mixins';
-@use 'daidai-orange/variables';
-@use 'daidai-orange/css_variables';
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'daidai-orange/reset';
-@use 'daidai-orange/basics';
-@use 'daidai-orange/branding';
-@use 'daidai-orange/containers';
-@use 'daidai-orange/lists';
-@use 'daidai-orange/widgets';
-@use 'daidai-orange/forms';
-@use 'daidai-orange/accounts';
-@use 'daidai-orange/components';
-@use 'daidai-orange/polls';
-@use 'daidai-orange/modal';
-@use 'daidai-orange/emoji_picker';
-@use 'daidai-orange/annual_reports';
-@use 'daidai-orange/about';
-@use 'daidai-orange/tables';
-@use 'daidai-orange/admin';
-@use 'daidai-orange/dashboard';
-@use 'daidai-orange/rtl';
-@use 'daidai-orange/accessibility';
-@use 'daidai-orange/rich_text';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';
+
+// 橙（daidai-orange）: 旧 economy（4アンカー）を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// 旧 4.5 は明色 classic-base のライトテーマだったため、明端アンカーの theme-light を使う。
+// アンカーは旧 $classic-* を踏襲（primary は白背景で読める暗めの値のまま）。
+// ボタン地とスクロールバーつまみは「まさしくオレンジ」を直接指定し、鮮やかな地には
+// 暗茶の文字を載せて可読性を確保（light 主役・dark は不問）。
+@use 'mastodon/theme/economy';
+
+@include economy.theme-light(
+  $base: hsl(30deg, 60%, 96%),
+  $primary: hsl(30deg, 70%, 40%),
+  $secondary: hsl(30deg, 80%, 88%),
+  $highlight: #ff6600,
+  $button: #ff6600,
+  $button-text: hsl(30deg, 80%, 16%),
+  $scrollbar: #ff6600
+);
