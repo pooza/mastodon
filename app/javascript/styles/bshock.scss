@@ -1,24 +1,36 @@
-@use 'bshock/variables';
-@use 'bshock/mixins';
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'bshock/reset';
-@use 'bshock/theme';
-@use 'bshock/basics';
-@use 'bshock/branding';
-@use 'bshock/containers';
-@use 'bshock/lists';
-@use 'bshock/widgets';
-@use 'bshock/forms';
-@use 'bshock/accounts';
-@use 'bshock/components';
-@use 'bshock/polls';
-@use 'bshock/modal';
-@use 'bshock/emoji_picker';
-@use 'bshock/about';
-@use 'bshock/tables';
-@use 'bshock/admin';
-@use 'bshock/dashboard';
-@use 'bshock/rtl';
-@use 'bshock/rich_text';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';
+
+// 美食グリーン: 旧 economy（4アンカー）を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// アンカーは旧 4.5 の $classic-* を踏襲。緑ボタンは旧 $theme-green-500 を維持。
+@use 'mastodon/theme/economy';
+
+@include economy.theme(
+  $base: #223322,
+  $primary: #aaaa77,
+  $secondary: #d9e1e8,
+  $highlight: #aa77aa,
+  $button: #669966
+);
