@@ -54,7 +54,7 @@ class Admin::Metrics::Dimension::SoftwareVersionsDimension < Admin::Metrics::Dim
   end
 
   def mulukhiya_version
-    uri = Addressable::URI.parse('https://' + Rails.configuration.x.web_domain)
+    uri = Addressable::URI.parse("https://#{Rails.configuration.x.web_domain}")
     uri.path = '/mulukhiya/api/about'
     r = HTTParty.get(uri.to_s)
     value = r['package']['version']
