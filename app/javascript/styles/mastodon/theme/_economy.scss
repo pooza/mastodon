@@ -79,7 +79,19 @@
 //   $secondary （予約）theme() と signature を揃えるための予約引数
 //   $highlight リンク・ブランドの基準色。indigo ランプを 11 段に再構成
 //   $button    主ボタン背景。省略時は brand（=highlight）に従う
-@mixin theme-light($base, $primary, $secondary, $highlight, $button: null) {
+//   $button-text （light 主役）純ブランド地のボタンに乗せる文字色。鮮やかな地に白だと
+//                コントラストが弱いとき、暗色を直接指定する。省略時は既定（白）のまま
+//   $scrollbar   （light 主役）カスタムスクロールバーのつまみ色を直接指定。省略時は
+//                既定（text-secondary）のまま。dark/light 両方に効く（dark は不問なので可）
+@mixin theme-light(
+  $base,
+  $primary,
+  $secondary,
+  $highlight,
+  $button: null,
+  $button-text: null,
+  $scrollbar: null
+) {
   html {
     // Neutral ramp — $base を明端（grey-50）に置き、明度で明→暗の 11 段を生成
     --color-grey-50: #{$base};
@@ -114,12 +126,32 @@
     --color-text-secondary: #{$primary};
   }
 
+  // ボタン地を brand から切り離して純ブランド色を直接指定（例: まさしくライム/オレンジ）。
+  // token は [data-color-scheme] 配下で特異度が高いため同セレクタで上書きする。
   @if $button {
     [data-color-scheme='dark'],
     html:not([data-color-scheme]),
     [data-color-scheme='light'] {
       --color-bg-brand-base: #{$button};
       --color-bg-brand-base-hover: #{color.adjust($button, $lightness: -8%)};
+    }
+  }
+
+  // 鮮やかなボタン地に乗せる文字色（純ブランド地＋暗め文字の組み合わせ用）。
+  @if $button-text {
+    [data-color-scheme='dark'],
+    html:not([data-color-scheme]),
+    [data-color-scheme='light'] {
+      --color-text-on-brand-base: #{$button-text};
+    }
+  }
+
+  // カスタムスクロールバーのつまみを直接ブランド色に。溝は既定の bg-secondary のまま。
+  // 既定は basics.scss で thumb=text-secondary（＝副次テキスト共用）なので、つまみだけ
+  // 着色したいときはここで scrollbar-color を後勝ちで上書きする。
+  @if $scrollbar {
+    html.custom-scrollbars {
+      scrollbar-color: #{$scrollbar} var(--color-bg-secondary);
     }
   }
 }

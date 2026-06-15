@@ -25,13 +25,17 @@
 
 // キュアライム: 旧 economy（4アンカー）を導出 mixin で 4.6 トークンモデル上に再建（#907）。
 // 旧 4.5 は明色 classic-base のライトテーマだったため、明端アンカーの theme-light を使う。
-// アンカーは旧 $classic-* を踏襲（primary のみ白背景で読める明度へ調整）。ライム緑は
-// brand=button のため $button は省略（highlight に追従）。
+// アンカーは旧 $classic-* を踏襲（primary のみ白背景で読める明度へ調整）。
+// ボタン地とスクロールバーつまみは「まさしくライム」を直接指定し、鮮やかな地には
+// 暗緑の文字を載せて可読性を確保（light 主役・dark は不問）。
 @use 'mastodon/theme/economy';
 
 @include economy.theme-light(
   $base: hsl(120deg, 4%, 94%),
   $primary: hsl(120deg, 30%, 36%),
   $secondary: hsl(120deg, 23%, 87%),
-  $highlight: #25ce25
+  $highlight: #25ce25,
+  $button: #25ce25,
+  $button-text: hsl(120deg, 70%, 14%),
+  $scrollbar: #25ce25
 );
