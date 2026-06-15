@@ -1,28 +1,27 @@
-@use 'hyunckel/functions';
-@use 'hyunckel/mixins';
-@use 'hyunckel/variables';
-@use 'hyunckel/css_variables';
+// hyunckel: 4.6 テーマ再建までの暫定。デフォルトテーマ（application.scss）のコピー（#907）。
+// 旧 symlink-farm 参照を廃しビルドを通すための仮置き。後日 economy.theme-light で再建予定。
+
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'hyunckel/reset';
-@use 'hyunckel/basics';
-@use 'hyunckel/branding';
-@use 'hyunckel/containers';
-@use 'hyunckel/lists';
-@use 'hyunckel/widgets';
-@use 'hyunckel/forms';
-@use 'hyunckel/accounts';
-@use 'hyunckel/components';
-@use 'hyunckel/polls';
-@use 'hyunckel/modal';
-@use 'hyunckel/emoji_picker';
-@use 'hyunckel/annual_reports';
-@use 'hyunckel/about';
-@use 'hyunckel/tables';
-@use 'hyunckel/admin';
-@use 'hyunckel/dashboard';
-@use 'hyunckel/rtl';
-@use 'hyunckel/accessibility';
-@use 'hyunckel/rich_text';
-@use 'hyunckel/diff';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';

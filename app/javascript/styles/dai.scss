@@ -1,28 +1,27 @@
-@use 'dai/functions';
-@use 'dai/mixins';
-@use 'dai/variables';
-@use 'dai/css_variables';
+// dai: 4.6 テーマ再建までの暫定。デフォルトテーマ（application.scss）のコピー（#907）。
+// 旧 symlink-farm 参照を廃しビルドを通すための仮置き。後日 economy.theme-light で再建予定。
+
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'dai/reset';
-@use 'dai/basics';
-@use 'dai/branding';
-@use 'dai/containers';
-@use 'dai/lists';
-@use 'dai/widgets';
-@use 'dai/forms';
-@use 'dai/accounts';
-@use 'dai/components';
-@use 'dai/polls';
-@use 'dai/modal';
-@use 'dai/emoji_picker';
-@use 'dai/annual_reports';
-@use 'dai/about';
-@use 'dai/tables';
-@use 'dai/admin';
-@use 'dai/dashboard';
-@use 'dai/rtl';
-@use 'dai/accessibility';
-@use 'dai/rich_text';
-@use 'dai/diff';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';

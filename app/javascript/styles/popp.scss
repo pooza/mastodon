@@ -1,28 +1,27 @@
-@use 'popp/functions';
-@use 'popp/mixins';
-@use 'popp/variables';
-@use 'popp/css_variables';
+// popp: 4.6 テーマ再建までの暫定。デフォルトテーマ（application.scss）のコピー（#907）。
+// 旧 symlink-farm 参照を廃しビルドを通すための仮置き。後日 economy.theme-light で再建予定。
+
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'popp/reset';
-@use 'popp/basics';
-@use 'popp/branding';
-@use 'popp/containers';
-@use 'popp/lists';
-@use 'popp/widgets';
-@use 'popp/forms';
-@use 'popp/accounts';
-@use 'popp/components';
-@use 'popp/polls';
-@use 'popp/modal';
-@use 'popp/emoji_picker';
-@use 'popp/annual_reports';
-@use 'popp/about';
-@use 'popp/tables';
-@use 'popp/admin';
-@use 'popp/dashboard';
-@use 'popp/rtl';
-@use 'popp/accessibility';
-@use 'popp/rich_text';
-@use 'popp/diff';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';
