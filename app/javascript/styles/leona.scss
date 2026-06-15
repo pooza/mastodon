@@ -24,8 +24,9 @@
 @use 'mastodon/rich_text';
 
 // leona（正義・エメラルド）: 旧 economy を導出 mixin で 4.6 トークンモデル上に再建（#907）。
-// 明端アンカーの theme-light。地は royal-white（うっすらエメラルドの純白）。ブランド/ボタン/
-// スクロールバーは emerald-600。旧 soul=純白ボタンは light で不可視なため emerald を採用。
+// 明端アンカーの theme-light。地は royal-white（うっすらエメラルドの純白）。テーマカラー
+// （ブランド/リンク/スクロールバー）は emerald。ただし**魂の色＝ボタンは純白 #ffffff**という
+// キャラ設定のため $button=#fff とし、白地に乗る暗エメラルド文字を $button-text で指定。
 // light 主役・dark 不問。$primary は白背景可読の暗エメラルド。
 @use 'mastodon/theme/economy';
 
@@ -34,5 +35,7 @@
   $primary: hsl(165deg, 42%, 32%),
   $secondary: hsl(165deg, 40%, 82%),
   $highlight: hsl(165deg, 40%, 55%),
+  $button: #ffffff,
+  $button-text: hsl(165deg, 45%, 15%),
   $scrollbar: hsl(165deg, 40%, 55%)
 );
