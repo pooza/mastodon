@@ -1,28 +1,37 @@
-@use 'cure-orange/functions';
-@use 'cure-orange/mixins';
-@use 'cure-orange/variables';
-@use 'cure-orange/css_variables';
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'cure-orange/reset';
-@use 'cure-orange/basics';
-@use 'cure-orange/branding';
-@use 'cure-orange/containers';
-@use 'cure-orange/lists';
-@use 'cure-orange/widgets';
-@use 'cure-orange/forms';
-@use 'cure-orange/accounts';
-@use 'cure-orange/components';
-@use 'cure-orange/polls';
-@use 'cure-orange/modal';
-@use 'cure-orange/emoji_picker';
-@use 'cure-orange/annual_reports';
-@use 'cure-orange/about';
-@use 'cure-orange/tables';
-@use 'cure-orange/admin';
-@use 'cure-orange/dashboard';
-@use 'cure-orange/rtl';
-@use 'cure-orange/accessibility';
-@use 'cure-orange/rich_text';
-@use 'cure-orange/diff';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';
+
+// キュアオレンジ: 旧 economy（4アンカー）を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// 旧 4.5 は明色 classic-base のライトテーマだったため、明端アンカーの theme-light を使う。
+// アンカーは旧 $classic-* を踏襲（primary は白背景で読める暗めの値のまま）。橙は
+// brand=button のため $button は省略（highlight に追従）。
+@use 'mastodon/theme/economy';
+
+@include economy.theme-light(
+  $base: hsl(34deg, 30%, 94%),
+  $primary: hsl(30deg, 60%, 38%),
+  $secondary: hsl(30deg, 50%, 15%),
+  $highlight: #e89830
+);

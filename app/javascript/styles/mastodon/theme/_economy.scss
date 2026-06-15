@@ -64,3 +64,62 @@
     }
   }
 }
+
+// 明端アンカー版（#907 横展開）。美食グリーン（theme）は旧 classic-base を暗端
+// （grey-900）に置いたが、cure-lime / cure-orange / 橙 等は旧 4.5 で「ライトテーマ」
+// として作られていた（classic-base が明色）。それらは旧 classic-base を明端（grey-50）に
+// 置き、暗端を導出するのが対称で、旧テーマの控えめな地色を忠実に再現できる。
+//
+// 明度デルタは theme() を −78% シフトした対称形（theme の grey-50 が基準 0 になる）。
+// indigo（brand）ランプは配色スキーム非依存なので theme() と同一。
+//
+// 引数:
+//   $base      明端の地色（旧 light classic-base をそのまま）。grey-50 に置き暗端へ導出
+//   $primary   light の text-secondary に適用する可読アクセント（白背景で読める暗めの色）
+//   $secondary （予約）theme() と signature を揃えるための予約引数
+//   $highlight リンク・ブランドの基準色。indigo ランプを 11 段に再構成
+//   $button    主ボタン背景。省略時は brand（=highlight）に従う
+@mixin theme-light($base, $primary, $secondary, $highlight, $button: null) {
+  html {
+    // Neutral ramp — $base を明端（grey-50）に置き、明度で明→暗の 11 段を生成
+    --color-grey-50: #{$base};
+    --color-grey-100: #{color.adjust($base, $lightness: -8%)};
+    --color-grey-200: #{color.adjust($base, $lightness: -22%)};
+    --color-grey-300: #{color.adjust($base, $lightness: -34%)};
+    --color-grey-400: #{color.adjust($base, $lightness: -46%)};
+    --color-grey-500: #{color.adjust($base, $lightness: -56%)};
+    --color-grey-600: #{color.adjust($base, $lightness: -64%)};
+    --color-grey-700: #{color.adjust($base, $lightness: -69%)};
+    --color-grey-800: #{color.adjust($base, $lightness: -73%)};
+    --color-grey-900: #{color.adjust($base, $lightness: -78%)};
+    --color-grey-950: #{color.adjust($base, $lightness: -82%)};
+
+    // Brand ramp — theme() と同一（$highlight を中心 400 に 11 段）
+    --color-indigo-50: #{color.adjust($highlight, $lightness: 34%)};
+    --color-indigo-100: #{color.adjust($highlight, $lightness: 28%)};
+    --color-indigo-200: #{color.adjust($highlight, $lightness: 20%)};
+    --color-indigo-300: #{color.adjust($highlight, $lightness: 11%)};
+    --color-indigo-400: #{$highlight};
+    --color-indigo-500: #{color.adjust($highlight, $lightness: -8%)};
+    --color-indigo-600: #{color.adjust($highlight, $lightness: -16%)};
+    --color-indigo-700: #{color.adjust($highlight, $lightness: -22%)};
+    --color-indigo-800: #{color.adjust($highlight, $lightness: -28%)};
+    --color-indigo-900: #{color.adjust($highlight, $lightness: -34%)};
+    --color-indigo-950: #{color.adjust($highlight, $lightness: -42%)};
+  }
+
+  // 主テキストアクセント。ライトテーマは light スキームが主役なので、light の
+  // text-secondary を上書き（白背景で読める暗めの $primary）。dark は導出 grey-600 のまま。
+  [data-color-scheme='light'] {
+    --color-text-secondary: #{$primary};
+  }
+
+  @if $button {
+    [data-color-scheme='dark'],
+    html:not([data-color-scheme]),
+    [data-color-scheme='light'] {
+      --color-bg-brand-base: #{$button};
+      --color-bg-brand-base-hover: #{color.adjust($button, $lightness: -8%)};
+    }
+  }
+}

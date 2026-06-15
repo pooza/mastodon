@@ -1,28 +1,37 @@
-@use 'cure-lime/functions';
-@use 'cure-lime/mixins';
-@use 'cure-lime/variables';
-@use 'cure-lime/css_variables';
+@use 'mastodon/variables';
+@use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
 
-@use 'cure-lime/reset';
-@use 'cure-lime/basics';
-@use 'cure-lime/branding';
-@use 'cure-lime/containers';
-@use 'cure-lime/lists';
-@use 'cure-lime/widgets';
-@use 'cure-lime/forms';
-@use 'cure-lime/accounts';
-@use 'cure-lime/components';
-@use 'cure-lime/polls';
-@use 'cure-lime/modal';
-@use 'cure-lime/emoji_picker';
-@use 'cure-lime/annual_reports';
-@use 'cure-lime/about';
-@use 'cure-lime/tables';
-@use 'cure-lime/admin';
-@use 'cure-lime/dashboard';
-@use 'cure-lime/rtl';
-@use 'cure-lime/accessibility';
-@use 'cure-lime/rich_text';
-@use 'cure-lime/diff';
+@use 'mastodon/reset';
+@use 'mastodon/theme';
+@use 'mastodon/basics';
+@use 'mastodon/branding';
+@use 'mastodon/containers';
+@use 'mastodon/lists';
+@use 'mastodon/widgets';
+@use 'mastodon/forms';
+@use 'mastodon/accounts';
+@use 'mastodon/components';
+@use 'mastodon/polls';
+@use 'mastodon/modal';
+@use 'mastodon/emoji_picker';
+@use 'mastodon/about';
+@use 'mastodon/tables';
+@use 'mastodon/admin';
+@use 'mastodon/dashboard';
+@use 'mastodon/rtl';
+@use 'mastodon/rich_text';
+
+// キュアライム: 旧 economy（4アンカー）を導出 mixin で 4.6 トークンモデル上に再建（#907）。
+// 旧 4.5 は明色 classic-base のライトテーマだったため、明端アンカーの theme-light を使う。
+// アンカーは旧 $classic-* を踏襲（primary のみ白背景で読める明度へ調整）。ライム緑は
+// brand=button のため $button は省略（highlight に追従）。
+@use 'mastodon/theme/economy';
+
+@include economy.theme-light(
+  $base: hsl(120deg, 4%, 94%),
+  $primary: hsl(120deg, 30%, 36%),
+  $secondary: hsl(120deg, 23%, 87%),
+  $highlight: #25ce25
+);
