@@ -1,10 +1,13 @@
-# フォーク最小 CI（#910 Tier 1）
+# フォーク最小 CI（#910 Tier 1 / #911 Tier 2）
 #
-# 本家前提の巨大 CI は削除済み（commit 4e0be20aa0）。ここではフォークに必要な最小限だけを回す:
-#   1. fork-spec      … spec/fork の巻き戻り検知ガード（#909）を自動ゲート化
-#   2. lint-changed   … 変更ファイルのみ ESLint（#904 の lint 負債の再発防止）
+# 本家前提の巨大 CI は削除済み（commit 4e0be20aa0）。フォークに必要な最小限だけを回す:
+#   - fork-spec  … spec/fork の巻き戻り検知ガード（#909）を自動ゲート化            [Tier 1]
+#   - eslint     … 変更 JS/TS のみ ESLint（#904 の lint 負債の再発防止）           [Tier 1]
+#   - stylelint  … 変更 CSS/SCSS のみ stylelint（uppercase 恒久禁止 #906 を担保）   [Tier 2]
+#   - rubocop    … 変更 Ruby のみ RuboCop                                          [Tier 2]
 #
-# 重い検査（通しアセットビルド・広域 rspec・stylelint/RuboCop）は Tier 2/3 として後日積む。
+# 変更ファイル抽出は changes ジョブに集約し、各 lint ジョブが outputs を参照する。
+# Tier 3（通しアセットビルド・広域 rspec）は重いため nightly / 手動の別ワークフローに分離する。
 name: Fork CI
 
 on:
@@ -62,6 +65,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # idn-ruby / charlock_holmes 等のネイティブ拡張ビルドに必要（upstream の setup-ruby 準拠）。
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libicu-dev libidn11-dev
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -74,35 +83,26 @@ jobs:
       - name: Run fork guard spec
         run: bundle exec rspec spec/fork
 
-  # 変更された JS/TS ファイルだけ ESLint。差分が無ければスキップ。
-  lint-changed:
-    name: ESLint (変更ファイルのみ)
+  # 変更ファイルを種別ごとに抽出して後続 lint ジョブへ渡す（push/PR 双方に対応）。
+  changes:
+    name: 変更ファイル抽出
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
+    timeout-minutes: 5
+    outputs:
+      js: ${{ steps.collect.outputs.js }}
+      css: ${{ steps.collect.outputs.css }}
+      rb: ${{ steps.collect.outputs.rb }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Collect changed JS/TS files
-        id: changed
+      - name: Collect changed files by type
+        id: collect
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            base="origin/${{ github.base_ref }}"
             git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
-            range="${base}...HEAD"
+            range="origin/${{ github.base_ref }}...HEAD"
           else
             before="${{ github.event.before }}"
             # 新規ブランチ初回 push 等で before が全0の場合は親コミットを基準にする
@@ -112,10 +112,65 @@ jobs:
               range="${before} ${{ github.sha }}"
             fi
           fi
-          files=$(git diff --name-only --diff-filter=ACMR $range -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.mjs' '*.cjs' | tr '\n' ' ')
-          echo "files=$files" >> "$GITHUB_OUTPUT"
-          echo "変更された JS/TS: ${files:-(なし)}"
+          changed() { git diff --name-only --diff-filter=ACMR $range -- "$@" | tr '\n' ' '; }
+          js=$(changed '*.js' '*.jsx' '*.ts' '*.tsx' '*.mjs' '*.cjs')
+          css=$(changed '*.css' '*.scss')
+          rb=$(changed '*.rb')
+          echo "js=$js"   >> "$GITHUB_OUTPUT"
+          echo "css=$css" >> "$GITHUB_OUTPUT"
+          echo "rb=$rb"   >> "$GITHUB_OUTPUT"
+          echo "JS/TS : ${js:-(なし)}"
+          echo "CSS   : ${css:-(なし)}"
+          echo "Ruby  : ${rb:-(なし)}"
 
-      - name: Run ESLint on changed files
-        if: steps.changed.outputs.files != ''
-        run: yarn lint:js ${{ steps.changed.outputs.files }}
+  # 変更された JS/TS のみ ESLint（#904）。
+  eslint:
+    name: ESLint (変更ファイルのみ)
+    needs: changes
+    if: needs.changes.outputs.js != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn lint:js ${{ needs.changes.outputs.js }}
+
+  # 変更された CSS/SCSS のみ stylelint（テーマ SCSS の uppercase 恒久禁止 #906 を担保）。
+  stylelint:
+    name: stylelint (変更ファイルのみ)
+    needs: changes
+    if: needs.changes.outputs.css != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn stylelint ${{ needs.changes.outputs.css }}
+
+  # 変更された Ruby のみ RuboCop。--force-exclusion で .rubocop.yml の除外を尊重。
+  rubocop:
+    name: RuboCop (変更ファイルのみ)
+    needs: changes
+    if: needs.changes.outputs.rb != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libicu-dev libidn11-dev
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - run: bundle exec rubocop --force-exclusion ${{ needs.changes.outputs.rb }}
