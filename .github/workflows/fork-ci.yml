@@ -65,11 +65,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # idn-ruby / charlock_holmes 等のネイティブ拡張ビルドに必要（upstream の setup-ruby 準拠）。
+      # ネイティブ拡張ビルド（idn-ruby/charlock_holmes）と Rails 起動時の libvips ロードに必要
+      # （upstream の setup-ruby 準拠: libicu-dev libidn11-dev libvips42）。
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y libicu-dev libidn11-dev
+          sudo apt-get install --no-install-recommends -y libicu-dev libidn11-dev libvips42
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
