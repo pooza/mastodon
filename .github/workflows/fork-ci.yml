@@ -1,0 +1,121 @@
+# フォーク最小 CI（#910 Tier 1）
+#
+# 本家前提の巨大 CI は削除済み（commit 4e0be20aa0）。ここではフォークに必要な最小限だけを回す:
+#   1. fork-spec      … spec/fork の巻き戻り検知ガード（#909）を自動ゲート化
+#   2. lint-changed   … 変更ファイルのみ ESLint（#904 の lint 負債の再発防止）
+#
+# 重い検査（通しアセットビルド・広域 rspec・stylelint/RuboCop）は Tier 2/3 として後日積む。
+name: Fork CI
+
+on:
+  push:
+    branches:
+      - 'work/4.6/**'
+      - 'stable/**'
+      - bshockdon
+      - curesta
+      - delmulin
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # フォーク独自拡張値の巻き戻り検知（#909）。rails_helper 経由で Rails を起動するため
+  # PostgreSQL に加え Redis も必須（spec/rails_helper.rb の after フックが redis を触る）。
+  fork-spec:
+    name: spec/fork (巻き戻り検知ガード)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 6379:6379
+
+    env:
+      DB_HOST: localhost
+      DB_USER: postgres
+      DB_PASS: postgres
+      RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Prepare test database
+        run: bin/rails db:test:prepare
+
+      - name: Run fork guard spec
+        run: bundle exec rspec spec/fork
+
+  # 変更された JS/TS ファイルだけ ESLint。差分が無ければスキップ。
+  lint-changed:
+    name: ESLint (変更ファイルのみ)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Collect changed JS/TS files
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="origin/${{ github.base_ref }}"
+            git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+            range="${base}...HEAD"
+          else
+            before="${{ github.event.before }}"
+            # 新規ブランチ初回 push 等で before が全0の場合は親コミットを基準にする
+            if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
+              range="HEAD^ HEAD"
+            else
+              range="${before} ${{ github.sha }}"
+            fi
+          fi
+          files=$(git diff --name-only --diff-filter=ACMR $range -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.mjs' '*.cjs' | tr '\n' ' ')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          echo "変更された JS/TS: ${files:-(なし)}"
+
+      - name: Run ESLint on changed files
+        if: steps.changed.outputs.files != ''
+        run: yarn lint:js ${{ steps.changed.outputs.files }}
