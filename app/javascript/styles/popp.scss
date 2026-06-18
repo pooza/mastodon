@@ -26,13 +26,17 @@
 // popp（勇気・緑）: 旧 economy を導出 mixin で 4.6 トークンモデル上に再建（#907）。
 // 明端アンカーの theme-light。旧 $theme-green ランプ踏襲、ブランド/ボタン/スクロールバーは
 // soul（green-500・旅人の服）。light 主役・dark 不問。$primary は白背景可読の暗緑。
+// お気に入り星はポップの黄色いバンダナ（旧 bandana-yellow #861）をアクセントに残す。
 @use 'mastodon/theme/economy';
+
+$bandana-yellow: #b08c3e; // ポップの黄色いバンダナ
 
 @include economy.theme-light(
   $base: hsl(167deg, 52%, 85%),
   $primary: hsl(167deg, 52%, 30%),
-  $secondary: #b08c3e,
+  $secondary: $bandana-yellow,
   $highlight: hsl(167deg, 52%, 39%),
   $button: hsl(167deg, 52%, 39%),
-  $scrollbar: hsl(167deg, 52%, 39%)
+  $scrollbar: hsl(167deg, 52%, 39%),
+  $favourite: $bandana-yellow
 );

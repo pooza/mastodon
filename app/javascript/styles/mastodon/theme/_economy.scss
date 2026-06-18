@@ -83,6 +83,9 @@
 //                コントラストが弱いとき、暗色を直接指定する。省略時は既定（白）のまま
 //   $scrollbar   （light 主役）カスタムスクロールバーのつまみ色を直接指定。省略時は
 //                既定（text-secondary）のまま。dark/light 両方に効く（dark は不問なので可）
+//   $favourite   （light 主役）お気に入り星のハイライト色を直接指定。旧 economy の
+//                $gold-star/$action-button-color 相当のキャラ別アクセント。省略時は既定
+//                （text-warning＝黄）のまま
 @mixin theme-light(
   $base,
   $primary,
@@ -90,7 +93,8 @@
   $highlight,
   $button: null,
   $button-text: null,
-  $scrollbar: null
+  $scrollbar: null,
+  $favourite: null
 ) {
   html {
     // Neutral ramp — $base を明端（grey-50）に置き、明度で明→暗の 11 段を生成
@@ -152,6 +156,14 @@
   @if $scrollbar {
     html.custom-scrollbars {
       scrollbar-color: #{$scrollbar} var(--color-bg-secondary);
+    }
+  }
+
+  // お気に入り星のハイライトをキャラ別アクセントに（旧 $gold-star/$action-button-color 相当）。
+  // token は [data-color-scheme='light'] 配下で出るため同セレクタ・後勝ちで上書きする。
+  @if $favourite {
+    [data-color-scheme='light'] {
+      --color-text-favourite-highlight: #{$favourite};
     }
   }
 }
