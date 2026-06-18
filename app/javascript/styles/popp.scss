@@ -27,6 +27,7 @@
 // 明端アンカーの theme-light。旧 $theme-green ランプ踏襲、ブランド/ボタン/スクロールバーは
 // soul（green-500・旅人の服）。light 主役・dark 不問。$primary は白背景可読の暗緑。
 // お気に入り星はポップの黄色いバンダナ（旧 bandana-yellow #861）をアクセントに残す。
+@use 'sass:color';
 @use 'mastodon/theme/economy';
 
 $bandana-yellow: #b08c3e; // ポップの黄色いバンダナ
@@ -40,3 +41,19 @@ $bandana-yellow: #b08c3e; // ポップの黄色いバンダナ
   $scrollbar: hsl(167deg, 52%, 39%),
   $favourite: $bandana-yellow
 );
+
+// ハッシュタグチップをバンダナ色に。既定の淡ブランド地ではなくキャラ色アクセントにする。
+// タグが目立つ delmulin 向け。文字は白・ホバーで一段暗く。
+.hashtag-bar a {
+  color: var(--color-white);
+  background: $bandana-yellow;
+
+  &:hover,
+  &:focus,
+  &:active,
+  .focusable:focus-visible &,
+  .detailed-status__wrapper-direct .detailed-status &,
+  .status__wrapper-direct & {
+    background: color.adjust($bandana-yellow, $lightness: -8%);
+  }
+}
