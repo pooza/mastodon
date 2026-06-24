@@ -1,5 +1,5 @@
 ---
-:concurrency: <%= ENV.fetch('SIDEKIQ_CONCURRENCY', 40) %>
+:concurrency: <%= ENV.fetch('SIDEKIQ_CONCURRENCY', 20) %>
 :queues:
   - [default, 8]
   - [push, 6]
@@ -75,4 +75,8 @@
     collection_item_cleanup_scheduler:
       interval: 1 hour
       class: Scheduler::CollectionItemCleanupScheduler
+      queue: scheduler
+    repair_remote_collections_scheduler:
+      every: ['24h', first_in: '1s']
+      class: Scheduler::RepairRemoteCollectionsScheduler
       queue: scheduler
