@@ -139,7 +139,10 @@ class MediaAttachment < ApplicationRecord
       convert_options: {
         output: {
           'loglevel' => 'fatal',
-          :vf => 'scale=\'min(640\, iw):min(640\, ih)\':force_original_aspect_ratio=decrease',
+          # First normalise non-square pixels (SAR != 1:1) to square-pixel
+          # display dimensions, then fit within the 640px box. Without this,
+          # anamorphic videos produce vertically stretched thumbnails.
+          :vf => 'scale=trunc(iw*sar):ih,setsar=1,scale=\'min(640\, iw):min(640\, ih)\':force_original_aspect_ratio=decrease',
         }.freeze,
       }.freeze,
       format: 'png',
@@ -416,8 +419,10 @@ class MediaAttachment < ApplicationRecord
     return {} unless movie.valid?
 
     {
-      width: movie.width,
-      height: movie.height,
+      # Use SAR-corrected display dimensions for layout/aspect; coded
+      # movie.width/height stay reserved for validation and transcoding.
+      width: movie.display_width,
+      height: movie.display_height,
       frame_rate: movie.frame_rate,
       duration: movie.duration,
       bitrate: movie.bitrate,
