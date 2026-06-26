@@ -2,6 +2,10 @@
 
 require 'rails_helper'
 
+# ここのガード群は単一クラスではなく横断的なフォーク改変（上限値・挙動）を検証するため、
+# 文字列 describe を意図的に使い、issue 単位で兄弟の top-level group として並べる。
+# rubocop:disable RSpec/DescribeClass, RSpec/MultipleDescribes
+
 # フォーク独自に upstream から拡張している上限値の「巻き戻り検知」ガード（#909）。
 #
 # upstream とのマージ衝突解決でこれらが既定値へ静かに戻ると、ユーザー影響のある
@@ -31,3 +35,38 @@ RSpec.describe 'Fork customization guard (#909)' do
     expect(StatusLengthValidator::MAX_CHARS).to be > 500
   end
 end
+
+# アナモルフィック動画（SAR != 1:1）のサムネ/プレーヤー枠が縦に伸びる不具合の
+# フォーク修正（#923）の「巻き戻り検知」ガード。upstream は SAR を扱わないため、
+# マージ衝突解決でこれらの改変が静かに消えると症状が再発する。
+# ffmpeg 非依存にするため、ここでは実挙動ではなくコード上の改変有無のみを静的に検知する
+# （実挙動の回帰は ffmpeg のある通常 CI 上の spec/lib/video_metadata_extractor_spec.rb が担保）。
+RSpec.describe 'Fork customization guard: anamorphic video SAR (#923)' do
+  it 'VideoMetadataExtractor が SAR 解釈メソッド parse_sar を保持している' do
+    expect(VideoMetadataExtractor.private_instance_methods).to include(:parse_sar)
+  end
+
+  it 'VideoMetadataExtractor が表示寸法 display_width/display_height を公開している' do
+    expect(VideoMetadataExtractor.instance_methods).to include(:display_width, :display_height)
+  end
+
+  it 'display_width が SAR 反映の表示幅を算出し、coded @width は上書きしない' do
+    source = File.read(VideoMetadataExtractor.instance_method(:parse_metadata).source_location.first)
+    expect(source).to match(/@display_width\s*=.*\(@width \* sar\)\.round/)
+    # coded @width を表示幅で上書きすると上限検証(MAX_VIDEO_MATRIX_LIMIT)が騙される（#924 review P2）
+    expect(source).to_not match(/^\s*@width\s*=\s*\(@width \* sar\)/)
+  end
+
+  it 'video_metadata（layout meta）が coded ではなく display 寸法を使う' do
+    source = File.read(MediaAttachment.instance_method(:video_metadata).source_location.first)
+    expect(source).to match(/width:\s*movie\.display_width/)
+    expect(source).to match(/height:\s*movie\.display_height/)
+  end
+
+  it 'サムネ生成フィルタが SAR 正規化（setsar）を含んでいる（縦伸び対策）' do
+    vf = MediaAttachment::VIDEO_STYLES.dig(:small, :convert_options, :output, :vf)
+    expect(vf).to include('iw*sar')
+    expect(vf).to include('setsar=1')
+  end
+end
+# rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
