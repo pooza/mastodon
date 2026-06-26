@@ -2,6 +2,10 @@
 
 require 'rails_helper'
 
+# ここのガード群は単一クラスではなく横断的なフォーク改変（上限値・挙動）を検証するため、
+# 文字列 describe を意図的に使い、issue 単位で兄弟の top-level group として並べる。
+# rubocop:disable RSpec/DescribeClass, RSpec/MultipleDescribes
+
 # フォーク独自に upstream から拡張している上限値の「巻き戻り検知」ガード（#909）。
 #
 # upstream とのマージ衝突解決でこれらが既定値へ静かに戻ると、ユーザー影響のある
@@ -53,3 +57,4 @@ RSpec.describe 'Fork customization guard: anamorphic video SAR (#923)' do
     expect(vf).to include('setsar=1')
   end
 end
+# rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
