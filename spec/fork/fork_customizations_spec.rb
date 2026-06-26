@@ -31,3 +31,25 @@ RSpec.describe 'Fork customization guard (#909)' do
     expect(StatusLengthValidator::MAX_CHARS).to be > 500
   end
 end
+
+# アナモルフィック動画（SAR != 1:1）のサムネ/プレーヤー枠が縦に伸びる不具合の
+# フォーク修正（#923）の「巻き戻り検知」ガード。upstream は SAR を扱わないため、
+# マージ衝突解決でこれらの改変が静かに消えると症状が再発する。
+# ffmpeg 非依存にするため、ここでは実挙動ではなくコード上の改変有無のみを静的に検知する
+# （実挙動の回帰は ffmpeg のある通常 CI 上の spec/lib/video_metadata_extractor_spec.rb が担保）。
+RSpec.describe 'Fork customization guard: anamorphic video SAR (#923)' do
+  it 'VideoMetadataExtractor が SAR 解釈メソッド parse_sar を保持している' do
+    expect(VideoMetadataExtractor.private_instance_methods).to include(:parse_sar)
+  end
+
+  it 'VideoMetadataExtractor が width に SAR を反映している（iw を表示寸法へ補正）' do
+    source = VideoMetadataExtractor.instance_method(:parse_metadata).source_location.first
+    expect(File.read(source)).to match(/@width\s*=\s*\(@width \* sar\)\.round/)
+  end
+
+  it 'サムネ生成フィルタが SAR 正規化（setsar）を含んでいる（縦伸び対策）' do
+    vf = MediaAttachment::VIDEO_STYLES.dig(:small, :convert_options, :output, :vf)
+    expect(vf).to include('iw*sar')
+    expect(vf).to include('setsar=1')
+  end
+end

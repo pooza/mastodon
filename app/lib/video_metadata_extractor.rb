@@ -41,6 +41,12 @@ class VideoMetadataExtractor
         @colorspace  = video_stream[:pix_fmt]
         @width       = video_stream[:width]
         @height      = video_stream[:height]
+        # Anamorphic videos store non-square pixels (SAR != 1:1). Convert the
+        # stored width to the square-pixel display width so downstream layout
+        # and thumbnails use the intended display aspect ratio.
+        if (sar = parse_sar(video_stream[:sample_aspect_ratio])) && sar != 1
+          @width = (@width * sar).round
+        end
         @frame_rate  = parse_framerate(video_stream[:avg_frame_rate])
         @r_frame_rate = parse_framerate(video_stream[:r_frame_rate])
         # For some video streams the frame_rate reported by `ffprobe` will be 0/0, but for these streams we
@@ -62,6 +68,14 @@ class VideoMetadataExtractor
   def parse_framerate(raw)
     Rational(raw)
   rescue ZeroDivisionError
+    nil
+  end
+
+  def parse_sar(raw)
+    return if raw.nil? || raw == '0:1'
+
+    Rational(raw.tr(':', '/')) # ffprobe reports sample_aspect_ratio as "N:M"
+  rescue ZeroDivisionError, ArgumentError
     nil
   end
 end
