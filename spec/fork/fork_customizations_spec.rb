@@ -46,9 +46,21 @@ RSpec.describe 'Fork customization guard: anamorphic video SAR (#923)' do
     expect(VideoMetadataExtractor.private_instance_methods).to include(:parse_sar)
   end
 
-  it 'VideoMetadataExtractor が width に SAR を反映している（iw を表示寸法へ補正）' do
-    source = VideoMetadataExtractor.instance_method(:parse_metadata).source_location.first
-    expect(File.read(source)).to match(/@width\s*=\s*\(@width \* sar\)\.round/)
+  it 'VideoMetadataExtractor が表示寸法 display_width/display_height を公開している' do
+    expect(VideoMetadataExtractor.instance_methods).to include(:display_width, :display_height)
+  end
+
+  it 'display_width が SAR 反映の表示幅を算出し、coded @width は上書きしない' do
+    source = File.read(VideoMetadataExtractor.instance_method(:parse_metadata).source_location.first)
+    expect(source).to match(/@display_width\s*=.*\(@width \* sar\)\.round/)
+    # coded @width を表示幅で上書きすると上限検証(MAX_VIDEO_MATRIX_LIMIT)が騙される（#924 review P2）
+    expect(source).to_not match(/^\s*@width\s*=\s*\(@width \* sar\)/)
+  end
+
+  it 'video_metadata（layout meta）が coded ではなく display 寸法を使う' do
+    source = File.read(MediaAttachment.instance_method(:video_metadata).source_location.first)
+    expect(source).to match(/width:\s*movie\.display_width/)
+    expect(source).to match(/height:\s*movie\.display_height/)
   end
 
   it 'サムネ生成フィルタが SAR 正規化（setsar）を含んでいる（縦伸び対策）' do
