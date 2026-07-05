@@ -1199,11 +1199,29 @@ const startServer = async () => {
   };
 
   /**
+   * Fork: a per-subscription key that includes the client-facing channelName,
+   * not just the resolved redis channelIds. Needed because the DEFAULT_TAG
+   * remap (#925) makes `public:local` resolve to the SAME channelIds as an
+   * explicit `hashtag` subscription (`timeline:hashtag:<tag>`). Keying only by
+   * channelIds made the shared WebSocket drop whichever of the two columns
+   * (local firehose vs. the #<tag> column) subscribed second, so its stream
+   * label was never emitted and that column stopped updating live. The
+   * redis-side `subscribe` already supports multiple listeners per channel, so
+   * distinguishing subscriptions by channelName lets both columns coexist, each
+   * with its own `streamNameFromChannelName` label. Upstream keyed by
+   * `channelIds.join(';')`; keep that suffix so ordering/format is unsurprising.
+   * @param {string} channelName
+   * @param {string[]} channelIds
+   * @returns {string}
+   */
+  const subscriptionKeyForChannel = (channelName, channelIds) => `${channelName} ${channelIds.join(';')}`;
+
+  /**
    * @typedef WebSocketSession
    * @property {import('ws').WebSocket & { isAlive: boolean}} websocket
    * @property {Request} request
    * @property {import('pino').Logger} logger
-   * @property {Object.<string, { channelName: string, listener: SubscriptionListener, stopHeartbeat: function(): void }>} subscriptions
+   * @property {Object.<string, { channelName: string, channelIds: string[], listener: SubscriptionListener, stopHeartbeat: function(): void }>} subscriptions
    */
 
   /**
@@ -1217,7 +1235,9 @@ const startServer = async () => {
       channelIds,
       options,
     }) => {
-      if (subscriptions[channelIds.join(';')]) {
+      const subscriptionKey = subscriptionKeyForChannel(channelName, channelIds);
+
+      if (subscriptions[subscriptionKey]) {
         return;
       }
 
@@ -1227,8 +1247,9 @@ const startServer = async () => {
 
       metrics.connectedChannels.labels({ type: 'websocket', channel: channelName }).inc();
 
-      subscriptions[channelIds.join(';')] = {
+      subscriptions[subscriptionKey] = {
         channelName,
+        channelIds,
         listener,
         stopHeartbeat,
       };
@@ -1249,25 +1270,25 @@ const startServer = async () => {
 
   /**
    * @param {WebSocketSession} session
-   * @param {string[]} channelIds
+   * @param {string} subscriptionKey key returned by `subscriptionKeyForChannel`
    */
-  const removeSubscription = ({ request, logger, subscriptions }, channelIds) => {
-    logger.info({ channelIds, accountId: request.accountId }, `Ending stream`);
-
-    const subscription = subscriptions[channelIds.join(';')];
+  const removeSubscription = ({ request, logger, subscriptions }, subscriptionKey) => {
+    const subscription = subscriptions[subscriptionKey];
 
     if (!subscription) {
       return;
     }
 
-    channelIds.forEach(channelId => {
+    logger.info({ channelIds: subscription.channelIds, accountId: request.accountId }, `Ending stream`);
+
+    subscription.channelIds.forEach(channelId => {
       unsubscribe(channelId, subscription.listener);
     });
 
     metrics.connectedChannels.labels({ type: 'websocket', channel: subscription.channelName }).dec();
     subscription.stopHeartbeat();
 
-    delete subscriptions[channelIds.join(';')];
+    delete subscriptions[subscriptionKey];
   };
 
   /**
@@ -1280,7 +1301,7 @@ const startServer = async () => {
     const { websocket, request, logger } = session;
 
     channelNameToIds(request, channelName, params).then(({ channelIds }) => {
-      removeSubscription(session, channelIds);
+      removeSubscription(session, subscriptionKeyForChannel(channelName, channelIds));
     }).catch(err => {
       logger.error({err}, 'Websocket unsubscribe error');
 
@@ -1310,6 +1331,7 @@ const startServer = async () => {
 
     subscriptions[accessTokenChannelId] = {
       channelName: 'system',
+      channelIds: [accessTokenChannelId],
       listener,
       stopHeartbeat: () => {
       },
@@ -1317,6 +1339,7 @@ const startServer = async () => {
 
     subscriptions[systemChannelId] = {
       channelName: 'system',
+      channelIds: [systemChannelId],
       listener,
       stopHeartbeat: () => {
       },
@@ -1353,10 +1376,10 @@ const startServer = async () => {
     };
 
     ws.on('close', function onWebsocketClose() {
-      const subscriptions = Object.keys(session.subscriptions);
+      const subscriptionKeys = Object.keys(session.subscriptions);
 
-      subscriptions.forEach(channelIds => {
-        removeSubscription(session, channelIds.split(';'));
+      subscriptionKeys.forEach(subscriptionKey => {
+        removeSubscription(session, subscriptionKey);
       });
 
       // Decrement the metrics for connected clients:
