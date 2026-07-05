@@ -69,4 +69,26 @@ RSpec.describe 'Fork customization guard: anamorphic video SAR (#923)' do
     expect(vf).to include('setsar=1')
   end
 end
+
+# streaming の local public TL を DEFAULT_TAG の（federated）hashtag ストリームへ
+# 読み替えるフォーク改変（#925）の「巻き戻り検知」ガード。REST は nginx 302 で
+# /timelines/tag/<tag> に飛ぶが streaming には読み替えが無く、実況ローカルTLの
+# ライブ更新が遠隔デフォルトタグ投稿を取りこぼしていた。upstream マージ衝突で
+# この remap が静かに消えると症状が再発する。streaming(JS) は Ruby から実行できない
+# ため、ここではコード上の改変有無のみを静的に検知する。
+RSpec.describe 'Fork customization guard: streaming public:local -> DEFAULT_TAG remap (#925)' do
+  let(:source) { File.read(Rails.root.join('streaming', 'index.js')) }
+
+  it 'channelNameToIds が DEFAULT_TAG を参照している' do
+    expect(source).to match(/process\.env\.DEFAULT_TAG/)
+  end
+
+  it 'public:local を hashtag+tag=DEFAULT_TAG に読み替えている（federated hashtag / :local ではない）' do
+    remap = source[/if \(name === 'public:local' && \w+\) \{.*?\n\s*\}/m]
+    expect(remap).to be_present
+    expect(remap).to match(/name = 'hashtag'/)
+    expect(remap).to match(/tag: \w+/)
+    expect(remap).to_not match(/hashtag:local/)
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
