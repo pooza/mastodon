@@ -77,18 +77,27 @@ end
 # この remap が静かに消えると症状が再発する。streaming(JS) は Ruby から実行できない
 # ため、ここではコード上の改変有無のみを静的に検知する。
 RSpec.describe 'Fork customization guard: streaming public:local -> DEFAULT_TAG remap (#925)' do
-  let(:source) { File.read(Rails.root.join('streaming', 'index.js')) }
+  let(:source) { Rails.root.join('streaming', 'index.js').read }
 
   it 'channelNameToIds が DEFAULT_TAG を参照している' do
-    expect(source).to match(/process\.env\.DEFAULT_TAG/)
+    expect(source).to include('process.env.DEFAULT_TAG')
   end
 
   it 'public:local を hashtag+tag=DEFAULT_TAG に読み替えている（federated hashtag / :local ではない）' do
     remap = source[/if \(name === 'public:local' && \w+\) \{.*?\n\s*\}/m]
     expect(remap).to be_present
-    expect(remap).to match(/name = 'hashtag'/)
+    expect(remap).to include("name = 'hashtag'")
     expect(remap).to match(/tag: \w+/)
-    expect(remap).to_not match(/hashtag:local/)
+    expect(remap).to_not include('hashtag:local')
+  end
+
+  # remap 後、ローカル列(public:local)とハッシュタグ列(#DEFAULT_TAG)は同じ channelIds
+  # (timeline:hashtag:<tag>) に解決される。共有WSの購読を channelIds だけでキーにすると
+  # 後から購読した列が握り潰され、そのラベルが配信されず片方が更新されなくなる。購読キーに
+  # クライアント向け channelName を含めることで両立させている。これが消えると衝突が再発する。
+  it 'WS 購読キーに channelName を含め、ローカル列とハッシュタグ列を共存させている' do
+    expect(source).to include('subscriptionKeyForChannel')
+    expect(source).to include('subscriptions[subscriptionKey]')
   end
 end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
