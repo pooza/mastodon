@@ -1087,6 +1087,23 @@ const startServer = async () => {
       });
     };
 
+    // Fork: on preset servers, the local public timeline is the DEFAULT_TAG hashtag
+    // timeline (see #908). REST 302-redirects `public?local=true` to `/timelines/tag/<tag>`
+    // (via nginx), but streaming had no equivalent remap, so the live local firehose
+    // dropped remote default-tag posts (#925). Remap `public:local` -> the federated
+    // `hashtag` stream so live updates match the REST timeline. Federated `hashtag`
+    // (not `hashtag:local`) is required: FanOutOnWrite publishes remote posts only to
+    // `timeline:hashtag:<tag>`, not the `:local` variant. Empty DEFAULT_TAG (bshockdon
+    // base / tag-less servers) leaves this disabled. Remap stays inside
+    // channelNameToIds so subscribe/unsubscribe share the same channelIds and the
+    // client-facing stream label (streamNameFromChannelName) stays `public:local`,
+    // keeping WebUI firehose routing intact.
+    const defaultTag = process.env.DEFAULT_TAG;
+    if (name === 'public:local' && defaultTag) {
+      name = 'hashtag';
+      params = { ...params, tag: defaultTag };
+    }
+
     switch (name) {
     case 'user':
       resolve({
