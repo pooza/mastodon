@@ -29,7 +29,12 @@ mastodon_sidekiq_start() {
 }
 
 mastodon_sidekiq_stop() {
-  pkill -U $mastodon_user -f sidekiq
+  # mastodon ユーザーはモロヘイヤの sidekiq も動かすため、
+  # プロセスタイトルのアプリ名で対象を限定する。
+  pkill -U $mastodon_user -f 'sidekiq .* mastodon \['
+  # タイトル書き換え前（起動途中）の取りこぼし対策。
+  pkill -U $mastodon_user -f 'sidekiq -C config/sidekiq\.yml'
+  return 0
 }
 
 run_rc_command "$1"

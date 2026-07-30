@@ -29,7 +29,12 @@ mastodon_web_start() {
 }
 
 mastodon_web_stop() {
-  pkill -U $mastodon_user -f puma
+  # mastodon ユーザーはモロヘイヤ・cure-api の puma も動かすため、
+  # プロセスタイトルの [mastodon] で対象を限定する。
+  pkill -U $mastodon_user -f 'puma.*\[mastodon\]'
+  # タイトル書き換え前（起動途中）の取りこぼし対策。
+  pkill -U $mastodon_user -f 'rails server -u puma'
+  return 0
 }
 
 run_rc_command "$1"
