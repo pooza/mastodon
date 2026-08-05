@@ -33,13 +33,26 @@ class MisskeyEmojiSync
     @plan ||= build_plan
   end
 
+  # コピーに失敗した絵文字。apply! を呼ぶまでは空
+  def copy_failures
+    @copy_failures ||= []
+  end
+
   def apply!
-    # 画像のアップロードを伴うので、カテゴリの張り替えとは分けてトランザクションの外で行う
-    plan.copy.each(&:copy!)
+    # 画像のアップロードを伴うので、カテゴリの張り替えとは分けてトランザクションの外で行う。
+    # 個々のコピーの失敗で本命のカテゴリ同期まで巻き添えにしないよう、拾って続行する
+    plan.copy.each do |emoji|
+      emoji.copy!
+    rescue ActiveRecord::RecordInvalid => e
+      copy_failures << { shortcode: emoji.shortcode, message: e.record.errors.full_messages.join(', ') }
+    end
 
     ApplicationRecord.transaction do
       plan.recategorize.each do |change|
-        CustomEmoji.local.find_by!(shortcode: change[:shortcode]).update!(category: category_for(change[:to]))
+        emoji = CustomEmoji.local.find_by(shortcode: change[:shortcode])
+        next if emoji.nil? # コピーに失敗した絵文字
+
+        emoji.update!(category: category_for(change[:to]))
       end
 
       CustomEmojiCategory.where(name: plan.stale_featured_categories).update_all(featured_emoji_id: nil) if plan.stale_featured_categories.any?
@@ -54,9 +67,11 @@ class MisskeyEmojiSync
     local   = CustomEmoji.local.includes(:category).index_by(&:shortcode)
     remote  = CustomEmoji.where(domain: domain).index_by(&:shortcode)
 
-    # 向こうの名前がこちらの shortcode 規則を満たさないものは、リモート絵文字としても
-    # 連合してこないので永久に持ち込めない
-    unsyncable = desired.keys.grep_v(CustomEmoji::SHORTCODE_ONLY_RE)
+    # 向こうの名前がこちらの shortcode 規則を満たさないものは持ち込めない。
+    # 長さの上限はローカル絵文字とリモート絵文字で違う（128 / 2048）ので、規則を満たすか
+    # どうかはローカル側の上限で判断する。Misskey の name は varchar(128) で偶然一致して
+    # いるが、その一致に頼らず自分で弾く
+    unsyncable = desired.keys.reject { |shortcode| syncable_shortcode?(shortcode) }
     missing    = desired.keys - unsyncable - local.keys
 
     # 向こうに現存するものだけコピーする。リモート絵文字は向こうで削除されても残るため、
@@ -106,6 +121,10 @@ class MisskeyEmojiSync
       shortcode = category.featured_emoji&.shortcode
       category.name unless shortcode.present? && assignments[shortcode] == category.name
     end.sort
+  end
+
+  def syncable_shortcode?(shortcode)
+    shortcode.match?(CustomEmoji::SHORTCODE_ONLY_RE) && shortcode.length <= CustomEmoji::MAX_SHORTCODE_SIZE
   end
 
   def fetch_desired_categories

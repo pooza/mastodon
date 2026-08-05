@@ -90,6 +90,20 @@ RSpec.describe MisskeyEmojiSync do
       end
     end
 
+    # ローカル絵文字は 128 文字まで、リモート絵文字は 2048 文字まで。長すぎる名前を
+    # syncable と誤判定すると copy! が検証で落ちる（#946 の Codex 指摘）
+    context 'with an emoji on the origin whose name is too long for a local shortcode' do
+      let(:long_name) { 'x' * (CustomEmoji::MAX_SHORTCODE_SIZE + 1) }
+      let(:origin_emojis) { [{ name: long_name, category: 'Greetings' }] }
+
+      before { Fabricate(:custom_emoji, shortcode: long_name, domain: 'misskey.example') }
+
+      it 'reports it as unsyncable instead of planning to copy it' do
+        expect(syncer.plan.unsyncable).to eq [long_name]
+        expect(syncer.plan.copy).to be_empty
+      end
+    end
+
     context 'when the origin cannot be reached' do
       before { stub_request(:get, 'https://misskey.example/api/emojis').to_return(status: 500) }
 
@@ -142,6 +156,23 @@ RSpec.describe MisskeyEmojiSync do
         expect { syncer.apply! }
           .to not_change { emoji.reload.category.name }
           .and(not_change { CustomEmoji.local.count })
+      end
+    end
+
+    # コピー 1 件の失敗で本命のカテゴリ同期まで落とさないこと
+    context 'when copying one emoji fails' do
+      let(:origin_emojis) { [{ name: 'kept', category: 'Greetings' }, { name: 'broken', category: 'Greetings' }] }
+      let!(:emoji) { Fabricate(:custom_emoji, shortcode: 'kept', category: Fabricate(:custom_emoji_category, name: 'Stale')) }
+
+      before do
+        Fabricate(:custom_emoji, shortcode: 'broken', domain: 'misskey.example')
+        broken = syncer.plan.copy.find { |candidate| candidate.shortcode == 'broken' }
+        allow(broken).to receive(:copy!).and_raise(ActiveRecord::RecordInvalid.new(CustomEmoji.new.tap(&:validate)))
+      end
+
+      it 'records the failure and still syncs categories' do
+        expect { syncer.apply! }.to change { emoji.reload.category.name }.from('Stale').to('Greetings')
+        expect(syncer.copy_failures.pluck(:shortcode)).to eq ['broken']
       end
     end
 
