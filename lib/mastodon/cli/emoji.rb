@@ -133,6 +133,46 @@ module Mastodon::CLI
       say('OK', :green)
     end
 
+    option :dry_run, type: :boolean, default: true
+    desc 'sync ORIGIN', 'Sync custom emoji and their categories from a sister Misskey server at ORIGIN'
+    long_desc <<-LONG_DESC
+      Aligns local custom emoji with the sister Misskey server at ORIGIN,
+      which is treated as the single source of truth.
+
+      Emoji that already federated from ORIGIN but have no local counterpart
+      are copied locally, every local emoji known to ORIGIN has its category
+      overwritten with the one used there, and categories left without any
+      emoji are removed.
+
+      Nothing is ever deleted, and local emoji unknown to ORIGIN are left
+      untouched and reported instead. Running this repeatedly is safe, since
+      it always writes only what differs.
+
+      Nothing is written unless --no-dry-run is given.
+    LONG_DESC
+    def sync(origin)
+      syncer = MisskeyEmojiSync.new(origin)
+      plan   = syncer.plan
+
+      say("Syncing custom emoji from #{syncer.domain}#{dry_run_mode_suffix}")
+
+      if dry_run?
+        plan.copy.each { |emoji| say("  copy #{emoji.shortcode}") }
+        plan.recategorize.each { |change| say("  #{change[:shortcode]}: #{change[:from] || '(none)'} -> #{change[:to] || '(none)'}") }
+        plan.obsolete_categories.each { |name| say("  remove empty category #{name}") }
+      else
+        syncer.apply!
+      end
+
+      say("Copied #{plan.copy.size}, recategorized #{plan.recategorize.size}, removed #{plan.obsolete_categories.size} empty categories#{dry_run_mode_suffix}", :green)
+
+      say("#{plan.awaiting_federation.size} emoji on #{syncer.domain} have not federated here yet, post them there to bring them over: #{plan.awaiting_federation.join(', ')}", :yellow) if plan.awaiting_federation.any?
+      say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{plan.orphans.join(', ')}", :yellow) if plan.orphans.any?
+      say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT}: #{plan.unsyncable.join(', ')}", :yellow) if plan.unsyncable.any?
+    rescue MisskeyEmojiSync::Error => e
+      fail_with_message e.message
+    end
+
     private
 
     def color(green, _yellow, red)
