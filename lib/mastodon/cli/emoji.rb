@@ -133,6 +133,9 @@ module Mastodon::CLI
       say('OK', :green)
     end
 
+    # 未連合の絵文字は初回や新設サーバーで数百件になりうるので、通知に流せる長さに畳む
+    REPORTED_SHORTCODES = 10
+
     option :dry_run, type: :boolean, default: true
     desc 'sync ORIGIN', 'Sync custom emoji and their categories from a sister Misskey server at ORIGIN'
     long_desc <<-LONG_DESC
@@ -166,14 +169,20 @@ module Mastodon::CLI
 
       say("Copied #{plan.copy.size}, recategorized #{plan.recategorize.size}, removed #{plan.obsolete_categories.size} empty categories#{dry_run_mode_suffix}", :green)
 
-      say("#{plan.awaiting_federation.size} emoji on #{syncer.domain} have not federated here yet, post them there to bring them over: #{plan.awaiting_federation.join(', ')}", :yellow) if plan.awaiting_federation.any?
-      say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{plan.orphans.join(', ')}", :yellow) if plan.orphans.any?
-      say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT}: #{plan.unsyncable.join(', ')}", :yellow) if plan.unsyncable.any?
+      say("#{plan.awaiting_federation.size} emoji on #{syncer.domain} have not federated here yet, post them there to bring them over: #{summarize_shortcodes(plan.awaiting_federation)}", :yellow) if plan.awaiting_federation.any?
+      say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{summarize_shortcodes(plan.orphans)}", :yellow) if plan.orphans.any?
+      say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT}: #{summarize_shortcodes(plan.unsyncable)}", :yellow) if plan.unsyncable.any?
     rescue MisskeyEmojiSync::Error => e
       fail_with_message e.message
     end
 
     private
+
+    def summarize_shortcodes(shortcodes)
+      return shortcodes.join(', ') if shortcodes.size <= REPORTED_SHORTCODES
+
+      "#{shortcodes.first(REPORTED_SHORTCODES).join(', ')} and #{shortcodes.size - REPORTED_SHORTCODES} more"
+    end
 
     def color(green, _yellow, red)
       if !green.zero? && red.zero?

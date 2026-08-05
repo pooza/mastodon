@@ -184,5 +184,15 @@ RSpec.describe MisskeyEmojiSync do
           .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
       end
     end
+
+    # 新設サーバーや初回は未連合が数百件になる。通知へ流せる長さに畳まれること
+    context 'with more emoji awaiting federation than the report lists' do
+      let(:origin_emojis) { (1..15).map { |i| { name: format('pending_%02d', i), category: 'Greetings' } } + [{ name: 'kept', category: 'Greetings' }] }
+
+      it 'truncates the list' do
+        expect { subject }
+          .to output_results('15 emoji on misskey.example have not federated here yet', 'pending_10 and 5 more')
+      end
+    end
   end
 end
