@@ -44,6 +44,12 @@ class MisskeyEmojiSync
     @applied ||= { copied: 0, recategorized: 0, removed_categories: 0 }
   end
 
+  # 告知に載せてよい新規絵文字。apply! の前は計画どおり、後は実際にコピーできたぶんだけ。
+  # 失敗したものを「増えました」と伝えてしまわないため
+  def announceable_copies
+    plan.copy.map(&:shortcode) - copy_failures.pluck(:shortcode)
+  end
+
   def apply!
     # 画像のアップロードを伴うので、カテゴリの張り替えとは分けてトランザクションの外で行う。
     # 個々のコピーの失敗で本命のカテゴリ同期まで巻き添えにしないよう、拾って続行する
