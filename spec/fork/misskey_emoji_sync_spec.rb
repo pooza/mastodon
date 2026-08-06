@@ -234,6 +234,45 @@ RSpec.describe MisskeyEmojiSync do
       end
     end
 
+    # 絵文字をまとめて登録した直後に手で流す運用のため、そのまま貼れる文面を出す (#948)
+    describe '--announce' do
+      let(:options) { { dry_run: true, announce: true } }
+
+      context 'with emoji to copy and categories to reorganize' do
+        before { Fabricate(:custom_emoji, shortcode: 'fresh', domain: 'misskey.example') }
+
+        let(:origin_emojis) { [{ name: 'kept', category: 'Greetings' }, { name: 'fresh', category: 'Greetings' }] }
+
+        it 'lists the new emoji as shortcodes and mentions the reorganization' do
+          expect { subject }
+            .to output_results('--- announcement ---', '新しい絵文字が増えました。', ':fresh:', 'カテゴリを整理しました。', '--- end ---')
+        end
+      end
+
+      context 'with nothing but categories to reorganize' do
+        it 'omits the emoji line' do
+          expect { subject }
+            .to output_results('カテゴリを整理しました。')
+            .and not_output_results('新しい絵文字が増えました。')
+        end
+      end
+
+      context 'with nothing to do' do
+        let(:origin_emojis) { [{ name: 'kept', category: 'Stale' }] }
+
+        it 'says there is nothing to announce' do
+          expect { subject }
+            .to output_results('Nothing to announce.')
+            .and not_output_results('--- announcement ---')
+        end
+      end
+    end
+
+    it 'prints no announcement without the flag' do
+      expect { subject }
+        .to not_output_results('--- announcement ---')
+    end
+
     # 新設サーバーや初回は未連合が数百件になる。通知へ流せる長さに畳まれること
     context 'with more emoji awaiting federation than the report lists' do
       let(:origin_emojis) { (1..15).map { |i| { name: format('pending_%02d', i), category: 'Greetings' } } + [{ name: 'kept', category: 'Greetings' }] }

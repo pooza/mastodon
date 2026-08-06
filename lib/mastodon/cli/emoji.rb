@@ -137,6 +137,7 @@ module Mastodon::CLI
     REPORTED_SHORTCODES = 10
 
     option :dry_run, type: :boolean, default: true
+    option :announce, type: :boolean, default: false
     desc 'sync ORIGIN', 'Sync custom emoji and their categories from a sister Misskey server at ORIGIN'
     long_desc <<-LONG_DESC
       Aligns local custom emoji with the sister Misskey server at ORIGIN,
@@ -152,6 +153,10 @@ module Mastodon::CLI
       it always writes only what differs.
 
       Nothing is written unless --no-dry-run is given.
+
+      With --announce, a draft announcement is printed after the report, ready
+      to be posted to the local announcement bot so that users can see which
+      emoji arrived.
     LONG_DESC
     def sync(origin)
       syncer = MisskeyEmojiSync.new(origin)
@@ -176,6 +181,8 @@ module Mastodon::CLI
       say("#{plan.awaiting_federation.size} emoji on #{syncer.domain} have not federated here yet, post them there to bring them over: #{summarize_shortcodes(plan.awaiting_federation)}", :yellow) if plan.awaiting_federation.any?
       say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{summarize_shortcodes(plan.orphans)}", :yellow) if plan.orphans.any?
       say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT} and be at most #{CustomEmoji::MAX_SHORTCODE_SIZE} characters: #{summarize_shortcodes(plan.unsyncable)}", :yellow) if plan.unsyncable.any?
+
+      say_announcement(plan) if options[:announce]
     rescue MisskeyEmojiSync::Error => e
       fail_with_message e.message
     end
@@ -186,6 +193,28 @@ module Mastodon::CLI
       return shortcodes.join(', ') if shortcodes.size <= REPORTED_SHORTCODES
 
       "#{shortcodes.first(REPORTED_SHORTCODES).join(', ')} and #{shortcodes.size - REPORTED_SHORTCODES} more"
+    end
+
+    # 利用者向け告知の下書き。お知らせボットからの投稿にそのまま貼れる形で出す。
+    # 絵文字はショートコード表記のまま並べると、投稿されたときにインラインで描画される。
+    # 本文は日本語サーバー向けの文面をそのまま持つ
+    def say_announcement(plan)
+      copied = plan.copy.map(&:shortcode)
+      moved  = plan.recategorize.count { |change| copied.exclude?(change[:shortcode]) }
+
+      lines = []
+      lines << "新しい絵文字が増えました。\n#{copied.map { |shortcode| ":#{shortcode}:" }.join(' ')}" if copied.any?
+      lines << 'カテゴリを整理しました。' if moved.positive?
+
+      if lines.empty?
+        say('Nothing to announce.')
+        return
+      end
+
+      say('')
+      say('--- announcement ---')
+      say(lines.join("\n\n"))
+      say('--- end ---')
     end
 
     def color(green, _yellow, red)
