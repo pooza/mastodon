@@ -175,6 +175,11 @@ RSpec.describe MisskeyEmojiSync do
         expect(syncer.copy_failures.pluck(:shortcode)).to eq ['broken']
       end
 
+      # 失敗したものを告知で「増えました」と伝えてしまわないこと
+      it 'drops the failed emoji from what may be announced' do
+        expect { syncer.apply! }.to change(syncer, :announceable_copies).from(['broken']).to([])
+      end
+
       # 計画は 2 件の張り替えを含むが、コピーに失敗した側は実施されない
       it 'counts only what it actually wrote' do
         syncer.apply!
@@ -238,6 +243,20 @@ RSpec.describe MisskeyEmojiSync do
     describe '--announce' do
       let(:options) { { dry_run: true, announce: true } }
 
+      def capture_announcement_drafts
+        buffer   = StringIO.new
+        original = $stdout
+        $stdout  = buffer
+
+        begin
+          subject
+        ensure
+          $stdout = original
+        end
+
+        buffer.string.scan(/^--- announcement[^\n]*---\n(.*?)\n--- end ---$/m).flatten
+      end
+
       context 'with emoji to copy and categories to reorganize' do
         before { Fabricate(:custom_emoji, shortcode: 'fresh', domain: 'misskey.example') }
 
@@ -264,6 +283,25 @@ RSpec.describe MisskeyEmojiSync do
           expect { subject }
             .to output_results('Nothing to announce.')
             .and not_output_results('--- announcement ---')
+        end
+      end
+
+      # ショートコードは 1 件 128 文字まであり得るので、少数でも投稿の上限を超えうる
+      context 'with more new emoji than fit in a single status' do
+        let(:long_names) { Array.new(30) { |i| format("%<index>02d#{'x' * 98}", index: i) } }
+        let(:origin_emojis) { long_names.map { |name| { name: name, category: 'Greetings' } } }
+
+        before { long_names.each { |name| Fabricate(:custom_emoji, shortcode: name, domain: 'misskey.example') } }
+
+        it 'splits the draft into postable pieces' do
+          expect { subject }.to output_results('--- announcement 1/2 ---', '--- announcement 2/2 ---')
+        end
+
+        it 'keeps every piece within the status limit' do
+          drafts = capture_announcement_drafts
+
+          expect(drafts).to_not be_empty
+          expect(drafts.map(&:length)).to all(be <= StatusLengthValidator::MAX_CHARS)
         end
       end
     end

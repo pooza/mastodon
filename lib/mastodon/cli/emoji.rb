@@ -136,6 +136,9 @@ module Mastodon::CLI
     # 未連合の絵文字は初回や新設サーバーで数百件になりうるので、通知に流せる長さに畳む
     REPORTED_SHORTCODES = 10
 
+    ANNOUNCEMENT_LEAD = '新しい絵文字が増えました。'
+    ANNOUNCEMENT_CATEGORY_NOTE = 'カテゴリを整理しました。'
+
     option :dry_run, type: :boolean, default: true
     option :announce, type: :boolean, default: false
     desc 'sync ORIGIN', 'Sync custom emoji and their categories from a sister Misskey server at ORIGIN'
@@ -182,7 +185,7 @@ module Mastodon::CLI
       say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{summarize_shortcodes(plan.orphans)}", :yellow) if plan.orphans.any?
       say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT} and be at most #{CustomEmoji::MAX_SHORTCODE_SIZE} characters: #{summarize_shortcodes(plan.unsyncable)}", :yellow) if plan.unsyncable.any?
 
-      say_announcement(plan) if options[:announce]
+      say_announcement(syncer) if options[:announce]
     rescue MisskeyEmojiSync::Error => e
       fail_with_message e.message
     end
@@ -198,23 +201,51 @@ module Mastodon::CLI
     # 利用者向け告知の下書き。お知らせボットからの投稿にそのまま貼れる形で出す。
     # 絵文字はショートコード表記のまま並べると、投稿されたときにインラインで描画される。
     # 本文は日本語サーバー向けの文面をそのまま持つ
-    def say_announcement(plan)
-      copied = plan.copy.map(&:shortcode)
-      moved  = plan.recategorize.count { |change| copied.exclude?(change[:shortcode]) }
+    def say_announcement(syncer)
+      drafts = announcement_drafts(syncer)
 
-      lines = []
-      lines << "新しい絵文字が増えました。\n#{copied.map { |shortcode| ":#{shortcode}:" }.join(' ')}" if copied.any?
-      lines << 'カテゴリを整理しました。' if moved.positive?
-
-      if lines.empty?
+      if drafts.empty?
         say('Nothing to announce.')
         return
       end
 
-      say('')
-      say('--- announcement ---')
-      say(lines.join("\n\n"))
-      say('--- end ---')
+      drafts.each_with_index do |draft, index|
+        label = "announcement#{" #{index + 1}/#{drafts.size}" if drafts.size > 1}"
+
+        say('')
+        say("--- #{label} ---")
+        say(draft)
+        say('--- end ---')
+      end
+    end
+
+    # 貼れない文面を「そのまま貼れる」と言わないため、投稿の文字数上限に収まるよう割る。
+    # 初回同期では数百件になりうるし、ショートコードは 1 件で 128 文字まであり得る
+    def announcement_drafts(syncer)
+      planned = syncer.plan.copy.map(&:shortcode)
+      copied  = syncer.announceable_copies
+      moved   = syncer.plan.recategorize.count { |change| planned.exclude?(change[:shortcode]) }
+
+      return moved.positive? ? [ANNOUNCEMENT_CATEGORY_NOTE] : [] if copied.empty?
+
+      budget = StatusLengthValidator::MAX_CHARS - ANNOUNCEMENT_LEAD.length - 1
+      budget -= ANNOUNCEMENT_CATEGORY_NOTE.length + 2 if moved.positive?
+
+      drafts = chunk_shortcodes(copied, budget).map { |chunk| "#{ANNOUNCEMENT_LEAD}\n#{chunk}" }
+      drafts[-1] = "#{drafts.last}\n\n#{ANNOUNCEMENT_CATEGORY_NOTE}" if moved.positive?
+      drafts
+    end
+
+    def chunk_shortcodes(shortcodes, budget)
+      shortcodes.each_with_object([]) do |shortcode, chunks|
+        token = ":#{shortcode}:"
+
+        if chunks.empty? || (chunks.last.length + 1 + token.length) > budget
+          chunks << token.dup
+        else
+          chunks.last << " #{token}"
+        end
+      end
     end
 
     def color(green, _yellow, red)
