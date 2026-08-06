@@ -163,17 +163,19 @@ module Mastodon::CLI
         plan.copy.each { |emoji| say("  copy #{emoji.shortcode}") }
         plan.recategorize.each { |change| say("  #{change[:shortcode]}: #{change[:from] || '(none)'} -> #{change[:to] || '(none)'}") }
         plan.obsolete_categories.each { |name| say("  remove empty category #{name}") }
+        counts = { copied: plan.copy.size, recategorized: plan.recategorize.size, removed_categories: plan.obsolete_categories.size }
       else
         syncer.apply!
+        counts = syncer.applied
       end
 
-      say("Copied #{plan.copy.size - syncer.copy_failures.size}, recategorized #{plan.recategorize.size}, removed #{plan.obsolete_categories.size} empty categories#{dry_run_mode_suffix}", :green)
+      say("Copied #{counts[:copied]}, recategorized #{counts[:recategorized]}, removed #{counts[:removed_categories]} empty categories#{dry_run_mode_suffix}", :green)
 
       syncer.copy_failures.each { |failure| say("Failed to copy #{failure[:shortcode]}: #{failure[:message]}", :red) }
 
       say("#{plan.awaiting_federation.size} emoji on #{syncer.domain} have not federated here yet, post them there to bring them over: #{summarize_shortcodes(plan.awaiting_federation)}", :yellow) if plan.awaiting_federation.any?
       say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{summarize_shortcodes(plan.orphans)}", :yellow) if plan.orphans.any?
-      say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT}: #{summarize_shortcodes(plan.unsyncable)}", :yellow) if plan.unsyncable.any?
+      say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT} and be at most #{CustomEmoji::MAX_SHORTCODE_SIZE} characters: #{summarize_shortcodes(plan.unsyncable)}", :yellow) if plan.unsyncable.any?
     rescue MisskeyEmojiSync::Error => e
       fail_with_message e.message
     end

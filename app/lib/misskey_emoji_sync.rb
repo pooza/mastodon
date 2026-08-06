@@ -38,11 +38,18 @@ class MisskeyEmojiSync
     @copy_failures ||= []
   end
 
+  # 実際に書き込めた件数。コピーが失敗するとカテゴリ張り替えも 1 件落ちるので、
+  # 計画値をそのまま報告すると実施していない件数を報告することになる
+  def applied
+    @applied ||= { copied: 0, recategorized: 0, removed_categories: 0 }
+  end
+
   def apply!
     # 画像のアップロードを伴うので、カテゴリの張り替えとは分けてトランザクションの外で行う。
     # 個々のコピーの失敗で本命のカテゴリ同期まで巻き添えにしないよう、拾って続行する
     plan.copy.each do |emoji|
       emoji.copy!
+      applied[:copied] += 1
     rescue ActiveRecord::RecordInvalid => e
       copy_failures << { shortcode: emoji.shortcode, message: e.record.errors.full_messages.join(', ') }
     end
@@ -53,10 +60,11 @@ class MisskeyEmojiSync
         next if emoji.nil? # コピーに失敗した絵文字
 
         emoji.update!(category: category_for(change[:to]))
+        applied[:recategorized] += 1
       end
 
       CustomEmojiCategory.where(name: plan.stale_featured_categories).update_all(featured_emoji_id: nil) if plan.stale_featured_categories.any?
-      CustomEmojiCategory.where(name: plan.obsolete_categories).destroy_all if plan.obsolete_categories.any?
+      applied[:removed_categories] = CustomEmojiCategory.where(name: plan.obsolete_categories).destroy_all.size if plan.obsolete_categories.any?
     end
   end
 

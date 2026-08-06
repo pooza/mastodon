@@ -174,6 +174,14 @@ RSpec.describe MisskeyEmojiSync do
         expect { syncer.apply! }.to change { emoji.reload.category.name }.from('Stale').to('Greetings')
         expect(syncer.copy_failures.pluck(:shortcode)).to eq ['broken']
       end
+
+      # 計画は 2 件の張り替えを含むが、コピーに失敗した側は実施されない
+      it 'counts only what it actually wrote' do
+        syncer.apply!
+
+        expect(syncer.plan.recategorize.size).to eq 2
+        expect(syncer.applied).to eq({ copied: 0, recategorized: 1, removed_categories: 1 })
+      end
     end
 
     context 'with a category whose featured emoji moved away' do
@@ -213,6 +221,16 @@ RSpec.describe MisskeyEmojiSync do
         expect { subject }
           .to output_results('Copied 0, recategorized 1, removed 1 empty categories')
           .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+      end
+    end
+
+    # 128 文字超の名前は正規表現のほうは満たすので、字面だけでは弾かれた理由が分からない
+    context 'with an unsyncable name on the origin' do
+      let(:origin_emojis) { [{ name: 'kept', category: 'Greetings' }, { name: 'x' * (CustomEmoji::MAX_SHORTCODE_SIZE + 1), category: 'Greetings' }] }
+
+      it 'states the length limit alongside the pattern' do
+        expect { subject }
+          .to output_results("must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT} and be at most #{CustomEmoji::MAX_SHORTCODE_SIZE} characters")
       end
     end
 
