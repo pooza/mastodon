@@ -173,6 +173,10 @@ default テーマと同じ値なら適用されていない。
 ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が拾う。
 通しのアセットビルドをゲートに載せる件は #912。
 
+⚠ **push トリガーはブランチ名で絞っている**（`merge/**` / `stable/**` / 3 つのインスタンスブランチ）。
+**作業ブランチの命名規則を変えたらここも直す。**4.7 の追従では `work/4.6/**` のまま残っていたため、
+`merge/4.7/*` への push で CI が一度も走らなかった。
+
 ## フォーク改変の防衛線: spec/fork
 
 [spec/fork/fork_customizations_spec.rb](../spec/fork/fork_customizations_spec.rb) が、マージ衝突解決で
