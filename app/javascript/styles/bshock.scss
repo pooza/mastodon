@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
+@use 'fonts/inter';
+@use 'fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';
@@ -25,7 +27,7 @@
 
 // 美食グリーン: 旧 economy（4アンカー）を導出 mixin で 4.6 トークンモデル上に再建（#907）。
 // アンカーは旧 4.5 の $classic-* を踏襲。緑ボタンは旧 $theme-green-500 を維持。
-@use 'mastodon/theme/economy';
+@use 'mastodon/tokens/theme/economy';
 
 @include economy.theme(
   $base: #223322,

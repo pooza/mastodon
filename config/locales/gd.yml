@@ -756,6 +756,8 @@ gd:
       new:
         title: Cruthaich riaghailt IP ùr
       no_ip_block_selected: Cha deach riaghailt IP sam bith atharrachadh o nach deach gin dhiubh a thaghadh
+      reset: Ath-shuidhich
+      search: Lorg
       title: Riaghailtean IP
     relationships:
       title: Na dàimhean aig %{acct}
@@ -2023,7 +2025,6 @@ gd:
     next: Air adhart
     older: Nas sine
     prev: Air ais
-    truncate: "&hellip;"
   polls:
     errors:
       already_voted: Chuir thu bhòt sa chunntas-bheachd seo mu thràth
