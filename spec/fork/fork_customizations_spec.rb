@@ -137,4 +137,22 @@ RSpec.describe 'Fork customization guard: 受信スパムフィルタ (荒らし
     expect(branch).to include('Rails.logger')
   end
 end
+
+# ハッシュタグ列に指定できるタグ数の上限（upstream 4 → フォーク 100）は、
+# サーバー側 TagFeed::LIMIT_PER_MODE と WebUI 側の入力制限が対になっている。
+# 片方だけ巻き戻ると「UI では追加できるが API が弾く」「UI が先に止める」の
+# どちらかの齟齬になり、上の定数ガードだけでは検知できない。
+RSpec.describe 'Fork customization guard: ハッシュタグ列のタグ数上限（WebUI 側）' do
+  let(:path) { Rails.root.join('app', 'javascript', 'mastodon', 'features', 'hashtag_timeline', 'components', 'column_settings.jsx') }
+  let(:limit) { path.read[/value\.length > (\d+)/, 1]&.to_i }
+
+  it 'WebUI 側の入力制限が upstream 既定 4 へ巻き戻っていない' do
+    expect(limit).to be_present
+    expect(limit).to be > 4
+  end
+
+  it 'WebUI 側の上限がサーバー側 TagFeed::LIMIT_PER_MODE と一致している' do
+    expect(limit).to eq(TagFeed::LIMIT_PER_MODE)
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
