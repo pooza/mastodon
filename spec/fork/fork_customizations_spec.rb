@@ -100,4 +100,41 @@ RSpec.describe 'Fork customization guard: streaming public:local -> DEFAULT_TAG 
     expect(source).to include('subscriptions[subscriptionKey]')
   end
 end
+
+# 「荒らし共栄圏」を名乗る集団のスパム大量送信に対抗して導入した受信フィルタの
+# 「巻き戻り検知」ガード。実効のあった防御を、騒動の再燃に備えて休眠状態で残している。
+#
+# ⚠ 休眠防御は「消えても平常時は誰も困らない」ため、マージ衝突解決で静かに落ちても
+# 気づけない。次の波が来たときに初めて「効いていない」ことが分かる＝最悪のタイミングに
+# なる。だからコードの存在自体をここで固定する。
+RSpec.describe 'Fork customization guard: 受信スパムフィルタ (荒らし共栄圏対策)' do
+  let(:source) { File.read(ActivityPub::Activity::Create.instance_method(:perform).source_location.first) }
+
+  it 'ActivityPub::Activity::Create が判定メソッド like_a_spam? を保持している' do
+    expect(ActivityPub::Activity::Create.private_instance_methods).to include(:like_a_spam?)
+  end
+
+  it '判定条件が「リモート かつ フォロワー0 かつ メンション4件以上」のまま' do
+    predicate = source[/def like_a_spam\?.*?\n  end/m]
+    expect(predicate).to be_present
+    expect(predicate).to include('!@status.account.local?')
+    expect(predicate).to include('@status.account.followers_count.zero?')
+    expect(predicate).to include('@mentions.count >= 4')
+  end
+
+  it '該当時はトランザクションを巻き戻して投稿を保存しない' do
+    branch = source[/if like_a_spam\?.*?\n      end/m]
+    expect(branch).to be_present
+    expect(branch).to include('@status = nil')
+    expect(branch).to include('raise ActiveRecord::Rollback')
+    # rollback 後の後続処理（resolve_thread 等）を nil の @status で走らせないためのガード
+    expect(source).to include('return if @status.nil?')
+  end
+
+  # 無言の破棄だと誤爆にも発動にも気づけないため、発動を必ずログに残す。
+  it '破棄時に Rails.logger へ発動を記録する' do
+    branch = source[/if like_a_spam\?.*?\n      end/m]
+    expect(branch).to include('Rails.logger')
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
