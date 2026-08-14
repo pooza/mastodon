@@ -21,9 +21,6 @@ class ActivityPub::LinkedDataSignature
 
     return if signature_options['expires']&.to_datetime&.past?
 
-    # 2025/2 e-komik.org creator誤りへの対応
-    creator_uri.sub!('https:/e-komik.org', 'https://e-komik.org')
-
     return unless type == 'RsaSignature2017'
 
     keypair = Keypair.from_keyid(creator_uri)
