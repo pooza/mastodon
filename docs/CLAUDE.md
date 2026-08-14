@@ -195,10 +195,58 @@ ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が�
 
 - **アナモルフィック動画の SAR 対応（#923）** — `VideoMetadataExtractor#parse_sar` / `display_width`
 - **streaming のローカル TL → DEFAULT_TAG 読み替え（#925）** — `streaming/index.js`
+- **受信スパムフィルタ（荒らし共栄圏対策）** — `like_a_spam?` の条件・rollback・ログ出力
+- **ハッシュタグ列のタグ数上限（WebUI 側）** — サーバー側 `TagFeed::LIMIT_PER_MODE` との一致まで確認
 - **Misskey 絵文字同期（delmulin のみ）** — `spec/fork/misskey_emoji_sync_spec.rb`
 
 ⚠ **spec/fork は PostgreSQL が要る。** 手元で DB を上げられないときは上表の定数を `grep` で
 確認しておけば巻き戻りの大半は捕まる（本走は Fork CI が回す）。
+
+**ガードを足す判断基準は「消えても平常時は誰も困らないか」。**困らないものほど危ない。休眠中の
+防御（スパムフィルタ）や、サーバー・WebUI で対になっている値は、落ちても平常運転では誰も気づかず、
+必要になった瞬間に初めて効いていないと分かる。
+
+## フォーク改変カタログ
+
+**何を守り、何を上流に寄せてよいかの判断表。**マージ衝突で迷ったらここを見る。
+2026-08-15 に全改変を運用者と突き合わせて確定した。
+
+### 全ブランチ共通
+
+| 改変 | 目的 | 扱い |
+| --- | --- | --- |
+| 上限値の拡張（投稿3000字・表示名60・bio 3000・補足情報10・投票10択・タグ列100） | 運用方針 | **守る**（spec/fork がガード） |
+| 受信スパムフィルタ `like_a_spam?`（[create.rb](../app/lib/activitypub/activity/create.rb)） | 2024/2 の「荒らし共栄圏」を名乗る集団によるスパム大量送信への対抗。**実効があった防御を、再燃に備えて休眠状態で残している** | **守る**（同上） |
+| アナモルフィック動画の SAR 対応（#923） | サムネ・プレーヤー枠の縦伸び修正 | **守る**（同上） |
+| Rack::Attack の safelist（localhost / `MY_NETWORKS`） | **モロヘイヤが同一ホストから叩くため。**本体のレートリミットに引っかからないようにする意図的な緩和 | **守る** |
+| プール既定値 20（puma / sidekiq / DB / Redis / streaming） | 性能調整。**5 系統すべて 20 で揃える**（かつて puma と Redis だけ 40 でずれていた） | 守る。ずれを見たら揃える |
+| スタートメニューの Ajax 拡張（[navigation_panel](../app/javascript/mastodon/features/navigation_panel/index.tsx)） | `/links.json` を読んでメニュー項目を足す | **守る** |
+| Google Fonts（Material Symbols、[application.html.haml](../app/views/layouts/application.html.haml)） | 上記メニューのアイコン。`links.json` の `icon` はリガチャ名で、**このフォントが無いと文字列がそのまま出る** | **守る**（CSP のフォントホスト追加とセット） |
+| 「タグ付け」メニュー・タグセット・エピソードブラウザ導線 | モロヘイヤ連携（→ 前節） | **守る** |
+| 管理画面のソフトウェア一覧にモロヘイヤの版を追加 | 運用の見通し | 守る |
+| 公開範囲ボタンから引用ポリシー併記を削除（[visibility_button.tsx](../app/javascript/mastodon/features/compose/components/visibility_button.tsx)） | 4.7 で上流が併記を追加したが、**隣にタグセットが並ぶため 1 行に収まらなくなる**。モーダルを開けば確認できる情報なので落とした | **条件付き**。1 行に収まるなら上流に戻してよい |
+
+### インスタンス固有
+
+| ブランチ | 改変 |
+| --- | --- |
+| curesta | ja 用語置換（→ 前節）・独自テーマ 2 種・`dist/servers/` 4 本（precure.ml / blog / feed / rubicure / cure-api） |
+| delmulin | 独自テーマ 6 種・Misskey 絵文字同期（`app/lib/misskey_emoji_sync.rb` + `tootctl emoji sync`）・`dist/servers/mstdn.delmulin.com.conf` |
+| curesta / delmulin 共通 | ローカル TL の呼称を「コミュニティ」に（デフォルトタグ＋リレーで姉妹サーバーとタグ TL を共有しているため）。`firehose.local` はソースの `defaultMessage` も変更、`column.firehose_local` / `navigation_bar.live_feed_local` は**ロケールのみ**変更 |
+
+⚠ **`yarn i18n:extract` を手で実行すると `column.firehose_local` の en が上流表現に戻る**
+（`defaultMessage` を変えていないため）。上流の check-i18n ワークフローは削除済みで CI では走らない。
+
+### 上流に寄せてよい / 既に不要になったもの
+
+**改変は放っておくと腐る。**2026-08-15 の棚卸しで以下を削除した。同種のものを見つけたら同様に落とす。
+
+| 落としたもの | 理由 |
+| --- | --- |
+| `app/workers/concerns/bulk_mailer.rb` | 上流が `bulk_mailing_concern.rb` にリネームした際のマージ事故。参照ゼロの死んだコードだった |
+| `linked_data_signature.rb` の e-komik.org 回避策 | 2025-02 の応急処置。相手サーバーが ActivityPub 実装ごと消滅し、本番 3 台とも保存済み投稿 0 件 |
+| `material-icons/400-24px/{leaf,audio}.svg` | leaf はアイコンを Material Symbols に移行して以降の未使用素材、audio は上流削除分の残骸 |
+| README の「WebUI の画像リサイズ処理をキャンセル」 | 上流が #23726 でクライアント側リサイズを機能ごと廃止し、該当改変が自然消滅していた |
 
 ## モロヘイヤ（mulukhiya-toot-proxy）との連携
 
