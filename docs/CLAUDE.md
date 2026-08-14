@@ -6,7 +6,7 @@ FreeBSD 向けに調整された Mastodon のフォーク。拙作ツール [poo
 
 - **ベース**: mastodon/mastodon（upstream）
 - **デフォルトブランチ**: `bshockdon`
-- **対象 OS**: 本番 FreeBSD 14.3-RELEASE / ステージング FreeBSD 15.1（ZFS）
+- **対象 OS**: FreeBSD（ZFS）。本番 shallu / zugoga は 14.4-RELEASE、gomander とステージング 3 台は 15.1-RELEASE
 - **技術スタック**: Ruby (Rails) / Node.js (streaming) / PostgreSQL / Redis
 
 **このドキュメントはフォーク開発の知見を置く場所。** サーバー構成・デプロイ手順・インフラの罠は
