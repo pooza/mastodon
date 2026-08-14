@@ -2,179 +2,325 @@
 
 ## プロジェクト概要
 
-FreeBSD向けに調整されたMastodonのフォーク。拙作ツール [pooza/mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)（通称「モロヘイヤ」）と併用することが想定されている。
+FreeBSD 向けに調整された Mastodon のフォーク。拙作ツール [pooza/mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy)（通称「モロヘイヤ」）と併用することが前提。
 
 - **ベース**: mastodon/mastodon（upstream）
 - **デフォルトブランチ**: `bshockdon`
-- **対象OS**: FreeBSD 14.x
+- **対象 OS**: 本番 FreeBSD 14.3-RELEASE / ステージング FreeBSD 15.1（ZFS）
 - **技術スタック**: Ruby (Rails) / Node.js (streaming) / PostgreSQL / Redis
+
+**このドキュメントはフォーク開発の知見を置く場所。** サーバー構成・デプロイ手順・インフラの罠は
+[pooza/chubo2 の docs/infra-note.md](https://github.com/pooza/chubo2/blob/main/docs/infra-note.md) が正本で、
+ここには複写しない（→「情報の記載先ルール」）。
 
 ## ブランチ戦略
 
-| ブランチ | インスタンス | 目的 |
-| --- | --- | --- |
-| `bshockdon` | 美食丼 | デフォルト。upstreamのタグをマージし、FreeBSD向けの調整を加える |
-| `curesta` | キュアスタ！ | bshockdonからフォーク。キュアスタ！固有の調整 |
-| `delmulin` | デルムリン丼 | bshockdonからフォーク。デルムリン丼固有の調整 |
+### インスタンス別ブランチ
 
-美食丼は汎用のMastodonであるため、`bshockdon` がベースとなる。
+| ブランチ | インスタンス | 本番 | ステージング | 目的 |
+| --- | --- | --- | --- | --- |
+| `bshockdon` | 美食丼 | shallu | dev24 | デフォルト。upstream のタグをマージし、FreeBSD 向けの調整を加える |
+| `curesta` | キュアスタ！ | gomander | dev25 | bshockdon から派生。キュアスタ！固有の調整 |
+| `delmulin` | デルムリン丼 | zugoga | dev26 | bshockdon から派生。デルムリン丼固有の調整 |
+
+美食丼は汎用の Mastodon であるため `bshockdon` がベース。**3 インスタンスで共有する改変は
+必ず `bshockdon` 側の構造で提供する**（派生側に独自構造を作ると差分が膨らむ）。
+
+### 作業ブランチの命名
+
+| 命名 | 例 | 用途 |
+| --- | --- | --- |
+| `merge/<次の版>/<インスタンス>` | `merge/4.7/bshockdon` | upstream 追従の作業ブランチ。RC 期間に切って進める |
+| `stable/<版>/<インスタンス>` | `stable/4.6/curesta` | リリース済み版のスナップショット。切り戻し先 |
 
 ### マージフロー
 
 ```text
-upstream (tag) → bshockdon → curesta
-                           → delmulin
+upstream (tag) → merge/<版>/bshockdon → merge/<版>/curesta
+                                      → merge/<版>/delmulin
 ```
 
-1. upstreamの新バージョンがリリースされたら、タグを `bshockdon` にマージ
-2. `bshockdon` の変更を `curesta` / `delmulin` にマージして追従
-3. コンフリクトは決まった箇所で発生するため、手動で解消する
+派生ブランチには **upstream を直接マージしない**。必ず bshockdon 経由で流す。
 
-## FreeBSD向けの主な調整
+## upstream 追従の手順
 
-### rc.dスクリプト（`dist/freebsd/`）
+### タイミング（chubo2 側と共有の運用方針）
 
-FreeBSD向けのサービス起動スクリプト。3本構成:
+- **RC が出たらステージング 3 台向けにマージを始める。** 目的は **stable リリース当日に本番へ
+  デプロイできる状態を作っておくこと**。本番に RC を載せるためではない
+- **RC 期間にモロヘイヤ側でやることは無い。** この期間の作業は `pooza/mastodon` の 3 ブランチの
+  マージとステージング適用に閉じる
+- パッチリリース（4.6.x 等）は差分が小さければ運用者が手で流す
+
+### 1. 衝突の切り分け（SAME / FORK トリアージ）
+
+マージベースは「stable-4.x が main から分岐した地点」まで遡るため、**衝突の大半はフォークと無関係な
+「4.x へのバックポート vs main の本流版」**になる。4.7.0-rc.1 では 58 件中 28 件がこれだった。
+
+各衝突ファイルの HEAD 版を**直前のリリースタグ**と突き合わせ、同一なら **フォーク改変ゼロ＝上流版を
+丸ごと採用してよい**と機械的に判定できる:
+
+```bash
+for f in $(git diff --name-only --diff-filter=U); do
+  a=$(git rev-parse "HEAD:$f" 2>/dev/null || echo none)
+  b=$(git rev-parse "v4.6.6:$f" 2>/dev/null || echo none)   # 直前のリリースタグ
+  [ "$a" = "$b" ] && echo "SAME  $f" || echo "FORK  $f"
+done | sort
+```
+
+⚠ **FORK 側を `git checkout --ours` で丸ごと採ってはいけない。** 上流がそのファイルに加えた
+変更まで捨てることになる。**上流版を土台に、フォーク改変だけを再適用する**のが原則
+（例外は README.md のように上流を全面置換しているファイルだけ）。
+
+### 2. 取りこぼし検査（機械的にやる）
+
+解決後、**集合比較で漏れを検出する**。目視で「たぶん大丈夫」と判断しない:
+
+```bash
+git diff --cached --name-only <上流タグ> | sort > /tmp/A   # 上流と差異があるファイル
+git diff --name-only <前タグ> origin/<ブランチ> | sort > /tmp/B  # フォークが実際に改変しているファイル
+
+comm -23 /tmp/A /tmp/B   # 上流変更の取りこぼし疑い
+comm -13 /tmp/A /tmp/B   # フォーク改変の消失疑い
+```
+
+上流がファイルを移動した場合は新旧パスの対で出るので、それだけは正常。
+
+### 3. 衝突しないのに壊れる箇所（最重要）
+
+**フォーク独自ファイルは上流のリネーム・依存削除に追従しないが、衝突としては現れない。**
+マージ後に必ずビルドを通すこと。4.7 で実際に踏んだ 3 件:
+
+| 症状 | 原因 | 対処 |
+| --- | --- | --- |
+| `lib/mastodon/version.rb` が 4.7.6 になる | major/minor は上流、patch だけ旧版が残る混成を自動マージが作る | フォークは version.rb を改変していないので上流版で上書き |
+| テーマ SCSS がビルド不能 | 上流が `styles/mastodon/theme/` → `tokens/` にリネーム。独自エントリポイントは追従しない | 後述の再同期 |
+| `Rolldown failed to resolve import "react-overlays/Overlay"` | 上流が react-overlays を依存ごと撤去 | 後述のタグセット移植 |
+
+### 4. 版ごとの定例作業
+
+#### テーマエントリポイントの再同期
+
+`app/javascript/styles/<テーマ>.scss` は **`application.scss` の全文 + 末尾のテーマブロック**という
+構造で、上流が application.scss を変えても追従しない。版上げのたびに再同期する:
+
+```python
+base = open("app/javascript/styles/application.scss").read().rstrip("\n")
+for name in [...]:                        # ブランチごとのテーマ名
+    lines = open(f"app/javascript/styles/{name}.scss").read().split("\n")
+    fork = "\n".join(lines[24:]).rstrip("\n")   # 25 行目以降＝テーマブロック
+    open(f"app/javascript/styles/{name}.scss","w").write(base + "\n" + fork + "\n")
+```
+
+対象は `bshockdon`: bshock / `curesta`: cure-lime, cure-orange /
+`delmulin`: dai, daidai-orange, hyunckel, leona, maam, popp。
+`config/themes.yml` の登録と一致していることも確認する。
+
+⚠ 4.7 では併せて `@use 'mastodon/theme/economy'` → `@use 'mastodon/tokens/theme/economy'` の
+パス修正が必要だった。`grep -n "mastodon/theme" app/javascript/styles/*.scss` が 0 件になること。
+
+#### タグセットドロップダウンのミラー（#905）
+
+[tagset_dropdown.tsx](../app/javascript/mastodon/features/compose/components/tagset_dropdown.tsx) は
+upstream の `language_dropdown.tsx` の薄い並行実装。**版上げのたびに language_dropdown の差分を
+そのまま当てる**:
+
+```bash
+git diff <前タグ> <新タグ> -- app/javascript/mastodon/features/compose/components/language_dropdown.tsx
+```
+
+4.7 では react-overlays → `components/popover`（floating-ui）への移行がここに該当した
+（`Overlay`→`Popover`、`useRef`→`useState` の参照渡し、`placement` state の撤去）。
+
+#### 用語ポリシーの再適用
+
+```bash
+# 大文字化を採用しない（#906）— 全ブランチ
+grep -rE 'text-transform:\s*(uppercase|capitalize)' app/javascript
+
+# 廃止用語「トゥート」の排除 — 全ブランチ
+grep -rn 'トゥート' config/locales app/javascript/mastodon/locales
+
+# 投稿→キュア！ / ブースト→リキュア！ — curesta のみ
+grep -rn '投稿\|ブースト' config/locales/*ja*.yml app/javascript/mastodon/locales/ja.json
+```
+
+いずれも**ヒット 0 件**が正常。⚠ **RC では ja 翻訳が更新されていないことが多く、置換対象が
+現れないことがある**（4.7.0-rc.1 がそうだった）。**stable で Crowdin の ja が入った時点で
+必ず再チェックする。**
+
+### 5. 検証
+
+```bash
+bundle install && yarn install --immutable
+bundle exec rubocop                 # offense 0 が正常
+yarn build:production               # フォーク独自ファイルの破損はここでしか出ない
+bundle exec rspec spec/fork         # ⚠ PostgreSQL 必須
+```
+
+ビルド後、テーマが実際に効いているかを生成 CSS で確認する（後勝ちの上書きなので**最後の値**を見る）:
+
+```bash
+grep -o '\-\-color-grey-100:[^;]*' public/packs/assets/themes/<テーマ>-*.css | tail -1
+```
+
+default テーマと同じ値なら適用されていない。
+
+### 6. CI
+
+上流の CI ワークフローは**すべて削除**し、[.github/workflows/fork-ci.yml](../.github/workflows/fork-ci.yml)
+一本に置き換えている。回るのは **spec/fork（PostgreSQL 込み）** と、**変更ファイルに限定した**
+ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が拾う。
+通しのアセットビルドをゲートに載せる件は #912。
+
+## フォーク改変の防衛線: spec/fork
+
+[spec/fork/fork_customizations_spec.rb](../spec/fork/fork_customizations_spec.rb) が、マージ衝突解決で
+静かに巻き戻ると**ユーザー影響が出る**改変をガードしている（#909）。merge ドライバは採用しない。
+
+| 対象 | フォーク値 | upstream 既定 |
+| --- | --- | --- |
+| `Account::DEFAULT_FIELDS_SIZE` | 10 | 4 |
+| `Account::DISPLAY_NAME_LENGTH_LIMIT` | 60 | 40 |
+| `Account::NOTE_LENGTH_LIMIT` | 3000 | 500 |
+| `TagFeed::LIMIT_PER_MODE` | 100 | 4 |
+| `PollOptionsValidator::MAX_OPTIONS` | 10 | 4 |
+| `StatusLengthValidator::MAX_CHARS` | ENV 既定 3000 | 500 |
+
+加えて挙動の巻き戻りを静的に検知するガードがある:
+
+- **アナモルフィック動画の SAR 対応（#923）** — `VideoMetadataExtractor#parse_sar` / `display_width`
+- **streaming のローカル TL → DEFAULT_TAG 読み替え（#925）** — `streaming/index.js`
+- **Misskey 絵文字同期（delmulin のみ）** — `spec/fork/misskey_emoji_sync_spec.rb`
+
+⚠ **spec/fork は PostgreSQL が要る。** 手元で DB を上げられないときは上表の定数を `grep` で
+確認しておけば巻き戻りの大半は捕まる（本走は Fork CI が回す）。
+
+## モロヘイヤ（mulukhiya-toot-proxy）との連携
+
+モロヘイヤの設計方針は「**本体改造の最小化**」——プロキシ層でふるまいを足し、Mastodon 本体への
+パッチを減らすこと。**このフォークに機能を足す前に「モロヘイヤ側でできないか」を先に問う。**
+逆に、モロヘイヤが SNS の DB へ書き込むことになる場合は本体改造（＝このフォーク）を採る。
+判断基準の正本はモロヘイヤ側 [docs/CLAUDE.md](https://github.com/pooza/mulukhiya-toot-proxy/blob/main/docs/CLAUDE.md)。
+
+### 接続の構造
+
+- モロヘイヤの Puma は **3008**、Mastodon Web は 3000、streaming は 4000
+- 振り分けは **nginx が担う**（`dist/servers/*.conf`）。`X-Mulukhiya` ヘッダの有無で
+  `$mulukhiya_backend` と Mastodon 本体を切り替え、`/mulukhiya` 配下はモロヘイヤへ直送
+- ⚠ 本番 3 台では `/usr/local/etc/nginx/servers/*.conf` が**リポジトリへのシンボリックリンク**。
+  `dist/servers/*.conf` を変更した版では `nginx -t` + reload が要る（ステージングは実ファイル）
+
+### このフォークが持つモロヘイヤ依存
+
+| 箇所 | 内容 |
+| --- | --- |
+| [tagset_dropdown.tsx](../app/javascript/mastodon/features/compose/components/tagset_dropdown.tsx) | `/mulukhiya/api/program` から番組表を取得して実況タグセットを構成 |
+| [reducers/compose.js](../app/javascript/mastodon/reducers/compose.js) | タグセット適用・`/mulukhiya/app/episode`（エピソードブラウザ）起動 |
+| status action bar | 「タグ付け」メニュー → `/mulukhiya/app/status/<id>` を別窓で開く |
+| [navigation_panel](../app/javascript/mastodon/features/navigation_panel/index.tsx) | モロヘイヤへの導線 |
+| [software_versions_dimension.rb](../app/lib/admin/metrics/dimension/software_versions_dimension.rb) | 管理画面のソフトウェア一覧に `/mulukhiya/api/about` の版を追加 |
+| streaming の DEFAULT_TAG 読み替え（#925） | ローカル TL を DEFAULT_TAG のハッシュタグストリームへ。REST 側は nginx の 302 |
+
+### デフォルトハッシュタグとコミュニティ
+
+- タグの**付与**はモロヘイヤ（`DefaultTagHandler`）、**読み取り経路**（ローカル TL・streaming・検索）は
+  このフォークと `pooza/misskey` の `daisskey` ブランチが担う
+- 同じデフォルトタグ＋同一リレー（`deas.b-shock.co.jp`）で結ばれたサーバーを「姉妹サーバー」と呼ぶ。
+  デルムリン丼 ↔ ダイスキー、キュアスタ！ ↔ 外部管理のダイスキー
+- インスタンス別のタグ: キュアスタ！ = `#precure_fun` / デルムリン丼 = `#delmulin`
+- ⚠ **この機能は misskey-dev へ PR 済みで却下されている。upstream への再提案はしない**
+  （理由はモロヘイヤ側 docs を参照）。範囲拡張の議論は #908
+
+### 注意
+
+- **media_catalog は既定 OFF**（モロヘイヤ 5.23.0〜）。本番 Mastodon で重 SQL とプール枯渇を
+  起こしたため。この機能を前提にした実装を入れない
+- Mastodon は `metadata.maintainer` を返さない（フォークも同様）。モロヘイヤ側で
+  `maintainer_name` が nil なのは仕様
+
+## FreeBSD 向けの調整
+
+### rc.d スクリプト（`dist/freebsd/`）
 
 | スクリプト | サービス | プロセス |
 | --- | --- | --- |
-| `mastodon-web` | Puma Webサーバー | `rails server -u puma` |
-| `mastodon-sidekiq` | Sidekiqワーカー | `sidekiq -C config/sidekiq.yml` |
+| `mastodon-web` | Puma Web サーバー | `rails server -u puma` |
+| `mastodon-sidekiq` | Sidekiq ワーカー | `sidekiq -C config/sidekiq.yml` |
 | `mastodon-streaming` | Node.js Streaming API | `npm start` |
-
-#### 起動コマンドの構造
 
 ```sh
 daemon -f -S -T <syslogタグ> -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && <コマンド>"
 ```
 
-- `daemon(8)`: FreeBSD標準のデーモン化ユーティリティ
-  - `-f`: stdin/stdout/stderrを/dev/nullにリダイレクト
-  - `-S`: syslog出力を有効化
-  - `-T <tag>`: syslogタグ設定
-  - `-u <user>`: 指定ユーザーで実行
-- `/usr/local/bin/bash -lc`: ログインシェルとして実行（`.bash_profile` 経由でrbenv等を初期化）
+- `daemon(8)` で正式にデーモン化する（`-f` stdio を /dev/null へ、`-S -T` syslog 出力）。
+  旧方式の `zsh -c '... | logger &'` は OS 起動時にブロックする問題があり、#900 で置き換えた
+- `/usr/local/bin/bash -lc` は必須。`.bash_profile` 経由で rbenv を初期化するため
+  （mastodon ユーザーのログインシェルは zsh だが、rc.d からは bash を明示的に呼ぶ）
 
-#### rc.conf設定
-
-```sh
-mastodon_enable="YES"
-mastodon_path="/usr/local/www/mastodon"  # Mastodonのインストールパス
-mastodon_user="mastodon"                 # 実行ユーザー
-```
-
-#### mastodonユーザーの `.bash_profile`
-
-ログインシェルはzshだが、rc.dスクリプトは `bash -lc` で実行する。以下の `.bash_profile` が必要:
+rc.d スクリプトは **chubo の cookbook 管理外**。リポジトリから手で install する:
 
 ```bash
-# PATH
-export PATH=$HOME/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/libexec:/usr/sbin:$PATH
-
-# Locale
-export LANG=ja_JP.UTF-8
-export LC_CTYPE=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
-
-# rbenv
-eval "$(rbenv init - bash)"
+ssh <host> 'sudo install -o root -g wheel -m 755 \
+  ~mastodon/repos/mastodon/dist/freebsd/mastodon-web /usr/local/etc/rc.d/mastodon-web'
 ```
 
-### ストリーミングサービス
+配布物と実機が乖離しやすいので、**アップグレードのついでに 3 本とも diff を取る**こと。
+⚠ 起動方式ごと変える差し替えでは **「旧で止める → 入れ替える → 新で起動する」**の順で行う。
 
-`streaming/` 配下は純粋なNode.jsアプリケーションであり、FreeBSD固有のコード修正は不要。サービス管理はrc.dスクリプトで行う。
+### Ubuntu 前提箇所について
 
-### Ubuntu前提箇所について
+upstream は Ubuntu を唯一のサポート対象と匂わせているが、アプリケーションコード自体は OS 非依存。
+FreeBSD 対応に必要なのは rc.d スクリプトと環境設定のみ。
 
-upstreamのMastodonはUbuntuを唯一のサポート対象と匂わせている箇所が多い（systemdサービスファイル、Dockerfile、Vagrantfile等）。ただし、アプリケーションコード自体はOS非依存であり、FreeBSD対応に必要なのはrc.dスクリプトと環境設定のみ。
+## サーバーとデプロイ
 
-## 解決済み: #900 rc.dスクリプトの起動ブロック問題（2026-03-01）
+**正本は [chubo2 の infra-note.md](https://github.com/pooza/chubo2/blob/main/docs/infra-note.md)。**
+「Mastodon 本体のアップグレード（FreeBSD 6 台）」節に、対象 6 台・必要工程の見極め方・
+`assets:precompile` のヒープ指定・ヘルスチェック・ログの読み方・平常運転のノイズまで揃っている。
 
-### 症状
+このドキュメントで押さえておくべき最小限:
 
-OS起動時（カーネル更新後の再起動等）にサービス起動が完了せず、`^C` が必要になる。
+- 対象は **本番 3 台（shallu / zugoga / gomander）＋ ステージング 3 台（dev24 / dev25 / dev26）**
+- 着地ユーザーは 6 台とも `mastodon`、リポジトリは **`~mastodon/repos/mastodon`**
+- SSH は本番が `<host>.b-shock.co.jp`（デフォルト mastodon 着地）、ステージングは
+  `mastodon@devNN`（インフラ操作で sudo が要るときは `pooza@devNN`）
+- サービス再起動は **`< /dev/null > /dev/null 2>&1` を必ず付ける**（daemon が SSH の stdout を
+  握って ssh が抜けなくなる）。本番は monit があるので停止 → 再起動 → 再開で挟む
+- `/api/v2/instance` の `version` は再起動直後 1〜2 分は旧版のまま出る（Redis キャッシュ）。異常ではない
 
-### 原因
+⚠ 旧ステージング（drime + dev04 / dev15 / dev22 / dev23）と旧キュアスタ！本番（lbock）は
+**退役済み**。`devNN_mastodon` のような SSH エイリアスも廃止されている。
 
-旧スクリプトの起動コマンドに複数の問題があった:
+## ローカル開発環境
 
-```sh
-# 旧: zsh + sudo + & によるバックグラウンド化
-sudo -u $mastodon_user zsh -c 'RAILS_ENV=production bundle exec rails server -u puma | logger -t mastodon_web &'
-```
-
-1. **`zsh -c` を使用** — ログインシェルとして呼ばれておらず、環境変数の初期化が不完全な場合がある
-2. **`&` によるバックグラウンド化が不十分** — パイプラインのバックグラウンド化がrc.dから見て正しく機能しない場合がある
-3. **`daemon(8)` を使っていない** — FreeBSD標準のデーモン化手法でなかった
-
-### 修正
-
-```sh
-# 新: daemon(8) + bash -lc
-daemon -f -S -T mastodon_web -u $mastodon_user /usr/local/bin/bash -lc "cd $mastodon_path && RAILS_ENV=production bundle exec rails server -u puma"
-```
-
-- `daemon(8)` による正式なデーモン化（即座にrc.dに制御を返す）
-- `/usr/local/bin/bash -lc` でログインシェルとして実行（`.bash_profile` 経由でrbenv初期化）
-- `sudo` と `| logger &` を廃止（daemon の `-u`, `-S -T` で代替）
-
-### 検証結果
-
-全ステージング環境で `service mastodon-xxx restart` がブロックなしで完了することを確認:
-
-- dev04（美食丼）
-- dev15（デルムリン丼）
-- dev22（キュアスタ！）
-
-### 本番適用
-
-[pooza/chubo2#5](https://github.com/pooza/chubo2/issues/5) で管理。本番にはmonitがあるため、適用時は monit停止 → サービス再起動 → monit再開 の手順が必要。
-
-### 経緯
-
-mulukhiya-toot-proxy側での調査（#4105, #4101）が先行し、モロヘイヤ側は5.2.0で修正済み。Mastodon側のrc.dスクリプトが残存原因として特定された。
+- `bundle exec rubocop` は **`bundle install` 済みでないと動かない**。上流の版上げで Gemfile.lock が
+  進むと必ず失敗するので、マージ直後は入れ直す
+- `rspec` は **PostgreSQL 必須**。DB が無い環境では `ruby -c` と静的 grep で代替する
+- アセットは `yarn build:production`。フォーク独自ファイルの破損はここでしか顕在化しない
 
 ## 情報の記載先ルール
 
-- **課題・タスク** → GitHub Issueで管理（インフラ面の課題は `pooza/chubo2` のIssueとして起票）
-- **プロジェクト共有すべき知見** → `docs/CLAUDE.md` などgit管理下のファイルに記載
-- **インフラ情報** → [pooza/chubo2 インフラノート](https://github.com/pooza/chubo2/blob/main/docs/infra-note.md) を参照
+chubo2 の [doc-maintenance.md](https://github.com/pooza/chubo2/blob/main/docs/doc-maintenance.md) に揃える。
+**二重管理をしない**のが第一原則。
 
-## 開発サーバー・インフラ
-
-SSH経由で操作可能。接続情報は `~/.ssh/config` で管理（リポジトリには含めない）。
-
-| サーバー | インスタンス | 種別 | SSHエイリアス |
-| --- | --- | --- | --- |
-| dev04 | 美食丼 | ステージング | `dev04_mastodon` / `dev04_mulukhiya` |
-| dev15 | デルムリン丼 | ステージング | `dev15_mastodon` / `dev15_mulukhiya` |
-| dev22 | キュアスタ！ | ステージング | `dev22_mastodon` / `dev22_mulukhiya` |
-
-- `devNN_mastodon`: mastodonユーザーで接続（Mastodon操作用）
-- `devNN_mulukhiya`: poozaユーザーで接続（sudo可能、rc.dスクリプトのデプロイ等に使用）
-- mastodonユーザーのホームディレクトリがMastodonリポジトリのルート
-
-本番サーバーの情報は [pooza/chubo2 インフラノート](https://github.com/pooza/chubo2/blob/main/docs/infra-note.md) を参照。
-
-## rc.dスクリプトのデプロイ手順
-
-```bash
-# 1. ローカルからスクリプトをコピー
-scp dist/freebsd/mastodon-{web,sidekiq,streaming} devNN_mastodon:/tmp/
-
-# 2. sudoできるユーザーで配置
-ssh devNN_mulukhiya 'sudo cp /tmp/mastodon-{web,sidekiq,streaming} /usr/local/etc/rc.d/ && sudo chmod 755 /usr/local/etc/rc.d/mastodon-{web,sidekiq,streaming}'
-
-# 3. サービス再起動（本番ではmonit停止/再開を挟む）
-ssh devNN_mulukhiya 'sudo service mastodon-web restart && sudo service mastodon-sidekiq restart && sudo service mastodon-streaming restart'
-```
+| 内容 | 置き場 |
+| --- | --- |
+| 未了の作業・課題 | GitHub Issue（`pooza/mastodon`。インフラ面は `pooza/chubo2`） |
+| フォーク開発の知見（追従手順・独自改変・モロヘイヤ連携） | **この docs/CLAUDE.md** |
+| インフラの現況・手順・再発する罠 | [chubo2 docs/infra-note.md](https://github.com/pooza/chubo2/blob/main/docs/infra-note.md) |
+| 日付のある出来事の記録 | [chubo2 docs/infra-history.md](https://github.com/pooza/chubo2/blob/main/docs/infra-history.md) |
+| モロヘイヤの設計方針・リリース運用 | [mulukhiya-toot-proxy docs/CLAUDE.md](https://github.com/pooza/mulukhiya-toot-proxy/blob/main/docs/CLAUDE.md) |
+| セッションメモリ | 正本へのポインタと「なぜ非自明か」だけ。現況は書かない |
 
 ## 関連リポジトリ
 
 - [pooza/mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy) — 併用プロキシ（モロヘイヤ）
-- [pooza/chubo2](https://github.com/pooza/chubo2) — インフラ情報（プライベート）
+- [pooza/chubo2](https://github.com/pooza/chubo2) — インフラ情報・itamae レシピ（プライベート）
+- [pooza/misskey](https://github.com/pooza/misskey) — ダイスキー用フォーク（`daisskey` ブランチ）
 - [mastodon/mastodon](https://github.com/mastodon/mastodon) — upstream
 
-## gh CLI使用時の注意
+## gh CLI 使用時の注意
 
-フォークリポジトリでは `gh` コマンドがupstream（mastodon/mastodon）をデフォルトで参照する場合がある。Issue操作やPR作成時は `-R pooza/mastodon` を明示すること。
+フォークリポジトリでは `gh` が upstream（mastodon/mastodon）をデフォルトで参照することがある。
+Issue 操作や PR 作成時は **`-R pooza/mastodon` を明示**すること。PR の base も対象ブランチを明示する。
