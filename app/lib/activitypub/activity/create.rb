@@ -74,8 +74,12 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
       attach_mentions(@status)
       attach_counts(@status)
 
-      # Delete status on zero follower user and nearly created account with include some replies
+      # 「荒らし共栄圏」を名乗る集団によるスパム大量送信（Fediverse 規模の騒動）への
+      # 対抗として導入し、実効があった防御。騒動の再燃に備えて休眠状態で残している。
+      # 条件は like_a_spam? を参照（リモート かつ フォロワー0 かつ メンション4件以上）。
       if like_a_spam?
+        # 無言で捨てると、誤爆にも次の波の発動にも気づけない。平常時は出力ゼロの想定。
+        Rails.logger.info { "Discarded likely spam status #{@status.uri} from #{@status.account.acct} (mentions=#{@mentions.count})" }
         @status = nil
         raise ActiveRecord::Rollback
       end
