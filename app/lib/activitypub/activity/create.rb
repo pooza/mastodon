@@ -515,10 +515,8 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
   end
 
   def like_a_spam?
-    (
-      !@status.account.local? &&
+    !@status.account.local? &&
       @status.account.followers_count.zero? &&
       @mentions.count >= 4
-    )
   end
 end

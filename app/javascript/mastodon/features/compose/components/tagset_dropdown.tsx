@@ -4,9 +4,7 @@ import { useIntl, defineMessages } from 'react-intl';
 
 import classNames from 'classnames';
 
-import Overlay from 'react-overlays/Overlay';
-import type { State, Placement } from 'react-overlays/usePopper';
-
+import { Popover } from '@/mastodon/components/popover';
 import CancelIcon from '@/material-icons/400-24px/cancel.svg?react';
 import MovieIcon from '@/material-icons/400-24px/movie.svg?react';
 import RefreshIcon from '@/material-icons/400-24px/refresh.svg?react';
@@ -56,10 +54,9 @@ export const TagsetDropdown: React.FC<{
   const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState(false);
-  const [placement, setPlacement] = useState<Placement | undefined>('bottom');
   const [options, setOptions] = useState<SelectItem[]>([]);
   const activeElementRef = useRef<HTMLElement | null>(null);
-  const targetRef = useRef<HTMLButtonElement>(null);
+  const [targetElement, setTargetElement] = useState<HTMLElement | null>(null);
 
   // モロヘイヤから番組表を取得し、タグセットの選択肢を組み立てる。
   // 取得前に program/update を叩いて番組表を最新化するのは旧実装と同じ挙動。
@@ -164,15 +161,11 @@ export const TagsetDropdown: React.FC<{
     [dispatch, loadOptions],
   );
 
-  const handleOverlayEnter = useCallback((state: Partial<State>) => {
-    setPlacement(state.placement);
-  }, []);
-
   return (
     <>
       <button
         type='button'
-        ref={targetRef}
+        ref={setTargetElement}
         title={intl.formatMessage(messages.change)}
         aria-expanded={open}
         onClick={handleToggle}
@@ -187,13 +180,11 @@ export const TagsetDropdown: React.FC<{
         </span>
       </button>
 
-      <Overlay
-        show={open}
-        offset={[5, 5]}
-        placement={placement}
-        flip
-        target={targetRef}
-        popperConfig={{ strategy: 'fixed', onFirstUpdate: handleOverlayEnter }}
+      <Popover
+        isOpen={open}
+        onClose={handleClose}
+        offset={5}
+        reference={targetElement}
       >
         {({ props, placement }) => (
           <div {...props}>
@@ -209,7 +200,7 @@ export const TagsetDropdown: React.FC<{
             </div>
           </div>
         )}
-      </Overlay>
+      </Popover>
     </>
   );
 };
