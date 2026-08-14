@@ -13,7 +13,7 @@ name: Fork CI
 on:
   push:
     branches:
-      - 'work/4.6/**'
+      - 'merge/**'
       - 'stable/**'
       - bshockdon
       - curesta
