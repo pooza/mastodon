@@ -219,7 +219,7 @@ ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が�
 | 受信スパムフィルタ `like_a_spam?`（[create.rb](../app/lib/activitypub/activity/create.rb)） | 2024/2 の「荒らし共栄圏」を名乗る集団によるスパム大量送信への対抗。**実効があった防御を、再燃に備えて休眠状態で残している** | **守る**（同上） |
 | アナモルフィック動画の SAR 対応（#923） | サムネ・プレーヤー枠の縦伸び修正 | **守る**（同上） |
 | Rack::Attack の safelist（localhost / `MY_NETWORKS`） | **モロヘイヤが同一ホストから叩くため。**本体のレートリミットに引っかからないようにする意図的な緩和 | **守る** |
-| プール既定値 20（puma / sidekiq / DB / Redis / streaming） | 性能調整。**5 系統すべて 20 で揃える**（かつて puma と Redis だけ 40 でずれていた） | 守る。ずれを見たら揃える |
+| プール既定値 20（puma / sidekiq / DB / Redis / streaming） | 性能調整。**5 系統すべて 20 で揃える**（かつて puma と Redis だけ 40 でずれていた）。⚠ `.env.production` に `MAX_THREADS` が無い環境では**この既定値がそのまま効く**（dev25 の puma 起動ログが `Max threads: 20` で確認済み） | 守る。ずれを見たら揃える |
 | スタートメニューの Ajax 拡張（[navigation_panel](../app/javascript/mastodon/features/navigation_panel/index.tsx)） | `/links.json` を読んでメニュー項目を足す | **守る** |
 | Google Fonts（Material Symbols、[application.html.haml](../app/views/layouts/application.html.haml)） | 上記メニューのアイコン。`links.json` の `icon` はリガチャ名で、**このフォントが無いと文字列がそのまま出る** | **守る**（CSP のフォントホスト追加とセット） |
 | 「タグ付け」メニュー・タグセット・エピソードブラウザ導線 | モロヘイヤ連携（→ 前節） | **守る** |
@@ -343,6 +343,47 @@ FreeBSD 対応に必要なのは rc.d スクリプトと環境設定のみ。
 
 ⚠ 旧ステージング（drime + dev04 / dev15 / dev22 / dev23）と旧キュアスタ！本番（lbock）は
 **退役済み**。`devNN_mastodon` のような SSH エイリアスも廃止されている。
+
+### RC 期間のステージング適用（`merge/**` への切り替え）
+
+RC を載せるときは、各台のチェックアウト先を instance ブランチから `merge/<版>/<インスタンス>` に
+切り替える。stable が出たら instance ブランチへ戻す。2026-08-15 の 4.7.0-rc.1 適用で踏んだ罠:
+
+⚠ **fetch の refspec が絞られている台がある。**dev25 / dev26 は single-branch clone の名残で
+`+refs/heads/bshockdon:refs/remotes/origin/bshockdon` になっており、**`merge/4.7/*` を fetch できず
+チェックアウトが失敗した**。切り替え前に確認し、必要なら広げる:
+
+```bash
+git config --get-all remote.origin.fetch          # 確認
+git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'   # 広げる
+git rev-parse --verify origin/<branch>            # ref があることを確かめてから checkout
+```
+
+⚠ **手順を自動化するとき、`git checkout` の出力をパイプに通さない。**`set -e` はパイプ末尾の
+終了コードしか見ないため、`git checkout ... | tail -1` と書くと**切り替え失敗を素通りして
+bundle / migrate / assets まで走る**。「適用したつもりで旧版のまま、アセットだけ再生成」という
+最悪の状態になりうる。切り替え後は必ず検証する:
+
+```bash
+test "$(git rev-parse --abbrev-ref HEAD)" = "$BR"
+```
+
+⚠ **再起動後のヘルスチェックは固定待ちにしない。**puma の停止に 23 秒・起動完了まで計 47 秒
+かかった実測があり、`sleep 30` では**起動途中に当たって誤った赤が出る**。200 が返るまで待つ:
+
+```bash
+until [ "$(curl -s -o /dev/null -w '%{http_code}' https://<staging-domain>/health)" = "200" ]; do sleep 10; done
+```
+
+**適用の成否は、デプロイ手順の外から独立に検証する。**スクリプトが最後まで走ったことは根拠に
+ならない（上記の握り潰しがあるため）:
+
+```bash
+git rev-parse --abbrev-ref HEAD                              # 意図したブランチか
+RAILS_ENV=production bundle exec rails db:abort_if_pending_migrations
+stat -f %Sm public/packs/.vite/manifest.json                 # アセットが今回のものか
+curl -s https://<domain>/api/v2/instance | jq -r .version    # 外形（Redis キャッシュで 1〜2 分遅れる）
+```
 
 ## ローカル開発環境
 
