@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
+@use 'fonts/inter';
+@use 'fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';
@@ -26,7 +28,7 @@
 // hyunckel（闘志・紫）: 旧 economy を導出 mixin で 4.6 トークンモデル上に再建（#907）。
 // 明端アンカーの theme-light。旧 $theme-purple ランプ踏襲、ブランド/ボタン/スクロールバーは
 // soul（purple-500）。light 主役・dark 不問。$primary は白背景可読の暗紫。
-@use 'mastodon/theme/economy';
+@use 'mastodon/tokens/theme/economy';
 
 @include economy.theme-light(
   $base: hsl(260deg, 30%, 93%),

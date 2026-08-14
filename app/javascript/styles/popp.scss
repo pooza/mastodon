@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
+@use 'fonts/inter';
+@use 'fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';
@@ -28,7 +30,7 @@
 // soul（green-500・旅人の服）。light 主役・dark 不問。$primary は白背景可読の暗緑。
 // ポップの黄色いバンダナ（旧 bandana-yellow #861）はハッシュタグチップのアクセントに使う。
 @use 'sass:color';
-@use 'mastodon/theme/economy';
+@use 'mastodon/tokens/theme/economy';
 
 $bandana-yellow: #b08c3e; // ポップの黄色いバンダナ
 

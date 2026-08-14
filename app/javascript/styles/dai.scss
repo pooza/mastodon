@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
+@use 'fonts/inter';
+@use 'fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';
@@ -27,7 +29,7 @@
 // 旧 4.5 は明色 classic-base のライトテーマだったため明端アンカーの theme-light を使う。
 // アンカーは旧 $theme-blue ランプを踏襲し、ブランド/ボタン/スクロールバーは soul（blue-600）。
 // light 主役・dark は不問。$primary は白背景で読める暗めの青に調整。
-@use 'mastodon/theme/economy';
+@use 'mastodon/tokens/theme/economy';
 
 @include economy.theme-light(
   $base: hsl(205deg, 71%, 90%),

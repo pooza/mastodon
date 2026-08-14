@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
+@use 'fonts/inter';
+@use 'fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';
@@ -28,7 +30,7 @@
 // （ブランド/リンク/スクロールバー）は emerald。ただし**魂の色＝ボタンは純白 #ffffff**という
 // キャラ設定のため $button=#fff とし、白地に乗る暗エメラルド文字を $button-text で指定。
 // light 主役・dark 不問。$primary は白背景可読の暗エメラルド。
-@use 'mastodon/theme/economy';
+@use 'mastodon/tokens/theme/economy';
 
 @include economy.theme-light(
   $base: hsl(165deg, 20%, 98%),
