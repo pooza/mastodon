@@ -2,9 +2,11 @@
 @use 'mastodon/mixins';
 @use 'fonts/roboto';
 @use 'fonts/roboto-mono';
+@use 'fonts/inter';
+@use 'fonts/syne';
 
 @use 'mastodon/reset';
-@use 'mastodon/theme';
+@use 'mastodon/tokens';
 @use 'mastodon/basics';
 @use 'mastodon/branding';
 @use 'mastodon/containers';
@@ -28,7 +30,7 @@
 // アンカーは旧 $classic-* を踏襲（primary のみ白背景で読める明度へ調整）。
 // ボタン地とスクロールバーつまみは「まさしくライム」を直接指定し、鮮やかな地には
 // 暗緑の文字を載せて可読性を確保（light 主役・dark は不問）。
-@use 'mastodon/theme/economy';
+@use 'mastodon/tokens/theme/economy';
 
 @include economy.theme-light(
   $base: hsl(120deg, 4%, 94%),

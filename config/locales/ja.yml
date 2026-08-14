@@ -1675,7 +1675,6 @@ ja:
     next: 次
     older: 以前のキュア！
     prev: 前
-    truncate: "&hellip;"
   polls:
     errors:
       already_voted: このアンケートには投票済みです
