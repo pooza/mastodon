@@ -155,4 +155,32 @@ RSpec.describe 'Fork customization guard: ハッシュタグ列のタグ数上�
     expect(limit).to eq(TagFeed::LIMIT_PER_MODE)
   end
 end
+
+# スタートメニューのアイコンは Google Fonts の Material Symbols を**リガチャ**で描いている（#895）。
+# スタイルシートかフォントが読めないと、アイコンの代わりに `home` などの文字列がそのまま出る。
+#
+# ⚠ これは WebUI でしか症状が出ない。API クライアント経由の利用者にも、クライアントを使う
+# 管理者にも見えないため、落ちたことに誰も気づけない（#954）。
+#
+# CSP のホスト指定は upstream の initializer に相乗りしているので、版上げの衝突解決で静かに
+# 落ちうる。4.7 では `if Rails.env.development? / else` から
+# `next unless Rails.env.development?` 形式へ組み替わっており、構造が変わるマージほど危ない。
+# そのため initializer のソース文字列ではなく、**開発以外の環境で組み上がった実効ポリシー**を
+# 直接見る（development ブロックにだけ残った場合を素通りさせないため）。
+RSpec.describe 'Fork customization guard: Material Symbols (Google Fonts) の参照 (#954)' do
+  let(:directives) { Rails.application.config.content_security_policy.directives }
+
+  it 'style-src にスタイルシートの取得元 https://fonts.googleapis.com が含まれている' do
+    expect(directives['style-src']).to include('https://fonts.googleapis.com')
+  end
+
+  it 'font-src にフォント本体の取得元 https://fonts.gstatic.com が含まれている' do
+    expect(directives['font-src']).to include('https://fonts.gstatic.com')
+  end
+
+  it 'レイアウトが Material Symbols のスタイルシートを読み込んでいる' do
+    layout = Rails.root.join('app', 'views', 'layouts', 'application.html.haml').read
+    expect(layout).to match(%r{rel: 'stylesheet'.*fonts\.googleapis\.com/css2\?family=Material\+Symbols})
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
