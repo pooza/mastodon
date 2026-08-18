@@ -171,7 +171,15 @@ default テーマと同じ値なら適用されていない。
 上流の CI ワークフローは**すべて削除**し、[.github/workflows/fork-ci.yml](../.github/workflows/fork-ci.yml)
 一本に置き換えている。回るのは **spec/fork（PostgreSQL 込み）** と、**変更ファイルに限定した**
 ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が拾う。
-通しのアセットビルドをゲートに載せる件は #912。
+
+通しのアセットビルドは重いので毎 push には載せず、[fork-assets-nightly.yml](../.github/workflows/fork-assets-nightly.yml)
+に分離している（#912）。本番と同じコマンド（`RAILS_ENV=production` ＋ Node のヒープ指定）で
+`assets:precompile` を回し、**manifest が参照するファイルの実在**と **`config/themes.yml` の
+全テーマの CSS 生成**まで確認する。既定はインスタンス 3 本の nightly。
+
+⚠ **schedule / workflow_dispatch はデフォルトブランチ（bshockdon）の定義しか起動できない。**
+RC 期間に `merge/**` を検査したいときは、手動実行の `ref` にブランチ名を渡す（定義は bshockdon の
+ものが使われ、チェックアウト先だけが変わる）。**版を本番へ適用する前に一度回しておく。**
 
 ⚠ **push トリガーはブランチ名で絞っている**（`merge/**` / `stable/**` / 3 つのインスタンスブランチ）。
 **作業ブランチの命名規則を変えたらここも直す。**4.7 の追従では `work/4.6/**` のまま残っていたため、
@@ -198,6 +206,9 @@ ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が�
 - **受信スパムフィルタ（荒らし共栄圏対策）** — `like_a_spam?` の条件・rollback・ログ出力
 - **ハッシュタグ列のタグ数上限（WebUI 側）** — サーバー側 `TagFeed::LIMIT_PER_MODE` との一致まで確認
 - **Misskey 絵文字同期（delmulin のみ）** — `spec/fork/misskey_emoji_sync_spec.rb`
+- **Material Symbols（Google Fonts）の参照（#954）** — CSP の**実効ポリシー**（`style-src` / `font-src`）と
+  レイアウトの stylesheet link。ソース文字列ではなく組み上がったポリシーを見るのは、4.7 のように
+  initializer の構造ごと変わっても検知するため（development ブロックにだけ残った場合も落とす）
 
 ⚠ **spec/fork は PostgreSQL が要る。** 手元で DB を上げられないときは上表の定数を `grep` で
 確認しておけば巻き戻りの大半は捕まる（本走は Fork CI が回す）。
@@ -221,7 +232,7 @@ ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が�
 | Rack::Attack の safelist（localhost / `MY_NETWORKS`） | **モロヘイヤが同一ホストから叩くため。**本体のレートリミットに引っかからないようにする意図的な緩和 | **守る** |
 | プール既定値 20（puma / sidekiq / DB / Redis / streaming） | 性能調整。**5 系統すべて 20 で揃える**（かつて puma と Redis だけ 40 でずれていた）。⚠ `.env.production` に `MAX_THREADS` が無い環境では**この既定値がそのまま効く**（dev25 の puma 起動ログが `Max threads: 20` で確認済み） | 守る。ずれを見たら揃える |
 | スタートメニューの Ajax 拡張（[navigation_panel](../app/javascript/mastodon/features/navigation_panel/index.tsx)） | `/links.json` を読んでメニュー項目を足す | **守る** |
-| Google Fonts（Material Symbols、[application.html.haml](../app/views/layouts/application.html.haml)） | 上記メニューのアイコン。`links.json` の `icon` はリガチャ名で、**このフォントが無いと文字列がそのまま出る** | **守る**（CSP のフォントホスト追加とセット） |
+| Google Fonts（Material Symbols、[application.html.haml](../app/views/layouts/application.html.haml)） | 上記メニューのアイコン。`links.json` の `icon` はリガチャ名で、**このフォントが無いと文字列がそのまま出る**。⚠ **症状は WebUI にしか出ない**ため、クライアント経由の利用者にも管理者にも見えない | **守る**（CSP のフォントホスト追加とセット。spec/fork がガード #954） |
 | 「タグ付け」メニュー・タグセット・エピソードブラウザ導線 | モロヘイヤ連携（→ 前節） | **守る** |
 | 管理画面のソフトウェア一覧にモロヘイヤの版を追加 | 運用の見通し | 守る |
 | 公開範囲ボタンから引用ポリシー併記を削除（[visibility_button.tsx](../app/javascript/mastodon/features/compose/components/visibility_button.tsx)） | 4.7 で上流が併記を追加したが、**隣にタグセットが並ぶため 1 行に収まらなくなる**。モーダルを開けば確認できる情報なので落とした | **条件付き**。1 行に収まるなら上流に戻してよい |
