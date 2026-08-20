@@ -69,10 +69,10 @@
 // （grey-900）に置いたが、cure-lime / cure-orange / 橙 等は旧 4.5 で「ライトテーマ」
 // として作られていた（classic-base が明色）。それらは旧 classic-base を明端（grey-50）に
 // 置き、暗端を導出するのが対称で、旧テーマの控えめな地色を忠実に再現できる。
-//
+
 // 明度デルタは theme() を −78% シフトした対称形（theme の grey-50 が基準 0 になる）。
 // indigo（brand）ランプは配色スキーム非依存なので theme() と同一。
-//
+
 // 引数:
 //   $base      明端の地色（旧 light classic-base をそのまま）。grey-50 に置き暗端へ導出
 //   $primary   light の text-secondary に適用する可読アクセント（白背景で読める暗めの色）
