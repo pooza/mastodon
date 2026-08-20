@@ -191,6 +191,30 @@ RC 期間に `merge/**` を検査したいときは、手動実行の `ref` に�
 が curesta / delmulin の instance ブランチ側で対象に入り、**#907 で書いた解説ブロックの空コメント
 2 行**（`scss/comment-no-empty`）で落ちた。**版上げの検証は instance ブランチへ戻した後の CI まで見る。**
 
+### 7. 後始末（6 台への適用が終わってから）
+
+**版上げは 6 台へ適用して終わりではない。**次の 3 つまでが 1 セット:
+
+```bash
+# 1. リリースタグ。命名は v<上流版>-<インスタンス> の軽量タグ（例 v4.7.0-curesta）
+for i in bshockdon curesta delmulin; do git tag "v<版>-$i" "origin/$i"; done
+git push origin v<版>-bshockdon v<版>-curesta v<版>-delmulin
+
+# 2. 切り戻し先のスナップショット。⚠ 本番へ実際に適用したコミットに置く
+git branch stable/<版>/<インスタンス> <適用したコミット>
+
+# 3. 作業ブランチの削除。instance / stable の祖先であることを確かめてから
+git merge-base --is-ancestor origin/merge/<版>/<i> origin/<i> && git push origin --delete merge/<版>/<i>
+```
+
+⚠ **タグと `stable/<版>/*` は必ずしも同じコミットにならない。**タグは「その版としてのフォークの
+到達点」なので **instance ブランチの先端**に、`stable/<版>/*` は「本番が走っているコミット」なので
+**適用したコミット**に置く（4.7.0 では版上げ後に足した docs コミット 1 本ぶんずれた）。
+
+⚠ **DB のスナップショットは残置する。**マイグレーションがある版では適用前に
+`<dataset>@pre-mastodon-<版>` を取る（→ chubo2 infra-note）。**数日運用して問題が無ければ削除する**
+のは運用者の判断。
+
 ## フォーク改変の防衛線: spec/fork
 
 [spec/fork/fork_customizations_spec.rb](../spec/fork/fork_customizations_spec.rb) が、マージ衝突解決で
