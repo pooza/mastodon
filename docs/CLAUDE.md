@@ -185,6 +185,12 @@ RC 期間に `merge/**` を検査したいときは、手動実行の `ref` に�
 **作業ブランチの命名規則を変えたらここも直す。**4.7 の追従では `work/4.6/**` のまま残っていたため、
 `merge/4.7/*` への push で CI が一度も走らなかった。
 
+⚠ **`merge/**` が緑でも instance ブランチへ戻した push で落ちることがある。**Tier 1/2 は
+**変更ファイルに限定**して lint するため、**比較の基点が変わると検査対象も変わる**。
+2026-08-21 の 4.7.0 では、`merge/4.7/*` では対象外だった `styles/mastodon/tokens/theme/_economy.scss`
+が curesta / delmulin の instance ブランチ側で対象に入り、**#907 で書いた解説ブロックの空コメント
+2 行**（`scss/comment-no-empty`）で落ちた。**版上げの検証は instance ブランチへ戻した後の CI まで見る。**
+
 ## フォーク改変の防衛線: spec/fork
 
 [spec/fork/fork_customizations_spec.rb](../spec/fork/fork_customizations_spec.rb) が、マージ衝突解決で
@@ -359,6 +365,13 @@ FreeBSD 対応に必要なのは rc.d スクリプトと環境設定のみ。
 
 RC を載せるときは、各台のチェックアウト先を instance ブランチから `merge/<版>/<インスタンス>` に
 切り替える。stable が出たら instance ブランチへ戻す。2026-08-15 の 4.7.0-rc.1 適用で踏んだ罠:
+
+**stable 当日の流れ**（2026-08-21 の 4.7.0 で実施）: upstream タグを `merge/<版>/bshockdon` へ
+マージ → 派生 2 本へ流す → **instance ブランチを `merge/<版>/*` へ fast-forward** → push・CI →
+ステージング 3 台のチェックアウト先を instance ブランチへ戻して適用 → 本番 3 台。
+⚠ **RC 期間に instance ブランチ側だけへ入った commit（4.7 では #912）は merge ブランチに無い。**
+先に `git merge origin/<instance>` して merge ブランチを上位集合にしてからでないと、
+instance ブランチへ戻すときに fast-forward できない。
 
 ⚠ **fetch の refspec が絞られている台がある。**dev25 / dev26 は single-branch clone の名残で
 `+refs/heads/bshockdon:refs/remotes/origin/bshockdon` になっており、**`merge/4.7/*` を fetch できず
