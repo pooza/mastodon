@@ -1,0 +1,134 @@
+# フォーク CI Tier 3: 通しアセットビルド（#912）
+#
+# upstream マージによるアセットのビルド破綻を検知する。重いため毎 push には載せず、
+# nightly ＋ 手動（workflow_dispatch）に分離する。Tier 1/2（fork-spec・変更ファイルの
+# lint）は fork-ci.yml が担当。
+#
+# ⚠ schedule / workflow_dispatch は**デフォルトブランチ（bshockdon）にある定義**しか
+# 起動できない。RC 期間に merge/** を検査したいときは、手動実行の `ref` にブランチ名を
+# 渡す（定義は常に bshockdon のものが使われ、チェックアウト先だけが変わる）。
+#
+# 本番の適用手順と同じコマンドで回すことに意味があるため、`RAILS_ENV=production` と
+# Node のヒープ指定を本番に合わせている。秘密情報と DB を要求しないために
+# `SECRET_KEY_BASE_DUMMY=1` を使う（upstream の Dockerfile と同じ手口）。
+
+name: Fork CI Tier 3 (assets)
+
+on:
+  schedule:
+    # 18:00 UTC = 03:00 JST。日次のトラフィックが最も少ない時間帯に回す。
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: '検査するブランチ（空ならインスタンス 3 本すべて）'
+        required: false
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.ref || 'nightly' }}
+  cancel-in-progress: true
+
+jobs:
+  # 手動実行で ref が指定されていればその 1 本、無ければインスタンス 3 本を対象にする。
+  # テーマ SCSS はブランチごとに異なる（bshock / cure-lime / cure-orange / daidai-orange）ため、
+  # 基点ブランチだけを見てもインスタンス固有のビルド破綻は拾えない。
+  targets:
+    name: 対象ブランチの決定
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      refs: ${{ steps.pick.outputs.refs }}
+    steps:
+      - name: Pick target refs
+        id: pick
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          if [ -n "$REF" ]; then
+            refs=$(printf '["%s"]' "$REF")
+          else
+            refs='["bshockdon","curesta","delmulin"]'
+          fi
+          echo "refs=$refs" >> "$GITHUB_OUTPUT"
+          echo "対象: $refs"
+
+  build:
+    name: assets:precompile (${{ matrix.ref }})
+    needs: targets
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    strategy:
+      # 1 ブランチの破綻で他の検査を打ち切らない（どのインスタンスが壊れたかを毎回知りたい）。
+      fail-fast: false
+      matrix:
+        ref: ${{ fromJSON(needs.targets.outputs.refs) }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+
+      # ネイティブ拡張ビルド（idn-ruby/charlock_holmes）と Rails 起動時の libvips ロードに必要。
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libicu-dev libidn11-dev libvips42
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable
+      - run: yarn install --immutable
+
+      # 本番の適用手順と同じコマンド（chubo2 infra-note の precompile 行に合わせる）。
+      - name: Precompile assets
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: '1'
+          NODE_OPTIONS: --max-old-space-size=3072
+        run: bundle exec rails assets:precompile
+
+      # ビルドが 0 で終わっても、manifest が参照するファイルが実際に無ければ配信時に 404 になる
+      # （「一部の CSS だけ読めない」の典型経路。cf. #954）。ここで整合を確かめておく。
+      - name: Verify manifest against built files
+        run: |
+          ruby -rjson -e '
+            manifest = "public/packs/.vite/manifest.json"
+            abort "manifest がない: #{manifest}" unless File.exist?(manifest)
+
+            entries = JSON.parse(File.read(manifest))
+            files = entries.values.flat_map { |e| [e["file"], *e["css"], *e["assets"]] }.compact.uniq
+            missing = files.reject { |f| File.exist?(File.join("public/packs", f)) }
+            abort "manifest が参照するファイルが無い: #{missing.join(", ")}" unless missing.empty?
+
+            css = files.grep(/\.css\z/)
+            abort "CSS チャンクが 1 件も生成されていない" if css.empty?
+
+            puts "manifest entries=#{entries.size} files=#{files.size} css=#{css.size}"
+          '
+
+      # テーマの SCSS がビルドから落ちると、そのテーマの利用者だけ素の見た目になる。
+      # WebUI でしか症状が出ないため気づきにくい（cf. #907 / #954）。
+      - name: Verify every declared theme was built
+        run: |
+          ruby -rjson -ryaml -e '
+            themes = YAML.load_file("config/themes.yml")
+            entries = JSON.parse(File.read("public/packs/.vite/manifest.json"))
+
+            missing = themes.reject do |_name, path|
+              entry = entries.find { |key, _| key.end_with?(path) }&.last
+              entry && [entry["file"], *entry["css"]].compact.any? { |f| f.end_with?(".css") && File.exist?(File.join("public/packs", f)) }
+            end
+
+            abort "テーマの CSS が生成されていない: #{missing.keys.join(", ")}" unless missing.empty?
+
+            puts "themes ok: #{themes.keys.join(", ")}"
+          '
