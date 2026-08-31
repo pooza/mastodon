@@ -315,6 +315,33 @@ git merge-base --is-ancestor origin/merge/<版>/<i> origin/<i> && git push origi
 | [software_versions_dimension.rb](../app/lib/admin/metrics/dimension/software_versions_dimension.rb) | 管理画面のソフトウェア一覧に `/mulukhiya/api/about` の版を追加 |
 | streaming の DEFAULT_TAG 読み替え（#925） | ローカル TL を DEFAULT_TAG のハッシュタグストリームへ。REST 側は nginx の 302 |
 
+### ⚠ 番組表を読むクライアントは 3 つある
+
+`/mulukhiya/api/program`（番組表）を読んで実況タグセットの選択肢を組み立てているのは、
+**モロヘイヤを共通のバックエンドに持つ 3 つのフロントエンド**。⚠ **このフォークはそのうちの 1 つに
+過ぎない。**
+
+| クライアント | 実装 | 備考 |
+| --- | --- | --- |
+| [pooza/capsicum](https://github.com/pooza/capsicum) | `compose_screen.dart` の `_programSublabel`、書式は `program_schedule_display.dart` | ⚠ **先行して入ることが多い** |
+| このフォーク | [tagset_dropdown.tsx](../app/javascript/mastodon/features/compose/components/tagset_dropdown.tsx)、書式は [program_schedule.ts](../app/javascript/mastodon/features/compose/util/program_schedule.ts) | |
+| [pooza/misskey](https://github.com/pooza/misskey)（`daisskey`） | `WidgetTagset.vue`、書式は `utility/program-schedule.ts` | |
+
+⚠⚠ **番組表の見せ方を変えるときは 3 つ揃える。**利用者は同じ番組表を複数のクライアントで見比べる
+ので、**書式が割れると「どれが今日の枠か」を突き合わせられなくなる**。⚠ **capsicum が先に入るのが
+通例**なので、後続 2 つは **capsicum の表示に合わせる**（#953 / `pooza/misskey#419` はこの順で揃えた）。
+
+- **期待値を共有する。** 3 者のテストは同じケースを持つ（capsicum の
+  `program_schedule_display_test.dart` が起点）。⚠ **片方だけ直すと、テストが揃っていても
+  «揃っている» ことの担保にならない**
+- ⚠ **API 側（モロヘイヤ）の変更は要らないことが多い。** `next_on` / `start_time` は既に返っており、
+  レスポンスは放送順（`next_on` 昇順 → `start_time` 昇順）で並ぶ。⚠⚠ **足りないのは表示だけ、という
+  切り分けを先にやる**（本節冒頭の「モロヘイヤ側でできないか」を先に問う、の裏返し）
+- ⚠ **表示ラベルとタグセットの値を混ぜない。** 投稿に載るタグ（`changeTagset` に渡す値）は
+  番組表の表示ラベルとは別物。日付を表示に足しても、タグ側には入れない
+- ⚠⚠ **既に食い違っている箇所がある。** `air` の表示条件は、このフォークが `entry.air` なら無条件、
+  Misskey 版は `livecure` が真のときだけ。**揃えるかどうかは未判断**
+
 ### デフォルトハッシュタグとコミュニティ
 
 - タグの**付与**はモロヘイヤ（`DefaultTagHandler`）、**読み取り経路**（ローカル TL・streaming・検索）は
@@ -502,6 +529,7 @@ chubo2 の [doc-maintenance.md](https://github.com/pooza/chubo2/blob/main/docs/d
 - [pooza/mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy) — 併用プロキシ（モロヘイヤ）
 - [pooza/chubo2](https://github.com/pooza/chubo2) — インフラ情報・itamae レシピ（プライベート）
 - [pooza/misskey](https://github.com/pooza/misskey) — ダイスキー用フォーク（`daisskey` ブランチ）
+- [pooza/capsicum](https://github.com/pooza/capsicum) — モロヘイヤ対応のクライアントアプリ（→「番組表を読むクライアントは 3 つある」）
 - [mastodon/mastodon](https://github.com/mastodon/mastodon) — upstream
 
 ## gh CLI 使用時の注意
