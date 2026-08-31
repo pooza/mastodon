@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  localDayKey,
   parseProgramNextOn,
   parseProgramStartTime,
   programScheduleLabel,
@@ -99,5 +100,26 @@ describe('parseProgramStartTime', () => {
     expect(parseProgramStartTime('12:60')).toBeNull();
     expect(parseProgramStartTime('1230')).toBeNull();
     expect(parseProgramStartTime(undefined)).toBeNull();
+  });
+});
+
+describe('localDayKey', () => {
+  it('同じローカル日なら時刻が違っても同じキー', () => {
+    expect(localDayKey(new Date(2026, 7, 9, 0, 1))).toBe(
+      localDayKey(new Date(2026, 7, 9, 23, 59)),
+    );
+  });
+
+  it('日付をまたぐとキーが変わる', () => {
+    expect(localDayKey(new Date(2026, 7, 9, 23, 59))).not.toBe(
+      localDayKey(new Date(2026, 7, 10, 0, 1)),
+    );
+  });
+
+  it('月・日が桁上がりしても別の日と衝突しない', () => {
+    // ゼロ埋めしていないので、区切り文字が無いと 1/23 と 12/3 が衝突する。
+    expect(localDayKey(new Date(2026, 0, 23))).not.toBe(
+      localDayKey(new Date(2026, 11, 3)),
+    );
   });
 });

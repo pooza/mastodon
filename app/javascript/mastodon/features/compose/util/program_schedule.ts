@@ -51,6 +51,12 @@ export const parseProgramStartTime = (value: unknown): string | null => {
   return `${String(hour).padStart(2, '0')}:${matched[2]}`;
 };
 
+// ラベルに「今日」「明日」を含む以上、組み立てた選択肢は日付をまたぐと嘘になる。
+// 組み立て時のローカル日付を覚えておき、開き直したときに変わっていたら作り直す
+// ためのキー。UTC 換算しないのは `formatDatePart` と同じ理由。
+export const localDayKey = (date: Date): string =>
+  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
 // タグセットを選ぶのは実況の直前なので、当日・翌日だけ「今日」「明日」へ
 // 置き換え、それ以遠は `M/d` にする。判定はローカル日付で行う。
 //

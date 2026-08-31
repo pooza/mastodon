@@ -15,7 +15,7 @@ import { DropdownSelector } from 'mastodon/components/dropdown_selector';
 import { Icon } from 'mastodon/components/icon';
 import { useAppDispatch } from 'mastodon/store';
 
-import { programScheduleLabel } from '../util/program_schedule';
+import { localDayKey, programScheduleLabel } from '../util/program_schedule';
 
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
@@ -63,10 +63,16 @@ export const TagsetDropdown: React.FC<{
   const [options, setOptions] = useState<SelectItem[]>([]);
   const activeElementRef = useRef<HTMLElement | null>(null);
   const [targetElement, setTargetElement] = useState<HTMLElement | null>(null);
+  // 選択肢を組み立てたときのローカル日付。「今日」「明日」を含むラベルは
+  // 日付をまたぐと嘘になるので、開き直したときの作り直し判定に使う。
+  const loadedDayRef = useRef<string | null>(null);
 
   // モロヘイヤから番組表を取得し、タグセットの選択肢を組み立てる。
   // 取得前に program/update を叩いて番組表を最新化するのは旧実装と同じ挙動。
   const loadOptions = useCallback(async () => {
+    const now = new Date();
+    loadedDayRef.current = localDayKey(now);
+
     const items: SelectItem[] = [
       {
         value: 'empty',
@@ -81,7 +87,6 @@ export const TagsetDropdown: React.FC<{
       await fetch('/mulukhiya/api/program/update', { method: 'POST' });
       const response = await fetch('/mulukhiya/api/program');
       const result = (await response.json()) as ProgramResponse;
-      const now = new Date();
 
       for (const [key, entry] of Object.entries(result)) {
         if (!entry.enable) continue;
@@ -146,7 +151,14 @@ export const TagsetDropdown: React.FC<{
 
     // 初回オープン時にモロヘイヤから番組表を取得する（マウントごとの
     // program/update を避けるため effect ではなく開いた時に遅延ロード）。
-    if (!open && options.length === 0) void loadOptions();
+    //
+    // 日付をまたいで開き直したときも取り直す。組み立て済みのラベルは
+    // 「今日」「明日」を持つので、日が変わるとそのまま 1 日ズレて嘘になる（#953）。
+    if (
+      !open &&
+      (options.length === 0 || loadedDayRef.current !== localDayKey(new Date()))
+    )
+      void loadOptions();
 
     setOpen(!open);
   }, [open, options.length, loadOptions]);
