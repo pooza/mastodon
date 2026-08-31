@@ -315,6 +315,22 @@ git merge-base --is-ancestor origin/merge/<版>/<i> origin/<i> && git push origi
 | [software_versions_dimension.rb](../app/lib/admin/metrics/dimension/software_versions_dimension.rb) | 管理画面のソフトウェア一覧に `/mulukhiya/api/about` の版を追加 |
 | streaming の DEFAULT_TAG 読み替え（#925） | ローカル TL を DEFAULT_TAG のハッシュタグストリームへ。REST 側は nginx の 302 |
 
+### ⚠ capsicum にバニラ Mastodon 以上を求めない
+
+[pooza/capsicum](https://github.com/pooza/capsicum) は**このフォークの Mastodon クライアント**でもある
+（モロヘイヤ対応のクライアントアプリ）。⚠⚠ **だが capsicum に求めるのは「バニラの Mastodon として
+喋れること」までで、それ以上ではない。**
+
+🔴 **フォーク固有の差分はクライアントではなくモロヘイヤ側に寄せる。**本節冒頭の「本体改造の
+最小化」と同じ判断軸で、**寄せ先がプロキシ層**なのも同じ。
+
+- ⚠ **このフォーク独自の API・独自の挙動を前提にした機能を、capsicum 側に要求しない。**
+  要求した時点で「バニラの Mastodon クライアント」ではなくなり、フォークの改変がクライアントにも
+  複製される
+- ⚠ 逆向きも同じで、**capsicum に何か要るとなったら、まずモロヘイヤ側で提供できないかを問う**
+- ⚠⚠ **番組表まわりは例外ではない。**下記 3 クライアントが読んでいるのは
+  `/mulukhiya/api/program` ＝ **モロヘイヤの API** であって、このフォークの API ではない
+
 ### ⚠ 番組表を読むクライアントは 3 つある
 
 `/mulukhiya/api/program`（番組表）を読んで実況タグセットの選択肢を組み立てているのは、
@@ -529,7 +545,7 @@ chubo2 の [doc-maintenance.md](https://github.com/pooza/chubo2/blob/main/docs/d
 - [pooza/mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy) — 併用プロキシ（モロヘイヤ）
 - [pooza/chubo2](https://github.com/pooza/chubo2) — インフラ情報・itamae レシピ（プライベート）
 - [pooza/misskey](https://github.com/pooza/misskey) — ダイスキー用フォーク（`daisskey` ブランチ）
-- [pooza/capsicum](https://github.com/pooza/capsicum) — モロヘイヤ対応のクライアントアプリ（→「番組表を読むクライアントは 3 つある」）
+- [pooza/capsicum](https://github.com/pooza/capsicum) — モロヘイヤ対応のクライアントアプリ。⚠ **このフォークのクライアントでもあるが、バニラ Mastodon 以上は求めない**（→「capsicum にバニラ Mastodon 以上を求めない」）
 - [mastodon/mastodon](https://github.com/mastodon/mastodon) — upstream
 
 ## gh CLI 使用時の注意
