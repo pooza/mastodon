@@ -15,6 +15,8 @@ import { DropdownSelector } from 'mastodon/components/dropdown_selector';
 import { Icon } from 'mastodon/components/icon';
 import { useAppDispatch } from 'mastodon/store';
 
+import { programScheduleLabel } from '../util/program_schedule';
+
 const messages = defineMessages({
   empty_short: { id: 'tagset.empty.short', defaultMessage: 'Empty' },
   empty_long: { id: 'tagset.empty.long', defaultMessage: 'Empty tagset' },
@@ -43,6 +45,10 @@ interface ProgramEntry {
   livecure?: boolean;
   minutes?: number;
   extra_tags?: string[];
+  // 次回放送日（`YYYY-MM-DD`）と放送開始時刻（`HH:MM`）。どちらもモロヘイヤが
+  // 返すが、`next_on` を持たない枠がある（#953）。
+  next_on?: string;
+  start_time?: string;
 }
 
 type ProgramResponse = Record<string, ProgramEntry>;
@@ -75,11 +81,21 @@ export const TagsetDropdown: React.FC<{
       await fetch('/mulukhiya/api/program/update', { method: 'POST' });
       const response = await fetch('/mulukhiya/api/program');
       const result = (await response.json()) as ProgramResponse;
+      const now = new Date();
 
       for (const [key, entry] of Object.entries(result)) {
         if (!entry.enable) continue;
 
         const meta: string[] = [];
+        // 放送日時を meta の先頭に置く（#953）。API のレスポンスは既に放送順
+        // なので、日付が出れば「どれが今日の枠か」が一覧で分かる。
+        // `next_on` を持たない枠では空になるので、その場合は足さない。
+        const schedule = programScheduleLabel(
+          entry.next_on,
+          entry.start_time,
+          now,
+        );
+        if (schedule) meta.push(schedule);
         if (entry.episode)
           meta.push(`${entry.episode}${entry.episode_suffix ?? '話'}`);
         if (entry.subtitle) meta.push(`「${entry.subtitle}」`);
