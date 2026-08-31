@@ -457,11 +457,24 @@ md5 -q public/packs/.vite/manifest.json
 
 Material Symbols（スタートメニューのアイコン）は `fonts.googleapis.com` のスタイルシート頼みで、
 CSP のホスト指定が版上げで落ちると**アイコンの代わりに `home` などの文字列がそのまま出る**。
-静的な取りこぼしは `spec/fork/` のガードで拾うが、適用後は HTML に link が出ていることも見る:
+静的な取りこぼしは `spec/fork/` のガードで拾うが、適用後は外形でも見る。
+
+⚠ **HTML に link が出ていることだけで CSP を判断しない。**link は
+`application.html.haml` に無条件で書かれているので、**CSP が落ちていても必ず出る**。
+ブラウザは CSP で弾いて文字列を表示するのに、`grep` は緑になる。
+`spec/fork/` のガードもチェックアウトした Rails 設定を見るだけで、実際に配信されている
+ヘッダは見ていない。**レスポンスの CSP ヘッダを直接見る**こと:
 
 ```bash
-curl -s https://<domain>/ | grep -c 'fonts.googleapis.com'   # 0 なら CSP/レイアウトが落ちている
+csp=$(curl -sI https://<domain>/ | grep -i '^content-security-policy:' | tr ';' '\n')
+echo "$csp" | grep -qE '^ *style-src .*https://fonts\.googleapis\.com' \
+  && echo 'style-src OK' || echo 'style-src NG'
+echo "$csp" | grep -qE '^ *font-src .*https://fonts\.gstatic\.com' \
+  && echo 'font-src OK' || echo 'font-src NG'
 ```
+
+`style-src`（スタイルシート）と `font-src`（フォント本体）は**別のホスト**なので、
+両方見ないと片方だけ落ちた状態を見逃す。
 
 ## ローカル開発環境
 
