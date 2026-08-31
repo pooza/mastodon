@@ -433,6 +433,49 @@ stat -f %Sm public/packs/.vite/manifest.json                 # アセットが�
 curl -s https://<domain>/api/v2/instance | jq -r .version    # 外形（Redis キャッシュで 1〜2 分遅れる）
 ```
 
+⚠ **アセットの到達性も外から確かめる（#954）。**バックエンドが生きていれば API も
+`/api/v2/instance` も通るので、**上の 4 本は全部緑のまま WebUI だけ崩れる**。4.6 以降のフロントは
+Vite のハッシュ付きチャンクなので、manifest とファイルがずれると「一部の CSS だけ 404」になる。
+普段 WebUI を使わないと気づけないため、機械的に引く:
+
+```bash
+# トップの HTML が参照する CSS を全部引き、200 かつ text/css であること
+curl -s https://<domain>/ \
+  | grep -o '/packs/[^"]*\.css' | sort -u \
+  | while read -r path; do
+      curl -s -o /dev/null -w "%{http_code} %{content_type} $path\n" "https://<domain>$path"
+    done
+```
+
+全台で**同一の manifest** であることも見る。LB 分散で HTML と CSS が別ビルドの台に当たると、
+1 台だけ取りこぼしていても引き方によっては緑に見える:
+
+```bash
+# 各台で実行し、ハッシュが揃うこと
+md5 -q public/packs/.vite/manifest.json
+```
+
+Material Symbols（スタートメニューのアイコン）は `fonts.googleapis.com` のスタイルシート頼みで、
+CSP のホスト指定が版上げで落ちると**アイコンの代わりに `home` などの文字列がそのまま出る**。
+静的な取りこぼしは `spec/fork/` のガードで拾うが、適用後は外形でも見る。
+
+⚠ **HTML に link が出ていることだけで CSP を判断しない。**link は
+`application.html.haml` に無条件で書かれているので、**CSP が落ちていても必ず出る**。
+ブラウザは CSP で弾いて文字列を表示するのに、`grep` は緑になる。
+`spec/fork/` のガードもチェックアウトした Rails 設定を見るだけで、実際に配信されている
+ヘッダは見ていない。**レスポンスの CSP ヘッダを直接見る**こと:
+
+```bash
+csp=$(curl -sI https://<domain>/ | grep -i '^content-security-policy:' | tr ';' '\n')
+echo "$csp" | grep -qE '^ *style-src .*https://fonts\.googleapis\.com' \
+  && echo 'style-src OK' || echo 'style-src NG'
+echo "$csp" | grep -qE '^ *font-src .*https://fonts\.gstatic\.com' \
+  && echo 'font-src OK' || echo 'font-src NG'
+```
+
+`style-src`（スタイルシート）と `font-src`（フォント本体）は**別のホスト**なので、
+両方見ないと片方だけ落ちた状態を見逃す。
+
 ## ローカル開発環境
 
 - `bundle exec rubocop` は **`bundle install` 済みでないと動かない**。上流の版上げで Gemfile.lock が
