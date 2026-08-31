@@ -433,6 +433,36 @@ stat -f %Sm public/packs/.vite/manifest.json                 # アセットが�
 curl -s https://<domain>/api/v2/instance | jq -r .version    # 外形（Redis キャッシュで 1〜2 分遅れる）
 ```
 
+⚠ **アセットの到達性も外から確かめる（#954）。**バックエンドが生きていれば API も
+`/api/v2/instance` も通るので、**上の 4 本は全部緑のまま WebUI だけ崩れる**。4.6 以降のフロントは
+Vite のハッシュ付きチャンクなので、manifest とファイルがずれると「一部の CSS だけ 404」になる。
+普段 WebUI を使わないと気づけないため、機械的に引く:
+
+```bash
+# トップの HTML が参照する CSS を全部引き、200 かつ text/css であること
+curl -s https://<domain>/ \
+  | grep -o '/packs/[^"]*\.css' | sort -u \
+  | while read -r path; do
+      curl -s -o /dev/null -w "%{http_code} %{content_type} $path\n" "https://<domain>$path"
+    done
+```
+
+全台で**同一の manifest** であることも見る。LB 分散で HTML と CSS が別ビルドの台に当たると、
+1 台だけ取りこぼしていても引き方によっては緑に見える:
+
+```bash
+# 各台で実行し、ハッシュが揃うこと
+md5 -q public/packs/.vite/manifest.json
+```
+
+Material Symbols（スタートメニューのアイコン）は `fonts.googleapis.com` のスタイルシート頼みで、
+CSP のホスト指定が版上げで落ちると**アイコンの代わりに `home` などの文字列がそのまま出る**。
+静的な取りこぼしは `spec/fork/` のガードで拾うが、適用後は HTML に link が出ていることも見る:
+
+```bash
+curl -s https://<domain>/ | grep -c 'fonts.googleapis.com'   # 0 なら CSP/レイアウトが落ちている
+```
+
 ## ローカル開発環境
 
 - `bundle exec rubocop` は **`bundle install` 済みでないと動かない**。上流の版上げで Gemfile.lock が
