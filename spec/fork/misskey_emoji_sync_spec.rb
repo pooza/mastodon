@@ -310,13 +310,14 @@ RSpec.describe MisskeyEmojiSync do
     describe '--webhook' do
       subject { cli.invoke(:sync, ['https://misskey.example'], options) }
 
-      let(:webhook) { 'https://mstdn.example/mulukhiya/webhook/digest' }
+      let(:webhook) { 'https://mstdn.example/mulukhiya/webhook/s3cr3tdigest' }
+      let(:stubbed_webhook) { webhook }
       let(:options) { { dry_run: false, webhook: webhook } }
       let(:origin_emojis) { [{ name: 'kept', category: 'Greetings' }, { name: 'fresh', category: 'Greetings' }] }
 
       before do
         Fabricate(:custom_emoji, shortcode: 'fresh', domain: 'misskey.example')
-        stub_request(:post, webhook).to_return(status: 200, body: 'ok')
+        stub_request(:post, stubbed_webhook).to_return(status: 200, body: 'ok')
       end
 
       it 'posts the announcement as a Slack-compatible payload' do
@@ -370,6 +371,52 @@ RSpec.describe MisskeyEmojiSync do
         # URL 自体が資格情報なので、失敗の文面にも出さない
         it 'does not echo the webhook url' do
           expect { subject }.to not_output_results(webhook)
+        end
+      end
+
+      # ⚠ Request は**正規化後の** URL を例外へ継ぎ足すので、設定した文字列で伏字化しても
+      # 大文字ホストや明示ポートで形が変われば素通りする。文面ではなく例外クラスだけを
+      # 出すことで塞いでいる
+      context 'when the connection fails for a non-canonical url' do
+        let(:webhook) { 'https://MSTDN.EXAMPLE:443/mulukhiya/webhook/s3cr3tdigest' }
+        let(:stubbed_webhook) { 'https://mstdn.example/mulukhiya/webhook/s3cr3tdigest' }
+
+        before { stub_request(:post, stubbed_webhook).to_raise(HTTP::ConnectionError) }
+
+        it 'names the error class without echoing the credential' do
+          expect { subject }
+            .to output_results('Failed to post announcement: HTTP::ConnectionError')
+            .and not_output_results('s3cr3tdigest')
+        end
+      end
+
+      # ⚠ URL の組み立てで落ちる経路も同じ扱いにする。ここで落とすと同期は済んでいるのに
+      # コマンドは失敗し、次回は差分ゼロで告知そのものが出なくなる。
+      # 空白入りは Addressable::URI::InvalidURIError、`.onion` は Request.new の
+      # ホスト検証で Mastodon::HostValidationError になり、どちらも接続エラーではない
+      context 'with a webhook url that cannot be built into a request' do
+        let(:stubbed_webhook) { 'https://mstdn.example/unused' }
+
+        # ⚠ 空白を**パスに**入れても落ちない。normalize が %20 に直すため。
+        # Addressable::URI.parse が投げるのはホストが壊れているとき
+        context 'when it is malformed' do
+          let(:webhook) { 'https://mstdn example/mulukhiya/webhook/s3cr3tdigest' }
+
+          it 'still syncs and reports the failure' do
+            expect { subject }
+              .to output_results('Copied 1,', 'Failed to post announcement:')
+              .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+          end
+        end
+
+        context 'when the host is rejected' do
+          let(:webhook) { 'https://mstdn.onion/mulukhiya/webhook/s3cr3tdigest' }
+
+          it 'still syncs and reports the failure' do
+            expect { subject }
+              .to output_results('Copied 1,', 'Failed to post announcement:')
+              .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+          end
         end
       end
 
