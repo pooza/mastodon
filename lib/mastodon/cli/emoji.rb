@@ -139,6 +139,15 @@ module Mastodon::CLI
     ANNOUNCEMENT_LEAD = '新しい絵文字が増えました。'
     ANNOUNCEMENT_CATEGORY_NOTE = 'カテゴリを整理しました。'
 
+    # ⚠ 投稿が失敗しても同期は失敗扱いにしないので、**URL の組み立てで落ちる経路まで**
+    # ここで捕まえる。Request.new は不正な URL で Addressable::URI::InvalidURIError、
+    # hidden service で Mastodon::HostValidationError を投げ、どちらも接続エラーではない
+    POST_ERRORS = [
+      *Mastodon::HTTP_CONNECTION_ERRORS,
+      Addressable::URI::InvalidURIError,
+      Mastodon::HostValidationError,
+    ].freeze
+
     option :dry_run, type: :boolean, default: true
     option :announce, type: :boolean, default: false
     option :webhook
@@ -247,8 +256,11 @@ module Mastodon::CLI
         rescue Mastodon::UnexpectedResponseError => e
           # 例外の既定の文面は URL を含むので、コードだけを取り出して自前で組む
           say("Failed to post #{label}: HTTP #{e.response&.code}", :red)
-        rescue *Mastodon::HTTP_CONNECTION_ERRORS => e
-          say("Failed to post #{label}: #{redact_webhook(e.message)}", :red)
+        rescue *POST_ERRORS => e
+          # ⚠ 例外の文面を出さない。Request は**正規化後の** URL を継ぎ足して再送出するため、
+          # 設定した文字列で伏字化しても、大文字ホストや明示ポートで形が変われば素通りする。
+          # 資格情報を確実に出さないよう、文面ではなく例外クラスだけを見せる
+          say("Failed to post #{label}: #{e.class}", :red)
         end
       end
     end
@@ -263,12 +275,6 @@ module Mastodon::CLI
 
     def draft_label(drafts, index)
       "announcement#{" #{index + 1}/#{drafts.size}" if drafts.size > 1}"
-    end
-
-    # Request は例外に URL を継ぎ足して再送出する（`app/lib/request.rb`）。Webhook の URL は
-    # 資格情報なので、そのまま端末やログへ出さない
-    def redact_webhook(message)
-      message.gsub(options[:webhook], '(webhook)')
     end
 
     # 貼れない文面を「そのまま貼れる」と言わないため、投稿の文字数上限に収まるよう割る。
