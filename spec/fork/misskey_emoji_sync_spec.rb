@@ -306,6 +306,85 @@ RSpec.describe MisskeyEmojiSync do
       end
     end
 
+    # cron からの無人運用。モロヘイヤの Webhook へ Slack 互換のペイロードで投げる (#950)
+    describe '--webhook' do
+      subject { cli.invoke(:sync, ['https://misskey.example'], options) }
+
+      let(:webhook) { 'https://mstdn.example/mulukhiya/webhook/digest' }
+      let(:options) { { dry_run: false, webhook: webhook } }
+      let(:origin_emojis) { [{ name: 'kept', category: 'Greetings' }, { name: 'fresh', category: 'Greetings' }] }
+
+      before do
+        Fabricate(:custom_emoji, shortcode: 'fresh', domain: 'misskey.example')
+        stub_request(:post, webhook).to_return(status: 200, body: 'ok')
+      end
+
+      it 'posts the announcement as a Slack-compatible payload' do
+        subject
+
+        expect(a_request(:post, webhook).with { |request| JSON.parse(request.body)['text'].include?(':fresh:') })
+          .to have_been_made.once
+      end
+
+      it 'reports the post without printing the draft' do
+        expect { subject }
+          .to output_results('Posted announcement.')
+          .and not_output_results('--- announcement ---')
+      end
+
+      # 分割された下書きは順に投げる。1 投稿にまとめると文字数上限で弾かれる
+      context 'with more new emoji than fit in a single status' do
+        let(:long_names) { Array.new(30) { |i| format("%<index>02d#{'x' * 98}", index: i) } }
+        let(:origin_emojis) { long_names.map { |name| { name: name, category: 'Greetings' } } }
+
+        before { long_names.each { |name| Fabricate(:custom_emoji, shortcode: name, domain: 'misskey.example') } }
+
+        it 'posts every piece' do
+          subject
+
+          expect(a_request(:post, webhook)).to have_been_made.twice
+        end
+      end
+
+      context 'with nothing to announce' do
+        let(:origin_emojis) { [{ name: 'kept', category: 'Stale' }] }
+
+        it 'posts nothing' do
+          subject
+
+          expect(a_request(:post, webhook)).to_not have_been_made
+        end
+      end
+
+      # 同期の書き込みは済んでいる。ここで落とすと「同期は済んだのに失敗した」だけが残り、
+      # 次回は差分ゼロで告知そのものが出なくなる
+      context 'when the webhook rejects the post' do
+        before { stub_request(:post, webhook).to_return(status: 500, body: 'nope') }
+
+        it 'reports the failure but still syncs' do
+          expect { subject }
+            .to output_results('Copied 1,', 'Failed to post announcement: HTTP 500')
+            .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+        end
+
+        # URL 自体が資格情報なので、失敗の文面にも出さない
+        it 'does not echo the webhook url' do
+          expect { subject }.to not_output_results(webhook)
+        end
+      end
+
+      # 文面を先に確かめられるよう、dry-run では投げずに下書きを見せる
+      context 'with dry-run' do
+        let(:options) { { dry_run: true, webhook: webhook } }
+
+        it 'prints the draft instead of posting it' do
+          expect { subject }.to output_results('--- announcement ---', ':fresh:')
+
+          expect(a_request(:post, webhook)).to_not have_been_made
+        end
+      end
+    end
+
     it 'prints no announcement without the flag' do
       expect { subject }
         .to not_output_results('--- announcement ---')
