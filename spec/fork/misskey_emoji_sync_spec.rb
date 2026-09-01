@@ -397,8 +397,10 @@ RSpec.describe MisskeyEmojiSync do
       context 'with a webhook url that cannot be built into a request' do
         let(:stubbed_webhook) { 'https://mstdn.example/unused' }
 
+        # ⚠ 空白を**パスに**入れても落ちない。normalize が %20 に直すため。
+        # Addressable::URI.parse が投げるのはホストが壊れているとき
         context 'when it is malformed' do
-          let(:webhook) { 'https://mstdn.example/mulukhiya/webhook/s3cr3t digest' }
+          let(:webhook) { 'https://mstdn example/mulukhiya/webhook/s3cr3tdigest' }
 
           it 'still syncs and reports the failure' do
             expect { subject }
