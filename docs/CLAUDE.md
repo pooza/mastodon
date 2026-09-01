@@ -315,6 +315,72 @@ git merge-base --is-ancestor origin/merge/<版>/<i> origin/<i> && git push origi
 | [software_versions_dimension.rb](../app/lib/admin/metrics/dimension/software_versions_dimension.rb) | 管理画面のソフトウェア一覧に `/mulukhiya/api/about` の版を追加 |
 | streaming の DEFAULT_TAG 読み替え（#925） | ローカル TL を DEFAULT_TAG のハッシュタグストリームへ。REST 側は nginx の 302 |
 
+### ⚠ capsicum にバニラ Mastodon 以上を求めない
+
+[pooza/capsicum](https://github.com/pooza/capsicum) は**このフォークの Mastodon クライアント**でもある
+（モロヘイヤ対応のクライアントアプリ）。⚠⚠ **だが capsicum に求めるのは「バニラの Mastodon として
+喋れること」までで、それ以上ではない。**
+
+🔴 **フォーク固有の差分はクライアントではなくモロヘイヤ側に寄せる。**本節冒頭の「本体改造の
+最小化」と同じ判断軸で、**寄せ先がプロキシ層**なのも同じ。
+
+- ⚠ **このフォーク独自の API・独自の挙動を前提にした機能を、capsicum 側に要求しない。**
+  要求した時点で「バニラの Mastodon クライアント」ではなくなり、フォークの改変がクライアントにも
+  複製される
+- ⚠ 逆向きも同じで、**capsicum に何か要るとなったら、まずモロヘイヤ側で提供できないかを問う**
+- ⚠⚠ **番組表まわりは例外ではない。**下記 3 クライアントが読んでいるのは
+  `/mulukhiya/api/program` ＝ **モロヘイヤの API** であって、このフォークの API ではない
+
+### ⚠ 番組表を読むクライアントは 3 つある
+
+`/mulukhiya/api/program`（番組表）を読んで実況タグセットの選択肢を組み立てているのは、
+**モロヘイヤを共通のバックエンドに持つ 3 つのフロントエンド**。⚠ **このフォークはそのうちの 1 つに
+過ぎない。**
+
+| クライアント | 実装 | 備考 |
+| --- | --- | --- |
+| [pooza/capsicum](https://github.com/pooza/capsicum) | `compose_screen.dart` の `_programSublabel`、書式は `program_schedule_display.dart` | ⚠ **先行して入ることが多い** |
+| このフォーク | [tagset_dropdown.tsx](../app/javascript/mastodon/features/compose/components/tagset_dropdown.tsx)、書式は [program_schedule.ts](../app/javascript/mastodon/features/compose/util/program_schedule.ts) | |
+| [pooza/misskey](https://github.com/pooza/misskey)（`daisskey`） | `WidgetTagset.vue`、書式は `utility/program-schedule.ts` | |
+
+⚠⚠ **番組表の見せ方を変えるときは 3 つ揃える。**利用者は同じ番組表を複数のクライアントで見比べる
+ので、**書式が割れると「どれが今日の枠か」を突き合わせられなくなる**。⚠ **capsicum が先に入るのが
+通例**なので、後続 2 つは **capsicum の表示に合わせる**（#953 / `pooza/misskey#419` はこの順で揃えた）。
+
+- **期待値を共有する。** 3 者のテストは同じケースを持つ（capsicum の
+  `program_schedule_display_test.dart` が起点）。⚠ **片方だけ直すと、テストが揃っていても
+  «揃っている» ことの担保にならない**
+- ⚠ **API 側（モロヘイヤ）の変更は要らないことが多い。** `next_on` / `start_time` は既に返っており、
+  レスポンスは放送順（`next_on` 昇順 → `start_time` 昇順）で並ぶ。⚠⚠ **足りないのは表示だけ、という
+  切り分けを先にやる**（本節冒頭の「モロヘイヤ側でできないか」を先に問う、の裏返し）
+- ⚠ **表示ラベルとタグセットの値を混ぜない。** 投稿に載るタグ（`changeTagset` に渡す値）は
+  番組表の表示ラベルとは別物。日付を表示に足しても、タグ側には入れない
+- ⚠ **`air` は「揃えるかどうか」ではなく、ダイスキー側の実装漏れ。**⚠⚠ **このフォークの変更は不要**
+  （`pooza/misskey#424` で対応）。⚠ **クライアントごとの好みではなく仕様で決まっている**ので、
+  「どちらへ揃えるか」を議論の対象にしない:
+
+  - モロヘイヤ [docs/api.md](https://github.com/pooza/mulukhiya-toot-proxy/blob/main/docs/api.md) —
+    「`air` … エア番組（実在しない／TV 放送のない番組）フラグ。**`true` で「エア番組」タグが付与される**」
+  - capsicum `compose_screen.dart` のコメント — 「air フラグ … は**独立した軸**」
+
+  3 クライアント × 2 軸の実測（2026-08-31）。⚠⚠ **6 セル中、ダイスキーの表示ラベルだけが例外**:
+
+  | クライアント | 表示ラベル | 投稿に載るタグ |
+  | --- | --- | --- |
+  | capsicum | `air` 無条件（`compose_screen.dart:4713`） | `air` 無条件（同 `:2451`） |
+  | このフォーク | `air` 無条件（[tagset_dropdown.tsx:107](../app/javascript/mastodon/features/compose/components/tagset_dropdown.tsx)） | `air` 無条件（[compose.js:437](../app/javascript/mastodon/reducers/compose.js)） |
+  | ダイスキー | 🔴 **`livecure` が真のときだけ**（`WidgetTagset.vue:106-109`） | `air` 無条件（同 `:186`） |
+
+  ⚠ **ダイスキーは内部でも食い違っている。**`air: true, livecure: false` の枠では
+  **ラベルに「エア番組」が出ないのに `user_tags` には入る**。確認ダイアログはラベルを再利用する
+  ので、**利用者が見た文字列と実際に送られるタグが一致しない**。⚠⚠ **ダイスキーのラベルを
+  無条件へ直す 1 箇所で、クライアント間の差と内部の食い違いが同時に解消する**
+
+- ⚠⚠ **2 軸（表示ラベル / 投稿に載るタグ）で見る癖をつける。**上の `air` は、①クライアント間だけを
+  見ていると「どちらへ揃えるか」の好みの問題に見え、②内部の食い違いに気づけない。
+  🔴 **逆向き（`air` を `livecure` 従属に揃える）を選ぶと、2 リポジトリ 3 箇所の変更になる**
+  ——直す前に、どちらの向きが何箇所に波及するかを数えること
+
 ### デフォルトハッシュタグとコミュニティ
 
 - タグの**付与**はモロヘイヤ（`DefaultTagHandler`）、**読み取り経路**（ローカル TL・streaming・検索）は
@@ -502,6 +568,7 @@ chubo2 の [doc-maintenance.md](https://github.com/pooza/chubo2/blob/main/docs/d
 - [pooza/mulukhiya-toot-proxy](https://github.com/pooza/mulukhiya-toot-proxy) — 併用プロキシ（モロヘイヤ）
 - [pooza/chubo2](https://github.com/pooza/chubo2) — インフラ情報・itamae レシピ（プライベート）
 - [pooza/misskey](https://github.com/pooza/misskey) — ダイスキー用フォーク（`daisskey` ブランチ）
+- [pooza/capsicum](https://github.com/pooza/capsicum) — モロヘイヤ対応のクライアントアプリ。⚠ **このフォークのクライアントでもあるが、バニラ Mastodon 以上は求めない**（→「capsicum にバニラ Mastodon 以上を求めない」）
 - [mastodon/mastodon](https://github.com/mastodon/mastodon) — upstream
 
 ## gh CLI 使用時の注意
