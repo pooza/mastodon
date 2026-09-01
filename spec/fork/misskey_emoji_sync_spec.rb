@@ -391,15 +391,30 @@ RSpec.describe MisskeyEmojiSync do
       end
 
       # ⚠ URL の組み立てで落ちる経路も同じ扱いにする。ここで落とすと同期は済んでいるのに
-      # コマンドは失敗し、次回は差分ゼロで告知そのものが出なくなる
+      # コマンドは失敗し、次回は差分ゼロで告知そのものが出なくなる。
+      # 空白入りは Addressable::URI::InvalidURIError、`.onion` は Request.new の
+      # ホスト検証で Mastodon::HostValidationError になり、どちらも接続エラーではない
       context 'with a webhook url that cannot be built into a request' do
-        let(:webhook) { 'https://[' }
         let(:stubbed_webhook) { 'https://mstdn.example/unused' }
 
-        it 'still syncs and reports the failure' do
-          expect { subject }
-            .to output_results('Copied 1,', 'Failed to post announcement:')
-            .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+        context 'when it is malformed' do
+          let(:webhook) { 'https://mstdn.example/mulukhiya/webhook/s3cr3t digest' }
+
+          it 'still syncs and reports the failure' do
+            expect { subject }
+              .to output_results('Copied 1,', 'Failed to post announcement:')
+              .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+          end
+        end
+
+        context 'when the host is rejected' do
+          let(:webhook) { 'https://mstdn.onion/mulukhiya/webhook/s3cr3tdigest' }
+
+          it 'still syncs and reports the failure' do
+            expect { subject }
+              .to output_results('Copied 1,', 'Failed to post announcement:')
+              .and change { emoji.reload.category.name }.from('Stale').to('Greetings')
+          end
         end
       end
 
