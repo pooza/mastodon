@@ -141,6 +141,7 @@ module Mastodon::CLI
 
     option :dry_run, type: :boolean, default: true
     option :announce, type: :boolean, default: false
+    option :webhook
     desc 'sync ORIGIN', 'Sync custom emoji and their categories from a sister Misskey server at ORIGIN'
     long_desc <<-LONG_DESC
       Aligns local custom emoji with the sister Misskey server at ORIGIN,
@@ -160,6 +161,12 @@ module Mastodon::CLI
       With --announce, a draft announcement is printed after the report, ready
       to be posted to the local announcement bot so that users can see which
       emoji arrived.
+
+      With --webhook URL, that same announcement is posted to URL as a
+      Slack-compatible payload, which is how the announcement bot is reached
+      unattended. The URL is a credential in itself and is never echoed.
+      Nothing is posted in dry-run mode, where the drafts are printed instead
+      so that the wording can be checked first.
     LONG_DESC
     def sync(origin)
       syncer = MisskeyEmojiSync.new(origin)
@@ -185,7 +192,7 @@ module Mastodon::CLI
       say("#{plan.orphans.size} local emoji are unknown to #{syncer.domain} and were left untouched: #{summarize_shortcodes(plan.orphans)}", :yellow) if plan.orphans.any?
       say("#{plan.unsyncable.size} emoji on #{syncer.domain} cannot be represented here, names must match #{CustomEmoji::SHORTCODE_RE_FRAGMENT} and be at most #{CustomEmoji::MAX_SHORTCODE_SIZE} characters: #{summarize_shortcodes(plan.unsyncable)}", :yellow) if plan.unsyncable.any?
 
-      say_announcement(syncer) if options[:announce]
+      announce(syncer) if options[:announce] || options[:webhook].present?
     rescue MisskeyEmojiSync::Error => e
       fail_with_message e.message
     end
@@ -198,10 +205,10 @@ module Mastodon::CLI
       "#{shortcodes.first(REPORTED_SHORTCODES).join(', ')} and #{shortcodes.size - REPORTED_SHORTCODES} more"
     end
 
-    # 利用者向け告知の下書き。お知らせボットからの投稿にそのまま貼れる形で出す。
-    # 絵文字はショートコード表記のまま並べると、投稿されたときにインラインで描画される。
-    # 本文は日本語サーバー向けの文面をそのまま持つ
-    def say_announcement(syncer)
+    # 告知の出し先は 2 つある。--announce は下書きを出すだけ（手で貼る運用）、
+    # --webhook はお知らせボットへ実際に投稿する（cron からの無人運用・#950）。
+    # dry-run では投稿せず、代わりに下書きを見せて文面を確認できるようにする
+    def announce(syncer)
       drafts = announcement_drafts(syncer)
 
       if drafts.empty?
@@ -209,14 +216,59 @@ module Mastodon::CLI
         return
       end
 
-      drafts.each_with_index do |draft, index|
-        label = "announcement#{" #{index + 1}/#{drafts.size}" if drafts.size > 1}"
+      say_drafts(drafts) if options[:announce] || dry_run?
+      post_drafts(drafts) if options[:webhook].present? && !dry_run?
+    end
 
+    # 利用者向け告知の下書き。お知らせボットからの投稿にそのまま貼れる形で出す。
+    # 絵文字はショートコード表記のまま並べると、投稿されたときにインラインで描画される。
+    # 本文は日本語サーバー向けの文面をそのまま持つ
+    def say_drafts(drafts)
+      drafts.each_with_index do |draft, index|
         say('')
-        say("--- #{label} ---")
+        say("--- #{draft_label(drafts, index)} ---")
         say(draft)
         say('--- end ---')
       end
+    end
+
+    # モロヘイヤの Webhook は Slack 互換のペイロード（{"text": ...}）を受け、URL 自体が
+    # 資格情報（インスタンス URI ＋ アカウントのトークンの SHA256）。公開範囲は Webhook ごとの
+    # ユーザー設定で決まるので、ここでは指定しない。
+    # ⚠ 投稿の失敗で同期を失敗扱いにしない。書き込みは既に済んでおり、次回は差分ゼロで
+    # 告知そのものが出なくなるため、ここで落とすと「同期は済んだのに失敗した」だけが残る
+    def post_drafts(drafts)
+      drafts.each_with_index do |draft, index|
+        label = draft_label(drafts, index)
+
+        begin
+          post_draft(draft)
+          say("Posted #{label}.", :green)
+        rescue Mastodon::UnexpectedResponseError => e
+          # 例外の既定の文面は URL を含むので、コードだけを取り出して自前で組む
+          say("Failed to post #{label}: HTTP #{e.response&.code}", :red)
+        rescue *Mastodon::HTTP_CONNECTION_ERRORS => e
+          say("Failed to post #{label}: #{redact_webhook(e.message)}", :red)
+        end
+      end
+    end
+
+    def post_draft(draft)
+      request = Request.new(:post, options[:webhook], body: { text: draft }.to_json, allow_local: true)
+      request.add_headers('Content-Type' => 'application/json')
+      request.perform do |response|
+        raise Mastodon::UnexpectedResponseError, response unless response.status.success?
+      end
+    end
+
+    def draft_label(drafts, index)
+      "announcement#{" #{index + 1}/#{drafts.size}" if drafts.size > 1}"
+    end
+
+    # Request は例外に URL を継ぎ足して再送出する（`app/lib/request.rb`）。Webhook の URL は
+    # 資格情報なので、そのまま端末やログへ出さない
+    def redact_webhook(message)
+      message.gsub(options[:webhook], '(webhook)')
     end
 
     # 貼れない文面を「そのまま貼れる」と言わないため、投稿の文字数上限に収まるよう割る。
