@@ -69,6 +69,11 @@ module Mastodon::CLI
 
         attachment_scope = attachment_scope.without_local_interaction if options[:keep_interacted]
 
+        # フォーク: デフォルトタグ付き投稿のメディアは残す（#908）。デフォルトタグは
+        # ローカル準拠の印なので、リモート投稿でもキャッシュを保持する。
+        # DEFAULT_TAG が空のサーバー（bshockdon）では何も変わらない。
+        attachment_scope = attachment_scope.without_default_tag
+
         processed, aggregate = parallelize_with_progress(attachment_scope) do |media_attachment|
           next if media_attachment.file.blank?
 

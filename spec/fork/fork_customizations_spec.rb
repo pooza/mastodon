@@ -183,4 +183,52 @@ RSpec.describe 'Fork customization guard: Material Symbols (Google Fonts) の参
     expect(layout).to match(%r{rel: 'stylesheet'.*fonts\.googleapis\.com/css2\?family=Material\+Symbols})
   end
 end
+
+# デフォルトハッシュタグ付き投稿を「ローカル扱い」する範囲の第一歩（#908）。
+# `tootctl media remove` がデフォルトタグ付き投稿のキャッシュメディアを消さないことを守る。
+#
+# ⚠ 判定はロジックをフォーク基点（DefaultTag）へ置き ENV['DEFAULT_TAG'] を参照する形で、
+# curesta / delmulin は値だけが違う。ここでは値に依存しないよう ENV を差し替えて検証する。
+# ⚠⚠ 撤去した旧実装（#835）は `media_attachment.status` を1件ずつ辿り、孤児メディア
+# （status_id が nil）で落ちた。孤児が対象に残ることも合わせて守る。
+RSpec.describe 'Fork customization guard: DEFAULT_TAG media retention (#908)' do
+  subject { MediaAttachment.without_default_tag }
+
+  let(:tagged_status) { Fabricate(:status) }
+  let(:plain_status) { Fabricate(:status) }
+  let!(:tagged_media) { Fabricate(:media_attachment, status: tagged_status) }
+  let!(:plain_media) { Fabricate(:media_attachment, status: plain_status) }
+  let!(:orphan_media) { Fabricate(:media_attachment, status: nil) }
+
+  before { tagged_status.tags << Fabricate(:tag, name: 'delmulin') }
+
+  context 'when DEFAULT_TAG が設定されている（curesta / delmulin）' do
+    around do |example|
+      ClimateControl.modify(DEFAULT_TAG: 'delmulin') { example.run }
+    end
+
+    it 'デフォルトタグ付き投稿のメディアを削除対象から外す' do
+      expect(subject).to_not include(tagged_media)
+    end
+
+    it 'タグの無い投稿のメディアと孤児メディアは削除対象に残す' do
+      expect(subject).to include(plain_media, orphan_media)
+    end
+  end
+
+  context 'when DEFAULT_TAG が空（bshockdon）' do
+    around do |example|
+      ClimateControl.modify(DEFAULT_TAG: nil) { example.run }
+    end
+
+    it '何も除外せず upstream と同じ対象になる' do
+      expect(subject).to include(tagged_media, plain_media, orphan_media)
+    end
+  end
+
+  it 'tootctl media remove が without_default_tag を通している' do
+    source = Rails.root.join('lib', 'mastodon', 'cli', 'media.rb').read
+    expect(source).to include('without_default_tag')
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
