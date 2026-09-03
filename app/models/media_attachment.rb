@@ -220,6 +220,9 @@ class MediaAttachment < ApplicationRecord
   scope :remote, -> { where.not(remote_url: '') }
   scope :unattached, -> { where(status_id: nil, scheduled_status_id: nil) }
   scope :updated_before, ->(value) { where(arel_table[:updated_at].lt(value)) }
+  # フォーク: デフォルトタグ付き投稿のメディアは「ローカル扱い」として保持する（#908）。
+  # 判定は DefaultTag に集約してあり、DEFAULT_TAG が空のサーバーでは何も除外しない。
+  scope :without_default_tag, -> { DefaultTag.exclude_tagged(all) }
   scope :without_local_interaction, lambda {
     where.not(Favourite.joins(:account).merge(Account.local).where(Favourite.arel_table[:status_id].eq(MediaAttachment.arel_table[:status_id])).select(1).arel.exists)
       .where.not(Bookmark.where(Bookmark.arel_table[:status_id].eq(MediaAttachment.arel_table[:status_id])).select(1).arel.exists)
