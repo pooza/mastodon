@@ -1210,11 +1210,14 @@ const startServer = async () => {
    * distinguishing subscriptions by channelName lets both columns coexist, each
    * with its own `streamNameFromChannelName` label. Upstream keyed by
    * `channelIds.join(';')`; keep that suffix so ordering/format is unsurprising.
+   * The separator is NUL, which cannot occur in a channel name, and it is written
+   * as the escape `\u0000` on purpose: a raw NUL byte in the source makes `file`
+   * and `grep` treat this whole file as binary, so matches are silently skipped.
    * @param {string} channelName
    * @param {string[]} channelIds
    * @returns {string}
    */
-  const subscriptionKeyForChannel = (channelName, channelIds) => `${channelName} ${channelIds.join(';')}`;
+  const subscriptionKeyForChannel = (channelName, channelIds) => `${channelName}\u0000${channelIds.join(';')}`;
 
   /**
    * @typedef WebSocketSession
