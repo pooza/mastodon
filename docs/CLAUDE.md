@@ -44,176 +44,18 @@ upstream (tag) → merge/<版>/bshockdon → merge/<版>/curesta
 
 ## upstream 追従の手順
 
-### タイミング（chubo2 側と共有の運用方針）
+⚠⚠ **正本は Claude Code のスキル（#972）。** 手順を足すときは**スキルの側だけ**を直し、ここからはリンクする。**二重に持たない。**（横断の取り決めは [ginseng-style docs/skills.md](https://github.com/pooza/ginseng-style/blob/main/docs/skills.md)）
 
-- **RC が出たらステージング 3 台向けにマージを始める。** 目的は **stable リリース当日に本番へ
-  デプロイできる状態を作っておくこと**。本番に RC を載せるためではない
-- **RC 期間にモロヘイヤ側でやることは無い。** この期間の作業は `pooza/mastodon` の 3 ブランチの
-  マージとステージング適用に閉じる
-- パッチリリース（4.6.x 等）は差分が小さければ運用者が手で流す
-
-### 1. 衝突の切り分け（SAME / FORK トリアージ）
-
-マージベースは「stable-4.x が main から分岐した地点」まで遡るため、**衝突の大半はフォークと無関係な
-「4.x へのバックポート vs main の本流版」**になる。4.7.0-rc.1 では 58 件中 28 件がこれだった。
-
-各衝突ファイルの HEAD 版を**直前のリリースタグ**と突き合わせ、同一なら **フォーク改変ゼロ＝上流版を
-丸ごと採用してよい**と機械的に判定できる:
-
-```bash
-for f in $(git diff --name-only --diff-filter=U); do
-  a=$(git rev-parse "HEAD:$f" 2>/dev/null || echo none)
-  b=$(git rev-parse "v4.6.6:$f" 2>/dev/null || echo none)   # 直前のリリースタグ
-  [ "$a" = "$b" ] && echo "SAME  $f" || echo "FORK  $f"
-done | sort
-```
-
-⚠ **FORK 側を `git checkout --ours` で丸ごと採ってはいけない。** 上流がそのファイルに加えた
-変更まで捨てることになる。**上流版を土台に、フォーク改変だけを再適用する**のが原則
-（例外は README.md のように上流を全面置換しているファイルだけ）。
-
-### 2. 取りこぼし検査（機械的にやる）
-
-解決後、**集合比較で漏れを検出する**。目視で「たぶん大丈夫」と判断しない:
-
-```bash
-git diff --cached --name-only <上流タグ> | sort > /tmp/A   # 上流と差異があるファイル
-git diff --name-only <前タグ> origin/<ブランチ> | sort > /tmp/B  # フォークが実際に改変しているファイル
-
-comm -23 /tmp/A /tmp/B   # 上流変更の取りこぼし疑い
-comm -13 /tmp/A /tmp/B   # フォーク改変の消失疑い
-```
-
-上流がファイルを移動した場合は新旧パスの対で出るので、それだけは正常。
-
-### 3. 衝突しないのに壊れる箇所（最重要）
-
-**フォーク独自ファイルは上流のリネーム・依存削除に追従しないが、衝突としては現れない。**
-マージ後に必ずビルドを通すこと。4.7 で実際に踏んだ 3 件:
-
-| 症状 | 原因 | 対処 |
+| スキル | 起動 | 中身 |
 | --- | --- | --- |
-| `lib/mastodon/version.rb` が 4.7.6 になる | major/minor は上流、patch だけ旧版が残る混成を自動マージが作る | フォークは version.rb を改変していないので上流版で上書き |
-| テーマ SCSS がビルド不能 | 上流が `styles/mastodon/theme/` → `tokens/` にリネーム。独自エントリポイントは追従しない | 後述の再同期 |
-| `Rolldown failed to resolve import "react-overlays/Overlay"` | 上流が react-overlays を依存ごと撤去 | 後述のタグセット移植 |
+| [upstream-merge](../.claude/skills/upstream-merge/SKILL.md) | 明示のみ | 版上げ一式。SAME/FORK トリアージ → 取りこぼし検査 → 版ごとの定例作業（テーマ再同期・タグセットのミラー・用語ポリシー）→ 検証 → CI → 後始末 |
+| [release-verify](../.claude/skills/release-verify/SKILL.md) | 自動 | 6 台へ適用したあとの外形確認。ブランチ・マイグレーション・アセット到達性（#954）・CSP 実効ヘッダ・テーマ CSS の後勝ち |
+| [staging-rc](../.claude/skills/staging-rc/SKILL.md) | 明示のみ | RC 期間のステージング適用（`merge/**` への切り替えと戻し） |
 
-### 4. 版ごとの定例作業
+起動の線引きは **「外へ書く step が 1 つでもあれば明示のみ」**。`release-verify` は curl と grep だけで終わるので自動でよい。
 
-#### テーマエントリポイントの再同期
+⚠ スキルは `.claude/skills/` に置き、**3 ブランチで中身を同一に保つ**（共有する改変は bshockdon 側の構造で提供して派生へ流す、という既存の原則をスキルにも当てる）。インスタンスごとの違いは `config/themes.yml` の登録テーマから判定してファイルを分岐させない。`.gitignore` は `.claude/*` を落としつつ `!.claude/skills/` で skills だけ追跡している。
 
-`app/javascript/styles/<テーマ>.scss` は **`application.scss` の全文 + 末尾のテーマブロック**という
-構造で、上流が application.scss を変えても追従しない。版上げのたびに再同期する:
-
-```python
-base = open("app/javascript/styles/application.scss").read().rstrip("\n")
-for name in [...]:                        # ブランチごとのテーマ名
-    lines = open(f"app/javascript/styles/{name}.scss").read().split("\n")
-    fork = "\n".join(lines[24:]).rstrip("\n")   # 25 行目以降＝テーマブロック
-    open(f"app/javascript/styles/{name}.scss","w").write(base + "\n" + fork + "\n")
-```
-
-対象は `bshockdon`: bshock / `curesta`: cure-lime, cure-orange /
-`delmulin`: dai, daidai-orange, hyunckel, leona, maam, popp。
-`config/themes.yml` の登録と一致していることも確認する。
-
-⚠ 4.7 では併せて `@use 'mastodon/theme/economy'` → `@use 'mastodon/tokens/theme/economy'` の
-パス修正が必要だった。`grep -n "mastodon/theme" app/javascript/styles/*.scss` が 0 件になること。
-
-#### タグセットドロップダウンのミラー（#905）
-
-[tagset_dropdown.tsx](../app/javascript/mastodon/features/compose/components/tagset_dropdown.tsx) は
-upstream の `language_dropdown.tsx` の薄い並行実装。**版上げのたびに language_dropdown の差分を
-そのまま当てる**:
-
-```bash
-git diff <前タグ> <新タグ> -- app/javascript/mastodon/features/compose/components/language_dropdown.tsx
-```
-
-4.7 では react-overlays → `components/popover`（floating-ui）への移行がここに該当した
-（`Overlay`→`Popover`、`useRef`→`useState` の参照渡し、`placement` state の撤去）。
-
-#### 用語ポリシーの再適用
-
-```bash
-# 大文字化を採用しない（#906）— 全ブランチ
-grep -rE 'text-transform:\s*(uppercase|capitalize)' app/javascript
-
-# 廃止用語「トゥート」の排除 — 全ブランチ
-grep -rn 'トゥート' config/locales app/javascript/mastodon/locales
-
-# 投稿→キュア！ / ブースト→リキュア！ — curesta のみ
-grep -rn '投稿\|ブースト' config/locales/*ja*.yml app/javascript/mastodon/locales/ja.json
-```
-
-いずれも**ヒット 0 件**が正常。⚠ **RC では ja 翻訳が更新されていないことが多く、置換対象が
-現れないことがある**（4.7.0-rc.1 がそうだった）。**stable で Crowdin の ja が入った時点で
-必ず再チェックする。**
-
-### 5. 検証
-
-```bash
-bundle install && yarn install --immutable
-bundle exec rubocop                 # offense 0 が正常
-yarn build:production               # フォーク独自ファイルの破損はここでしか出ない
-bundle exec rspec spec/fork         # ⚠ PostgreSQL 必須
-```
-
-ビルド後、テーマが実際に効いているかを生成 CSS で確認する（後勝ちの上書きなので**最後の値**を見る）:
-
-```bash
-grep -o '\-\-color-grey-100:[^;]*' public/packs/assets/themes/<テーマ>-*.css | tail -1
-```
-
-default テーマと同じ値なら適用されていない。
-
-### 6. CI
-
-上流の CI ワークフローは**すべて削除**し、[.github/workflows/fork-ci.yml](../.github/workflows/fork-ci.yml)
-一本に置き換えている。回るのは **spec/fork（PostgreSQL 込み）** と、**変更ファイルに限定した**
-ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が拾う。
-
-通しのアセットビルドは重いので毎 push には載せず、[fork-assets-nightly.yml](../.github/workflows/fork-assets-nightly.yml)
-に分離している（#912）。本番と同じコマンド（`RAILS_ENV=production` ＋ Node のヒープ指定）で
-`assets:precompile` を回し、**manifest が参照するファイルの実在**と **`config/themes.yml` の
-全テーマの CSS 生成**まで確認する。既定はインスタンス 3 本の nightly。
-
-⚠ **schedule / workflow_dispatch はデフォルトブランチ（bshockdon）の定義しか起動できない。**
-RC 期間に `merge/**` を検査したいときは、手動実行の `ref` にブランチ名を渡す（定義は bshockdon の
-ものが使われ、チェックアウト先だけが変わる）。**版を本番へ適用する前に一度回しておく。**
-
-⚠ **push トリガーはブランチ名で絞っている**（`merge/**` / `stable/**` / 3 つのインスタンスブランチ）。
-**作業ブランチの命名規則を変えたらここも直す。**4.7 の追従では `work/4.6/**` のまま残っていたため、
-`merge/4.7/*` への push で CI が一度も走らなかった。
-
-⚠ **`merge/**` が緑でも instance ブランチへ戻した push で落ちることがある。**Tier 1/2 は
-**変更ファイルに限定**して lint するため、**比較の基点が変わると検査対象も変わる**。
-2026-08-21 の 4.7.0 では、`merge/4.7/*` では対象外だった `styles/mastodon/tokens/theme/_economy.scss`
-が curesta / delmulin の instance ブランチ側で対象に入り、**#907 で書いた解説ブロックの空コメント
-2 行**（`scss/comment-no-empty`）で落ちた。**版上げの検証は instance ブランチへ戻した後の CI まで見る。**
-
-### 7. 後始末（6 台への適用が終わってから）
-
-**版上げは 6 台へ適用して終わりではない。**次の 3 つまでが 1 セット:
-
-```bash
-# 1. リリースタグ。命名は v<上流版>-<インスタンス> の軽量タグ（例 v4.7.0-curesta）
-for i in bshockdon curesta delmulin; do git tag "v<版>-$i" "origin/$i"; done
-git push origin v<版>-bshockdon v<版>-curesta v<版>-delmulin
-
-# 2. 切り戻し先のスナップショット。⚠ 本番へ実際に適用したコミットに置く
-git branch stable/<版>/<インスタンス> <適用したコミット>
-
-# 3. 作業ブランチの削除。instance / stable の祖先であることを確かめてから
-git merge-base --is-ancestor origin/merge/<版>/<i> origin/<i> && git push origin --delete merge/<版>/<i>
-```
-
-⚠ **タグと `stable/<版>/*` は必ずしも同じコミットにならない。**タグは「その版としてのフォークの
-到達点」なので **instance ブランチの先端**に、`stable/<版>/*` は「本番が走っているコミット」なので
-**適用したコミット**に置く（4.7.0 では版上げ後に足した docs コミット 1 本ぶんずれた）。
-
-⚠ **DB のスナップショットは残置する。**マイグレーションがある版では適用前に
-`<dataset>@pre-mastodon-<版>` を取る（→ chubo2 infra-note）。**数日運用して問題が無ければ削除する**
-のは運用者の判断。
 
 ## フォーク改変の防衛線: spec/fork
 
@@ -239,6 +81,12 @@ git merge-base --is-ancestor origin/merge/<版>/<i> origin/<i> && git push origi
 - **Material Symbols（Google Fonts）の参照（#954）** — CSP の**実効ポリシー**（`style-src` / `font-src`）と
   レイアウトの stylesheet link。ソース文字列ではなく組み上がったポリシーを見るのは、4.7 のように
   initializer の構造ごと変わっても検知するため（development ブロックにだけ残った場合も落とす）
+- **用語ポリシー（#972）** — [spec/fork/terminology_guard_spec.rb](../spec/fork/terminology_guard_spec.rb)。
+  廃止用語「トゥート」が ja の翻訳に残っていないこと（全ブランチ）と、「投稿」→キュア！ /
+  「ブースト」→リキュア！ の置換が生きていること（curesta のみ。`config/themes.yml` の登録テーマで判定）。
+  ⚠ **上流の版上げで Crowdin の ja が入れ替わると静かに戻る**ので、手で直すのは
+  [upstream-merge スキル](../.claude/skills/upstream-merge/SKILL.md)、落とすのはここ、という分担。
+  大文字化の禁止（#906）は CSS 側の規則なので stylelint が見る
 
 ⚠ **spec/fork は PostgreSQL が要る。** 手元で DB を上げられないときは上表の定数を `grep` で
 確認しておけば巻き戻りの大半は捕まる（本走は Fork CI が回す）。
@@ -453,94 +301,14 @@ FreeBSD 対応に必要なのは rc.d スクリプトと環境設定のみ。
 
 ### RC 期間のステージング適用（`merge/**` への切り替え）
 
-RC を載せるときは、各台のチェックアウト先を instance ブランチから `merge/<版>/<インスタンス>` に
-切り替える。stable が出たら instance ブランチへ戻す。2026-08-15 の 4.7.0-rc.1 適用で踏んだ罠:
+→ [staging-rc スキル](../.claude/skills/staging-rc/SKILL.md)。refspec が絞られている台の確認、`git checkout` をパイプに通さない理由、health の 200 待ち、stable 当日に instance ブランチへ戻す流れ。
 
-**stable 当日の流れ**（2026-08-21 の 4.7.0 で実施）: upstream タグを `merge/<版>/bshockdon` へ
-マージ → 派生 2 本へ流す → **instance ブランチを `merge/<版>/*` へ fast-forward** → push・CI →
-ステージング 3 台のチェックアウト先を instance ブランチへ戻して適用 → 本番 3 台。
-⚠ **RC 期間に instance ブランチ側だけへ入った commit（4.7 では #912）は merge ブランチに無い。**
-先に `git merge origin/<instance>` して merge ブランチを上位集合にしてからでないと、
-instance ブランチへ戻すときに fast-forward できない。
+🔴 **dev25 = キュアスタ！ / dev26 = デルムリン丼。**ドメイン名の見た目と機番の対応が逆なので取り違えやすい（正本は chubo2 [noah.yaml](https://github.com/pooza/chubo2/blob/main/config/node/noah.yaml) の `proxies`）。
 
-⚠ **fetch の refspec が絞られている台がある。**dev25 / dev26 は single-branch clone の名残で
-`+refs/heads/bshockdon:refs/remotes/origin/bshockdon` になっており、**`merge/4.7/*` を fetch できず
-チェックアウトが失敗した**。切り替え前に確認し、必要なら広げる:
+### 適用後の検証
 
-```bash
-git config --get-all remote.origin.fetch          # 確認
-git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'   # 広げる
-git rev-parse --verify origin/<branch>            # ref があることを確かめてから checkout
-```
+→ [release-verify スキル](../.claude/skills/release-verify/SKILL.md)。**デプロイ手順の外から独立に確かめる**（スクリプトが最後まで走ったことは根拠にならない）。⚠ アセット到達性（#954）と CSP 実効ヘッダは、**API が全部緑のまま WebUI だけ崩れる**経路なので機械的に引く。
 
-⚠ **手順を自動化するとき、`git checkout` の出力をパイプに通さない。**`set -e` はパイプ末尾の
-終了コードしか見ないため、`git checkout ... | tail -1` と書くと**切り替え失敗を素通りして
-bundle / migrate / assets まで走る**。「適用したつもりで旧版のまま、アセットだけ再生成」という
-最悪の状態になりうる。切り替え後は必ず検証する:
-
-```bash
-test "$(git rev-parse --abbrev-ref HEAD)" = "$BR"
-```
-
-⚠ **再起動後のヘルスチェックは固定待ちにしない。**puma の停止に 23 秒・起動完了まで計 47 秒
-かかった実測があり、`sleep 30` では**起動途中に当たって誤った赤が出る**。200 が返るまで待つ:
-
-```bash
-until [ "$(curl -s -o /dev/null -w '%{http_code}' https://<staging-domain>/health)" = "200" ]; do sleep 10; done
-```
-
-**適用の成否は、デプロイ手順の外から独立に検証する。**スクリプトが最後まで走ったことは根拠に
-ならない（上記の握り潰しがあるため）:
-
-```bash
-git rev-parse --abbrev-ref HEAD                              # 意図したブランチか
-RAILS_ENV=production bundle exec rails db:abort_if_pending_migrations
-stat -f %Sm public/packs/.vite/manifest.json                 # アセットが今回のものか
-curl -s https://<domain>/api/v2/instance | jq -r .version    # 外形（Redis キャッシュで 1〜2 分遅れる）
-```
-
-⚠ **アセットの到達性も外から確かめる（#954）。**バックエンドが生きていれば API も
-`/api/v2/instance` も通るので、**上の 4 本は全部緑のまま WebUI だけ崩れる**。4.6 以降のフロントは
-Vite のハッシュ付きチャンクなので、manifest とファイルがずれると「一部の CSS だけ 404」になる。
-普段 WebUI を使わないと気づけないため、機械的に引く:
-
-```bash
-# トップの HTML が参照する CSS を全部引き、200 かつ text/css であること
-curl -s https://<domain>/ \
-  | grep -o '/packs/[^"]*\.css' | sort -u \
-  | while read -r path; do
-      curl -s -o /dev/null -w "%{http_code} %{content_type} $path\n" "https://<domain>$path"
-    done
-```
-
-全台で**同一の manifest** であることも見る。LB 分散で HTML と CSS が別ビルドの台に当たると、
-1 台だけ取りこぼしていても引き方によっては緑に見える:
-
-```bash
-# 各台で実行し、ハッシュが揃うこと
-md5 -q public/packs/.vite/manifest.json
-```
-
-Material Symbols（スタートメニューのアイコン）は `fonts.googleapis.com` のスタイルシート頼みで、
-CSP のホスト指定が版上げで落ちると**アイコンの代わりに `home` などの文字列がそのまま出る**。
-静的な取りこぼしは `spec/fork/` のガードで拾うが、適用後は外形でも見る。
-
-⚠ **HTML に link が出ていることだけで CSP を判断しない。**link は
-`application.html.haml` に無条件で書かれているので、**CSP が落ちていても必ず出る**。
-ブラウザは CSP で弾いて文字列を表示するのに、`grep` は緑になる。
-`spec/fork/` のガードもチェックアウトした Rails 設定を見るだけで、実際に配信されている
-ヘッダは見ていない。**レスポンスの CSP ヘッダを直接見る**こと:
-
-```bash
-csp=$(curl -sI https://<domain>/ | grep -i '^content-security-policy:' | tr ';' '\n')
-echo "$csp" | grep -qE '^ *style-src .*https://fonts\.googleapis\.com' \
-  && echo 'style-src OK' || echo 'style-src NG'
-echo "$csp" | grep -qE '^ *font-src .*https://fonts\.gstatic\.com' \
-  && echo 'font-src OK' || echo 'font-src NG'
-```
-
-`style-src`（スタイルシート）と `font-src`（フォント本体）は**別のホスト**なので、
-両方見ないと片方だけ落ちた状態を見逃す。
 
 ## ローカル開発環境
 
@@ -557,11 +325,25 @@ chubo2 の [doc-maintenance.md](https://github.com/pooza/chubo2/blob/main/docs/d
 | 内容 | 置き場 |
 | --- | --- |
 | 未了の作業・課題 | GitHub Issue（`pooza/mastodon`。インフラ面は `pooza/chubo2`） |
-| フォーク開発の知見（追従手順・独自改変・モロヘイヤ連携） | **この docs/CLAUDE.md** |
+| フォーク開発の知見（独自改変・モロヘイヤ連携・FreeBSD 向けの調整） | **この docs/CLAUDE.md** |
+| 名前のついた手順（版上げ・適用後の検証・RC 期間のステージング適用） | **`.claude/skills/`**（#972）。docs はポインタ |
+| リポジトリ横断の作法（Codex レビューの処理など） | [ginseng-style](https://github.com/pooza/ginseng-style) のプラグイン。こちらで作らない |
 | インフラの現況・手順・再発する罠 | [chubo2 docs/infra-note.md](https://github.com/pooza/chubo2/blob/main/docs/infra-note.md) |
 | 日付のある出来事の記録 | [chubo2 docs/infra-history.md](https://github.com/pooza/chubo2/blob/main/docs/infra-history.md) |
 | モロヘイヤの設計方針・リリース運用 | [mulukhiya-toot-proxy docs/CLAUDE.md](https://github.com/pooza/mulukhiya-toot-proxy/blob/main/docs/CLAUDE.md) |
 | セッションメモリ | 正本へのポインタと「なぜ非自明か」だけ。現況は書かない |
+
+## 横断の作法は ginseng-style のプラグインで
+
+リポジトリをまたぐ作法は [ginseng-style](https://github.com/pooza/ginseng-style) の Claude Code
+プラグインが正本。**このフォークで作り直さない。**
+
+- **Codex（自動レビュー）の指摘の処理** → `/ginseng:codex-review`
+  （[SKILL.md](https://github.com/pooza/ginseng-style/blob/main/plugins/ginseng/skills/codex-review/SKILL.md)）
+- 入れ方: `/plugin marketplace add pooza/ginseng-style` → `/plugin install ginseng@ginseng-style`。
+  ⚠ **マシンごとに 1 回ずつ手で入れる**（外部ソースのプラグインは自動では入らない）
+
+⚠ **このフォーク固有の手順は `.claude/skills/`**（#972）。横断の作法ではないのでプラグインへ上げない。
 
 ## 関連リポジトリ
 

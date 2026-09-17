@@ -82,7 +82,10 @@ storybook-static
 
 # local
 .config
-.claude/
+# .claude/ は原則ローカル（settings.json はマシンごと）だが、
+# skills/ だけはフォークの手順書の正本なので追跡する（#972）。
+.claude/*
+!.claude/skills/
 .npm
 .rbenv
 .gem
