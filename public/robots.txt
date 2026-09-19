@@ -3,6 +3,25 @@
 User-agent: GPTBot
 Disallow: /
 
+# pooza/chubo2#118 — **Meta のクローラには一切協力しない**（2026-09-19 決定）。
+# ⚠ **理由は実効性ではなく、Meta という企業への不信。**運用上の損得で入れたものではないので、
+#   「効いていないから外す」という理由では外さない。
+# ⚠ ただし実効性も伴う —— Meta は robots.txt を 1 日 3 回読みに来て、既存の Disallow
+#   （/media_proxy/ /interact/ domain_blocks）を **100% 守っている**ことを実測で確認している
+#   （違反 0 件 / 76,421 件中）。
+# ⚠⚠ **`facebookexternalhit` を止めると、利用者が FB / Instagram / WhatsApp へ丼の URL を
+#   貼ったときのプレビューカードが出なくなる。**困るのは Meta ではなく利用者。承知のうえの判断。
+# ⚠ `Disallow: /` は全パスを覆うので、`*` 節の Disallow を書き写す必要は無い
+#   （部分的に禁じる場合は書き写しが要る。下の ExaSearchBot 節を参照）。
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: facebookexternalhit
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
 User-agent: *
 Disallow: /media_proxy/
 Disallow: /interact/
@@ -14,7 +33,7 @@ Disallow: /auth/
 
 # pooza/chubo2#118 — ExaSearchBot が Web UI のバンドルを繰り返し取得して、
 # 2026-09-19 に precure.ml で 1 日 784 万件（全体の 94%）、mstdn.b-shock.org で 478 万件（89%）に達した。
-# 相手は robots.txt を読みに来ている（同日 189 回）ので、まずここで止める。
+# 相手は robots.txt を読みに来ている（⚠ 頻度は 1 日 1 回。指示を変えても効くのは翌日）ので、まずここで止める。
 # ⚠⚠ robots.txt は「マッチしたグループを 1 つだけ」見る。個別の User-agent 節を足したら
 #     `*` 節の Disallow も書き写すこと。書かないと、その bot にだけ `*` 節が効かなくなる。
 # ⚠ 中身のクロール（/@user・/accounts/）は止めていない。検索での見え方は変えない。
