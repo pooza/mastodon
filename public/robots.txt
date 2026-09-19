@@ -7,6 +7,10 @@ User-agent: *
 Disallow: /media_proxy/
 Disallow: /interact/
 Disallow: /api/v1/instance/domain_blocks
+# pooza/chubo2#118 — ログイン / サインアップ画面。検索に載せる意味が無いのにボットが叩く。
+# 2026-09-19 の mstdn.delmulin.com では /auth/ だけで 76,150 件（全トラフィックの 28%）、
+# その 100% が meta-externalagent だった。⚠ 静的ファイルと違い Rails まで届くので 1 件が重い。
+Disallow: /auth/
 
 # pooza/chubo2#118 — ExaSearchBot が Web UI のバンドルを繰り返し取得して、
 # 2026-09-19 に precure.ml で 1 日 784 万件（全体の 94%）、mstdn.b-shock.org で 478 万件（89%）に達した。
