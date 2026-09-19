@@ -7,3 +7,18 @@ User-agent: *
 Disallow: /media_proxy/
 Disallow: /interact/
 Disallow: /api/v1/instance/domain_blocks
+
+# pooza/chubo2#118 — ExaSearchBot が Web UI のバンドルを繰り返し取得して、
+# 2026-09-19 に precure.ml で 1 日 784 万件（全体の 94%）、mstdn.b-shock.org で 478 万件（89%）に達した。
+# 相手は robots.txt を読みに来ている（同日 189 回）ので、まずここで止める。
+# ⚠⚠ robots.txt は「マッチしたグループを 1 つだけ」見る。個別の User-agent 節を足したら
+#     `*` 節の Disallow も書き写すこと。書かないと、その bot にだけ `*` 節が効かなくなる。
+# ⚠ 中身のクロール（/@user・/accounts/）は止めていない。検索での見え方は変えない。
+User-agent: ExaSearchBot
+Disallow: /media_proxy/
+Disallow: /interact/
+Disallow: /api/v1/instance/domain_blocks
+Disallow: /packs/
+Disallow: /css/
+Disallow: /sounds/
+Disallow: /site_uploads/
