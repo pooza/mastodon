@@ -151,7 +151,7 @@ if [ "$problems" -gt 0 ]; then
 fi
 if [ "$execute" -eq 1 ]; then
   echo "後始末おわり。⚠ DB スナップショット <dataset>@pre-mastodon-${version} の削除は運用者の判断。"
-  echo "🔴 残り: chubo2 docs/infra-mastodon.md の「6 台とも instance ブランチ = <版>」を ${version} に書き換えて main へ。"
+  echo "🔴 残り: chubo2 docs/infra-mastodon.md の「<日付> に <版> を適用し、6 台とも instance ブランチ = <版>。」を本番適用日と ${version} に書き換えて main へ。"
 else
   echo "確認おわり。実行するには --execute を付ける。"
 fi
