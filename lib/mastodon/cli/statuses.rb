@@ -10,6 +10,7 @@ module Mastodon::CLI
     option :batch_size, type: :numeric, default: 1_000, aliases: [:b], desc: 'Number of records in each batch'
     option :continue, type: :boolean, default: false, desc: 'If remove is not completed, execute from the previous continuation'
     option :clean_followed, type: :boolean, default: false, desc: 'Include the status of remote accounts that are followed by local accounts as candidates for remove'
+    option :keep_tags, type: :string, default: '', desc: 'Comma-separated hashtags whose statuses are kept (DEFAULT_TAG is always kept)'
     option :skip_status_remove, type: :boolean, default: false, desc: 'Skip status remove (run only cleanup tasks)'
     option :skip_media_remove, type: :boolean, default: false, desc: 'Skip remove orphaned media attachments'
     option :compress_database, type: :boolean, default: false, desc: 'Compress database and update the statistics. This option locks the table for a long time, so run it offline'
@@ -24,6 +25,10 @@ module Mastodon::CLI
 
       This is a computationally heavy procedure that creates extra database
       indices before commencing, and removes them afterward.
+
+      Statuses tagged with any of --keep-tags (e.g. --keep-tags=precure_fun,delmulin)
+      or with DEFAULT_TAG are kept. With --continue, the deletion targets extracted
+      by the previous run are reused, so changes to --keep-tags do not apply.
     LONG_DESC
     def remove
       fail_with_message 'Cannot run with this batch_size setting, must be at least 1' if options[:batch_size] < 1
@@ -52,6 +57,14 @@ module Mastodon::CLI
         # Skip accounts followed by local accounts
         clean_followed_sql = 'AND NOT EXISTS (SELECT 1 FROM follows WHERE statuses.account_id = follows.target_account_id)' unless options[:clean_followed]
 
+        # フォーク: 指定タグと DEFAULT_TAG の付いた投稿は残す（#977 / #908）。
+        # どちらも指定が無い（または Tag 行が無い）サーバーでは upstream と同じ対象になる。
+        keep_tag_ids = DefaultTag.protected_tag_ids(options[:keep_tags].to_s.split(',').map(&:strip))
+        if keep_tag_ids.any?
+          say("Keeping statuses tagged with: #{Tag.where(id: keep_tag_ids).pluck(:name).sort.join(', ')}")
+          keep_tags_sql = "AND NOT EXISTS (SELECT 1 FROM statuses_tags WHERE statuses.id = statuses_tags.status_id AND statuses_tags.tag_id IN (#{keep_tag_ids.map(&:to_i).join(',')}))"
+        end
+
         ActiveRecord::Base.connection.exec_insert(<<~SQL.squish, 'SQL', [max_id])
           INSERT INTO statuses_to_be_deleted (id)
           SELECT statuses.id FROM statuses WHERE deleted_at IS NULL AND NOT local AND uri IS NOT NULL AND (id < $1)
@@ -65,6 +78,7 @@ module Mastodon::CLI
           AND NOT EXISTS (SELECT 1 FROM quotes JOIN statuses statuses1 ON quotes.status_id = statuses1.id WHERE quotes.quoted_status_id = statuses.id AND (statuses1.uri IS NULL OR statuses1.local))
           AND NOT EXISTS (SELECT 1 FROM quotes JOIN statuses statuses1 ON quotes.quoted_status_id = statuses1.id WHERE quotes.status_id = statuses.id AND (statuses1.uri IS NULL OR statuses1.local))
           #{clean_followed_sql}
+          #{keep_tags_sql}
         SQL
 
         say('Removing temporary database indices to restore write performance...')

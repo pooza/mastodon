@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'mastodon/cli/statuses'
 
 # ここのガード群は単一クラスではなく横断的なフォーク改変（上限値・挙動）を検証するため、
 # 文字列 describe を意図的に使い、issue 単位で兄弟の top-level group として並べる。
@@ -229,6 +230,94 @@ RSpec.describe 'Fork customization guard: DEFAULT_TAG media retention (#908)' do
   it 'tootctl media remove が without_default_tag を通している' do
     source = Rails.root.join('lib', 'mastodon', 'cli', 'media.rb').read
     expect(source).to include('without_default_tag')
+  end
+end
+
+# デフォルトハッシュタグ付き投稿を「ローカル扱い」する範囲の二歩目（#977 / #908）。
+# `tootctl statuses remove` が、--keep-tags で指定したタグと DEFAULT_TAG の付いた
+# リモート投稿を消さないことを守る。守るタグはサーバーごとに cron の引数で渡す
+# （DEFAULT_TAG とは一致しない。例: 美食丼は DEFAULT_TAG が空だが 3 タグを守る）。
+RSpec.describe 'Fork customization guard: statuses remove --keep-tags (#977)' do
+  describe 'DefaultTag.protected_tag_ids' do
+    let!(:delmulin) { Fabricate(:tag, name: 'delmulin') }
+    let!(:kanako) { Fabricate(:tag, name: '宮本佳那子') }
+    let!(:precure) { Fabricate(:tag, name: 'precure_fun') }
+
+    around do |example|
+      ClimateControl.modify(DEFAULT_TAG: default_tag) { example.run }
+    end
+
+    context 'when DEFAULT_TAG が空' do
+      let(:default_tag) { nil }
+
+      it '指定が無ければ空になる（upstream と同じ挙動）' do
+        expect(DefaultTag.protected_tag_ids).to eq []
+      end
+
+      it "'#' 付き・大文字・まだ無いタグ名が混ざっても、正規化して実在するものだけ返す" do
+        expect(DefaultTag.protected_tag_ids(['#DELMULIN', '宮本佳那子', 'nonexistent']))
+          .to contain_exactly(delmulin.id, kanako.id)
+      end
+    end
+
+    context 'when DEFAULT_TAG が設定されている' do
+      let(:default_tag) { 'precure_fun' }
+
+      it '指定が無くても DEFAULT_TAG を含む' do
+        expect(DefaultTag.protected_tag_ids).to eq [precure.id]
+      end
+
+      it '指定と DEFAULT_TAG の両方を含む' do
+        expect(DefaultTag.protected_tag_ids(%w(precure_fun delmulin)))
+          .to contain_exactly(precure.id, delmulin.id)
+      end
+    end
+  end
+
+  describe 'tootctl statuses remove', type: :cli, use_transactional_tests: false do
+    subject { Mastodon::CLI::Statuses.new.invoke(:remove, [], options) }
+
+    let(:remote_account) { Fabricate(:account, domain: 'remote.example', username: 'alice') }
+    let(:old_id) { Mastodon::Snowflake.id_at(100.days.ago) }
+    let!(:kept_status) { old_remote_status(1, 'delmulin') }
+    let!(:default_tagged_status) { old_remote_status(2, 'precure_fun') }
+    let!(:plain_status) { old_remote_status(3, nil) }
+
+    def old_remote_status(offset, tag_name)
+      status = Fabricate(:status, account: remote_account, id: old_id + offset, uri: "https://remote.example/statuses/#{offset}", local: false)
+      status.tags << Tag.find_or_create_by_names(tag_name).first if tag_name
+      status
+    end
+
+    # ⚠ statuses remove は一時テーブルを作るためトランザクション外で走らせる。作った行が
+    # 後続の例に残らないよう、streaming の spec と同じく DatabaseCleaner で後始末する。
+    around do |example|
+      DatabaseCleaner.cleaning do
+        ClimateControl.modify(DEFAULT_TAG: 'precure_fun') { example.run }
+      end
+    end
+
+    context 'with --keep-tags' do
+      let(:options) { { keep_tags: '#delmulin, 宮本佳那子', skip_media_remove: true } }
+
+      it '指定タグと DEFAULT_TAG の付いた投稿を残し、それ以外を消す' do
+        expect { subject }.to output_results('Keeping statuses tagged with: delmulin, precure_fun')
+
+        expect(Status.where(id: [kept_status.id, default_tagged_status.id]).count).to eq 2
+        expect(Status.exists?(plain_status.id)).to be false
+      end
+    end
+
+    context 'without --keep-tags' do
+      let(:options) { { skip_media_remove: true } }
+
+      it 'DEFAULT_TAG の付いた投稿だけを残す' do
+        expect { subject }.to output_results('Done after')
+
+        expect(Status.exists?(default_tagged_status.id)).to be true
+        expect(Status.where(id: [kept_status.id, plain_status.id]).count).to eq 0
+      end
+    end
   end
 end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
