@@ -1,0 +1,37 @@
+# フォーク独自の pre-commit（#974）。上流の `yarn lint-staged` は採らない。
+# ステージした Ruby だけを RuboCop に掛ける（fork-ci.yml の Tier 2 と同じ範囲）。
+# 急ぎで外すときは `git commit --no-verify`。
+
+# 上流マージの締めコミットでは上流の Ruby が大量にステージされるので見送る。
+# マージ後の検証は upstream-merge スキルの手順が受け持つ。
+if git rev-parse -q --verify MERGE_HEAD >/dev/null; then
+  exit 0
+fi
+
+files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.rb')
+[ -z "$files" ] && exit 0
+
+IFS='
+'
+set -f
+# shellcheck disable=SC2086
+set -- $files
+set +f
+unset IFS
+
+status=0
+bundle exec rubocop --force-exclusion "$@" || status=$?
+
+[ "$status" = 0 ] && exit 0
+
+# bundler の失敗も終了コード 1 で返り、offense と見分けられないので、落ちたときだけ確かめる。
+echo
+if bundle check >/dev/null 2>&1; then
+  echo "pre-commit: RuboCop の offense があります（上の出力）。直してからコミットし直してください。"
+  echo "pre-commit: 検査はファイル全体なので、触っていない行の既存 offense も出ます。"
+else
+  echo "pre-commit: RuboCop を実行できませんでした。offense ではなく環境の問題です。"
+  echo "pre-commit: 上流の版上げで Gemfile.lock が進んだ直後なら bundle install をやり直してください。"
+fi
+
+exit $status
