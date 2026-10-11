@@ -185,6 +185,22 @@ RSpec.describe 'Fork customization guard: Material Symbols (Google Fonts) の参
   end
 end
 
+# pre-commit はフォーク独自の「ステージした Ruby だけ RuboCop」に差し替えている（#974）。
+# upstream 版は `yarn lint-staged` の 1 行で、ここが変わると衝突解決で上流版へ戻りうる。
+# 戻ると全種別の lint と tsc がコミットのたびに走り、RuboCop は自動修正（-a）付きになる。
+RSpec.describe 'Fork customization guard: pre-commit の RuboCop (#974)' do
+  let(:hook) { Rails.root.join('.husky', 'pre-commit').read }
+
+  it 'ステージした Ruby を RuboCop に掛けている' do
+    expect(hook).to include("git diff --cached --name-only --diff-filter=ACMR -- '*.rb'")
+      .and include('bundle exec rubocop --force-exclusion')
+  end
+
+  it 'upstream の lint-staged へ巻き戻っていない' do
+    expect(hook).to_not match(/^\s*yarn lint-staged/)
+  end
+end
+
 # デフォルトハッシュタグ付き投稿を「ローカル扱い」する範囲の第一歩（#908）。
 # `tootctl media remove` がデフォルトタグ付き投稿のキャッシュメディアを消さないことを守る。
 #

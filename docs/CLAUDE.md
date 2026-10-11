@@ -314,6 +314,9 @@ FreeBSD 対応に必要なのは rc.d スクリプトと環境設定のみ。
 
 - `bundle exec rubocop` は **`bundle install` 済みでないと動かない**。上流の版上げで Gemfile.lock が
   進むと必ず失敗するので、マージ直後は入れ直す
+- コミット時に [.husky/pre-commit](../.husky/pre-commit) が**ステージした Ruby だけ** RuboCop に掛ける（#974）。
+  上流の `yarn lint-staged` ではなくフォーク独自。上流マージの締めコミットでは走らない。
+  husky は `yarn install` が入れるので、入れていないマシンでは効かない。外すときは `git commit --no-verify`
 - `rspec` は **PostgreSQL 必須**。DB が無い環境では `ruby -c` と静的 grep で代替する
 - アセットは `yarn build:production`。フォーク独自ファイルの破損はここでしか顕在化しない
 
