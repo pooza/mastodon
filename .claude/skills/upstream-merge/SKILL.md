@@ -136,6 +136,8 @@ default テーマと同じ値なら適用されていない。
 
 上流の CI ワークフローは**すべて削除**し、[fork-ci.yml](../../../.github/workflows/fork-ci.yml) 一本に置き換えている。回るのは **spec/fork（PostgreSQL 込み）**と、**変更ファイルに限定した** ESLint / stylelint / RuboCop。手元で spec/fork を回せなくても CI が拾う。
 
+手元の pre-commit（[.husky/pre-commit](../../../.husky/pre-commit)、#974）も**ステージした Ruby だけ RuboCop** に掛けるフォーク独自版。⚠ 上流がこのファイルを変えると衝突するが、**上流版（`yarn lint-staged`）は採らない**。マージの締めコミットでは走らないので、マージ後の検証は §5 が受け持つ。
+
 通しのアセットビルドは [fork-assets-nightly.yml](../../../.github/workflows/fork-assets-nightly.yml) に分離している（#912）。**版を本番へ適用する前に一度回しておく。**
 
 ⚠ **schedule / workflow_dispatch はデフォルトブランチ（bshockdon）の定義しか起動できない。**RC 期間に `merge/**` を検査したいときは、手動実行の `ref` にブランチ名を渡す。
