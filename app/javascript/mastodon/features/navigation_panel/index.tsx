@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 import { defineMessages, useIntl } from 'react-intl';
 
@@ -453,38 +453,34 @@ export const NavigationPanel: React.FC<{ multiColumn?: boolean }> = ({
               />
             </li>
 
-            {linkGroups && linkGroups.length > 0 && (
-              <>
-                {linkGroups.map((group, gi) => (
-                  <div key={`grp-${gi}`}>
-                    <hr />
-                    {group.body && (
-                      <div className='navigation-panel__group-title'>
-                        {group.body}
-                      </div>
-                    )}
-                    {group.links.map((link, li) => (
-                      <ColumnLink
-                        key={`grp-${gi}-${link.body}-${li}`}
-                        transparent
-                        href={link.href}
-                        target={link.target ?? '_blank'}
-                        text={link.body}
-                        icon={
-                          link.icon ? (
-                            <span className='material-symbols-outlined column-link__icon'>
-                              {link.icon}
-                            </span>
-                          ) : undefined
-                        }
-                      />
-                    ))}
-                  </div>
+            {linkGroups?.map((group, gi) => (
+              <Fragment key={`grp-${gi}`}>
+                <li role='separator' />
+                {group.body && (
+                  <li className='navigation-panel__group-title'>
+                    {group.body}
+                  </li>
+                )}
+                {group.links.map((link, li) => (
+                  <li key={`grp-${gi}-${link.body}-${li}`}>
+                    <ColumnLink
+                      transparent
+                      href={link.href}
+                      target={link.target ?? '_blank'}
+                      text={link.body}
+                      icon={
+                        link.icon ? (
+                          <span className='material-symbols-outlined column-link__icon'>
+                            {link.icon}
+                          </span>
+                        ) : undefined
+                      }
+                    />
+                  </li>
                 ))}
-              </>
-            )}
+              </Fragment>
+            ))}
 
-            <hr />
             <li role='separator' />
 
             <li>
