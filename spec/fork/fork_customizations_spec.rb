@@ -336,4 +336,27 @@ RSpec.describe 'Fork customization guard: statuses remove --keep-tags (#977)' do
     end
   end
 end
+
+# 管理画面のお知らせ一覧を新しい順にする（#985）。
+#
+# upstream も #15091 で reverse_chronological を足して新しい順を意図しているが、
+# AnnouncementFilter#results が先に chronological（昇順）を付けて返すため、
+# ORDER BY が「ASC, DESC」になり第 1 キーの昇順で並んでいた（mastodon/mastodon#20109 は放置）。
+# フォークでは管理画面のコントローラで reorder(nil) してから並べ直す。
+# ⚠ 管理画面の HTML を描くと Vite のマニフェストが要り、アセットを作らない spec/fork の
+# CI では落ちる。コントローラのソースと、同じ並べ方の結果とを分けて確かめる。
+RSpec.describe 'Fork customization guard: 管理画面のお知らせ一覧の並び順 (#985)' do
+  let(:source) { Rails.root.join('app', 'controllers', 'admin', 'announcements_controller.rb').read }
+
+  it 'コントローラがフィルタの昇順を置き換えてから新しい順に並べている' do
+    expect(source).to include('AnnouncementFilter.new(filter_params).results.reorder(nil).reverse_chronological')
+  end
+
+  it '置き換えた並びでは開始日時の新しいお知らせが先頭に来る' do
+    older = Fabricate(:announcement, starts_at: 3.days.ago, ends_at: 1.day.from_now)
+    newer = Fabricate(:announcement, starts_at: 1.day.ago, ends_at: 1.day.from_now)
+
+    expect(AnnouncementFilter.new({}).results.reorder(nil).reverse_chronological.to_a).to eq([newer, older])
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
