@@ -336,4 +336,25 @@ RSpec.describe 'Fork customization guard: statuses remove --keep-tags (#977)' do
     end
   end
 end
+
+# 管理画面のお知らせ一覧を新しい順にする（#985）。
+#
+# upstream も #15091 で reverse_chronological を足して新しい順を意図しているが、
+# AnnouncementFilter#results が先に chronological（昇順）を付けて返すため、
+# ORDER BY が「ASC, DESC」になり第 1 キーの昇順で並んでいた（mastodon/mastodon#20109 は放置）。
+# フォークでは管理画面のコントローラで reorder(nil) してから並べ直す。
+RSpec.describe 'Fork customization guard: 管理画面のお知らせ一覧の並び順 (#985)', type: :request do
+  before do
+    sign_in Fabricate(:admin_user)
+    Fabricate(:announcement, text: 'older-announcement', starts_at: 3.days.ago, ends_at: 1.day.from_now)
+    Fabricate(:announcement, text: 'newer-announcement', starts_at: 1.day.ago, ends_at: 1.day.from_now)
+  end
+
+  it '開始日時の新しいお知らせが先頭に来る' do
+    get admin_announcements_path
+
+    expect(response).to have_http_status(200)
+    expect(response.body.index('newer-announcement')).to be < response.body.index('older-announcement')
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
