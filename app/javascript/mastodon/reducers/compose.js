@@ -57,6 +57,7 @@ import {
   COMPOSE_CHANGE_MEDIA_ORDER,
   COMPOSE_SET_STATUS,
   COMPOSE_FOCUS,
+  COMPOSE_TAGSET_CHANGE,
 } from '../actions/compose';
 import { REDRAFT } from '../actions/statuses';
 import { STORE_HYDRATE } from '../actions/store';
@@ -470,6 +471,41 @@ export const composeReducer = (state = initialState, action) => {
     return state
       .set('spoiler_text', action.text)
       .set('idempotencyKey', uuid());
+  case COMPOSE_TAGSET_CHANGE:
+    switch (action.value) {
+    case 'empty':
+      return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
+    case 'episodes':
+      window.open('/mulukhiya/app/episode');
+      return state;
+    default: {
+      const createToot = name => {
+        const request = new XMLHttpRequest();
+        request.open('GET', '/mulukhiya/api/program', false);
+        request.send(null);
+        if (request.status !== 200) {
+          return '';
+        }
+        const result = JSON.parse(request.responseText);
+        for (const k of Object.keys(result)) {
+          if (k !== name) continue;
+          const entry = result[k];
+          const tags = [entry.series];
+          if (entry.air) tags.push('エア番組');
+          if (entry.livecure) tags.push('実況');
+          if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
+          if (entry.subtitle) tags.push(entry.subtitle);
+          entry.extra_tags.map(tag => tags.push(tag));
+          const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+          tags.map(tag => toot.push(`  - ${tag}`));
+          if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
+          return toot.join('\n');
+        }
+        return '';
+      };
+      return state.set('text', createToot(action.value));
+    }
+    }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)

@@ -64,6 +64,7 @@ export const COMPOSE_SPOILERNESS_CHANGE  = 'COMPOSE_SPOILERNESS_CHANGE';
 export const COMPOSE_SPOILER_TEXT_CHANGE = 'COMPOSE_SPOILER_TEXT_CHANGE';
 export const COMPOSE_COMPOSING_CHANGE    = 'COMPOSE_COMPOSING_CHANGE';
 export const COMPOSE_LANGUAGE_CHANGE     = 'COMPOSE_LANGUAGE_CHANGE';
+export const COMPOSE_TAGSET_CHANGE       = 'COMPOSE_TAGSET_CHANGE';
 
 export const COMPOSE_EMOJI_INSERT = 'COMPOSE_EMOJI_INSERT';
 
@@ -798,6 +799,13 @@ export function changeComposeSpoilerText(text) {
     text,
   };
 }
+
+export function changeTagset(value) {
+  return {
+    type: COMPOSE_TAGSET_CHANGE,
+    value,
+  };
+};
 
 export function insertEmojiCompose(position, emoji, needsSpace) {
   return {
