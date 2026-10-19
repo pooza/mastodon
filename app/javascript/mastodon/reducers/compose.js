@@ -471,41 +471,25 @@ export const composeReducer = (state = initialState, action) => {
     return state
       .set('spoiler_text', action.text)
       .set('idempotencyKey', uuid());
-  case COMPOSE_TAGSET_CHANGE:
-    switch (action.value) {
-    case 'empty':
+  case COMPOSE_TAGSET_CHANGE: {
+    // 番組表はメニュー側で取得済みのエントリを action で受け取る（#997 の Codex 指摘）。
+    // reducer では通信しない。エントリが無ければ本文を変えない（下書きを消さない）。
+    if (action.value === 'empty') {
       return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
-    case 'episodes':
-      window.open('/mulukhiya/app/episode');
-      return state;
-    default: {
-      const createToot = name => {
-        const request = new XMLHttpRequest();
-        request.open('GET', '/mulukhiya/api/program', false);
-        request.send(null);
-        if (request.status !== 200) {
-          return '';
-        }
-        const result = JSON.parse(request.responseText);
-        for (const k of Object.keys(result)) {
-          if (k !== name) continue;
-          const entry = result[k];
-          const tags = [entry.series];
-          if (entry.air) tags.push('エア番組');
-          if (entry.livecure) tags.push('実況');
-          if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
-          if (entry.subtitle) tags.push(entry.subtitle);
-          entry.extra_tags.map(tag => tags.push(tag));
-          const toot = ['command: user_config', 'tagging:', '  user_tags:'];
-          tags.map(tag => toot.push(`  - ${tag}`));
-          if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
-          return toot.join('\n');
-        }
-        return '';
-      };
-      return state.set('text', createToot(action.value));
     }
-    }
+    const entry = action.entry;
+    if (!entry) return state;
+    const tags = [entry.series];
+    if (entry.air) tags.push('エア番組');
+    if (entry.livecure) tags.push('実況');
+    if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
+    if (entry.subtitle) tags.push(entry.subtitle);
+    for (const tag of entry.extra_tags ?? []) tags.push(tag);
+    const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+    for (const tag of tags) toot.push(`  - ${tag}`);
+    if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
+    return state.set('text', toot.join('\n'));
+  }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)

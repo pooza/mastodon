@@ -800,10 +800,16 @@ export function changeComposeSpoilerText(text) {
   };
 }
 
-export function changeTagset(value) {
+/**
+ * value は 'empty' か番組キー。番組のときは、メニューで取得済みの番組表エントリを entry に渡す。
+ * @param {string} value
+ * @param {object | null} [entry]
+ */
+export function changeTagset(value, entry = null) {
   return {
     type: COMPOSE_TAGSET_CHANGE,
     value,
+    entry,
   };
 };
 
