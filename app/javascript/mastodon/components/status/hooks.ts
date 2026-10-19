@@ -533,7 +533,7 @@ export const onStatusLinksDisabled: OnElementHandler<AccountStatusShape> = (
 const menuMessages = defineMessages({
   delete: { id: 'status.delete', defaultMessage: 'Delete' },
   redraft: { id: 'status.redraft', defaultMessage: 'Delete & re-draft' },
-  edit: { id: 'status.edit', defaultMessage: 'Edit' },
+  tagging: { id: 'status.tagging', defaultMessage: 'Tagging' },
   follow: { id: 'status.follow', defaultMessage: 'Follow @{name}' },
   message: { id: 'status.message', defaultMessage: 'Message @{name}' },
   mention: { id: 'status.mention', defaultMessage: 'Mention @{name}' },
@@ -777,9 +777,14 @@ function getMenuItems({
   }
 
   if (interactions.edit && interactions.delete && interactions.redraft) {
+    // フォーク改変（#988）: 「編集」は出さず、モロヘイヤのタグづけ画面
+    // （削除してタグをつけ直す）を開く項目に置き換える。
     menu.push({
-      text: intl.formatMessage(menuMessages.edit),
-      action: onStatusInteraction('edit'),
+      text: intl.formatMessage(menuMessages.tagging),
+      action: () => {
+        window.open(`/mulukhiya/app/status/${statusId}`, 'mulukhiya-tagging');
+      },
+      dangerous: true,
     });
     menu.push({
       text: intl.formatMessage(menuMessages.delete),

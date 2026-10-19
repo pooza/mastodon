@@ -1504,6 +1504,7 @@
   "status.show_less_all": "Show less for all",
   "status.show_more_all": "Show more for all",
   "status.show_original": "Show original",
+  "status.tagging": "Delete and Tagging",
   "status.thread_end": "You’ve reached the end of the conversation.",
   "status.thread_none": "Nothing else has been added to the conversation yet.",
   "status.title": "Post by {name}",
