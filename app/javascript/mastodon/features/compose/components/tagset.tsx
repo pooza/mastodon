@@ -66,6 +66,8 @@ interface ProgramOption {
   key: string;
   text: string;
   meta: string;
+  // 選んだときに reducer へそのまま渡す（reducer では番組表を取り直さない）。
+  entry: ProgramEntry;
 }
 
 export const TagsetButton: React.FC = () => {
@@ -116,6 +118,7 @@ export const TagsetButton: React.FC = () => {
           key,
           text: `「${entry.series ?? ''}」用タグセット`,
           meta: meta.join(' '),
+          entry,
         });
       }
     } catch {
@@ -140,9 +143,18 @@ export const TagsetButton: React.FC = () => {
 
   const handleSelect = useCallback(
     (value: string) => {
-      dispatch(changeTagset(value));
+      if (value === 'episodes') {
+        window.open('/mulukhiya/app/episode');
+        return;
+      }
+      if (value === 'empty') {
+        dispatch(changeTagset(value));
+        return;
+      }
+      const program = programs.find((p) => p.key === value);
+      if (program) dispatch(changeTagset(value, program.entry));
     },
-    [dispatch],
+    [dispatch, programs],
   );
 
   const handleReload = useCallback(() => {
