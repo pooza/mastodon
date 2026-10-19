@@ -44,6 +44,7 @@ import { useHasAnnouncements } from '../../announcements/hooks';
 import { FooterLinks } from '../../discovery_panel/footer_links';
 
 import { NavigationAccountCardAndMenu } from './account_card_and_menu';
+import { ForkLinkSections } from './fork_links';
 import { NavigationHeader } from './header';
 import { ListSection } from './list_section';
 import { DisabledAccountBanner, LoggedOutInfo } from './logged_out_info';
@@ -237,6 +238,8 @@ export const RedesignNavigationPanel: React.FC<{
                 )}
               </ListSection>
             )}
+
+            <ForkLinkSections />
           </ul>
 
           <footer className={classes.footer} data-stuck={!isScrolledToBottom}>
