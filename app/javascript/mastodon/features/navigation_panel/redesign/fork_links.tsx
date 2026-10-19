@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import forkClasses from './fork_links.module.scss';
 import { ListSection } from './list_section';
@@ -24,18 +24,30 @@ interface LinkGroup {
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
 
+const isOptionalString = (value: unknown) =>
+  value === undefined || typeof value === 'string';
+
+// 形式の判定用（href を持つものをリンクとみなす）。
+const looksLikeLink = (value: unknown) => isObject(value) && 'href' in value;
+
+// 描画するフィールドがすべて文字列のものだけを受け付ける。壊れた項目は
+// その項目だけ落とし、ナビ全体の描画を巻き込まない（#999 の Codex 指摘）。
 const isLinkItem = (value: unknown): value is LinkItem =>
-  isObject(value) && 'href' in value;
+  isObject(value) &&
+  typeof value.href === 'string' &&
+  typeof value.body === 'string' &&
+  isOptionalString(value.icon) &&
+  isOptionalString(value.target);
 
 // links.json はリンクの配列（見出しなし 1 グループ）か、
 // グループ（`{ body, links }` またはリンクの配列）の配列を受け付ける。
-const toLinkGroups = (data: unknown): LinkGroup[] => {
+export const toLinkGroups = (data: unknown): LinkGroup[] => {
   if (!Array.isArray(data)) return [];
 
   const groups = data as unknown[];
 
-  if (groups.every(isLinkItem)) {
-    return [{ links: groups }];
+  if (groups.every(looksLikeLink)) {
+    return [{ links: groups.filter(isLinkItem) }];
   }
 
   return groups
@@ -108,16 +120,26 @@ const ExternalNavigationLink: React.FC<{ link: LinkItem }> = ({ link }) => (
 export const ForkLinkSections: React.FC = () => {
   const linkGroups = useLinkGroups();
 
-  return linkGroups.map((group, gi) => (
-    <ListSection
-      // 開閉状態は見出しごとに保存する（グループの並べ替えに追従させる）。
-      key={`${gi}-${group.body ?? ''}`}
-      id={`fork-links-${group.body ?? gi}`}
-      title={group.body ?? ''}
-    >
-      {group.links.map((link, li) => (
-        <ExternalNavigationLink key={`${li}-${link.href}`} link={link} />
-      ))}
-    </ListSection>
-  ));
+  return linkGroups.map((group, gi) => {
+    const links = group.links.map((link, li) => (
+      <ExternalNavigationLink key={`${li}-${link.href}`} link={link} />
+    ));
+
+    // 見出しの無いグループは区画（折りたたみボタン）にせず、リンクをそのまま
+    // 並べる。空の見出しと名前の無いボタンを出さない（#999 の Codex 指摘）。
+    if (!group.body) {
+      return <Fragment key={`${gi}-`}>{links}</Fragment>;
+    }
+
+    return (
+      <ListSection
+        // 開閉状態は見出しごとに保存する（グループの並べ替えに追従させる）。
+        key={`${gi}-${group.body}`}
+        id={`fork-links-${group.body}`}
+        title={group.body}
+      >
+        {links}
+      </ListSection>
+    );
+  });
 };
