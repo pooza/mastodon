@@ -64,6 +64,7 @@ export const COMPOSE_SPOILERNESS_CHANGE  = 'COMPOSE_SPOILERNESS_CHANGE';
 export const COMPOSE_SPOILER_TEXT_CHANGE = 'COMPOSE_SPOILER_TEXT_CHANGE';
 export const COMPOSE_COMPOSING_CHANGE    = 'COMPOSE_COMPOSING_CHANGE';
 export const COMPOSE_LANGUAGE_CHANGE     = 'COMPOSE_LANGUAGE_CHANGE';
+export const COMPOSE_TAGSET_CHANGE       = 'COMPOSE_TAGSET_CHANGE';
 
 export const COMPOSE_EMOJI_INSERT = 'COMPOSE_EMOJI_INSERT';
 
@@ -798,6 +799,19 @@ export function changeComposeSpoilerText(text) {
     text,
   };
 }
+
+/**
+ * value は 'empty' か番組キー。番組のときは、メニューで取得済みの番組表エントリを entry に渡す。
+ * @param {string} value
+ * @param {object | null} [entry]
+ */
+export function changeTagset(value, entry = null) {
+  return {
+    type: COMPOSE_TAGSET_CHANGE,
+    value,
+    entry,
+  };
+};
 
 export function insertEmojiCompose(position, emoji, needsSpace) {
   return {

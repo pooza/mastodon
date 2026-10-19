@@ -57,6 +57,7 @@ import {
   COMPOSE_CHANGE_MEDIA_ORDER,
   COMPOSE_SET_STATUS,
   COMPOSE_FOCUS,
+  COMPOSE_TAGSET_CHANGE,
 } from '../actions/compose';
 import { REDRAFT } from '../actions/statuses';
 import { STORE_HYDRATE } from '../actions/store';
@@ -470,6 +471,25 @@ export const composeReducer = (state = initialState, action) => {
     return state
       .set('spoiler_text', action.text)
       .set('idempotencyKey', uuid());
+  case COMPOSE_TAGSET_CHANGE: {
+    // 番組表はメニュー側で取得済みのエントリを action で受け取る（#997 の Codex 指摘）。
+    // reducer では通信しない。エントリが無ければ本文を変えない（下書きを消さない）。
+    if (action.value === 'empty') {
+      return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
+    }
+    const entry = action.entry;
+    if (!entry) return state;
+    const tags = [entry.series];
+    if (entry.air) tags.push('エア番組');
+    if (entry.livecure) tags.push('実況');
+    if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
+    if (entry.subtitle) tags.push(entry.subtitle);
+    for (const tag of entry.extra_tags ?? []) tags.push(tag);
+    const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+    for (const tag of tags) toot.push(`  - ${tag}`);
+    if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
+    return state.set('text', toot.join('\n'));
+  }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)

@@ -24,6 +24,7 @@ import { selectComposeType } from './selectors';
 import { ComposeSensitiveField } from './sensitive';
 import { ComposeSettingsMenu } from './settings';
 import classes from './styles.module.scss';
+import { TagsetButton } from './tagset';
 import { ComposeTextarea } from './textarea';
 import { ComposeVisibility } from './visibility';
 
@@ -73,6 +74,8 @@ export const RedesignComposeForm: React.FC<
         <ComposeVisibility className={classes.flexGrowWrap} />
 
         <LanguageButton />
+
+        <TagsetButton />
 
         <ComposeSettingsMenu />
       </div>
