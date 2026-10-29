@@ -307,10 +307,14 @@ RSpec.describe 'Fork customization guard: statuses remove --keep-tags (#977)' do
 
     # ⚠ statuses remove は一時テーブルを作るためトランザクション外で走らせる。作った行が
     # 後続の例に残らないよう、streaming の spec と同じく DatabaseCleaner で後始末する。
+    # ⚠ deletion 戦略はシード（既定ロール）と before(:suite) の設定まで消すので、後始末の
+    # あとで入れ直す。入れ直さないと、後に走る moderator 前提の spec（tag_feed_spec 等）が落ちる。
     around do |example|
       DatabaseCleaner.cleaning do
         ClimateControl.modify(DEFAULT_TAG: 'precure_fun') { example.run }
       end
+      Rails.application.load_seed
+      Setting.registrations_mode = 'open'
     end
 
     context 'with --keep-tags' do
