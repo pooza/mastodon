@@ -53,6 +53,7 @@ export const config: UserConfigFnPromise = async ({ mode, command }) => {
     envDir: import.meta.dirname,
     resolve: {
       tsconfigPaths: true,
+      preserveSymlinks: true, // シンボリックリンクのテーマ等を実体のパスへ解決しない（#882）
       alias: {
         '~/': `${jsRoot}/`,
         '@/': `${jsRoot}/`,
@@ -133,7 +134,6 @@ export const config: UserConfigFnPromise = async ({ mode, command }) => {
       manifest: true,
       outDir,
       assetsDir: 'assets',
-      rollupOptions: { preserveSymlinks: true }, // Needed to properly resolve linked packages in node_modules
       assetsInlineLimit: (filePath, _) =>
         /\.woff2?$/.exec(filePath) ? false : undefined,
       rolldownOptions: {

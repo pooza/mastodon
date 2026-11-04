@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe VideoMetadataExtractor do
   describe '#width / #height' do
     context 'with an anamorphic video (SAR != 1:1)' do
-      subject(:extractor) { described_class.new(Rails.root.join('spec', 'fixtures', 'files', 'anamorphic.mp4').to_s) }
+      subject(:extractor) { described_class.new(file_fixture('anamorphic.mp4').to_s) }
 
       it 'is valid' do
         expect(extractor.valid?).to be true

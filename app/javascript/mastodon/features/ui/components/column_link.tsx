@@ -14,6 +14,7 @@ export const ColumnLink: React.FC<{
   text: string;
   to?: MastodonLocationDescriptor;
   href?: string;
+  target?: string; // フォーク: links.json の外部リンク用（...other で <a> へ渡る）
   method?: string;
   badge?: React.ReactNode;
   transparent?: boolean;

@@ -234,7 +234,8 @@ gem 'mail', '~> 2.8'
 
 gem 'base58', '~> 0.2.3'
 
+gem 'bloom_fit', '~> 1.2'
+
 # local
 gem 'httparty'
 gem 'resolv', '~> 0.7.2' # CVE-2026-80212 / CVE-2026-80213 (#976)。Ruby 4.0.7 以降の同梱版が 0.7.2 を満たしたら外す
-gem 'bloom_fit', '~> 1.2'
