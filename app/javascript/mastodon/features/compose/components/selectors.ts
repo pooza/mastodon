@@ -9,6 +9,7 @@ import { createAppSelector } from '@/mastodon/store';
 import { DAY, MINUTE } from '@/mastodon/utils/time';
 
 import { countableText } from '../util/counter';
+import { composeMaxCharacters } from '../util/max_characters';
 
 export const selectComposePrivacy = createAppSelector(
   [
@@ -68,7 +69,7 @@ export const selectComposeCharsCount = createAppSelector(
     return {
       text,
       allText,
-      max: maxChars ?? 500,
+      max: composeMaxCharacters(maxChars),
       current: length(allText),
     };
   },

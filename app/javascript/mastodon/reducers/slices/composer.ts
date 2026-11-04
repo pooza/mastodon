@@ -31,6 +31,7 @@ import type {
   StatusVisibility,
 } from '@/mastodon/api_types/statuses';
 import { countableText } from '@/mastodon/features/compose/util/counter';
+import { composeMaxCharacters } from '@/mastodon/features/compose/util/max_characters';
 import {
   createAppSelector,
   createAppThunk,
@@ -341,8 +342,9 @@ export const submitComposer = createAppThunk(
       dispatch(composerSlice.actions.addError('missing-content-warning'));
     }
 
-    const maxChars =
-      server.server.item?.configuration.statuses.max_characters ?? 500;
+    const maxChars = composeMaxCharacters(
+      server.server.item?.configuration.statuses.max_characters,
+    );
     if (compose.get('spoiler') && typeof spoilerText === 'string') {
       text += spoilerText;
     }
