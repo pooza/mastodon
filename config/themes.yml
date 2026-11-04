@@ -1,4 +1,8 @@
-default: styles/application.scss
-
-# custom theme
-bshock: styles/bshock.scss
+default:
+  path: styles/application.scss
+  colors:
+    - indigo
+    - lime
+    - pink
+    - orange
+    - cyan
