@@ -109,6 +109,17 @@ git diff <前タグ> <新タグ> -- app/javascript/mastodon/features/compose/com
 
 🔴 **RC では ja 翻訳が更新されていないことが多く、置換対象が現れないことがある**（4.7.0-rc.1 がそうだった）。⚠⚠ **stable で Crowdin の ja が入った時点で必ず再チェックする。**
 
+続けて、上流の用語の変化を台帳 [docs/terminology.md](../../../docs/terminology.md) へ反映する（#1004）:
+
+```bash
+.claude/skills/upstream-merge/scripts/terms-diff.py <前の版> <今回の版>            # 改称・キーの入れ替え・ja 訳の確定
+.claude/skills/upstream-merge/scripts/terms-diff.py <前の版> <今回の版> --ledger   # 台帳に載せたキーの現状
+```
+
+- 機能の名前が変わっていたら台帳に行を足す。ja の訳が付いたら「状態」を確定にする
+- ⚠⚠ **台帳の状態が変わったら pooza/capsicum と pooza/mulukhiya-toot-proxy に issue を立てて知らせる**（`pooza/mastodon#1004` と台帳へのリンクを付ける）
+- ⚠ 訳が付くまでは 4.7 の用語を続投する。英語から訳語を先回りして決めない
+
 ⚠ このスクリプトは**手元で当てるためのもの**。CI のゲートは別にあり、uppercase は stylelint、トゥートと キュア！置換は [spec/fork/terminology_guard_spec.rb](../../../spec/fork/terminology_guard_spec.rb) が見る（#972）。**手で直すのはここ、落ちるのはあちら**という役割分担。
 
 ## 5. 検証

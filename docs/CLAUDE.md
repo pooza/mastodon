@@ -87,6 +87,9 @@ upstream (tag) → merge/<版>/bshockdon → merge/<版>/curesta
   ⚠ **上流の版上げで Crowdin の ja が入れ替わると静かに戻る**ので、手で直すのは
   [upstream-merge スキル](../.claude/skills/upstream-merge/SKILL.md)、落とすのはここ、という分担。
   大文字化の禁止（#906）は CSS 側の規則なので stylelint が見る
+- **上流の用語の台帳（#1004）** — [docs/terminology.md](terminology.md)。ガードではなく記録。
+  上流が機能を何と呼んでいるか（5.0 のリスト → Custom Feeds など）を版ごとに追い、
+  capsicum・モロヘイヤへ issue で知らせる起点にする
 
 ⚠ **spec/fork は PostgreSQL が要る。** 手元で DB を上げられないときは上表の定数を `grep` で
 確認しておけば巻き戻りの大半は捕まる（本走は Fork CI が回す）。
