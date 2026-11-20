@@ -29,6 +29,12 @@ RSpec.describe ProtectedFollowAccounts do
       expect(described_class.protected?(bot, bot)).to be false
     end
 
+    it '引っ越したアカウントは守らない（引っ越しの後始末で旧アカウントへのフォローを外すため）' do
+      bot.update!(moved_to_account: remote)
+
+      expect(described_class.protected?(account, bot)).to be false
+    end
+
     it '環境変数が空なら何も守らない' do
       ClimateControl.modify(PROTECTED_FOLLOW_ACCOUNTS: '') do
         expect(described_class.protected?(account, bot)).to be false
@@ -92,6 +98,13 @@ RSpec.describe ProtectedFollowAccounts do
       BlockService.new.call(bot, account)
 
       expect(bot.blocking?(account)).to be true
+      expect(account.following?(bot)).to be false
+    end
+
+    it '指定したアカウントが引っ越したら、移行処理が旧アカウントへのフォローを外せる' do
+      bot.update!(moved_to_account: remote)
+      UnfollowService.new.call(account, bot, skip_unmerge: true)
+
       expect(account.following?(bot)).to be false
     end
 
