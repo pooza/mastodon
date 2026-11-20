@@ -11,7 +11,7 @@ import {
 } from '@phosphor-icons/react';
 
 import { changeTagset } from '@/mastodon/actions/compose';
-import { Button } from '@/mastodon/components/button/redesign';
+import { Button } from '@/mastodon/components/button';
 import {
   Menu,
   MenuItem,
