@@ -10,7 +10,10 @@ class UnfollowService < BaseService
   # @param [Account] followee Which to unfollow
   # @param [Hash] options
   # @option [Boolean] :skip_unmerge
+  # @option [Boolean] :force 指定したアカウントへのフォローでも外す（#1007、ボット自身のブロック用）
   def call(follower, followee, options = {})
+    return if !options[:force] && ProtectedFollowAccounts.protected?(follower, followee) # #1007
+
     @follower = follower
     @followee = followee
     @options  = options

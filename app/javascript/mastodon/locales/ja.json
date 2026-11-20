@@ -168,6 +168,8 @@
   "admin.impact_report.instance_followers": "このサーバーのユーザーが失うフォロワー数",
   "admin.impact_report.instance_follows": "対象のサーバーのユーザーが失うフォロワー数",
   "admin.impact_report.title": "この操作による影響",
+  "alert.protected_follow.cannot_block": "このユーザーはサーバーが指定しているため、ブロックできません。",
+  "alert.protected_follow.cannot_unfollow": "このユーザーはサーバーが指定しているため、フォローを解除できません。",
   "alert.rate_limited.message": "{retry_time, time, medium} 以降に再度実行してください。",
   "alert.rate_limited.title": "制限に達しました",
   "alert.unexpected.message": "不明なエラーが発生しました。",

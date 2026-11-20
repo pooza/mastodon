@@ -21,6 +21,11 @@ class Api::V1::AccountsController < Api::BaseController
 
   skip_before_action :require_authenticated_user!, only: :create
 
+  # #1007 — 共通の NotPermittedError（固定文言）より先に拾い、Misskey とそろえた文言を返す
+  rescue_from ProtectedFollowAccounts::Error do |e|
+    render json: { error: e.message }, status: 403
+  end
+
   override_rate_limit_headers :follow, family: :follows
 
   def index
@@ -52,6 +57,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def block
+    raise ProtectedFollowAccounts::Error, ProtectedFollowAccounts::BLOCK_MESSAGE if ProtectedFollowAccounts.protected?(current_user.account, @account) # #1007
+
     BlockService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
@@ -62,6 +69,8 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def unfollow
+    raise ProtectedFollowAccounts::Error, ProtectedFollowAccounts::UNFOLLOW_MESSAGE if ProtectedFollowAccounts.protected?(current_user.account, @account) # #1007
+
     UnfollowService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
