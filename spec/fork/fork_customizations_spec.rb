@@ -21,7 +21,7 @@ RSpec.describe 'Fork customization guard (#909)' do
     [Account::DEFAULT_FIELDS_SIZE,       10,   4,   'Account::DEFAULT_FIELDS_SIZE（プロフィール補足情報の数）'],
     [Account::DISPLAY_NAME_LENGTH_LIMIT, 60,   30,  'Account::DISPLAY_NAME_LENGTH_LIMIT（表示名の長さ）'],
     [Account::NOTE_LENGTH_LIMIT,         3000, 500, 'Account::NOTE_LENGTH_LIMIT（bio の長さ）'],
-    [TagFeed::LIMIT_PER_MODE,            100,  4,   'TagFeed::LIMIT_PER_MODE'],
+    [TagFeed::LIMIT_PER_MODE,            64,   4,   'TagFeed::LIMIT_PER_MODE（#1011）'],
     [PollOptionsValidator::MAX_OPTIONS,  10,   4,   'PollOptionsValidator::MAX_OPTIONS（投票の選択肢数）'],
   ].each do |actual, expected, upstream, label|
     it "#{label} がフォーク値 #{expected} に保たれている（upstream 既定 #{upstream} へ巻き戻っていない）" do
@@ -139,7 +139,7 @@ RSpec.describe 'Fork customization guard: 受信スパムフィルタ (荒らし
   end
 end
 
-# ハッシュタグ列に指定できるタグ数の上限（upstream 4 → フォーク 100）は、
+# ハッシュタグ列に指定できるタグ数の上限（upstream 4 → フォーク 64、#1011）は、
 # サーバー側 TagFeed::LIMIT_PER_MODE と WebUI 側の入力制限が対になっている。
 # 片方だけ巻き戻ると「UI では追加できるが API が弾く」「UI が先に止める」の
 # どちらかの齟齬になり、上の定数ガードだけでは検知できない。
