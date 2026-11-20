@@ -9,6 +9,8 @@ import type { Alert } from 'mastodon/models/alert';
 
 import { createAppThunk } from '../store/typed_functions';
 
+import { protectedFollowMessage } from './protected_follow_alert';
+
 interface ApiErrorResponse {
   error?: string;
 }
@@ -60,7 +62,7 @@ export const showAlertForError = (error: unknown, skipNotFound = false) => {
 
     return showAlert({
       title: `${status}`,
-      message: data.error ?? statusText,
+      message: protectedFollowMessage(data.error) ?? data.error ?? statusText, // #1007
     });
   }
 

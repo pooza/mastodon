@@ -47,3 +47,20 @@ git fetch upstream
   新 UI の画面に出るのは右側のキー。「5.0 の ja に旧キーの訳がある」ことを確定と読まない
 - 固定された投稿（`column.pins`）は 5.0 でキーが消えた。移り先は未確認
 - curesta の「ブースト → リキュア！」は、5.0 でもブーストの呼び名が変わらないのでそのまま効く
+
+### v5.0.0-beta.2 で付いた ja 訳（暫定・2026-11-20 確認）
+
+beta.2 で表の一部のキーに ja の訳が付いた。**beta の訳は正式版までに変わりうるので、状態は「続投中」のまま据え置き、
+capsicum・モロヘイヤへの issue も RC で訳が固まってから立てる**（2026-11-20 ユーザー判断）。RC の取り込み時に
+`terms-diff.py <前の版> <RC> --ledger` で下と見比べる。
+
+| 機能 | 付いた訳（キー） | まだ未訳のキー |
+|---|---|---|
+| リスト | カスタムフィード（`column.custom_feeds`）/ フィードの作成（`tabs_bar.create_custom_feed`） | — |
+| 非公開の返信 | メッセージ（`tab_bar.messages`） | `privacy.message.short`（en は Message → Private に変更） |
+| お気に入り | すきした投稿（`navigation_bar.liked_posts`）/ 通知「すきしました」（`notification.like`） | `status.like` |
+| ブックマーク | — | `status.save`・`column.saved_posts` |
+| ひかえめな公開 / フォロワー（公開範囲） | — | `compose.privacy.unlisted`・`compose.privacy.followers` |
+| ローカル / 連合タイムライン | 公開フィード（`tabs_bar.public_feeds`） | `column.this_server`・`column.other_servers` |
+| ブロック / ミュート | つながり（`navigation_bar.relationships`）/ ブロック中・ミュート中（`navigation_bar.blocked`・`navigation_bar.muted`） | `column.muted_accounts` |
+| ログアウト | サインアウト（`navigation_bar.sign_out`・`confirmations.logout.confirm`） | — |
