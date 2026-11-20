@@ -5,6 +5,7 @@ class BlockService < BaseService
 
   def call(account, target_account)
     return if account.id == target_account.id
+    return if ProtectedFollowAccounts.protected?(account, target_account) # #1007
 
     @account = account
     @target_account = target_account
@@ -25,7 +26,7 @@ class BlockService < BaseService
 
   def handle_following_relationships
     UnfollowService.new.call(@account, @target_account) if @account.following?(@target_account)
-    UnfollowService.new.call(@target_account, @account) if @target_account.following?(@account)
+    UnfollowService.new.call(@target_account, @account, force: true) if @target_account.following?(@account) # #1007
     RejectFollowService.new.call(@target_account, @account) if @target_account.requested?(@account)
   end
 
