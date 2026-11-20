@@ -27,8 +27,10 @@ module ProtectedFollowAccounts
     ENV.fetch('PROTECTED_FOLLOW_ACCOUNTS', '').split(',').map { |name| name.strip.delete_prefix('@').downcase }.compact_blank
   end
 
+  # 引っ越したアカウントは守らない。引っ越しの後始末（FollowMigrationService・
+  # MigratedFollowDeliveryWorker）が旧アカウントへのフォローを外せるようにする（#1009 の Codex 指摘）
   def account?(account)
-    account.present? && account.local? && usernames.include?(account.username.downcase)
+    account.present? && account.local? && !account.moved? && usernames.include?(account.username.downcase)
   end
 
   # follower が target へのフォローを外せない（ブロックもできない）とき true
