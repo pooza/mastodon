@@ -2,7 +2,8 @@ default:
   path: styles/application.scss
   colors:
     # fork: 独自のテーマカラー（#1005）。先頭がフォールバック先になるので独自色を先に置く
-    - bshock
+    - cure-lime
+    - cure-orange
     - indigo
     - lime
     - pink
