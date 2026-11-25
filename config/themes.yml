@@ -1,9 +1,8 @@
-default: styles/application.scss
-
-# Custom theme
-daidai-orange: styles/daidai-orange.scss
-dai: styles/dai.scss
-popp: styles/popp.scss
-maam: styles/maam.scss
-hyunckel: styles/hyunckel.scss
-leona: styles/leona.scss
+default:
+  path: styles/application.scss
+  colors:
+    - indigo
+    - lime
+    - pink
+    - orange
+    - cyan

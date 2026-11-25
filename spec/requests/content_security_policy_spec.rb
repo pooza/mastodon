@@ -25,15 +25,15 @@ RSpec.describe 'Content-Security-Policy' do
       child-src 'self' blob: #{local_domain}
       connect-src 'self' data: blob: #{local_domain} #{Rails.configuration.x.streaming_api_base_url}
       default-src 'none'
-      font-src 'self' #{local_domain}
+      font-src 'self' #{local_domain} https://fonts.gstatic.com
       form-action 'none'
       frame-ancestors 'none'
       frame-src 'self' https:
       img-src 'self' data: blob: #{local_domain}
       manifest-src 'self' #{local_domain}
       media-src 'self' data: #{local_domain}
-      script-src 'self' #{local_domain} 'wasm-unsafe-eval' 'sha256-OgOg5CGI7D4Syg38sNIknJKO+3DCTdpfY1ciC+Bklaw='
-      style-src 'self' #{local_domain} 'nonce-ZbA+JmE7+bK8F5qvADZHuQ=='
+      script-src 'self' #{local_domain} 'wasm-unsafe-eval' 'sha256-Z5KW83D+6/pygIQS3h9XDpF52xW3l3BHc7JL9tj3uMs='
+      style-src 'self' #{local_domain} https://fonts.googleapis.com 'nonce-ZbA+JmE7+bK8F5qvADZHuQ=='
       worker-src 'self' blob: #{local_domain}
     CSP
   end

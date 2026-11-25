@@ -5,19 +5,19 @@ module Mastodon
     module_function
 
     def major
-      4
+      5
     end
 
     def minor
-      7
+      0
     end
 
     def patch
-      6
+      0
     end
 
     def default_prerelease
-      ''
+      'rc.1'
     end
 
     def prerelease
@@ -45,7 +45,7 @@ module Mastodon
 
     def api_versions
       {
-        mastodon: 11,
+        mastodon: 12,
       }
     end
 

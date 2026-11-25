@@ -1,0 +1,8 @@
+---
+ja:
+  admin:
+    accounts:
+      fork_dormant:
+        exclude: 除く
+        only: 放置アカウントだけ
+        title: 放置アカウント
