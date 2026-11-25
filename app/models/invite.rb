@@ -18,6 +18,7 @@
 
 class Invite < ApplicationRecord
   include Expireable
+  include Invite::SingleUse
 
   COMMENT_SIZE_LIMIT = 420
   ELIGIBLE_CODE_CHARACTERS = [*('a'..'z'), *('A'..'Z'), *('0'..'9')].freeze

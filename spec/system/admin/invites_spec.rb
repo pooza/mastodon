@@ -20,12 +20,13 @@ RSpec.describe 'Admin Invites' do
           .to include(invite.code)
       end
 
-      select I18n.t('invites.max_uses', count: 10), from: max_use_field
+      # フォーク改変（#1016）: 選べるのは 1 人だけ
+      select I18n.t('invites.max_uses', count: 1), from: max_use_field
 
       expect { generate_invite }
         .to change(Invite, :count).by(1)
       expect(user.invites.last)
-        .to have_attributes(max_uses: 10)
+        .to have_attributes(max_uses: 1)
     end
 
     it 'allows invite expiration' do

@@ -19,6 +19,7 @@ class InvitesController < ApplicationController
 
     @invite      = Invite.new(resource_params)
     @invite.user = current_user
+    @invite.from_form = true # フォーク改変（#1016）
 
     if @invite.save
       redirect_to invites_path
