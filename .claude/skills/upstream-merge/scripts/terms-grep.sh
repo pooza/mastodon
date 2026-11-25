@@ -13,16 +13,17 @@ set -uo pipefail
 
 cd "$(dirname "$0")/../../../.." || exit 2
 
-# インスタンスは config/themes.yml の登録テーマで見分ける（3 ブランチで同じ中身のまま動かすため）。
+# インスタンスは dist/servers/ のブランチ固有の nginx 設定で見分ける（3 ブランチで同じ中身のまま動かすため）。
+# ⚠ 4.7 までは config/themes.yml で見分けていたが、5.0 で 3 ブランチとも同じになった（#1005）。
 instance=unknown
-if grep -qE '^\s*bshock\s*:' config/themes.yml; then
-  instance=bshockdon
-elif grep -qE '^\s*cure-' config/themes.yml; then
+if [ -f dist/servers/precure.ml.conf ]; then
   instance=curesta
-elif grep -qE '^\s*dai\s*:' config/themes.yml; then
+elif [ -f dist/servers/mstdn.delmulin.com.conf ]; then
   instance=delmulin
+elif [ -f dist/servers/mstdn.b-shock.org.conf ]; then
+  instance=bshockdon
 fi
-echo "インスタンス: ${instance}（config/themes.yml から判定）"
+echo "インスタンス: ${instance}（dist/servers/ から判定）"
 echo
 
 status=0

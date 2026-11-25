@@ -11,23 +11,25 @@ require 'rails_helper'
 # ⚠ 大文字化の禁止（#906）はここではなく stylelint が見る。CSS 側の規則なので
 #   scss を直接検査できる stylelint のほうが当たりがよい。
 #
-# ⚠⚠ このファイルは 3 ブランチで同一に保つ。インスタンスの違いは config/themes.yml の
-#    登録テーマから判定し、ファイルを分岐させない（bshockdon で直して派生へ流す）。
+# ⚠⚠ このファイルは 3 ブランチで同一に保つ。インスタンスの違いは dist/servers/ にある
+#    各ブランチ固有の nginx 設定から判定し、ファイルを分岐させない（bshockdon で直して派生へ流す）。
+#    ⚠ 4.7 までは config/themes.yml の登録テーマで見分けていたが、5.0 で独自テーマの登録を
+#    外して 3 ブランチとも同じ themes.yml になったため使えなくなった（#1005）。
 #
 # rubocop:disable RSpec/DescribeClass
 
 module ForkTerminologyGuard
   module_function
 
-  # config/themes.yml の登録テーマでインスタンスを見分ける。
+  # dist/servers/ にあるブランチ固有の nginx 設定でインスタンスを見分ける。
+  SERVER_CONFS = {
+    curesta: 'precure.ml.conf',
+    delmulin: 'mstdn.delmulin.com.conf',
+    bshockdon: 'mstdn.b-shock.org.conf',
+  }.freeze
+
   def instance_name
-    themes = Rails.root.join('config', 'themes.yml').read
-
-    return :curesta   if themes.match?(/^\s*cure-/)
-    return :delmulin  if themes.match?(/^\s*dai\s*:/)
-    return :bshockdon if themes.match?(/^\s*bshock\s*:/)
-
-    :unknown
+    SERVER_CONFS.find { |_, conf| Rails.root.join('dist', 'servers', conf).exist? }&.first || :unknown
   end
 
   # ja の翻訳だけを見る。対象の用語はいずれも日本語なので、他言語を舐める必要が無い。
@@ -48,6 +50,10 @@ end
 
 RSpec.describe '用語ポリシーのガード (#972)' do
   include ForkTerminologyGuard
+
+  it 'インスタンスを見分けられている（curesta の検査が黙って飛ばされていない）' do
+    expect(ForkTerminologyGuard.instance_name).to_not eq :unknown
+  end
 
   it 'ja の翻訳ファイルを実際に見つけている（検査が空振りしていない）' do
     expect(ja_locale_files).to include(Rails.root.join('config', 'locales', 'ja.yml'),
