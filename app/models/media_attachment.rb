@@ -50,7 +50,7 @@ class MediaAttachment < ApplicationRecord
   MAX_VIDEO_FRAME_RATE   = 120
   MAX_VIDEO_FRAMES       = 36_000 # Approx. 5 minutes at 120 fps
 
-  IMAGE_FILE_EXTENSIONS = %w(.jpg .jpeg .png .gif .webp .heic .heif .avif).freeze
+  IMAGE_FILE_EXTENSIONS = %w(.jpg .jpeg .png .gif .webp).freeze # NOTE: HEIC/HEIF/AVIF are temporarily disabled for security reasons.
   VIDEO_FILE_EXTENSIONS = %w(.webm .mp4 .m4v .mov).freeze
   AUDIO_FILE_EXTENSIONS = %w(.ogg .oga .mp3 .wav .flac .opus .aac .m4a .3gp .wma).freeze
 
@@ -61,8 +61,8 @@ class MediaAttachment < ApplicationRecord
     small
   ).freeze
 
-  IMAGE_MIME_TYPES             = %w(image/jpeg image/png image/gif image/heic image/heif image/webp image/avif).freeze
-  IMAGE_CONVERTIBLE_MIME_TYPES = %w(image/heic image/heif image/avif).freeze
+  IMAGE_MIME_TYPES             = %w(image/jpeg image/png image/gif image/webp).freeze # NOTE: HEIC/HEIF/AVIF are temporarily disabled for security reasons.
+  IMAGE_CONVERTIBLE_MIME_TYPES = [].freeze # NOTE: HEIC/HEIF/AVIF are temporarily disabled for security reasons.
   VIDEO_MIME_TYPES             = %w(video/webm video/mp4 video/quicktime video/ogg).freeze
   VIDEO_CONVERTIBLE_MIME_TYPES = %w(video/webm video/quicktime).freeze
   AUDIO_MIME_TYPES             = %w(audio/wave audio/wav audio/x-wav audio/x-pn-wave audio/vnd.wave audio/ogg audio/vorbis audio/mpeg audio/mp3 audio/webm audio/flac audio/aac audio/m4a audio/x-m4a audio/mp4 audio/3gpp video/x-ms-asf).freeze
@@ -250,12 +250,20 @@ class MediaAttachment < ApplicationRecord
     status&.discarded? || (status_id.present? && status.nil?)
   end
 
+  def on_hold?
+    discarded? || account&.suspended?
+  end
+
   def significantly_changed?
     description_previously_changed? || thumbnail_updated_at_previously_changed? || file_meta_previously_changed?
   end
 
   def larger_media_format?
-    video? || gifv? || audio?
+    video_or_gifv? || audio?
+  end
+
+  def video_or_gifv?
+    video? || gifv?
   end
 
   def audio_or_video?
@@ -376,7 +384,7 @@ class MediaAttachment < ApplicationRecord
   end
 
   def check_video_dimensions
-    return unless (video? || gifv?) && file.queued_for_write[:original].present?
+    return unless video_or_gifv? && file.queued_for_write[:original].present?
 
     movie = ffmpeg_data(file.queued_for_write[:original].path)
 

@@ -12,7 +12,11 @@ class AccountFilter
     ip
     invited_by
     order
+    dormant
   ).freeze
+
+  # フォーク改変（#1015）: 発言 0 件で、この期間ログインもアプリの利用も無いローカルアカウントを「放置」とみなす
+  DORMANT_PERIOD = 1.year
 
   IGNORED_PARAMS = %w(page).freeze
 
@@ -68,6 +72,8 @@ class AccountFilter
       invited_by_scope(value)
     when 'order'
       order_scope(value)
+    when 'dormant'
+      dormant_scope(value)
     else
       raise Mastodon::InvalidParameterError, "Unknown filter: #{key}"
     end
@@ -112,6 +118,30 @@ class AccountFilter
     else
       raise Mastodon::InvalidParameterError, "Unknown order: #{value}"
     end
+  end
+
+  def dormant_scope(value)
+    case value.to_s
+    # ハッシュや Arel で id 条件を書くと、merge が without_instance_actor の id 条件を上書きして消す。SQL 片で書く
+    when 'exclude'
+      Account.where('accounts.id NOT IN (?)', dormant_account_ids) # rubocop:disable Rails/WhereNot
+    when 'only'
+      Account.where('accounts.id IN (?)', dormant_account_ids) # rubocop:disable Rails/WhereEquals
+    else
+      raise Mastodon::InvalidParameterError, "Unknown dormant: #{value}"
+    end
+  end
+
+  def dormant_account_ids
+    threshold = DORMANT_PERIOD.ago
+
+    Account.local
+      .joins(:user)
+      .where(accounts: { created_at: ...threshold })
+      .where('users.current_sign_in_at IS NULL OR users.current_sign_in_at < ?', threshold)
+      .where.not(Status.unscoped.where('statuses.account_id = accounts.id').arel.exists)
+      .where.not(Doorkeeper::AccessToken.where('oauth_access_tokens.resource_owner_id = users.id').where(last_used_at: threshold..).arel.exists)
+      .select(:id)
   end
 
   def invited_by_scope(value)

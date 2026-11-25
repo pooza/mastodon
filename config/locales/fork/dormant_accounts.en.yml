@@ -1,0 +1,8 @@
+---
+en:
+  admin:
+    accounts:
+      fork_dormant:
+        exclude: Hide
+        only: Only dormant
+        title: Dormant accounts

@@ -15,8 +15,6 @@
 #
 
 class CustomFilter < ApplicationRecord
-  self.ignored_columns += %w(whole_word irreversible)
-
   alias_attribute :title, :phrase
   alias_attribute :filter_action, :action
 
@@ -35,7 +33,7 @@ class CustomFilter < ApplicationRecord
   include Expireable
   include Redisable
 
-  enum :action, { warn: 0, hide: 1, blur: 2 }, suffix: :action, validate: true
+  enum :action, { warn: 0, blur: 2, hide: 1 }, suffix: :action, validate: true
 
   belongs_to :account
   has_many :keywords, class_name: 'CustomFilterKeyword', inverse_of: :custom_filter, dependent: :destroy

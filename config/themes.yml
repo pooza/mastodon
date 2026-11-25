@@ -1,5 +1,8 @@
-default: styles/application.scss
-
-# custom theme
-cure-orange: styles/cure-orange.scss
-cure-lime : styles/cure-lime.scss
+default:
+  path: styles/application.scss
+  colors:
+    - indigo
+    - lime
+    - pink
+    - orange
+    - cyan

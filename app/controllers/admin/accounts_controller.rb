@@ -6,6 +6,11 @@ module Admin
     before_action :require_remote_account!, only: [:redownload]
     before_action :require_local_account!, only: [:enable, :memorialize, :approve, :reject]
 
+    # フォーク改変（#1015）: 何かで絞り込んでいないときは、放置アカウントを既定で隠す
+    DORMANT_DEFAULT_BLOCKERS = %i(status role_ids username by_domain display_name email ip invited_by).freeze
+
+    helper_method :dormant_filter_value
+
     def index
       authorize :account, :index?
 
@@ -154,7 +159,15 @@ module Admin
     end
 
     def filtered_accounts
-      AccountFilter.new(filter_params.with_defaults(order: 'recent')).results
+      AccountFilter.new(filter_params.with_defaults(order: 'recent', dormant: default_dormant_filter)).results
+    end
+
+    def default_dormant_filter
+      DORMANT_DEFAULT_BLOCKERS.any? { |key| params[key].present? } ? nil : 'exclude'
+    end
+
+    def dormant_filter_value
+      params.key?(:dormant) ? params[:dormant] : default_dormant_filter
     end
 
     def filter_params

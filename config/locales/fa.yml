@@ -29,10 +29,8 @@ fa:
     self_follow_error: پی‌گیری حساب خودتان مجاز نیست
   admin:
     account_actions:
-      action: انجامِ کنش
       already_silenced: این حساب از پیش محدود شده.
       already_suspended: این حساب از پیش معلّق شده.
-      title: انجام کنش مدیریتی روی %{acct}
     account_moderation_notes:
       create: گذاشتن یادداشت
       created_msg: یادداشت مدیر با موفقیت ساخته شد!
@@ -71,6 +69,8 @@ fa:
       disable_sign_in_token_auth: از کار انداختن تأیید هویت ژتون رایانامه‌ای
       disable_two_factor_authentication: از کار انداختن ورود دومرحله‌ای
       disabled: از کار افتاده
+      discoverable:
+        title: کشف‌پذیر
       display_name: نام نمایشی
       domain: دامنه
       edit: ویرایش
@@ -80,6 +80,8 @@ fa:
       enable_sign_in_token_auth: به کار انداختن تأیید هویت ژتون رایانامه‌ای
       enabled: به کار افتاده
       enabled_msg: حساب %{username} با موفقیت به کار انداخته شد
+      follow_recommendations:
+        allowed: مجاز
       followers: پیگیران
       follows: پی می‌گیرد
       header: تصویر زمینه
@@ -164,6 +166,12 @@ fa:
       suspension_irreversible: داده‌های این حساب به صورت بی‌بازگشت حذف شد. می‌توانید برای قابل استفاده کردنش، آن را نامعلّق کنید، ولی این کار هیچ داده‌ای را که از پیش داده، برنخواهد گرداند.
       suspension_reversible_hint_html: حساب معلّق شد و داده‌ها به صورت کامل در %{date} برداشته خواهند شد. تا آن زمان، حساب می‌تواند بی هیچ عوارضی بازگردانده شود. اگر می‌خواهید فوراً همهٔ داده‌های حساب را بردارید، می‌توانید در پایین این کار را بکنید.
       title: حساب‌ها
+      trends:
+        allow: اجازه
+        allowed: مجاز
+        disallow: اجازه ندادن
+        disallowed: غیرمجاز
+        title: فرسته‌های داغ
       unblock_email: رفع مسدودیت نشانی رایانامه
       unblocked_email_msg: مسدودیت نشانی رایانامهٔ %{username} با موفقیت رفع شد
       unconfirmed_email: رایانامهٔ تأیید نشده
@@ -442,6 +450,8 @@ fa:
       undo: برداشتن از فهرست مجاز
     domain_blocks:
       add_new: افزودن مسدودسازی دامین تازه
+      confirm_downgrade:
+        cancel: لغو
       confirm_suspension:
         cancel: لغو
         confirm: تعلیق
@@ -601,8 +611,6 @@ fa:
           description: ثبت‌نامی از FASP دریافت کرده‌اید. اگر خودتان آغازش نکرده‌اید ردش کنید. اگر خودتان آغازش کرده‌اید، نام و اثر انگشت کلید را پیش از ادامهٔ‌ثبت‌نام با دقّت مقایسه کنید.
           reject: رد کردن
           title: تأیید ثبت‌نام FASP
-        save: ذخیره
-        select_capabilities: گزینش قابلیت‌ها
         sign_in: ورود
         status: وضعیت
         title: ارائه‌دهندگان خدمات کمکی وب اجتماعی
@@ -728,9 +736,7 @@ fa:
       disable: از کار انداختن
       disabled: از کار افتاده
       enable: به کار انداختن
-      enable_hint: اگر فعال باشد، کارساز شما عضو همهٔ فرسته‌های عمومی‌ای را که از این رله می‌آید می‌گیرد، و فرسته‌های عمومی این کارساز را به آن می‌فرستند.
       enabled: فعال
-      inbox_url: نشانی رله
       pending: در انتظار پذیرش رله
       save_and_enable: ذخیره و فعال‌سازی
       setup: برپا سازی یک اتّصال رله
@@ -749,11 +755,7 @@ fa:
       action_taken_by: انجام‌دهنده
       actions:
         mark_as_sensitive_description_html: رسانهٔ درون فرستهٔ گزارش شده به عنوان حسّاس علامت خورده و شکایتی ضبط خواهد شد تا بتوانید خلاف‌های آینده از همین حساب را بهتر مدیریت کنید.
-        other_description_html: دیدن انتخاب های بیشتر برای کنترل رفتار حساب و سفارشی سازی ارتباط با حساب گزارش شده.
         resolve_description_html: هیچ کنشی علیه حساب گزارش شده انجام نخواهد شد. هیچ شکایتی ضبط نشده و گزارش بسته خواهد شد.
-        silence_description_html: حساب فقط برای کسانی که از پیش پی می‌گرفتندش یا به صورت دستی به دنیالش گشته‌اند نمایان خواهد بود که رسشش را شدیداً محدود می‌کند. همواره برگشت‌پذیر است. همهٔ گزارش‌ها علیه این حساب را خواهد بست.
-        suspend_description_html: حساب و همهٔ محتوایش غیرقابل دسترس شده و در نهایت حذف خواهند شد. تعامل با آن ممکن نخواهد بود. بازگشت‌پذیر تا ۳۰ روز. همهٔ گزارش‌ها علیه این حساب را خواهد بست.
-      actions_description_html: تصمیم گیری کنش اقدامی برای حل این گزارش. در صورت انجام کنش تنبیهی روی حساب گزارش شده، غیر از زمان یکه دستهٔ <strong>هرزنامه</strong> گزیده باشد، برایش آگاهی رایانامه‌ای فرستاده خواهد شد.
       actions_description_remote_html: تصمیم بگیرید که چه اقدامی برای حل این گزارش انجام دهید. این فقط بر نحوه ارتباط سرور <strong>شما</strong> با این حساب راه دور و مدیریت محتوای آن تأثیر می گذارد.
       actions_no_posts: این گزارش هیچ پست مرتبطی برای حذف ندارد
       add_to_report: افزودن بیش‌تر به گزارش
@@ -938,10 +940,8 @@ fa:
       discovery:
         follow_recommendations: پیروی از پیشنهادها
         preamble: ارائه محتوای جذّاب برای آغاز به کار کاربرانی که شاید کسی را روی ماستودون نشناسند ضروری است. واپایش چگونگی کار کردن ویژگی‌های کشف روی کارسازتان.
-        privacy: محرمانگی
         profile_directory: شاخهٔ نمایه
         public_timelines: خط زمانی‌های عمومی
-        publish_statistics: انتشار آمار
         title: کشف
         trends: پرطرفدارها
         wrapstodon: خلاصهٔ ماستودون
@@ -972,7 +972,6 @@ fa:
         warning_hint: توصیه می‌کنیم از ”تأیید لازم برای ثبت‌نام” استفاده کنید، مگر اینکه مطمئن باشید تیم نظارتی شما می‌تواند هرزنامه‌ها و ثبت‌های مخرب را به موقع مدیریت کند.
       security:
         authorized_fetch: نیاز به احراز هویت از سرورهای فدرال
-        authorized_fetch_hint: نیاز به احراز هویت از سرورهای فدرال، اجرای دقیق‌تر بلوک‌های سطح کاربر و سرور را ممکن می‌سازد. با این حال، این به قیمت جریمه عملکرد است، دسترسی به پاسخ‌های شما را کاهش می‌دهد و ممکن است مشکلات سازگاری با برخی از سرویس‌های فدرال را ایجاد کند. علاوه بر این، این مانع از دریافت پست‌ها و حساب‌های عمومی شما توسط بازیگران اختصاصی نمی‌شود.
         authorized_fetch_overridden_hint: شما در حال حاضر نمی توانید این تنظیم را تغییر دهید زیرا توسط یک متغیر محیطی لغو شده است.
         federation_authentication: اجرای احراز هویت فدراسیون
       title: تنظیمات کارساز
@@ -1037,50 +1036,6 @@ fa:
       appeal_approved: تجدیدنظر شده
       appeal_pending: منتظر تجدیدنظر
       appeal_rejected: درخواست تجدیدنظر رد شد
-    system_checks:
-      database_schema_check:
-        message_html: تعداد مهاجرت پایگاه داده در انتظار انجام هستند. لطفا آن‌ها را اجرا کنید تا اطمینان یابید که برنامه مطابق انتظار رفتار خواهد کرد
-      elasticsearch_analysis_index_mismatch:
-        message_html: تنظیمات تحلیلگر اندیس Elasticsearch منقضی شده. لطفاً <code>tootctl search deploy --only-mapping --only=%{value}</code> را اجرا کنید
-      elasticsearch_health_red:
-        message_html: خوشه Elasticsearch ناسالم است (وضعیت قرمز)، ویژگی های جستجو در دسترس نیستند
-      elasticsearch_health_yellow:
-        message_html: خوشه Elasticsearch ناسالم است (وضعیت زرد)، ممکن است بخواهید دلیل آن را بررسی کنید
-      elasticsearch_index_mismatch:
-        message_html: نگاشت فهرست Elasticsearch منسوخ شده است. لطفاً <code>tootctl search deploy --only=%{value}</code> را اجرا کنید
-      elasticsearch_preset:
-        action: دیدن مستندات
-        message_html: خوشه Elasticsearch شما بیش از یک گره دارد، اما ماستودون برای استفاده از آنها پیکربندی نشده است.
-      elasticsearch_preset_single_node:
-        action: دیدن مستندات
-        message_html: خوشه Elasticsearch شما فقط یک گره دارد، <code>ES_PRESET</code> باید روی <code>single_node_cluster</code> تنظیم شود.
-      elasticsearch_reset_chewy:
-        message_html: فهرست سیستم Elasticsearch شما به دلیل تغییر تنظیمات قدیمی است. لطفاً برای به روز رسانی <code>tootctl search deploy --reset-chewy</code> را اجرا کنید.
-      elasticsearch_running_check:
-        message_html: به Elasticsearch متصل نشد. لطفاً بررسی کنید که در حال اجرا است یا جستجوی متن کامل را غیرفعال کنید
-      elasticsearch_version_check:
-        message_html: 'نگارش الستیک‌سرچ ناسازگار: %{value}'
-        version_comparison: الستیک‌سرچ %{running_version} در حال اجراست، حال که %{required_version} لازم است
-      rules_check:
-        action: مدیریت قانون‌های کارساز
-        message_html: هیچ قانون کارسازی تعریف نکرده‌اید.
-      sidekiq_process_check:
-        message_html: صف(های) %{value} فاقد هیچونه فرایند Sidekiq هستند. لطفا تنظیمات Sidekiq خود را بازبینی کنید
-      software_version_check:
-        action: دیدن به‌روز رسانی‌های موجود
-        message_html: به‌روز رسانی ماستودون موجود است.
-      software_version_critical_check:
-        action: مشاهده به‌روزرسانی‌های موجود
-        message_html: یک به‌روزرسانی حیاتی ماستودون موجود است، لطفا در اسرع وقت به‌روزرسانی کنید.
-      software_version_patch_check:
-        action: مشاهده به‌روزرسانی‌های موجود
-        message_html: یک به‌روزرسانی رفع اشکال ماستودون موجود است.
-      upload_check_privacy_error:
-        action: برای اطّلاعات بیش‌تر این‌جا را بررسی کنید
-        message_html: "<strong>کارساز وبتان بد پیکربندی شده. محرمانگی کاربرانتان در خطر است.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: برای اطّلاعات بیش‌تر این‌جا را بررسی کنید
-        message_html: "<strong>ذخیره‌سازتان بد پیکربندی شده. محرمانگی کاربرانتان در خطر است.</strong>"
     tags:
       moderation:
         not_trendable: غیر قابل داغ شدن
@@ -1155,7 +1110,6 @@ fa:
           one: هم‌رسانده به دست یک نفر در هفتهٔ گذشته
           other: هم‌رسانده به دست %{count} نفر در هفتهٔ گذشته
         title: پیوندهای داغ
-        usage_comparison: امروز %{today} بار هم‌رسانی شده. در مقایسه با %{yesterday} بار دیروز
       not_allowed_to_trend: اجازهٔ داغ شدن ندارد
       only_allowed: فقط مجازها
       pending_review: بازبینی منتظر
@@ -1200,7 +1154,6 @@ fa:
         trendable: می تواند در زیر روندها ظاهر شود
         trending_rank: 'پرطرفدار #%{rank}'
         usable: قابل استفاده
-        usage_comparison: "%{today} بار امروز در مقایسه با %{yesterday} دیروز استفاده شد"
         used_by_over_week:
           one: در هفته گذشته توسط یک نفر استفاده شده است
           other: در هفته گذشته توسط %{count} نفر استفاده شده است
@@ -1229,9 +1182,6 @@ fa:
     warning_presets:
       add_new: افزودن تازه
       delete: زدودن
-      edit_preset: ویرایش هشدار پیش‌فرض
-      empty: هنز هیچ پیش‌تنظیم هشداری را تعریف نکرده‌اید.
-      title: از پیش تنظیم های هشدار
     webhooks:
       add_new: افزودن نقطهٔ پایانی
       delete: حذف
@@ -1302,7 +1252,6 @@ fa:
     animations_and_accessibility: پویانمایی‌های و دسترسی‌پذیری
     boosting_preferences: ترجیحات تقویت
     boosting_preferences_info_html: "<strong>نکته:</strong> فارغ از تنظیمات، <kbd>تبدیل</kbd> + <kbd>کلیک</kbd> روی %{icon} نقشک تقویت بلافاصله تقویت خواهد کرد."
-    discovery: کاوش
     localization:
       body: ماستودون توسط داوطلبان ترجمه شده است.
       guide_link: https://crowdin.com/project/mastodon
@@ -1636,7 +1585,6 @@ fa:
       empty: پروندهٔ خالی CSV
       incompatible_type: ناسازگار با گونهٔ درون‌ریزی گزیده
       invalid_csv_file: 'پروندهٔ CSV نامعتبر. خطا: %{error}'
-      over_rows_processing_limit: دارای بیش از %{count} ردیف
       too_large: حجم فایل خیلی بزرگ است
     failures: شکست‌ها
     imported: وارد شد
@@ -1780,7 +1728,6 @@ fa:
     incoming_migrations_html: برای انتقال از یک حساب دیگر به این حساب، شما باید نخست <a href="%{path}">یک نام مستعار بسازید</a>.
     moved_msg: حساب شما هم‌اینک به %{acct} منتقل شده است و پیگیران شما در حال انتقال به آن‌جا هستند.
     not_redirecting: حساب شما هم‌اینک به هیچ حساب دیگری منتقل نشده است یا اشاره نمی‌کند.
-    on_cooldown: شما به تازگی حساب خود را منتقل کرده‌اید. این ویژگی برای شما دوباره در %{count} روز فعال خواهد شد.
     past_migrations: انتقال‌های پیشین
     proceed_with_move: انتقال پیگیران
     redirected_msg: حسابتان اکنون به %{acct} هدایت می‌شود.
@@ -1958,8 +1905,6 @@ fa:
       account: فرسته‌های عمومی از ‪@%{acct}‬
       tag: فرسته‌های عمومی برچسب خورده با ‪#%{hashtag}‬
   scheduled_statuses:
-    over_daily_limit: شما از حد مجاز %{limit} فرسته زمان‌بندی‌شده در آن روز فراتر رفته‌اید
-    over_total_limit: شما از حد مجاز %{limit} فرسته زمان‌بندی‌شده فراتر رفته‌اید
     too_soon: تاریخ باید در آینده باشد
   self_destruct:
     lead_html: متأسفانه، <strong>%{domain}</strong> برای همیشه در حال بسته شدن است. اگر حسابی در آنجا داشتید، نمی‌توانید به استفاده از آن ادامه دهید، اما همچنان می‌توانید از داده‌های خود نسخه پشتیبان درخواست کنید.
@@ -2333,7 +2278,6 @@ fa:
     nickname_hint: نام مستعار کلید امنیتی جدیدتان را وارد کنید
     not_enabled: شما هنوز WebAuthn را فعال نکرده‌اید
     not_supported: این مرورگر از کلیدهای امنیتی پشتیبانی نمی‌کند
-    otp_required: برای استفاده از کلیدهای امنیتی، لطفاً ابتدا تأیید هویت دو عاملی را به کار بیندازید.
     registered_on: ثبت‌شده در %{date}
   wrapstodon:
     description: دیدن چگونگی استفادهٔ امسال %{name} از ماستودون

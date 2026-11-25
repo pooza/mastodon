@@ -21,9 +21,6 @@ hy:
       other: Գրառումներ
     posts_tab_heading: Գրառումներ
   admin:
-    account_actions:
-      action: Կատարել գործողութիւն
-      title: Իրականացնել մոդերատորական գործողութիւններ %{acct}-ի վրայ
     account_moderation_notes:
       create: Թողնել նշում
       created_msg: Մոդերացիոն նոթը բարեյաջող ստեղծուեց
@@ -432,7 +429,6 @@ hy:
         title: Թրենդային գրառումներ
   appearance:
     animations_and_accessibility: Անիմացիաներ եւ հասանելիութիւն
-    discovery: Բացայայտում
     localization:
       body: Մաստոդոնը թարգմանուում է կամաւորների կողմից։
       guide_link_text: Աջակցել կարող են բոլորը։
@@ -558,8 +554,6 @@ hy:
     save_changes: Պահպանել փոփոխութիւնները
     today: այսօր
   imports:
-    errors:
-      over_rows_processing_limit: տողերի քանակը աւելին է քան %{count}-ը
     modes:
       merge: Միաւորել
       overwrite: Վերագրել

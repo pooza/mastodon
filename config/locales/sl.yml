@@ -29,10 +29,8 @@ sl:
     self_follow_error: Ni dovoljeno slediti lastnemu računu
   admin:
     account_actions:
-      action: Izvedi dejanje
       already_silenced: Ta račun je že omejen.
       already_suspended: Ta račun je že suspendiran.
-      title: Izvedi moderirano dejanje za %{acct}
     account_moderation_notes:
       create: Pusti opombo
       created_msg: Opomba moderiranja je uspešno ustvarjena!
@@ -524,7 +522,6 @@ sl:
           confirm: Potrdi
           reject: Zavrni
           title: Potrdri registracijo FASP
-        save: Shrani
         sign_in: Prijava
         status: Stanje
         title: Ponudniki dodatnih storitev Fediverse
@@ -650,9 +647,7 @@ sl:
       disable: Onemogoči
       disabled: Onemogočeno
       enable: Omogoči
-      enable_hint: Ko je omogočen, se bo vaš strežnik naročil na vse javne objave iz tega releja in začel pošiljati javne objave tega strežnika.
       enabled: Omogočeno
-      inbox_url: URL releja
       pending: Čakanje na odobritev releja
       save_and_enable: Shrani in omogoči
       setup: Nastavi povezavo releja
@@ -673,11 +668,7 @@ sl:
       action_taken_by: Dejanje, ki ga je sprejel
       actions:
         mark_as_sensitive_description_html: Mediji v prijavljenih objavah bodo označeni kot občutljivi in ukrep bo zabeležen, da vam pomaga stopnjevati ukrepe ob naslednjih kršitvah z istega računa.
-        other_description_html: Oglejte si več možnosti za nadzor vedenja računa in prilagodite komunikacijo s prijavljenim računom.
         resolve_description_html: Proti prijavljenemu računu ne bo izvedeno nobeno dejanje, noben ukrep ne bo zabeležen in prijava bo zaprta.
-        silence_description_html: Račun bo viden samo tistim, ki mu že sled ijo ali ga ročno poiščejo, s čimer bo resno omejen njegov doseg. To je vedno možno povrniti. Zaključi vse prijave zoper ta račun.
-        suspend_description_html: Račun in vsa njegova vsebina ne bo dostopna in bo postopoma izbrisana, interakcija z njim pa ne bo več možna. Dejanje je moč povrniti v roku 30 dni. Zaključi vse prijave zoper ta račun.
-      actions_description_html: Odločite se, katere ukrepe boste sprejeli za rešitev te prijave. Če sprejmete kazenski ukrep proti prijavljenemu računu, mu bo poslano e-poštno obvestilo, razen če je izbrana kategorija <strong>Neželena pošta</strong>.
       actions_description_remote_html: Odločite se za dejanje, ki bo odločilo o tej prijavi. To bo vplivalo le na to, kako <strong>vaš</strong> strežnik komunicira s tem oddaljenim računom in obravnava njegovo vsebino.
       actions_no_posts: To poročilo ni vezano na nobene objave, ki bi jih lahko izbrisali
       add_to_report: Dodaj več v prijavo
@@ -851,10 +842,8 @@ sl:
         title: Privzeto izvzemi uporabnike iz indeksiranja iskalnika
       discovery:
         follow_recommendations: Sledi priporočilom
-        privacy: Zasebnost
         profile_directory: Imenik profilov
         public_timelines: Javne časovnice
-        publish_statistics: Objavi statistiko
         title: Razkrivanje
         trends: Trendi
         wrapstodon: Wrapstodon
@@ -878,7 +867,6 @@ sl:
         warning_hint: Priporočamo uporabo možnosti »Potrebna je odobritev za prijavo«, razen če ste gotovi, da se bo vaša ekipa moderatorjev res zmožna hitro odzvati na neželene vsebine in škodoželjne prijave.
       security:
         authorized_fetch: Od drugih strežnikov v federaciji zahtevaj overitev pristnosti
-        authorized_fetch_hint: Zahtevanje overitve pristnosti od drugih strežnikov v federaciji omogoči strožje uveljavljanje uporabniških in strežniških blokad. Vendar je cena za to počasnejše delovanje, zmanjšanje dosega vaših odgovorov in morebitne težave z združljivostjo z nekaterimi storitvami v federaciji. Poleg tega to odločenim akterjem ne bo preprečilo pridobivanja vaših javnih objav in računov.
         authorized_fetch_overridden_hint: Trenutno ne morete spremeniti te nastavitve, ker jo preglasi okoljska spremenljivka.
         federation_authentication: Izvršba overitve pristnosti v federaciji
       title: Nastavitve strežnika
@@ -942,48 +930,6 @@ sl:
       appeal_approved: Pritoženo
       appeal_pending: Čakajoč na ugovor
       appeal_rejected: Pritožba zavrnjena
-    system_checks:
-      database_schema_check:
-        message_html: Na čakanju so migracije zbirke podatkov. Prosimo, izvedite jih, da zagotovite, da se program vede pričakovano
-      elasticsearch_health_red:
-        message_html: Z gručo Elasticsearch ni vse v redu (rdeče stanje), zmožnosti iskanja niso na voljo
-      elasticsearch_health_yellow:
-        message_html: Z gručo Elasticsearch ni vse v redu (rumeno stanje), priporočeno je ugotoviti razlog
-      elasticsearch_index_mismatch:
-        message_html: Preslikave kazala Elasticsearch so zastarele. Poženite <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Glejte dokumentacijo
-        message_html: Vaša gruča Elasticsearch vsebuje več kot eno vozlišče, vendar Mastodon ni nastavljen, da bi jih uporabljal.
-      elasticsearch_preset_single_node:
-        action: Glejte dokumentacijo
-        message_html: Vaša gruča Elasticsearch vsebuje samo eno vozlišče, <code>ES_PRESET</code> bi moralo biti nastavljeno na <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: Sistemsko kazalo Elasticsearch je zastarelo zaradi spremembe nastavitve. Za posodobitev poženite <code>tootctl search deploy --reset-chewy</code>.
-      elasticsearch_running_check:
-        message_html: Povezava z Elasticsearch ni uspela. Preverite, da deluje, ali onemogočite iskanje po vsem besedilu
-      elasticsearch_version_check:
-        message_html: 'Nezdružljiva različica Elasticsearch: %{value}'
-        version_comparison: Izvaja se Elasticsearch %{running_version}, zahtevana pa je različica %{required_version}
-      rules_check:
-        action: Upravljaj pravila strežnika
-        message_html: Nobenih pravil strežnika niste določili.
-      sidekiq_process_check:
-        message_html: Noben proces Sidekiq ne poteka za %{value} vrst. Preglejte svojo prilagoditev Sidekiq
-      software_version_check:
-        action: Oglejte si razpoložljive posodobitve
-        message_html: Na voljo je posodobitev Mastodona.
-      software_version_critical_check:
-        action: Glejte razpoložljive posodobitve
-        message_html: Na voljo je kritična posodobitev Mastodona. Posodobite čim prej.
-      software_version_patch_check:
-        action: Glejte razpoložljive posodobitve
-        message_html: Na voljo je posodobitev Mastodona s popravki hroščev.
-      upload_check_privacy_error:
-        action: Preverite tukaj za več informacij
-        message_html: "<strong>Vaš spletni strežnik je napačno nastavljen. Zasebnost vaših uporabnikov je izpostavljena tveganjem.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Preverite tukaj za več informacij
-        message_html: "<strong>Vaša predmetna shramba je napačno nastavljena. Zasebnost vaših uporabnikov je izpostavljena tveganjem.</strong>"
     tags:
       moderation:
         not_trendable: Ni v trendu
@@ -1062,7 +1008,6 @@ sl:
           other: Delilo %{count} oseb v zadnjem tednu
           two: Delili %{count} osebi v zadnjem tednu
         title: Povezave v trendu
-        usage_comparison: Danes deljeno %{today}-krat, včeraj pa %{yesterday}-krat
       not_allowed_to_trend: Ni dovoljeno, da bi bilo v trendu
       only_allowed: Samo dovoljeni
       pending_review: Čakajoče na pregled
@@ -1109,7 +1054,6 @@ sl:
         trendable: Se lahko pojavi med trendi
         trending_rank: 'V trendu #%{rank}'
         usable: Je moč uporabiti
-        usage_comparison: Danes uporabljeno %{today}-krat, včeraj pa %{yesterday}-krat
         used_by_over_week:
           few: Uporabile %{count} osebe v zadnjem tednu
           one: Uporabila %{count} oseba v zadnjem tednu
@@ -1139,9 +1083,6 @@ sl:
     warning_presets:
       add_new: Dodaj novo
       delete: Izbriši
-      edit_preset: Uredi prednastavitev opozoril
-      empty: Zaenkrat še niste določili nobenih opozorilnih prednastavitev.
-      title: Pred-nastavitve opozoril
     webhooks:
       add_new: Dodaj končno točko
       delete: Izbriši
@@ -1212,7 +1153,6 @@ sl:
   appearance:
     advanced_settings: Napredne nastavitve
     animations_and_accessibility: Animacije in dostopnost
-    discovery: Odkrito
     localization:
       body: Mastodon prevajamo prostovoljci.
       guide_link: https://crowdin.com/project/mastodon
@@ -1527,7 +1467,6 @@ sl:
       empty: Prazna datoteka CSV
       incompatible_type: Nezdružljivo z izbrano vrsto uvoza
       invalid_csv_file: 'Neveljavna datoteka CSV. Napaka: %{error}'
-      over_rows_processing_limit: vsebuje več kot %{count} vrstic
       too_large: Datoteka je prevelika
     failures: Neuspehi
     imported: Uvoženo
@@ -1695,7 +1634,6 @@ sl:
     incoming_migrations_html: Če se želite preseliti iz drugega računa na tega, morate najprej <a href="%{path}">ustvariti vzdevek računa</a>.
     moved_msg: Vaš račun se zdaj preusmerja na %{acct} in vaši sledilci so preseljeni.
     not_redirecting: Vaš račun trenutno ne preusmerja na noben drug račun.
-    on_cooldown: Nedavno ste migrirali svoj račun. Funkcija bo znova na voljo čez %{count} dni.
     past_migrations: Pretekle migracije
     proceed_with_move: Premakni sledilce
     redirected_msg: Vaš račun se zdaj preusmerja na %{acct}.
@@ -1851,8 +1789,6 @@ sl:
       account: Javne objave @%{acct}
       tag: 'Javne objave s ključnikom #%{hashtag}'
   scheduled_statuses:
-    over_daily_limit: Za ta dan ste presegli omejitev %{limit} načrtovanih objav
-    over_total_limit: Presegli ste omejitev %{limit} načrtovanih objav
     too_soon: datum mora biti v prihodnosti
   self_destruct:
     lead_html: Na žalost se <strong>%{domain}</strong> za vedno zapira. Če ste tu imeli svoj račun, ga v prihodnje ne boste mogli več uporabljati. Zahtevate lahko kopijo svojih podatkov.
@@ -2206,7 +2142,6 @@ sl:
     nickname_hint: Vnesite vzdevek svojega novega varnostnega ključa
     not_enabled: Niste še omogočili WebAuthn
     not_supported: Ta brskalnik ne podpira varnostnih ključev
-    otp_required: Za uporabo varnostnih ključev morate najprej omogočiti 2FA (dvostopenjsko overjanje).
     registered_on: Datum registracije %{date}
   wrapstodon:
     description: Oglejte si, kako je %{name} letos uporabljal/a Mastodon!

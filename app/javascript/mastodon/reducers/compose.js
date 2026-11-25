@@ -1,14 +1,18 @@
-import { Map as ImmutableMap, List as ImmutableList, OrderedSet as ImmutableOrderedSet, fromJS } from 'immutable';
+import { Map as ImmutableMap, List as ImmutableList, OrderedSet as ImmutableOrderedSet, fromJS, isList } from 'immutable';
 
 import {
   changeComposeVisibility,
   changeUploadCompose,
+  rearrangeComposeAttachments,
   quoteCompose,
   quoteComposeCancel,
   setComposeQuotePolicy,
   pasteLinkCompose,
   cancelPasteLinkCompose,
   setDragUploadEnabled,
+  addPollOption,
+  updatePollOption,
+  deletePollOption,
 } from '@/mastodon/actions/compose_typed';
 import { timelineDelete } from 'mastodon/actions/timelines_typed';
 
@@ -117,6 +121,10 @@ function statusToTextMentions(state, status) {
   return set.union(status.get('mentions').filterNot(mention => mention.get('id') === me).map(mention => `@${mention.get('acct')} `)).join('');
 }
 
+/**
+ * @param {typeof initialState} state
+ * @returns {typeof initialState}
+ */
 function clearAll(state) {
   return state.withMutations(map => {
     map.set('id', null);
@@ -344,6 +352,19 @@ export const composeReducer = (state = initialState, action) => {
     return state.set('is_changing_upload', true);
   } else if (changeUploadCompose.rejected.match(action)) {
     return state.set('is_changing_upload', false);
+  } else if (rearrangeComposeAttachments.match(action)) {
+    return state.update('media_attachments', (attachments) => {
+      const newOrder = [];
+      for (const id of action.payload) {
+        const attachment = attachments.find((item) => item.get('id') === id);
+        if (attachment) {
+          newOrder.push(attachment);
+        }
+      }
+
+      return ImmutableList(newOrder);
+    });
+
   } else if (quoteCompose.match(action)) {
     const status = action.payload;
     const isDirect = state.get('privacy') === 'direct';
@@ -369,6 +390,40 @@ export const composeReducer = (state = initialState, action) => {
     return state.set('fetching_link', null);
   } else if (setDragUploadEnabled.match(action)) {
     return state.set('isDragDisabled', !action.payload);
+  } else if (addPollOption.match(action)) {
+    return state.updateIn(['poll', 'options'], (options) => {
+      if (!isList(options)) {
+        return ImmutableList(['', '']);
+      }
+
+      if (options.size >= action.payload.maxOptions) {
+        return options;
+      }
+      return options.push('');
+    })
+  } else if (updatePollOption.match(action)) {
+    return state.updateIn(['poll', 'options'], (options) => {
+      const { index, text, maxOptions } = action.payload
+      if (index + 1 > maxOptions) {
+        return options;
+      }
+      if (!isList(options)) {
+        return ImmutableList([text]);
+      }
+      return options.set(index, text);
+    })
+  } else if (deletePollOption.match(action)) {
+    return state.updateIn(['poll', 'options'], (options) => {
+      if (!isList(options)) {
+        return options;
+      }
+
+      if (options.size === 1) {
+        return ImmutableList(['']);
+      }
+
+      return options.delete(action.payload.index);
+    });
   }
 
   switch(action.type) {
@@ -394,61 +449,40 @@ export const composeReducer = (state = initialState, action) => {
       );
   case COMPOSE_SENSITIVITY_CHANGE:
     return state.withMutations(map => {
-      if (!state.get('spoiler')) {
-        map.set('sensitive', !state.get('sensitive'));
-      }
-
+      map.set('sensitive', !state.get('sensitive'));
       map.set('idempotencyKey', uuid());
     });
   case COMPOSE_SPOILERNESS_CHANGE:
     return state.withMutations(map => {
-      map.set('spoiler', !state.get('spoiler'));
+      const spoiler = !state.get('spoiler')
+      map.set('spoiler', spoiler);
       map.set('idempotencyKey', uuid());
-
-      if (state.get('media_attachments').size >= 1) {
-        map.set('sensitive', !state.get('spoiler'));
-      }
     });
   case COMPOSE_SPOILER_TEXT_CHANGE:
-    if (!state.get('spoiler')) return state;
-    return state
-      .set('spoiler_text', action.text)
-      .set('idempotencyKey', uuid());
-  case COMPOSE_TAGSET_CHANGE:
-    switch (action.value) {
-    case 'empty':
+    return state.withMutations(map => {
+      map.set('spoiler', !!action.text);
+      map.set('spoiler_text', action.text);
+      map.set('idempotencyKey', uuid());
+    });
+  case COMPOSE_TAGSET_CHANGE: {
+    // 番組表はメニュー側で取得済みのエントリを action で受け取る（#997 の Codex 指摘）。
+    // reducer では通信しない。エントリが無ければ本文を変えない（下書きを消さない）。
+    if (action.value === 'empty') {
       return state.set('text', ['command: user_config', 'tagging:', '  user_tags: null'].join('\n'));
-    case 'episodes':
-      window.open('/mulukhiya/app/episode');
-      return state;
-    default: {
-      const createToot = name => {
-        const request = new XMLHttpRequest();
-        request.open('GET', '/mulukhiya/api/program', false);
-        request.send(null);
-        if (request.status !== 200) {
-          return '';
-        }
-        const result = JSON.parse(request.responseText);
-        for (const k of Object.keys(result)) {
-          if (k !== name) continue;
-          const entry = result[k];
-          const tags = [entry.series];
-          if (entry.air) tags.push('エア番組');
-          if (entry.livecure) tags.push('実況');
-          if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
-          if (entry.subtitle) tags.push(entry.subtitle);
-          entry.extra_tags.map(tag => tags.push(tag));
-          const toot = ['command: user_config', 'tagging:', '  user_tags:'];
-          tags.map(tag => toot.push(`  - ${tag}`));
-          if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
-          return toot.join('\n');
-        }
-        return '';
-      };
-      return state.set('text', createToot(action.value));
     }
-    }
+    const entry = action.entry;
+    if (!entry) return state;
+    const tags = [entry.series];
+    if (entry.air) tags.push('エア番組');
+    if (entry.livecure) tags.push('実況');
+    if (entry.episode) tags.push(`${entry.episode}${entry.episode_suffix || '話'}`);
+    if (entry.subtitle) tags.push(entry.subtitle);
+    for (const tag of entry.extra_tags ?? []) tags.push(tag);
+    const toot = ['command: user_config', 'tagging:', '  user_tags:'];
+    for (const tag of tags) toot.push(`  - ${tag}`);
+    if (entry.minutes) toot.push(`  minutes: ${entry.minutes}`);
+    return state.set('text', toot.join('\n'));
+  }
   case COMPOSE_CHANGE:
     return state
       .set('text', action.text)
@@ -584,9 +618,6 @@ export const composeReducer = (state = initialState, action) => {
       if (action.status.get('spoiler_text').length > 0) {
         map.set('spoiler', true);
         map.set('spoiler_text', action.status.get('spoiler_text'));
-      } else {
-        map.set('spoiler', action.status.get('sensitive') && action.status.get('media_attachments').size > 0);
-        map.set('spoiler_text', '');
       }
 
       if (action.status.get('poll')) {
@@ -621,9 +652,6 @@ export const composeReducer = (state = initialState, action) => {
       if (action.spoiler_text.length > 0) {
         map.set('spoiler', true);
         map.set('spoiler_text', action.spoiler_text);
-      } else {
-        map.set('spoiler', action.status.get('sensitive') && action.status.get('media_attachments').size > 0);
-        map.set('spoiler_text', '');
       }
 
       if (action.status.get('poll')) {
