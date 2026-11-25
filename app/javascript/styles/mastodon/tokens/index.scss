@@ -2,12 +2,14 @@
 @use 'theme/dark';
 @use 'theme/light';
 @use 'theme/utils';
+@use 'theme/fork_colors'; // fork: 独自のテーマカラー（#1005）
 @use 'border';
 @use 'shape';
 @use 'type';
 
 html {
   @include palette.palette;
+  @include fork_colors.palette;
   @include border.border-widths;
   @include border.borders;
   @include shape.space;
@@ -41,6 +43,8 @@ html:not([data-color-scheme]) {
   &[data-theme-color='cyan'] {
     @include dark.base-cyan;
   }
+
+  @include fork_colors.dark;
 }
 
 [data-color-scheme='light'] {
@@ -65,4 +69,6 @@ html:not([data-color-scheme]) {
   &[data-theme-color='cyan'] {
     @include light.base-cyan;
   }
+
+  @include fork_colors.light;
 }

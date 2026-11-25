@@ -1,0 +1,14 @@
+---
+# フォーク独自のテーマカラーの表示名（#1005）。3 ブランチで同一に保つ。
+# どの色が選べるかは各ブランチの config/themes.yml の colors で決まる。
+ja:
+  color_theme:
+    bshock: 美食グリーン
+    cure-lime: キュアライム
+    cure-orange: キュアオレンジ
+    daidai-orange: 橙
+    dai: 純真
+    popp: 勇気
+    maam: 慈愛
+    hyunckel: 闘志
+    leona: 正義
