@@ -70,7 +70,8 @@ RSpec.describe 'Invites' do
   end
 
   def fill_invite_form
-    select I18n.t('invites.max_uses', count: 100),
+    # フォーク改変（#1016）: 選べるのは 1 人だけ
+    select I18n.t('invites.max_uses', count: 1),
            from: form_label('defaults.max_uses')
     select I18n.t("invites.expires_in.#{30.minutes.to_i}"),
            from: form_label('defaults.expires_in')

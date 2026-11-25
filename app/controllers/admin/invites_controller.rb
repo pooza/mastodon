@@ -14,6 +14,7 @@ module Admin
 
       @invite      = Invite.new(resource_params)
       @invite.user = current_user
+      @invite.from_form = true # フォーク改変（#1016）
 
       if @invite.save
         redirect_to admin_invites_path
