@@ -102,7 +102,9 @@ jobs:
         id: collect
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+            # ⚠ --depth=1 で取り直すと、比較先が進んでいたとき履歴が切れて merge base が無くなり、
+            #   git diff の失敗が握りつぶされて lint が黙って飛ぶ（#1019 で発覚）。checkout の fetch-depth: 0 に任せる
+            git fetch --no-tags origin "${{ github.base_ref }}"
             range="origin/${{ github.base_ref }}...HEAD"
           else
             before="${{ github.event.before }}"
@@ -113,6 +115,9 @@ jobs:
               range="${before} ${{ github.sha }}"
             fi
           fi
+          # 比較範囲が壊れていたら、変更 0 件として素通りせずに落とす
+          rc=0; git diff --quiet $range > /dev/null 2>&1 || rc=$?
+          [ "$rc" -le 1 ] || { echo "::error::比較範囲 ${range} を解決できない"; exit 1; }
           changed() { git diff --name-only --diff-filter=ACMR $range -- "$@" | tr '\n' ' '; }
           js=$(changed '*.js' '*.jsx' '*.ts' '*.tsx' '*.mjs' '*.cjs')
           css=$(changed '*.css' '*.scss')
