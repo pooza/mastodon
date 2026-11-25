@@ -42,7 +42,7 @@ class UserSettings
     setting :emoji_style, default: 'auto', in: %w(auto native twemoji)
     setting :color_scheme, default: 'auto', in: %w(auto light dark)
     setting :contrast, default: 'auto', in: %w(auto high)
-    setting :theme_color, default: 'indigo' # TODO: dynamic inclusion checking?
+    setting :theme_color, default: -> { ::Setting.theme_color } # fork: 未選択ならサーバー既定（#1005）。上流は 'indigo' 固定
     setting :show_stats_in_feed, default: true
   end
 

@@ -1,0 +1,13 @@
+---
+# Fork-specific theme colors (#1005). Keep identical across the 3 branches.
+en:
+  color_theme:
+    bshock: bshock. green
+    cure-lime: Cure Lime
+    cure-orange: Cure Orange
+    daidai-orange: DaiDai Orange
+    dai: Dai
+    popp: Popp
+    maam: Maam
+    hyunckel: Hyunckel
+    leona: Leona

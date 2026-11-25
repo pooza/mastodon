@@ -1,0 +1,403 @@
+@use 'utils';
+
+// フォーク独自のテーマカラー（#1005）。
+// 4.7 までの独自テーマ（bshock / cure-* / dai ほか）を、5.0 の「テーマカラー」として作り直したもの。
+// 3 ブランチで同一に保ち、どの色を選べるかは各ブランチの config/themes.yml の colors で決める。
+// 上流の tokens/index.scss には、このファイルを読む 4 行だけを書き足している。
+// パレットは旧テーマのボタン色をアンカーに、上流の lime / pink / orange / cyan に共通する
+// 明度・彩度の推移（OKLCH）を写して生成した。600（ライトのボタン）だけは白文字との
+// コントラストが上流と同等（4.4 以上）になるよう明度を下げている。
+// 段の使い方（ライト: 地 50・文字 700・ボタン 600 / ダーク: 地 900・950・文字 500・ボタン 300）は上流の 5 色と同じ。
+
+@mixin palette {
+  // 美食グリーン（美食丼）
+  --color-bshock-50: #f8fbf8;
+  --color-bshock-100: #eef5ee;
+  --color-bshock-200: #ddefdc;
+  --color-bshock-300: #bedfbd;
+  --color-bshock-400: #a4cca3;
+  --color-bshock-500: #85b884;
+  --color-bshock-600: #568156;
+  --color-bshock-700: #3f5b3f;
+  --color-bshock-800: #505550;
+  --color-bshock-900: #181a18;
+  --color-bshock-950: #070807;
+
+  // キュアライム（キュアスタ！）
+  --color-cure-lime-50: #f5fcf5;
+  --color-cure-lime-100: #e7f9e6;
+  --color-cure-lime-200: #cbf7c7;
+  --color-cure-lime-300: #97ed91;
+  --color-cure-lime-400: #6fdd69;
+  --color-cure-lime-500: #25cb25;
+  --color-cure-lime-600: #008c05;
+  --color-cure-lime-700: #09650a;
+  --color-cure-lime-800: #4c584a;
+  --color-cure-lime-900: #161b16;
+  --color-cure-lime-950: #050805;
+
+  // キュアオレンジ（キュアスタ！）
+  --color-cure-orange-50: #fef9f5;
+  --color-cure-orange-100: #fcf1e6;
+  --color-cure-orange-200: #ffe4c8;
+  --color-cure-orange-300: #fdc992;
+  --color-cure-orange-400: #f0b16b;
+  --color-cure-orange-500: #e4952f;
+  --color-cure-orange-600: #ab6900;
+  --color-cure-orange-700: #734810;
+  --color-cure-orange-800: #5a524a;
+  --color-cure-orange-900: #1c1916;
+  --color-cure-orange-950: #090705;
+
+  // 橙（デルムリン丼）
+  --color-daidai-orange-50: #fef9f6;
+  --color-daidai-orange-100: #ffefe9;
+  --color-daidai-orange-200: #fee2d7;
+  --color-daidai-orange-300: #ffc5ae;
+  --color-daidai-orange-400: #ffa781;
+  --color-daidai-orange-500: #fe7f45;
+  --color-daidai-orange-600: #c84f02;
+  --color-daidai-orange-700: #883609;
+  --color-daidai-orange-800: #5f504a;
+  --color-daidai-orange-900: #1d1816;
+  --color-daidai-orange-950: #0b0605;
+
+  // 純真（デルムリン丼・ダイ）
+  --color-dai-50: #f6fbff;
+  --color-dai-100: #e9f5ff;
+  --color-dai-200: #d7ecfe;
+  --color-dai-300: #afdaff;
+  --color-dai-400: #85c7fe;
+  --color-dai-500: #52b0fa;
+  --color-dai-600: #287dbb;
+  --color-dai-700: #23577f;
+  --color-dai-800: #4d555c;
+  --color-dai-900: #171a1c;
+  --color-dai-950: #06080a;
+
+  // 勇気（デルムリン丼・ポップ）
+  --color-popp-50: #f7fbfa;
+  --color-popp-100: #eaf6f2;
+  --color-popp-200: #d3f1e8;
+  --color-popp-300: #a9e2d2;
+  --color-popp-400: #89d1bd;
+  --color-popp-500: #5dbda5;
+  --color-popp-600: #2f8572;
+  --color-popp-700: #295e51;
+  --color-popp-800: #4e5653;
+  --color-popp-900: #171a19;
+  --color-popp-950: #060807;
+
+  // 慈愛（デルムリン丼・マァム）
+  --color-maam-50: #fef9f8;
+  --color-maam-100: #ffefed;
+  --color-maam-200: #ffe1de;
+  --color-maam-300: #ffc3bd;
+  --color-maam-400: #fea49c;
+  --color-maam-500: #ff7a73;
+  --color-maam-600: #c84a46;
+  --color-maam-700: #863532;
+  --color-maam-800: #5f504e;
+  --color-maam-900: #1d1817;
+  --color-maam-950: #0a0606;
+
+  // 闘志（デルムリン丼・ヒュンケル）
+  --color-hyunckel-50: #faf9fd;
+  --color-hyunckel-100: #f4f1fb;
+  --color-hyunckel-200: #ece4fe;
+  --color-hyunckel-300: #d9cbfb;
+  --color-hyunckel-400: #c6b5ee;
+  --color-hyunckel-500: #b19ae2;
+  --color-hyunckel-600: #816eaa;
+  --color-hyunckel-700: #574b72;
+  --color-hyunckel-800: #54525a;
+  --color-hyunckel-900: #1a191b;
+  --color-hyunckel-950: #080709;
+
+  // 正義（デルムリン丼・レオナ。白を主役にした低彩度）
+  --color-leona-50: #effef8;
+  --color-leona-100: #e8f7f1;
+  --color-leona-200: #deede7;
+  --color-leona-300: #c3dbd1;
+  --color-leona-400: #aac7bc;
+  --color-leona-500: #8db2a5;
+  --color-leona-600: #5f7e73;
+  --color-leona-700: #445851;
+  --color-leona-800: #4a5752;
+  --color-leona-900: #111c18;
+  --color-leona-950: #020a07;
+}
+
+@mixin dark {
+  &[data-theme-color='bshock'] {
+    --base-color-bg: var(--color-bshock-900);
+    --base-color-bg-desktop: var(--color-bshock-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-bshock-500);
+    --base-color-bg-accent: var(--color-bshock-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-bshock-200);
+    }
+  }
+
+  &[data-theme-color='cure-lime'] {
+    --base-color-bg: var(--color-cure-lime-900);
+    --base-color-bg-desktop: var(--color-cure-lime-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-cure-lime-500);
+    --base-color-bg-accent: var(--color-cure-lime-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-cure-lime-200);
+    }
+  }
+
+  &[data-theme-color='cure-orange'] {
+    --base-color-bg: var(--color-cure-orange-900);
+    --base-color-bg-desktop: var(--color-cure-orange-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-cure-orange-500);
+    --base-color-bg-accent: var(--color-cure-orange-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-cure-orange-200);
+    }
+  }
+
+  &[data-theme-color='daidai-orange'] {
+    --base-color-bg: var(--color-daidai-orange-900);
+    --base-color-bg-desktop: var(--color-daidai-orange-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-daidai-orange-500);
+    --base-color-bg-accent: var(--color-daidai-orange-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-daidai-orange-200);
+    }
+  }
+
+  &[data-theme-color='dai'] {
+    --base-color-bg: var(--color-dai-900);
+    --base-color-bg-desktop: var(--color-dai-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-dai-500);
+    --base-color-bg-accent: var(--color-dai-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-dai-200);
+    }
+  }
+
+  &[data-theme-color='popp'] {
+    --base-color-bg: var(--color-popp-900);
+    --base-color-bg-desktop: var(--color-popp-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-popp-500);
+    --base-color-bg-accent: var(--color-popp-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-popp-200);
+    }
+  }
+
+  &[data-theme-color='maam'] {
+    --base-color-bg: var(--color-maam-900);
+    --base-color-bg-desktop: var(--color-maam-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-maam-500);
+    --base-color-bg-accent: var(--color-maam-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-maam-200);
+    }
+  }
+
+  &[data-theme-color='hyunckel'] {
+    --base-color-bg: var(--color-hyunckel-900);
+    --base-color-bg-desktop: var(--color-hyunckel-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-hyunckel-500);
+    --base-color-bg-accent: var(--color-hyunckel-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-hyunckel-200);
+    }
+  }
+
+  &[data-theme-color='leona'] {
+    --base-color-bg: var(--color-leona-900);
+    --base-color-bg-desktop: var(--color-leona-950);
+    --base-color-fg: var(--color-grey-100);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-leona-500);
+    --base-color-bg-accent: var(--color-leona-300);
+    --base-color-danger: var(--color-red-200);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-leona-200);
+    }
+  }
+}
+
+@mixin light {
+  &[data-theme-color='bshock'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-bshock-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-bshock-700);
+    --base-color-bg-accent: var(--color-bshock-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-bshock-700);
+    }
+  }
+
+  &[data-theme-color='cure-lime'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-cure-lime-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-cure-lime-700);
+    --base-color-bg-accent: var(--color-cure-lime-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-cure-lime-700);
+    }
+  }
+
+  &[data-theme-color='cure-orange'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-cure-orange-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-cure-orange-700);
+    --base-color-bg-accent: var(--color-cure-orange-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-cure-orange-700);
+    }
+  }
+
+  &[data-theme-color='daidai-orange'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-daidai-orange-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-daidai-orange-700);
+    --base-color-bg-accent: var(--color-daidai-orange-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-daidai-orange-700);
+    }
+  }
+
+  &[data-theme-color='dai'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-dai-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-dai-700);
+    --base-color-bg-accent: var(--color-dai-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-dai-700);
+    }
+  }
+
+  &[data-theme-color='popp'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-popp-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-popp-700);
+    --base-color-bg-accent: var(--color-popp-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-popp-700);
+    }
+  }
+
+  &[data-theme-color='maam'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-maam-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-maam-700);
+    --base-color-bg-accent: var(--color-maam-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-maam-700);
+    }
+  }
+
+  &[data-theme-color='hyunckel'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-hyunckel-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-hyunckel-700);
+    --base-color-bg-accent: var(--color-hyunckel-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-hyunckel-700);
+    }
+  }
+
+  &[data-theme-color='leona'] {
+    --base-color-bg: var(--color-white);
+    --base-color-bg-desktop: var(--color-leona-50);
+    --base-color-fg: var(--color-grey-900);
+    --base-color-fg-on-accent: var(--base-color-bg);
+    --base-color-fg-accent: var(--color-leona-700);
+    --base-color-bg-accent: var(--color-leona-600);
+    --base-color-danger: var(--color-red-700);
+    --base-highlight-strength: 8%;
+
+    @include utils.high-contrast {
+      --base-color-bg-accent: var(--color-leona-700);
+    }
+  }
+}
