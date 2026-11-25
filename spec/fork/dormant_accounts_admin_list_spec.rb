@@ -5,7 +5,8 @@ require 'rails_helper'
 # #1015 — 管理画面のアカウント一覧は、何かで絞り込んでいないときだけ放置アカウントを既定で隠す。
 RSpec.describe 'Admin accounts list hides dormant accounts by default', type: :request do
   before do
-    sign_in Fabricate(:admin_user)
+    # :admin_user は読み込み時のロールを握ったままなので、ロールを入れ直す spec（fork_customizations_spec）の後だと落ちる
+    sign_in Fabricate(:user, role: UserRole.find_by(name: 'Admin'))
 
     %w(dormant active).each do |username|
       user = Fabricate(:user, account: Fabricate(:account, username: username), current_sign_in_at: username == 'active' ? 1.day.ago : 2.years.ago)

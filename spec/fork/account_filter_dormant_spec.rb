@@ -33,6 +33,13 @@ RSpec.describe AccountFilter do
     expect(results).to_not include(dormant, never_used)
   end
 
+  it 'ほかの絞り込みや、インスタンスアクターを除く既定の条件を消さない' do
+    results = described_class.new(origin: 'local', dormant: 'exclude').results
+
+    expect(results).to include(poster)
+    expect(results).to_not include(remote, Account.representative)
+  end
+
   it 'only は放置アカウントだけを出す' do
     expect(described_class.new(dormant: 'only').results)
       .to contain_exactly(dormant, never_used)

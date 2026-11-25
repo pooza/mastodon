@@ -122,10 +122,11 @@ class AccountFilter
 
   def dormant_scope(value)
     case value.to_s
+    # ハッシュや Arel で id 条件を書くと、merge が without_instance_actor の id 条件を上書きして消す。SQL 片で書く
     when 'exclude'
-      Account.where.not(id: dormant_account_ids)
+      Account.where('accounts.id NOT IN (?)', dormant_account_ids) # rubocop:disable Rails/WhereNot
     when 'only'
-      Account.where(id: dormant_account_ids)
+      Account.where('accounts.id IN (?)', dormant_account_ids) # rubocop:disable Rails/WhereEquals
     else
       raise Mastodon::InvalidParameterError, "Unknown dormant: #{value}"
     end
