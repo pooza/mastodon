@@ -64,3 +64,15 @@ capsicum・モロヘイヤへの issue も RC で訳が固まってから立て�
 | ローカル / 連合タイムライン | 公開フィード（`tabs_bar.public_feeds`） | `column.this_server`・`column.other_servers` |
 | ブロック / ミュート | つながり（`navigation_bar.relationships`）/ ブロック中・ミュート中（`navigation_bar.blocked`・`navigation_bar.muted`） | `column.muted_accounts` |
 | ログアウト | サインアウト（`navigation_bar.sign_out`・`confirmations.logout.confirm`） | — |
+
+## 管理画面の用語（5.0）
+
+WebUI ではなく Rails 側（`config/locales/*.yml`）の呼び名。モデレーター・管理者だけが見るので、
+capsicum・モロヘイヤへの共有は不要（運用手順書で呼び名を合わせる程度）。
+
+| 機能 | 4.7 の ja | 5.0 の en（キー） | 5.0 の ja | 確認 |
+|---|---|---|---|---|
+| プリセット警告文 | プリセット警告文（`admin.warning_presets.title`） | Moderation Canned Responses（同じキー）/ ナビは Canned Responses（`admin.warning_presets.navigation_title`） | —（原文の変更で ja の `title`・`edit_preset`・`empty` が消えた） | upstream/main cef11264b3・2026-11-25 |
+
+- 上流 #41045 で改称し、ナビの位置も移った。#41092 で処分の種類（凍結・停止など）ごとに絞り込めるようになった
+- 訳が付くまで、5.0 の画面では英語で出る
