@@ -77,17 +77,17 @@ RSpec.describe '用語ポリシーのガード (#972)' do
     end
   end
 
+  # ローカルタイムラインを指す呼び名は 3 インスタンスとも「このコミュニティ」に上書きする。
   # curesta / delmulin はローカルタイムラインを nginx でデフォルトのハッシュタグ
-  # （#precure_fun / #delmulin）の列へ読み替えている（#835）。中身は「このサーバーの投稿」ではないので、
-  # ローカルタイムラインを指す呼び名は「このコミュニティ」に上書きする。
+  # （#precure_fun / #delmulin）の列へ読み替えていて（#835）、「このサーバー」では中身と合わない。
+  # bshockdon はデフォルトのハッシュタグを設定していないだけで仕組みは同じなので、
+  # 上書きを bshockdon に置いて派生へ流す（ブランチ間の差分を減らす）。
   # ⚠ 5.0 で増えた column.this_server（This Server）は上流の ja が未訳のため、上書きから漏れて
   #   英語のまま出ていた（#1004）。訳が付いても「このサーバー」に戻らないことをここで見る。
-  if %i(curesta delmulin).include?(ForkTerminologyGuard.instance_name)
-    %w(column.this_server firehose.local column.firehose_local).each do |key|
-      it "ローカルタイムラインの呼び名 #{key} が「このコミュニティ」になっている（#{ForkTerminologyGuard.instance_name}）" do
-        ja = JSON.parse(Rails.root.join('app', 'javascript', 'mastodon', 'locales', 'ja.json').read)
-        expect(ja[key]).to include('このコミュニティ')
-      end
+  %w(column.this_server firehose.local column.firehose_local).each do |key|
+    it "ローカルタイムラインの呼び名 #{key} が「このコミュニティ」になっている" do
+      ja = JSON.parse(Rails.root.join('app', 'javascript', 'mastodon', 'locales', 'ja.json').read)
+      expect(ja[key]).to include('このコミュニティ')
     end
   end
 end
