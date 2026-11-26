@@ -247,3 +247,16 @@
 .emoji-mart-preview {
   display: none;
 }
+
+// フォーク: 幅広のカスタム絵文字（Misskey 等）をピッカーでも比率どおりに出す（#1020）。
+// カテゴリ内のカスタム絵文字は emoji-mart が <img class="lazy"> で描き、
+// 幅と高さを 22px のインライン style で固定する。高さはそのまま、幅を画像の比率に任せる。
+// 読み込み前は 1×1 の透明 PNG なので正方形のマスになる。横長すぎるものは 4 倍で止めて縮める。
+.emoji-mart-category .emoji-mart-emoji-custom img {
+  width: auto !important;
+  max-width: 88px;
+}
+
+.emoji-mart-category .emoji-mart-emoji-custom:hover::before {
+  border-radius: 8px;
+}
