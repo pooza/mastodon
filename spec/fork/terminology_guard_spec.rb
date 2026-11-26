@@ -76,5 +76,19 @@ RSpec.describe '用語ポリシーのガード (#972)' do
       expect(occurrences(/ブースト/, ja_locale_files)).to eq []
     end
   end
+
+  # curesta / delmulin はローカルタイムラインを nginx でデフォルトのハッシュタグ
+  # （#precure_fun / #delmulin）の列へ読み替えている（#835）。中身は「このサーバーの投稿」ではないので、
+  # ローカルタイムラインを指す呼び名は「このコミュニティ」に上書きする。
+  # ⚠ 5.0 で増えた column.this_server（This Server）は上流の ja が未訳のため、上書きから漏れて
+  #   英語のまま出ていた（#1004）。訳が付いても「このサーバー」に戻らないことをここで見る。
+  if %i(curesta delmulin).include?(ForkTerminologyGuard.instance_name)
+    %w(column.this_server firehose.local column.firehose_local).each do |key|
+      it "ローカルタイムラインの呼び名 #{key} が「このコミュニティ」になっている（#{ForkTerminologyGuard.instance_name}）" do
+        ja = JSON.parse(Rails.root.join('app', 'javascript', 'mastodon', 'locales', 'ja.json').read)
+        expect(ja[key]).to include('このコミュニティ')
+      end
+    end
+  end
 end
 # rubocop:enable RSpec/DescribeClass
