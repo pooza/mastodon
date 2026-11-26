@@ -380,6 +380,7 @@ RSpec.describe 'Fork customization guard: 幅広のカスタム絵文字 (#1020)
     'app/javascript/styles/mastodon/components.scss' => '基本・旧来の本文・詳細表示',
     'app/javascript/mastodon/components/status/content.module.scss' => '投稿本文（5.0 の新しい部品）',
     'app/javascript/mastodon/components/account_header/styles.module.scss' => 'プロフィールの名前',
+    'app/javascript/styles/mastodon/tables.scss' => '管理画面のカスタム絵文字一覧',
   }.each do |path, label|
     it "#{label}（#{File.basename(path)}）の .emojione が幅を固定していない" do
       widths = emojione_blocks(path).filter_map { |block| block[/^\s*width:\s*([^;]+);/, 1] }
