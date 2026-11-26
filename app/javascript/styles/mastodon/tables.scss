@@ -372,8 +372,10 @@ a.table-action-link {
         align-items: center;
         margin-inline-end: 10px;
 
+        // フォーク: 幅広のカスタム絵文字を比率どおりに出す。4 倍で止める（#1020）
         .emojione {
-          width: 32px;
+          width: auto;
+          max-width: 128px;
           height: 32px;
         }
       }
