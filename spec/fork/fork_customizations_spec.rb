@@ -363,4 +363,34 @@ RSpec.describe 'Fork customization guard: 管理画面のお知らせ一覧の�
     expect(AnnouncementFilter.new({}).results.reorder(nil).reverse_chronological.to_a).to eq([newer, older])
   end
 end
+
+# 幅広のカスタム絵文字（Misskey 等の横長）を比率どおりに出すフォーク改変の「巻き戻り検知」ガード（#1020）。
+# upstream は絵文字を正方形の枠に固定するため、横長の絵文字が縮んで読めなくなる。
+# 4.7 では 8d1a71b891 で直したが、5.0 のマージで基本の .emojione が上流値へ戻り、
+# 投稿本文とプロフィールは新しい CSS Modules へ移って改変が届かなくなっていた。
+# 高さは固定のまま、幅を固定値にしていないこと（auto で比率に任せていること）を静的に見る。
+RSpec.describe 'Fork customization guard: 幅広のカスタム絵文字 (#1020)' do
+  # ブロックの先頭から、入れ子のセレクタ（img { など）か閉じ括弧の手前までを取る。
+  # `span:not(.emojione)` は絵文字以外を指すので除く。
+  def emojione_blocks(relative_path)
+    Rails.root.join(relative_path).read.scan(/(?<!not\()\.emojione\)?\s*\{([^{}]*)/).flatten
+  end
+
+  {
+    'app/javascript/styles/mastodon/components.scss' => '基本・旧来の本文・詳細表示',
+    'app/javascript/mastodon/components/status/content.module.scss' => '投稿本文（5.0 の新しい部品）',
+    'app/javascript/mastodon/components/account_header/styles.module.scss' => 'プロフィールの名前',
+  }.each do |path, label|
+    it "#{label}（#{File.basename(path)}）の .emojione が幅を固定していない" do
+      widths = emojione_blocks(path).filter_map { |block| block[/^\s*width:\s*([^;]+);/, 1] }
+      expect(widths).to_not be_empty
+      expect(widths).to all(eq('auto'))
+    end
+  end
+
+  it 'ピッカーのカスタム絵文字が幅を画像の比率に任せている' do
+    source = Rails.root.join('app', 'javascript', 'styles', 'mastodon', 'emoji_picker.scss').read
+    expect(source).to match(/\.emoji-mart-emoji-custom img \{[^}]*width: auto !important;/)
+  end
+end
 # rubocop:enable RSpec/DescribeClass, RSpec/MultipleDescribes
